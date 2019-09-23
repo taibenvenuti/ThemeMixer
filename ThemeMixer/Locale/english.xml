@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Language UniqueName="en" ReadableName="English" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2009/XMLSchema/XMLSchema.xsd">
+  <Translations>
+    <Translation ID="MOD_DESCRIPTION" String="Lets you load, mix and customize Map Themes" />
+    <Translation ID="ERROR_MISSING_PACKAGE_TITLE" String="Missing Theme Package" />
+    <Translation ID="ERROR_MISSING_PACKAGE_MESSAGE" String="The package could not be found." />
+    <Translation ID="ERROR_BROKEN_PACKAGE_TITLE" String="Broken Theme Package" />
+    <Translation ID="ERROR_BROKEN_PACKAGE_MESSAGE" String="The package is invalid or broken." />
+    <Translation ID="TOOLTIP_THEME" String="Themes" />
+    <Translation ID="TOOLTIP_TERRAIN" String="Terrain" />
+    <Translation ID="TOOLTIP_WATER" String="Water" />
+    <Translation ID="TOOLTIP_ATMOSPHERE" String="Atmosphere" />
+    <Translation ID="TOOLTIP_STRUCTURES" String="Structures" />
+    <Translation ID="TOOLTIP_WEATHER" String="Weather" />
+    <Translation ID="TOOLTIP_SETTINGS" String="Settings" />
+  </Translations>
+</Language>

@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7F962063-947D-45B4-AC84-1972403A5938}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ThemeMixer</RootNamespace>
+    <AssemblyName>ThemeMixer</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>false</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\..\..\..\References\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ColossalManaged">
+      <HintPath>..\..\..\..\..\..\References\ColossalManaged.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ICities">
+      <HintPath>..\..\..\..\..\..\References\ICities.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\..\..\References\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Serialization\Settings.cs" />
+    <Compile Include="UI\Parts\TerrainPanel.cs" />
+    <Compile Include="UI\UIPart.cs" />
+    <Compile Include="UI\Parts\ButtonBar.cs" />
+    <Compile Include="UI\Parts\DragHandle.cs" />
+    <Compile Include="UI\ThemeMixerUI.cs" />
+    <Compile Include="UI\Parts\ToolBar.cs" />
+    <Compile Include="Resources\Sprites.cs" />
+    <Compile Include="Resources\ResourceUtils.cs" />
+    <Compile Include="Themes\Atmosphere\AtmosphericTheme.cs" />
+    <Compile Include="Themes\Interfaces.cs" />
+    <Compile Include="Serialization\SerializationService.cs" />
+    <Compile Include="Themes\Structures\StructuresTheme.cs" />
+    <Compile Include="Themes\Terrain\TerrainDetail.cs" />
+    <Compile Include="Themes\Terrain\TerrainTheme.cs" />
+    <Compile Include="Themes\ThemeManager.cs" />
+    <Compile Include="Themes\ThemeMix.cs" />
+    <Compile Include="Themes\Terrain\TerrainColorOffset.cs" />
+    <Compile Include="Themes\Terrain\TerrainTexture.cs" />
+    <Compile Include="Themes\ThemeUtils.cs" />
+    <Compile Include="Themes\Water\WaterTheme.cs" />
+    <Compile Include="Themes\Weather\WeatherTheme.cs" />
+    <Compile Include="UI\UIController.cs" />
+    <Compile Include="UI\Abstraction\PanelBase.cs" />
+    <Compile Include="UI\UIExtensions.cs" />
+    <Compile Include="UI\UIToggle.cs" />
+    <Compile Include="UI\UIUtils.cs" />
+    <Compile Include="Locale\TranslationID.cs" />
+    <Compile Include="Mod.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TranslationFramework\Language.cs" />
+    <Compile Include="TranslationFramework\TranslatableAttribute.cs" />
+    <Compile Include="TranslationFramework\Translation.cs" />
+    <Compile Include="TranslationFramework\TranslationUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Locale\english.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="Resources\Files\ThemesIcon.png" />
+    <EmbeddedResource Include="Resources\Files\ThemesIconFocused.png" />
+    <EmbeddedResource Include="Resources\Files\ThemesIconHovered.png" />
+    <EmbeddedResource Include="Resources\Files\ThemesIconPressed.png" />
+    <EmbeddedResource Include="Resources\Files\DragHandle.png" />
+    <EmbeddedResource Include="Resources\Files\UIToggleIcon.png" />
+    <EmbeddedResource Include="Resources\Files\UIToggleIconFocused.png" />
+    <EmbeddedResource Include="Resources\Files\UIToggleIconHovered.png" />
+    <EmbeddedResource Include="Resources\Files\UIToggleIconPressed.png" />
+    <EmbeddedResource Include="Resources\Files\SettingsIcon.png" />
+    <EmbeddedResource Include="Resources\Files\SettingsIconFocused.png" />
+    <EmbeddedResource Include="Resources\Files\SettingsIconHovered.png" />
+    <EmbeddedResource Include="Resources\Files\SettingsIconPressed.png" />
+    <EmbeddedResource Include="Resources\Files\AtmosphereIcon.png" />
+    <EmbeddedResource Include="Resources\Files\AtmosphereIconFocused.png" />
+    <EmbeddedResource Include="Resources\Files\AtmosphereIconHovered.png" />
+    <EmbeddedResource Include="Resources\Files\AtmosphereIconPressed.png" />
+    <EmbeddedResource Include="Resources\Files\StructuresIcon.png" />
+    <EmbeddedResource Include="Resources\Files\StructuresIconFocused.png" />
+    <EmbeddedResource Include="Resources\Files\StructuresIconHovered.png" />
+    <EmbeddedResource Include="Resources\Files\StructuresIconPressed.png" />
+    <EmbeddedResource Include="Resources\Files\TerrainIcon.png" />
+    <EmbeddedResource Include="Resources\Files\TerrainIconFocused.png" />
+    <EmbeddedResource Include="Resources\Files\TerrainIconHovered.png" />
+    <EmbeddedResource Include="Resources\Files\TerrainIconPressed.png" />
+    <EmbeddedResource Include="Resources\Files\WaterIcon.png" />
+    <EmbeddedResource Include="Resources\Files\WaterIconFocused.png" />
+    <EmbeddedResource Include="Resources\Files\WaterIconHovered.png" />
+    <EmbeddedResource Include="Resources\Files\WaterIconPressed.png" />
+    <EmbeddedResource Include="Resources\Files\WeatherIcon.png" />
+    <EmbeddedResource Include="Resources\Files\WeatherIconFocused.png" />
+    <EmbeddedResource Include="Resources\Files\WeatherIconHovered.png" />
+    <EmbeddedResource Include="Resources\Files\WeatherIconPressed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\Controllers\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if not exist "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)" mkdir "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
+del "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\$(TargetFileName)"
+xcopy "$(TargetDir)*.*" "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)" /y /e</PostBuildEvent>
+  </PropertyGroup>
+</Project>

@@ -7,7 +7,7 @@ namespace ThemeMixer.Themes.Terrain
 {
 
     [Serializable]
-    public class TerrainTexture : IThemePart
+    public class TerrainTexture : ILoadable
     {
         public string PackageID;
         public Name TextureName;
@@ -34,7 +34,7 @@ namespace ThemeMixer.Themes.Terrain
         }
 
         private bool SetFromTheme() {
-            MapThemeMetaData metaData = ThemeUtils.GetMapThemeMetaData(PackageID);
+            MapThemeMetaData metaData = ThemeUtils.GetThemeFromPackage(PackageID);
             if (metaData == null) return false;
             switch (TextureName) {
                 case Name.GrassDiffuseTexture:

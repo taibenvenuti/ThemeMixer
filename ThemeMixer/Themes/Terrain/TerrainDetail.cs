@@ -2,7 +2,7 @@
 
 namespace ThemeMixer.Themes.Terrain
 {
-    public class TerrainDetail : IThemePart
+    public class TerrainDetail : ILoadable
     {
         public string PackageID;
         public Name DetailName;
@@ -26,7 +26,7 @@ namespace ThemeMixer.Themes.Terrain
         }
 
         private bool SetFromTheme() {
-            MapThemeMetaData metaData = ThemeUtils.GetMapThemeMetaData(PackageID);
+            MapThemeMetaData metaData = ThemeUtils.GetThemeFromPackage(PackageID);
             if (metaData == null) return false;
             switch (DetailName) {
                 case Name.GrassDetailEnabled:

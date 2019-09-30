@@ -9,15 +9,17 @@ namespace ThemeMixer.UI
     {
         public delegate void UIToggleClickedEventHandler();
         public event UIToggleClickedEventHandler EventUIToggleClicked;
+
         private bool toggled;
         private Vector3 deltaPos { get; set; }
 
         public override void Start() {
             base.Start();
-            atlas = Sprites.Atlas;
-            normalBgSprite = Sprites.UIToggleIcon;
-            hoveredBgSprite = Sprites.UIToggleIconHovered;
-            pressedBgSprite = Sprites.UIToggleIconPressed;
+            name = "Theme Mixer Toggle";
+            atlas = UISprites.Atlas;
+            normalBgSprite = UISprites.UIToggleIcon;
+            hoveredBgSprite = UISprites.UIToggleIconHovered;
+            pressedBgSprite = UISprites.UIToggleIconPressed;
             absolutePosition = SerializationService.Instance.GetUITogglePosition() ?? GetDefaultPosition();
         }
 
@@ -31,7 +33,7 @@ namespace ThemeMixer.UI
             if (!p.buttons.IsFlagSet(UIMouseButton.Left)) return;
             toggled = !toggled;
             EventUIToggleClicked?.Invoke();
-            normalBgSprite = toggled ? Sprites.UIToggleIconFocused : Sprites.UIToggleIcon;
+            normalBgSprite = toggled ? UISprites.UIToggleIconFocused : UISprites.UIToggleIcon;
         }
 
         protected override void OnMouseDown(UIMouseEventParameter p) {
@@ -48,7 +50,6 @@ namespace ThemeMixer.UI
             if (p.buttons.IsFlagSet(UIMouseButton.Right)) {
                 Vector3 mousePos = Input.mousePosition;
                 mousePos.y = m_OwnerView.fixedHeight - mousePos.y;
-
                 absolutePosition = mousePos + deltaPos;
                 SerializationService.Instance.SetUITogglePosition(new Vector2(absolutePosition.x, absolutePosition.y));
             }

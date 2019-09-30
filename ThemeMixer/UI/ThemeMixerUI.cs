@@ -1,7 +1,8 @@
 ﻿using ColossalFramework.UI;
+using ThemeMixer.Locale;
 using ThemeMixer.Serialization;
+using ThemeMixer.Themes;
 using ThemeMixer.UI.Abstraction;
-using ThemeMixer.UI.Parts;
 using UnityEngine;
 
 namespace ThemeMixer.UI
@@ -14,7 +15,7 @@ namespace ThemeMixer.UI
 
         public override void Start() {
             base.Start();
-
+            name = "Theme Mixer UI";
             size = new Vector2(0.0f, 234.0f);
             autoLayout = true;
             autoLayoutDirection = LayoutDirection.Horizontal;
@@ -33,23 +34,32 @@ namespace ThemeMixer.UI
             toolBar = AddUIComponent<ToolBar>();
             toolBar.Setup(new Vector2(40.0f, 0.0f), 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel");
             toolBar.EventButtonClicked += OnButtonClicked;
+            toolBar.EventDragEnd += OnDragEnd;
             space = AddUIComponent<UIPanel>();
-            space.size = new Vector2(UIUtils.DEFAULT_SPACING, toolBar.height);
+            space.size = new Vector2(5.0f, 0.0f);
         }
 
-        private PanelBase CreatePanel(UIPart uiPart) {
-            switch (uiPart) {
-                case UIPart.Terrain:
+        private void OnDragEnd() {
+            Data.SetToolbarPosition(relativePosition);
+        }
+
+        private PanelBase CreatePanel(ThemePart themePart) {
+            switch (themePart) {
+                case ThemePart.Themes:
+                    ThemePanelWrapper themesPanel = AddUIComponent<ThemePanelWrapper>();
+                    themesPanel.Setup(TranslationID.LOAD_THEME, themePart);
+                    return themesPanel;
+                case ThemePart.Terrain:
                     Parts.TerrainPanel terrainPanel = AddUIComponent<Parts.TerrainPanel>();
-                    terrainPanel.Setup(new Vector2(400.0f, 0.0f), UIUtils.DEFAULT_SPACING, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel");
+                    terrainPanel.Setup(new Vector2(466.0f, 0.0f), UIUtils.DEFAULT_SPACING, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel", themePart);
                     return terrainPanel;
                 default: return null;
             }
         }
 
-        private void OnButtonClicked(UIPart uiPart, UIButton button, UIButton[] buttons) {
+        private void OnButtonClicked(ThemePart uiPart, UIButton button, UIButton[] buttons) {
             if (currentPanel != null) {
-                Destroy(currentPanel);
+                Destroy(currentPanel.gameObject);
                 currentPanel = null;
                 SetButtonUnfocused(button);
                 return;

@@ -10,7 +10,7 @@ namespace ThemeMixer
 {
     public class Mod : IUserMod, ILoadingExtension
     {
-        public string Name => "Theme Mixer";
+        public string Name => "Theme Mixer 2.0";
 
         public string Description => Translation.Instance.GetTranslation(TranslationID.MOD_DESCRIPTION);
 
@@ -23,10 +23,12 @@ namespace ThemeMixer
             ReleaseManagers();
         }
 
-        public void OnCreated(ILoading loading) { }
+        public void OnCreated(ILoading loading) {
+            var atlas = UIController.Instance.ThemeAtlas;
+        }
 
         public void OnReleased() { }
-
+        
         public void OnLevelLoaded(LoadMode mode) {
             ManagersOnLevelLoaded(mode);
         }

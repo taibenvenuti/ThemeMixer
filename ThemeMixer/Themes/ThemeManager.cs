@@ -1,4 +1,5 @@
-﻿using ICities;
+﻿using ColossalFramework.Packaging;
+using ICities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,8 @@ namespace ThemeMixer.Themes
                 if (_instance == null) {
                     _instance = FindObjectOfType<ThemeManager>();
                     if (_instance == null) {
-                        var gameObject = new GameObject(nameof(ThemeManager));
+                        GameObject gameObject = GameObject.Find("ThemeMixer");
+                        if (gameObject == null) gameObject = new GameObject("ThemeMixer");
                         _instance = gameObject.AddComponent<ThemeManager>();
                         DontDestroyOnLoad(_instance.gameObject);
                     }
@@ -26,7 +28,9 @@ namespace ThemeMixer.Themes
 
         public static ThemeManager Ensure() => Instance;
 
-        private bool InGame => (ToolManager.instance.m_properties.m_mode & ItemClass.Availability.GameAndMap) != 0;
+        private bool InGame => ToolManager.instance.m_properties != null && (ToolManager.instance.m_properties.m_mode & ItemClass.Availability.GameAndMap) != 0;
+
+        public Package.Asset[] Themes { get; private set; } = ThemeUtils.GetThemes().ToArray();
 
         public void OnEnabled() {
             if (!InGame) return;
@@ -34,8 +38,12 @@ namespace ThemeMixer.Themes
         }
 
         public void OnLevelLoaded() {
-            if (!InGame) return;
+            PackageManager.eventPackagesChanged += OnPackagesChanged;
 
+        }
+
+        private void OnPackagesChanged() {
+            Themes = ThemeUtils.GetThemes().ToArray();
         }
 
         internal void OnLevelUnloaded() {
@@ -44,6 +52,7 @@ namespace ThemeMixer.Themes
 
         public static void Release() {
             if (_instance != null) {
+                PackageManager.eventPackagesChanged -= Instance.OnPackagesChanged;
                 Destroy(_instance.gameObject);
                 _instance = null;
             }

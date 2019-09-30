@@ -1,12 +1,14 @@
-﻿namespace ThemeMixer.UI
+﻿namespace ThemeMixer.Themes
 {
-    public enum UIPart
+    public enum ThemePart
     {
+        None,
         Themes,
         Terrain,
         Water,
         Structures,
         Atmosphere,
-        Weather
+        Weather,
+        Count,
     }
 }

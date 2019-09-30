@@ -1,4 +1,5 @@
 ﻿using ColossalFramework.Packaging;
+using System.Collections.Generic;
 using System.Linq;
 using ThemeMixer.Locale;
 using UnityEngine;
@@ -7,7 +8,7 @@ namespace ThemeMixer.Themes
 {
     public static class ThemeUtils
     {
-        internal static MapThemeMetaData GetMapThemeMetaData(string packageID) {
+        internal static MapThemeMetaData GetThemeFromPackage(string packageID) {
             Package package = PackageManager.GetPackage(packageID);
             if (package == null) {
                 UI.UIUtils.ShowExceptionPanel(TranslationID.ERROR_MISSING_PACKAGE_TITLE, TranslationID.ERROR_MISSING_PACKAGE_MESSAGE, true);
@@ -23,6 +24,10 @@ namespace ThemeMixer.Themes
                 return null;
             }
             return metaData;
+        }
+
+        public static IEnumerable<Package.Asset> GetThemes() {
+            return PackageManager.FilterAssets(UserAssetType.MapThemeMetaData);
         }
     }
 }

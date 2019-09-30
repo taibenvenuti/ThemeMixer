@@ -1,6 +1,5 @@
 ﻿using ColossalFramework.IO;
 using ColossalFramework.Plugins;
-using ICities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +9,7 @@ using UnityEngine;
 
 namespace ThemeMixer.Serialization
 {
+    //TODO Implement Favs + Blacklisted
     public class SerializationService : MonoBehaviour
     {
         private static SerializationService _instance;
@@ -18,7 +18,8 @@ namespace ThemeMixer.Serialization
                 if (_instance == null) {
                     _instance = FindObjectOfType<SerializationService>();
                     if (_instance == null) {
-                        var gameObject = new GameObject(nameof(SerializationService));
+                        GameObject gameObject = GameObject.Find("ThemeMixer");
+                        if (gameObject == null) gameObject = new GameObject("ThemeMixer");
                         _instance = gameObject.AddComponent<SerializationService>();
                         DontDestroyOnLoad(_instance.gameObject);
                     }
@@ -27,9 +28,57 @@ namespace ThemeMixer.Serialization
             }
         }
 
-        public static SerializationService Ensure() => Instance;
+        private bool InGame => ToolManager.instance.m_properties != null && (ToolManager.instance.m_properties.m_mode & ItemClass.Availability.GameAndMap) != 0;
 
-        private bool InGame => (ToolManager.instance.m_properties.m_mode & ItemClass.Availability.GameAndMap) != 0;
+        public bool HideBlacklisted => Data.HideBlacklisted;
+
+        public List<string> GetFavourites(ThemePart themePart) {
+            return Data.Favourites[(int)themePart];
+        }
+
+        public List<string> GetBlacklisted(ThemePart themePart) {
+            return Data.Blacklisted[(int)themePart];
+        }
+
+        public void AddToFavourites(string packageName, ThemePart themePart) {
+            Add(Data.Favourites, packageName, themePart);
+        }
+
+        public void RemoveFromFavourites(string packageName, ThemePart themePart) {
+            Remove(Data.Favourites, packageName, themePart);
+        }
+
+        public void AddToBlacklist(string packageName, ThemePart themePart) {
+            Add(Data.Blacklisted, packageName, themePart);
+        }
+
+        public void RemoveFromBlacklist(string packageName, ThemePart themePart) {
+            Remove(Data.Blacklisted, packageName, themePart);
+        }
+
+        public bool IsBlacklisted(string packageName, ThemePart themePart) {
+            return Data.Blacklisted[(int)themePart].Contains(packageName);
+        }
+
+        public bool IsFavourite(string packageName, ThemePart themePart) {
+            return Data.Favourites[(int)themePart].Contains(packageName);
+        }
+
+        private void Add(List<string>[] listArray, string packageName, ThemePart themePart) {
+            if (!listArray[(int)themePart].Contains(packageName)) {
+                listArray[(int)themePart].Add(packageName);
+                SaveData();
+            }
+        }
+
+        private void Remove(List<string>[] listArray, string packageName, ThemePart themePart) {
+            if (listArray[(int)themePart].Contains(packageName)) {
+                listArray[(int)themePart].Remove(packageName);
+                SaveData();
+            }
+        }
+
+        public static SerializationService Ensure() => Instance;
 
         public static void Release() {
             if (_instance != null) {
@@ -37,14 +86,13 @@ namespace ThemeMixer.Serialization
                 _instance = null;
             }
         }
+
         public void OnEnabled() {
             if (!InGame) return;
             OnLevelLoaded();
         }
 
         public void OnLevelLoaded() {
-            if (!InGame) return;
-
             LoadAvailableMixes();
 
             PluginManager.instance.eventPluginsChanged += OnPluginsChanged;
@@ -57,31 +105,31 @@ namespace ThemeMixer.Serialization
         private const string FILE_NAME = "ThemeMixerSettings.xml";
         private string FilePath => Path.Combine(DataLocation.localApplicationData, FILE_NAME);
 
-        private Settings _settings;
-        private Settings Settings {
+        private Data _data;
+        private Data Data {
             get {
-                if (_settings == null) {
-                    _settings = LoadData() ?? new Settings();
+                if (_data == null) {
+                    _data = LoadData() ?? new Data();
                 }
-                return _settings;
+                return _data;
             }
         }
 
         public Vector2? GetToolBarPosition() {
-            return Settings.ToolbarPosition;
+            return Data.ToolbarPosition;
         }
 
         public void SetToolbarPosition(Vector3? position) {
-            Settings.ToolbarPosition = position;
+            Data.ToolbarPosition = position;
             SaveData();
         }
 
         public Vector2? GetUITogglePosition() {
-            return Settings.UITogglePosition;
+            return Data.UITogglePosition;
         }
 
         public void SetUITogglePosition(Vector3? position) {
-            Settings.UITogglePosition = position;
+            Data.UITogglePosition = position;
         }
 
         public List<ThemeMix> Mixes { get; private set; } = new List<ThemeMix>();
@@ -130,20 +178,20 @@ namespace ThemeMixer.Serialization
 
         public void SaveData() {
             string fileName = FilePath;
-            Settings data = Settings;
-            XmlSerializer serializer = new XmlSerializer(typeof(Settings));
+            Data data = Data;
+            XmlSerializer serializer = new XmlSerializer(typeof(Data));
             using (StreamWriter writer = new StreamWriter(fileName)) {
                 data.OnPreSerialize();
                 serializer.Serialize(writer, data);
             }
         }
 
-        public Settings LoadData() {
+        public Data LoadData() {
             string fileName = FilePath;
-            XmlSerializer serializer = new XmlSerializer(typeof(Settings));
+            XmlSerializer serializer = new XmlSerializer(typeof(Data));
             try {
                 using (StreamReader reader = new StreamReader(fileName)) {
-                    var data = serializer.Deserialize(reader) as Settings;
+                    var data = serializer.Deserialize(reader) as Data;
                     data.OnPostDeserialize();
                     return data;
                 }

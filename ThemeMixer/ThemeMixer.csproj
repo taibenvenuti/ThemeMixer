@@ -55,21 +55,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Serialization\Settings.cs" />
+    <Compile Include="Resources\ThemeSprites.cs" />
+    <Compile Include="Serialization\Data.cs" />
+    <Compile Include="Themes\ThemePart.cs" />
     <Compile Include="UI\Parts\TerrainPanel.cs" />
-    <Compile Include="UI\UIPart.cs" />
-    <Compile Include="UI\Parts\ButtonBar.cs" />
-    <Compile Include="UI\Parts\DragHandle.cs" />
+    <Compile Include="UI\Parts\ThemesPanel.cs" />
+    <Compile Include="UI\FastList\ListItem.cs" />
+    <Compile Include="UI\FastList\ListRow.cs" />
+    <Compile Include="UI\FastList\UIFastList.cs" />
+    <Compile Include="UI\ButtonBar.cs" />
+    <Compile Include="UI\DragHandle.cs" />
     <Compile Include="UI\ThemeMixerUI.cs" />
-    <Compile Include="UI\Parts\ToolBar.cs" />
-    <Compile Include="Resources\Sprites.cs" />
+    <Compile Include="UI\ThemePanelWrapper.cs" />
+    <Compile Include="UI\ToolBar.cs" />
+    <Compile Include="Resources\UISprites.cs" />
     <Compile Include="Resources\ResourceUtils.cs" />
     <Compile Include="Themes\Atmosphere\AtmosphericTheme.cs" />
-    <Compile Include="Themes\Interfaces.cs" />
+    <Compile Include="Themes\ILoadable.cs" />
     <Compile Include="Serialization\SerializationService.cs" />
     <Compile Include="Themes\Structures\StructuresTheme.cs" />
     <Compile Include="Themes\Terrain\TerrainDetail.cs" />
-    <Compile Include="Themes\Terrain\TerrainTheme.cs" />
+    <Compile Include="Themes\Terrain\TerrainPart.cs" />
     <Compile Include="Themes\ThemeManager.cs" />
     <Compile Include="Themes\ThemeMix.cs" />
     <Compile Include="Themes\Terrain\TerrainColorOffset.cs" />
@@ -94,6 +100,9 @@
     <Content Include="Locale\english.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Resources\Files\Blacklisted.png" />
+    <EmbeddedResource Include="Resources\Files\Star.png" />
+    <EmbeddedResource Include="Resources\Files\StarOutline.png" />
     <EmbeddedResource Include="Resources\Files\ThemesIcon.png" />
     <EmbeddedResource Include="Resources\Files\ThemesIconFocused.png" />
     <EmbeddedResource Include="Resources\Files\ThemesIconHovered.png" />
@@ -128,9 +137,7 @@
     <EmbeddedResource Include="Resources\Files\WeatherIconHovered.png" />
     <EmbeddedResource Include="Resources\Files\WeatherIconPressed.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\Controllers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)" mkdir "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"

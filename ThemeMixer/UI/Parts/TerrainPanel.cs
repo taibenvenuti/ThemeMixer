@@ -13,7 +13,7 @@ namespace ThemeMixer.UI.Parts
             base.Start();
         }
 
-        protected override void Refresh(IThemePart themePart) {
+        protected override void Refresh(ILoadable themePart) {
 
         }
     }

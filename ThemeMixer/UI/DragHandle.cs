@@ -3,7 +3,7 @@ using ThemeMixer.UI.Abstraction;
 using ThemeMixer.Resources;
 using UnityEngine;
 
-namespace ThemeMixer.UI.Parts
+namespace ThemeMixer.UI
 {
     public class DragHandle : PanelBase
     {
@@ -25,8 +25,8 @@ namespace ThemeMixer.UI.Parts
             panel = AddUIComponent<UIPanel>();
             panel.size = new Vector2(parent.width, height);
             panel.relativePosition = new Vector2(0.0f, 0.0f);
-            panel.atlas = Sprites.Atlas;
-            panel.backgroundSprite = Sprites.DragHandle;
+            panel.atlas = UISprites.Atlas;
+            panel.backgroundSprite = UISprites.DragHandle;
             panel.isInteractive = false;
             panel.color = new Color32(54, 54, 54, 255);
         }

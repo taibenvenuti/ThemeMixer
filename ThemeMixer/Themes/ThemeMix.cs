@@ -9,7 +9,7 @@ namespace ThemeMixer.Themes
     public class ThemeMix
     {
         public string Name;
-        public TerrainTheme Terrain;
+        public TerrainPart Terrain;
         public WaterTheme Water;
         public AtmosphericTheme Atmosphere;
         public StructuresTheme Structures;

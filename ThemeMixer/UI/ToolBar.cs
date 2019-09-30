@@ -1,8 +1,9 @@
 ﻿using ColossalFramework.UI;
+using ThemeMixer.Themes;
 using ThemeMixer.UI.Abstraction;
 using UnityEngine;
 
-namespace ThemeMixer.UI.Parts
+namespace ThemeMixer.UI
 {
     public class ToolBar : PanelBase
     {
@@ -14,6 +15,7 @@ namespace ThemeMixer.UI.Parts
 
         public override void Start() {
             base.Start();
+            name = "ToolBar";
 
             color = UIColor;
 
@@ -33,7 +35,7 @@ namespace ThemeMixer.UI.Parts
             base.OnDestroy();
         }
 
-        private void OnButtonClicked(UIPart part, UIButton button, UIButton[] buttons) {
+        private void OnButtonClicked(ThemePart part, UIButton button, UIButton[] buttons) {
             EventButtonClicked?.Invoke(part, button, buttons);
         }
 

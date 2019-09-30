@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace ThemeMixer.Themes.Atmosphere
 {
-    public class AtmosphericTheme : IThemePart
+    public class AtmosphericTheme : ILoadable
     {
         public float Longitude;
         public float Latitude;

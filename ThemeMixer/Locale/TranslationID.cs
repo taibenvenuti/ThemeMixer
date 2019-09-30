@@ -14,5 +14,10 @@
         public const string TOOLTIP_STRUCTURES = "TOOLTIP_STRUCTURES";
         public const string TOOLTIP_WEATHER = "TOOLTIP_WEATHER";
         public const string TOOLTIP_SETTINGS = "TOOLTIP_SETTINGS";
+        public const string TOOLTIP_ADDFAVOURITE_ADDBLACKLIST = "TOOLTIP_ADDFAVOURITE_ADDBLACKLIST";
+        public const string TOOLTIP_REMOVEFAVOURITE = "TOOLTIP_REMOVEFAVOURITE";
+        public const string TOOLTIP_REMOVEBLACKLIST = "TOOLTIP_REMOVEBLACKLIST";
+        public const string LABEL_BY = "LABEL_BY"; 
+        public const string LOAD_THEME = "LOAD_THEME";
     }
 }

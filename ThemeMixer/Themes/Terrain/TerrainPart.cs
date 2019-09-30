@@ -3,7 +3,7 @@
 namespace ThemeMixer.Themes.Terrain
 {
     [Serializable]
-    public class TerrainTheme : IThemePart
+    public class TerrainPart : ILoadable
     {
         public TerrainTexture GrassDiffuseTexture;
         public TerrainTexture RuinedDiffuseTexture;

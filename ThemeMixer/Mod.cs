@@ -1,6 +1,6 @@
-﻿using System;
-using ICities;
+﻿using ICities;
 using ThemeMixer.Locale;
+using ThemeMixer.Resources;
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes;
 using ThemeMixer.TranslationFramework;
@@ -24,7 +24,7 @@ namespace ThemeMixer
         }
 
         public void OnCreated(ILoading loading) {
-            var atlas = UIController.Instance.ThemeAtlas;
+            var atlas = ThemeSprites.Atlas;
         }
 
         public void OnReleased() { }

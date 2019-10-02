@@ -9,9 +9,9 @@ namespace ThemeMixer.UI.FastList
         public readonly string Author;
         public bool IsFavourite;
         public bool IsBlacklisted;
-        public ThemePart ThemePart;
+        public ThemeCategory ThemePart;
 
-        public ListItem(string id, string displayName, string author, bool isFavourite, bool isBlacklisted, ThemePart themePart) {
+        public ListItem(string id, string displayName, string author, bool isFavourite, bool isBlacklisted, ThemeCategory themePart) {
             ID = id;
             DisplayName = displayName;
             Author = author;

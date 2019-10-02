@@ -14,7 +14,7 @@ namespace ThemeMixer.Resources
                 return _atlas;
             }
         }
-        public static UITextureAtlas DefaultAtlas => (ToolManager.instance.m_properties.m_mode == ItemClass.Availability.Game) ? UIView.GetAView().defaultAtlas : UIView.library?.Get<OptionsMainPanel>("OptionsPanel")?.GetComponent<UIPanel>()?.atlas;
+        public static UITextureAtlas DefaultAtlas => UIView.library?.Get<OptionsMainPanel>("OptionsPanel")?.GetComponent<UIPanel>()?.atlas;
 
         public const string DragHandle = "DragHandle";
         public const string Blacklisted = "Blacklisted";

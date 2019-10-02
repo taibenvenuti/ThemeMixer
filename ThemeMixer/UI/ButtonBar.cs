@@ -10,18 +10,18 @@ namespace ThemeMixer.UI
 {
     public class ButtonBar : PanelBase
     {
-        public delegate void ButtonClickedEventHandler(ThemePart uiPart, UIButton button, UIButton[] buttons);
+        public delegate void ButtonClickedEventHandler(Button button, Button[] buttons);
         public event ButtonClickedEventHandler EventButtonClicked;
 
-        private UIButton themesButton;
-        private UIButton terrainButton;
-        private UIButton waterButton;
-        private UIButton atmosphereButton;
-        private UIButton structuresButton;
-        private UIButton weatherButton;
-        private UIButton settingsButton;
+        private Button themesButton;
+        private Button terrainButton;
+        private Button waterButton;
+        private Button atmosphereButton;
+        private Button structuresButton;
+        private Button weatherButton;
+        private Button settingsButton;
 
-        private UIButton[] buttons;
+        private Button[] buttons;
 
         public override void Start() {
             base.Start();
@@ -32,37 +32,36 @@ namespace ThemeMixer.UI
         }
 
         public override void OnDestroy() {
-            themesButton.eventClicked -= OnButtonClicked;
-            terrainButton.eventClicked -= OnButtonClicked;
-            waterButton.eventClicked -= OnButtonClicked;
-            atmosphereButton.eventClicked -= OnButtonClicked;
-            structuresButton.eventClicked -= OnButtonClicked;
-            weatherButton.eventClicked -= OnButtonClicked;
-            settingsButton.eventClicked -= OnButtonClicked;
+            themesButton.EventClicked -= OnButtonClicked;
+            terrainButton.EventClicked -= OnButtonClicked;
+            waterButton.EventClicked -= OnButtonClicked;
+            atmosphereButton.EventClicked -= OnButtonClicked;
+            structuresButton.EventClicked -= OnButtonClicked;
+            weatherButton.EventClicked -= OnButtonClicked;
+            settingsButton.EventClicked -= OnButtonClicked;
             base.OnDestroy();
         }
 
         private void CreateButtons() {
-            Vector2 buttonSize = new Vector2(30.0f, 30.0f);
 
-            themesButton = CreateButton(buttonSize, backgroundSprite: UISprites.ThemesIcon, atlas: UISprites.Atlas, isFocusable: true, tooltip: Translation.Instance.GetTranslation(TranslationID.TOOLTIP_THEMES));
-            themesButton.eventClicked += OnButtonClicked; ;
+            themesButton = new Button(ThemeCategory.Themes, this);
+            themesButton.EventClicked += OnButtonClicked; ;
 
 
-            terrainButton = CreateButton(buttonSize, backgroundSprite: UISprites.TerrainIcon, atlas: UISprites.Atlas, isFocusable: true, tooltip: Translation.Instance.GetTranslation(TranslationID.TOOLTIP_TERRAIN));
-            terrainButton.eventClicked += OnButtonClicked;;
+            terrainButton = new Button(ThemeCategory.Terrain, this);
+            terrainButton.EventClicked += OnButtonClicked;;
 
-            waterButton = CreateButton(buttonSize, backgroundSprite: UISprites.WaterIcon, atlas: UISprites.Atlas, isFocusable: true, tooltip: Translation.Instance.GetTranslation(TranslationID.TOOLTIP_WATER));
-            waterButton.eventClicked += OnButtonClicked;
+            waterButton = new Button(ThemeCategory.Water, this);
+            waterButton.EventClicked += OnButtonClicked;
 
-            atmosphereButton = CreateButton(buttonSize, backgroundSprite: UISprites.AtmosphereIcon, atlas: UISprites.Atlas, isFocusable: true, tooltip: Translation.Instance.GetTranslation(TranslationID.TOOLTIP_ATMOSPHERE));
-            atmosphereButton.eventClicked += OnButtonClicked;
+            atmosphereButton = new Button(ThemeCategory.Atmosphere, this);
+            atmosphereButton.EventClicked += OnButtonClicked;
 
-            structuresButton = CreateButton(buttonSize, backgroundSprite: UISprites.StructuresIcon, atlas: UISprites.Atlas, isFocusable: true, tooltip: Translation.Instance.GetTranslation(TranslationID.TOOLTIP_STRUCTURES));
-            structuresButton.eventClicked += OnButtonClicked;
+            structuresButton = new Button(ThemeCategory.Structures, this);
+            structuresButton.EventClicked += OnButtonClicked;
 
-            weatherButton = CreateButton(buttonSize, backgroundSprite: UISprites.WeatherIcon, atlas: UISprites.Atlas, isFocusable: true, tooltip: Translation.Instance.GetTranslation(TranslationID.TOOLTIP_WEATHER));
-            weatherButton.eventClicked += OnButtonClicked;
+            weatherButton = new Button(ThemeCategory.Weather, this);
+            weatherButton.EventClicked += OnButtonClicked;
 
             UIPanel panel = AddUIComponent<UIPanel>();
             panel.size = new Vector2(30.0f, 2.0f);
@@ -70,14 +69,18 @@ namespace ThemeMixer.UI
             panel.backgroundSprite = "WhiteRect";
             panel.color = new Color32(53, 54, 54, 255);
 
-            settingsButton = CreateButton(buttonSize, backgroundSprite: UISprites.SettingsIcon, atlas: UISprites.Atlas, isFocusable: true, tooltip: Translation.Instance.GetTranslation(TranslationID.TOOLTIP_SETTINGS));
-            settingsButton.eventClicked += OnButtonClicked;
+            settingsButton = new Button(ThemeCategory.None, this);
+            settingsButton.EventClicked += OnButtonClicked; ;
 
             CreateButtonArray();
         }
 
+        private void OnButtonClicked(Button button) {
+            EventButtonClicked?.Invoke(button, buttons);
+        }
+
         private void CreateButtonArray() {
-            buttons = new UIButton[] {
+            buttons = new Button[] {
                 themesButton,
                 terrainButton,
                 waterButton,
@@ -87,16 +90,58 @@ namespace ThemeMixer.UI
                 settingsButton
             };
         }
+    }
+
+    public class Button
+    {
+        public delegate void ButtonClickedEventHandler(Button button);
+        public event ButtonClickedEventHandler EventClicked;
+
+        public ThemeCategory part;
+        public UIButton button;
+
+        private static Vector2 buttonSize = new Vector2(30.0f, 30.0f);
+
+        public Button(ThemeCategory part, PanelBase parent) {
+            this.part = part;
+            string icon = string.Empty;
+            string locale = string.Empty;
+            switch (part) {
+                case ThemeCategory.Themes:
+                    icon = UISprites.ThemesIcon;
+                    locale = TranslationID.TOOLTIP_THEMES;
+                    break;
+                case ThemeCategory.Terrain:
+                    icon = UISprites.TerrainIcon;
+                    locale = TranslationID.TOOLTIP_TERRAIN;
+                    break;
+                case ThemeCategory.Water:
+                    icon = UISprites.WaterIcon;
+                    locale = TranslationID.TOOLTIP_WATER;
+                    break;
+                case ThemeCategory.Structures:
+                    icon = UISprites.StructuresIcon;
+                    locale = TranslationID.TOOLTIP_STRUCTURES;
+                    break;
+                case ThemeCategory.Atmosphere:
+                    icon = UISprites.AtmosphereIcon;
+                    locale = TranslationID.TOOLTIP_ATMOSPHERE;
+                    break;
+                case ThemeCategory.Weather:
+                    icon = UISprites.WeatherIcon;
+                    locale = TranslationID.TOOLTIP_WEATHER;
+                    break;
+                default:
+                    icon = UISprites.SettingsIcon;
+                    locale = TranslationID.TOOLTIP_SETTINGS;
+                    break;
+            }
+            button = parent.CreateButton(buttonSize, backgroundSprite: icon, atlas: UISprites.Atlas, isFocusable: true, tooltip: Translation.Instance.GetTranslation(locale));
+            button.eventClicked += OnButtonClicked;
+        }
 
         private void OnButtonClicked(UIComponent component, UIMouseEventParameter eventParam) {
-            ThemePart part = component == themesButton ? ThemePart.Themes 
-                        : component == terrainButton ? ThemePart.Terrain
-                        : component == waterButton ? ThemePart.Water 
-                        : component == structuresButton ? ThemePart.Structures 
-                        : component == atmosphereButton ? ThemePart.Atmosphere 
-                        : ThemePart.Weather;
-            EventButtonClicked?.Invoke(part, (UIButton)component, buttons);
-            component.RefreshTooltip();
+            EventClicked?.Invoke(this);
         }
     }
 }

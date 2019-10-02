@@ -1,18 +1,16 @@
-﻿using System;
-using System.Reflection;
-using ColossalFramework.Packaging;
+﻿using ColossalFramework.Packaging;
 using ColossalFramework.UI;
-using ICities;
 using ThemeMixer.Resources;
 using ThemeMixer.Themes;
+using ThemeMixer.UI.FastList;
 using UnityEngine;
 
 namespace ThemeMixer.UI
 {
+    public delegate void ItemClickedEventHandler(ListItem item);
+    public delegate void UIDirtyEventHandler(ILoadable themePart);
     public class UIController: MonoBehaviour
     {
-
-        public delegate void UIDirtyEventHandler(ILoadable themePart);
         public event UIDirtyEventHandler EventUIDirty;
 
         private static UIController _instance;
@@ -33,7 +31,7 @@ namespace ThemeMixer.UI
 
         public UITextureAtlas ThemeAtlas => ThemeSprites.Atlas;
 
-        private bool InGame => ToolManager.instance.m_properties != null && (ToolManager.instance.m_properties.m_mode & ItemClass.Availability.GameAndMap) != 0;
+        private bool InGame => ToolManager.instance?.m_properties != null && (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
 
         private ThemeMixerUI ThemeMixerUI { get; set; }
         private UIToggle UIToggle { get; set; }
@@ -76,11 +74,17 @@ namespace ThemeMixer.UI
 
         private void OnUIToggleClicked() {
             if (ThemeMixerUI != null) {
+                ThemeMixerUI.EventThemeClicked -= OnThemeClicked;
                 Destroy(ThemeMixerUI.gameObject);
                 ThemeMixerUI = null;
                 return;
             }
             ThemeMixerUI = UIView.GetAView().AddUIComponent(typeof(ThemeMixerUI)) as ThemeMixerUI;
+            ThemeMixerUI.EventThemeClicked += OnThemeClicked;
+        }
+
+        private void OnThemeClicked(ListItem item) {
+            ThemeManager.Instance.ThemeClicked(item);
         }
 
         internal bool IsSelected(Package.Asset asset) {

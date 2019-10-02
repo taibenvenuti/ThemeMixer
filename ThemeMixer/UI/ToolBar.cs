@@ -1,5 +1,4 @@
 ﻿using ColossalFramework.UI;
-using ThemeMixer.Themes;
 using ThemeMixer.UI.Abstraction;
 using UnityEngine;
 
@@ -35,8 +34,8 @@ namespace ThemeMixer.UI
             base.OnDestroy();
         }
 
-        private void OnButtonClicked(ThemePart part, UIButton button, UIButton[] buttons) {
-            EventButtonClicked?.Invoke(part, button, buttons);
+        private void OnButtonClicked(Button button, Button[] buttons) {
+            EventButtonClicked?.Invoke(button, buttons);
         }
 
         private void OnDragBarDragEnd() {

@@ -3,12 +3,14 @@ using ThemeMixer.Locale;
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes;
 using ThemeMixer.UI.Abstraction;
+using ThemeMixer.UI.FastList;
 using UnityEngine;
 
 namespace ThemeMixer.UI
 {
     public class ThemeMixerUI : PanelBase
     {
+        public event ItemClickedEventHandler EventThemeClicked;
         private PanelBase currentPanel;
         private ToolBar toolBar;
         private UIPanel space;
@@ -43,13 +45,14 @@ namespace ThemeMixer.UI
             Data.SetToolbarPosition(relativePosition);
         }
 
-        private PanelBase CreatePanel(ThemePart themePart) {
+        private PanelBase CreatePanel(ThemeCategory themePart) {
             switch (themePart) {
-                case ThemePart.Themes:
+                case ThemeCategory.Themes:
                     ThemePanelWrapper themesPanel = AddUIComponent<ThemePanelWrapper>();
                     themesPanel.Setup(TranslationID.LOAD_THEME, themePart);
+                    themesPanel.EventItemClicked += OnThemeClicked;
                     return themesPanel;
-                case ThemePart.Terrain:
+                case ThemeCategory.Terrain:
                     Parts.TerrainPanel terrainPanel = AddUIComponent<Parts.TerrainPanel>();
                     terrainPanel.Setup(new Vector2(466.0f, 0.0f), UIUtils.DEFAULT_SPACING, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel", themePart);
                     return terrainPanel;
@@ -57,35 +60,40 @@ namespace ThemeMixer.UI
             }
         }
 
-        private void OnButtonClicked(ThemePart uiPart, UIButton button, UIButton[] buttons) {
+        private void OnThemeClicked(ListItem item) {
+            EventThemeClicked?.Invoke(item);
+        }
+
+        private void OnButtonClicked(Button button, Button[] buttons) {
+            UnfocusButtons(buttons);
             if (currentPanel != null) {
+                bool same = button.part == currentPanel.ThemePart;
                 Destroy(currentPanel.gameObject);
+                EventThemeClicked = null;
                 currentPanel = null;
-                SetButtonUnfocused(button);
-                return;
+                if (same) return;
             }
-            currentPanel = CreatePanel(uiPart);
-            RefreshButtons(button, buttons);
+            currentPanel = CreatePanel(button.part);
+            SetButtonFocused(button);
             RefreshZOrder();
         }
 
-        private void RefreshButtons(UIButton focusedButton, UIButton[] buttons) {
+        private void UnfocusButtons(Button[] buttons) {
             for (int i = 0; i < buttons.Length; i++) {
                 SetButtonUnfocused(buttons[i]);
             }
-            SetButtonFocused(focusedButton);
         }
 
-        private void SetButtonFocused(UIButton button) {
+        private void SetButtonFocused(Button button) {
             if (button != null) {
-                button.normalBgSprite = button.focusedBgSprite = button.hoveredBgSprite = string.Concat(button.normalBgSprite.Replace("Focused", ""), "Focused");
+                button.button.normalBgSprite = button.button.focusedBgSprite = button.button.hoveredBgSprite = string.Concat(button.button.normalBgSprite.Replace("Focused", ""), "Focused");
             }
         }
 
-        private void SetButtonUnfocused(UIButton button) {
+        private void SetButtonUnfocused(Button button) {
             if (button != null) {
-                button.normalBgSprite = button.focusedBgSprite = button.normalBgSprite.Replace("Focused", "");
-                button.hoveredBgSprite = button.hoveredBgSprite.Replace("Focused", "Hovered");
+                button.button.normalBgSprite = button.button.focusedBgSprite = button.button.normalBgSprite.Replace("Focused", "");
+                button.button.hoveredBgSprite = button.button.hoveredBgSprite.Replace("Focused", "Hovered");
             }
         }
 

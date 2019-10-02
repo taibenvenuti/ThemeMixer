@@ -3,7 +3,7 @@
 namespace ThemeMixer.Themes.Terrain
 {
     [Serializable]
-    public class TerrainPart : ILoadable
+    public class TerrainPart : ILoadable, ISettable
     {
         public TerrainTexture GrassDiffuseTexture;
         public TerrainTexture RuinedDiffuseTexture;
@@ -24,19 +24,23 @@ namespace ThemeMixer.Themes.Terrain
         public TerrainDetail FertileDetailEnabled;
         public TerrainDetail RocksDetailEnabled;
 
+        public void Set(string packageID) {
+            SetAll(packageID);
+        }
+
         public bool Load(string packageID = null) {
             if (packageID != null) {
-                SetAll(packageID);
+                Set(packageID);
             }
             return LoadAll();
         }
 
         private void SetAll(string packageID) {
-            for (int i = 0; i < (int)TerrainTexture.Name.Count; i++) {
-                SetTexture(packageID, (TerrainTexture.Name)i);
+            for (int i = 0; i < (int)TerrainTexture.TextureName.Count; i++) {
+                SetTexture(packageID, (TerrainTexture.TextureName)i);
             }
-            for (int j = 0; j < (int)TerrainColorOffset.Name.Count; j++) {
-                SetColorOffset(packageID, (TerrainColorOffset.Name)j);
+            for (int j = 0; j < (int)TerrainColorOffset.OffsetName.Count; j++) {
+                SetColorOffset(packageID, (TerrainColorOffset.OffsetName)j);
             }
             for (int k = 0; k < (int)TerrainDetail.Name.Count; k++) {
                 SetDetail(packageID, (TerrainDetail.Name)k);
@@ -45,11 +49,11 @@ namespace ThemeMixer.Themes.Terrain
 
         private bool LoadAll() {
             bool success = true;
-            for (int i = 0; i < (int)TerrainTexture.Name.Count; i++) {
-                if (!LoadTexture((TerrainTexture.Name)i)) success = false;
+            for (int i = 0; i < (int)TerrainTexture.TextureName.Count; i++) {
+                if (!LoadTexture((TerrainTexture.TextureName)i)) success = false;
             }
-            for (int j = 0; j < (int)TerrainColorOffset.Name.Count; j++) {
-                if (!LoadColorOffset((TerrainColorOffset.Name)j)) success = false;
+            for (int j = 0; j < (int)TerrainColorOffset.OffsetName.Count; j++) {
+                if (!LoadColorOffset((TerrainColorOffset.OffsetName)j)) success = false;
             }
             for (int k = 0; k < (int)TerrainDetail.Name.Count; k++) {
                 if (!LoadDetail((TerrainDetail.Name)k)) success = false;
@@ -57,33 +61,33 @@ namespace ThemeMixer.Themes.Terrain
             return success;
         }
 
-        private void SetTexture(string packageID, TerrainTexture.Name textureName) {
+        private void SetTexture(string packageID, TerrainTexture.TextureName textureName) {
             switch (textureName) {
-                case TerrainTexture.Name.GrassDiffuseTexture:
+                case TerrainTexture.TextureName.GrassDiffuseTexture:
                     GrassDiffuseTexture = new TerrainTexture(packageID, textureName);
                     break;
-                case TerrainTexture.Name.RuinedDiffuseTexture:
+                case TerrainTexture.TextureName.RuinedDiffuseTexture:
                     RuinedDiffuseTexture = new TerrainTexture(packageID, textureName);
                     break;
-                case TerrainTexture.Name.PavementDiffuseTexture:
+                case TerrainTexture.TextureName.PavementDiffuseTexture:
                     PavementDiffuseTexture = new TerrainTexture(packageID, textureName);
                     break;
-                case TerrainTexture.Name.GravelDiffuseTexture:
+                case TerrainTexture.TextureName.GravelDiffuseTexture:
                     GravelDiffuseTexture = new TerrainTexture(packageID, textureName);
                     break;
-                case TerrainTexture.Name.CliffDiffuseTexture:
+                case TerrainTexture.TextureName.CliffDiffuseTexture:
                     CliffDiffuseTexture = new TerrainTexture(packageID, textureName);
                     break;
-                case TerrainTexture.Name.OilDiffuseTexture:
+                case TerrainTexture.TextureName.OilDiffuseTexture:
                     OilDiffuseTexture = new TerrainTexture(packageID, textureName);
                     break;
-                case TerrainTexture.Name.OreDiffuseTexture:
+                case TerrainTexture.TextureName.OreDiffuseTexture:
                     OreDiffuseTexture = new TerrainTexture(packageID, textureName);
                     break;
-                case TerrainTexture.Name.SandDiffuseTexture:
+                case TerrainTexture.TextureName.SandDiffuseTexture:
                     SandDiffuseTexture = new TerrainTexture(packageID, textureName);
                     break;
-                case TerrainTexture.Name.CliffSandNormalTexture:
+                case TerrainTexture.TextureName.CliffSandNormalTexture:
                     CliffSandNormalTexture = new TerrainTexture(packageID, textureName);
                     break;
                 default:
@@ -91,42 +95,42 @@ namespace ThemeMixer.Themes.Terrain
             }
         }
 
-        private bool LoadTexture(TerrainTexture.Name textureName) {
+        private bool LoadTexture(TerrainTexture.TextureName textureName) {
             switch (textureName) {
-                case TerrainTexture.Name.GrassDiffuseTexture:
+                case TerrainTexture.TextureName.GrassDiffuseTexture:
                     return GrassDiffuseTexture.Load();
-                case TerrainTexture.Name.RuinedDiffuseTexture:
+                case TerrainTexture.TextureName.RuinedDiffuseTexture:
                     return RuinedDiffuseTexture.Load();
-                case TerrainTexture.Name.PavementDiffuseTexture:
+                case TerrainTexture.TextureName.PavementDiffuseTexture:
                     return PavementDiffuseTexture.Load();
-                case TerrainTexture.Name.GravelDiffuseTexture:
+                case TerrainTexture.TextureName.GravelDiffuseTexture:
                     return GravelDiffuseTexture.Load();
-                case TerrainTexture.Name.CliffDiffuseTexture:
+                case TerrainTexture.TextureName.CliffDiffuseTexture:
                     return CliffDiffuseTexture.Load();
-                case TerrainTexture.Name.OilDiffuseTexture:
+                case TerrainTexture.TextureName.OilDiffuseTexture:
                     return OilDiffuseTexture.Load();
-                case TerrainTexture.Name.OreDiffuseTexture:
+                case TerrainTexture.TextureName.OreDiffuseTexture:
                     return OreDiffuseTexture.Load();
-                case TerrainTexture.Name.SandDiffuseTexture:
+                case TerrainTexture.TextureName.SandDiffuseTexture:
                     return SandDiffuseTexture.Load();
-                case TerrainTexture.Name.CliffSandNormalTexture:
+                case TerrainTexture.TextureName.CliffSandNormalTexture:
                     return CliffSandNormalTexture.Load();
                 default: return false;
             }
         }
 
-        private void SetColorOffset(string packageID, TerrainColorOffset.Name offsetName) {
+        private void SetColorOffset(string packageID, TerrainColorOffset.OffsetName offsetName) {
             switch (offsetName) {
-                case TerrainColorOffset.Name.GrassPollutionColorOffset:
+                case TerrainColorOffset.OffsetName.GrassPollutionColorOffset:
                     GrassPollutionColorOffset = new TerrainColorOffset(packageID, offsetName);
                     break;
-                case TerrainColorOffset.Name.GrassFieldColorOffset:
+                case TerrainColorOffset.OffsetName.GrassFieldColorOffset:
                     GrassFieldColorOffset = new TerrainColorOffset(packageID, offsetName);
                     break;
-                case TerrainColorOffset.Name.GrassFertilityColorOffset:
+                case TerrainColorOffset.OffsetName.GrassFertilityColorOffset:
                     GrassFertilityColorOffset = new TerrainColorOffset(packageID, offsetName);
                     break;
-                case TerrainColorOffset.Name.GrassForestColorOffset:
+                case TerrainColorOffset.OffsetName.GrassForestColorOffset:
                     GrassForestColorOffset = new TerrainColorOffset(packageID, offsetName);
                     break;
                 default:
@@ -134,15 +138,15 @@ namespace ThemeMixer.Themes.Terrain
             }
         }
 
-        private bool LoadColorOffset(TerrainColorOffset.Name offsetName) {
+        private bool LoadColorOffset(TerrainColorOffset.OffsetName offsetName) {
             switch (offsetName) {
-                case TerrainColorOffset.Name.GrassPollutionColorOffset:
+                case TerrainColorOffset.OffsetName.GrassPollutionColorOffset:
                     return GrassPollutionColorOffset.Load();
-                case TerrainColorOffset.Name.GrassFieldColorOffset:
+                case TerrainColorOffset.OffsetName.GrassFieldColorOffset:
                     return GrassFieldColorOffset.Load();
-                case TerrainColorOffset.Name.GrassFertilityColorOffset:
+                case TerrainColorOffset.OffsetName.GrassFertilityColorOffset:
                     return GrassFertilityColorOffset.Load();
-                case TerrainColorOffset.Name.GrassForestColorOffset:
+                case TerrainColorOffset.OffsetName.GrassForestColorOffset:
                     return GrassForestColorOffset.Load();
                 default: return false;
             }

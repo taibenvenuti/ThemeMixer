@@ -57,7 +57,17 @@
   <ItemGroup>
     <Compile Include="Resources\ThemeSprites.cs" />
     <Compile Include="Serialization\Data.cs" />
-    <Compile Include="Themes\ThemePart.cs" />
+    <Compile Include="Themes\Atmosphere\AtmosphereColor.cs" />
+    <Compile Include="Themes\Atmosphere\AtmosphereFloat.cs" />
+    <Compile Include="Themes\Atmosphere\MoonTexture.cs" />
+    <Compile Include="Themes\ISettable.cs" />
+    <Compile Include="Themes\Structures\StructuresTexture.cs" />
+    <Compile Include="Themes\TexturePartBase.cs" />
+    <Compile Include="Themes\ThemeCategory.cs" />
+    <Compile Include="Themes\ThemePartBase.cs" />
+    <Compile Include="Themes\Water\WaterColor.cs" />
+    <Compile Include="Themes\Water\WaterTexture.cs" />
+    <Compile Include="Themes\Weather\WeatherValue.cs" />
     <Compile Include="UI\Parts\TerrainPanel.cs" />
     <Compile Include="UI\Parts\ThemesPanel.cs" />
     <Compile Include="UI\FastList\ListItem.cs" />
@@ -70,10 +80,10 @@
     <Compile Include="UI\ToolBar.cs" />
     <Compile Include="Resources\UISprites.cs" />
     <Compile Include="Resources\ResourceUtils.cs" />
-    <Compile Include="Themes\Atmosphere\AtmosphericTheme.cs" />
+    <Compile Include="Themes\Atmosphere\AtmosphericPart.cs" />
     <Compile Include="Themes\ILoadable.cs" />
     <Compile Include="Serialization\SerializationService.cs" />
-    <Compile Include="Themes\Structures\StructuresTheme.cs" />
+    <Compile Include="Themes\Structures\StructuresPart.cs" />
     <Compile Include="Themes\Terrain\TerrainDetail.cs" />
     <Compile Include="Themes\Terrain\TerrainPart.cs" />
     <Compile Include="Themes\ThemeManager.cs" />
@@ -81,8 +91,8 @@
     <Compile Include="Themes\Terrain\TerrainColorOffset.cs" />
     <Compile Include="Themes\Terrain\TerrainTexture.cs" />
     <Compile Include="Themes\ThemeUtils.cs" />
-    <Compile Include="Themes\Water\WaterTheme.cs" />
-    <Compile Include="Themes\Weather\WeatherTheme.cs" />
+    <Compile Include="Themes\Water\WaterPart.cs" />
+    <Compile Include="Themes\Weather\WeatherPart.cs" />
     <Compile Include="UI\UIController.cs" />
     <Compile Include="UI\Abstraction\PanelBase.cs" />
     <Compile Include="UI\UIExtensions.cs" />

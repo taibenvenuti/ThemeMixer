@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ThemeMixer.UI.FastList;
 using UnityEngine;
 
 namespace ThemeMixer.Themes
@@ -28,9 +29,11 @@ namespace ThemeMixer.Themes
 
         public static ThemeManager Ensure() => Instance;
 
-        private bool InGame => ToolManager.instance.m_properties != null && (ToolManager.instance.m_properties.m_mode & ItemClass.Availability.GameAndMap) != 0;
+        private bool InGame => ToolManager.instance?.m_properties != null && (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
 
         public Package.Asset[] Themes { get; private set; } = ThemeUtils.GetThemes().ToArray();
+
+        private ThemeMix CurrentMix { get; set; }
 
         public void OnEnabled() {
             if (!InGame) return;
@@ -56,6 +59,10 @@ namespace ThemeMixer.Themes
                 Destroy(_instance.gameObject);
                 _instance = null;
             }
+        }
+
+        public void ThemeClicked(ListItem item) {
+
         }
     }
 }

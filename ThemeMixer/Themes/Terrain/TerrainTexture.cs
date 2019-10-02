@@ -1,120 +1,114 @@
-﻿using ColossalFramework.Packaging;
-using System;
-using System.Xml.Serialization;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ThemeMixer.Themes.Terrain
 {
-
-    [Serializable]
-    public class TerrainTexture : ILoadable
+    public class TerrainTexture : TexturePartBase
     {
-        public string PackageID;
-        public Name TextureName;
-        public float? CustomTiling;
+        public TextureName Name;
 
-        [XmlIgnore]
-        public Texture2D Texture;
-        [XmlIgnore]
-        public float? Tiling;
-
-        public TerrainTexture() { }
-
-        public TerrainTexture(string packageID, Name textureName) {
-            PackageID = packageID;
-            TextureName = textureName;
+        public TerrainTexture(string packageID, TextureName textureName) : base(packageID) {
+            Name = textureName;
         }
 
-        public bool Load(string packageID = null) {
+        public override bool Load(string packageID = null) {
             if (packageID != null) PackageID = packageID;
-            if (Texture == null && CustomTiling == null && Tiling == null && !SetFromTheme()) return false;
-            LoadTexture();
+            if (Texture == null && !SetFromTheme()) return false;
+            LoadValue();
             LoadTiling();
             return true;
         }
 
-        private bool SetFromTheme() {
+        protected override bool SetFromTheme() {
             MapThemeMetaData metaData = ThemeUtils.GetThemeFromPackage(PackageID);
             if (metaData == null) return false;
-            switch (TextureName) {
-                case Name.GrassDiffuseTexture:
-                    return SetTextureAndTiling(metaData.grassDiffuseAsset, metaData.grassTiling);
-                case Name.RuinedDiffuseTexture:
-                    return SetTextureAndTiling(metaData.ruinedDiffuseAsset, metaData.ruinedTiling);
-                case Name.PavementDiffuseTexture:
-                    return SetTextureAndTiling(metaData.pavementDiffuseAsset, metaData.pavementTiling);
-                case Name.GravelDiffuseTexture:
-                    return SetTextureAndTiling(metaData.gravelDiffuseAsset, metaData.gravelTiling);
-                case Name.CliffDiffuseTexture:
-                    return SetTextureAndTiling(metaData.cliffDiffuseAsset, metaData.cliffDiffuseTiling);
-                case Name.OilDiffuseTexture:
-                    return SetTextureAndTiling(metaData.oilDiffuseAsset, metaData.oilTiling);
-                case Name.OreDiffuseTexture:
-                    return SetTextureAndTiling(metaData.oreDiffuseAsset, metaData.oreTiling);
-                case Name.SandDiffuseTexture:
-                    return SetTextureAndTiling(metaData.sandDiffuseAsset, metaData.sandDiffuseTiling);
-                case Name.CliffSandNormalTexture:
-                    return SetTextureAndTiling(metaData.cliffSandNormalAsset, metaData.cliffSandNormalTiling);
+            bool success = false;
+            switch (Name) {
+                case TextureName.GrassDiffuseTexture:
+                    success = SetValue(metaData.grassDiffuseAsset);
+                    if (success) SetValue(metaData.grassTiling);
+                    break;
+                case TextureName.RuinedDiffuseTexture:
+                    success = SetValue(metaData.ruinedDiffuseAsset);
+                    if (success) SetValue(metaData.ruinedTiling);
+                    break;
+                case TextureName.PavementDiffuseTexture:
+                    success = SetValue(metaData.pavementDiffuseAsset);
+                    if (success) SetValue(metaData.pavementTiling);
+                    break;
+                case TextureName.GravelDiffuseTexture:
+                    success = SetValue(metaData.gravelDiffuseAsset);
+                    if (success) SetValue(metaData.gravelTiling);
+                    break;
+                case TextureName.CliffDiffuseTexture:
+                    success = SetValue(metaData.cliffDiffuseAsset);
+                    if (success) SetValue(metaData.cliffDiffuseTiling);
+                    break;
+                case TextureName.OilDiffuseTexture:
+                    success = SetValue(metaData.oilDiffuseAsset);
+                    if (success) SetValue(metaData.oilTiling);
+                    break;
+                case TextureName.OreDiffuseTexture:
+                    success = SetValue(metaData.oreDiffuseAsset);
+                    if (success) SetValue(metaData.oreTiling);
+                    break;
+                case TextureName.SandDiffuseTexture:
+                    success = SetValue(metaData.sandDiffuseAsset);
+                    if (success) SetValue(metaData.sandDiffuseTiling);
+                    break;
+                case TextureName.CliffSandNormalTexture:
+                    success = SetValue(metaData.cliffSandNormalAsset);
+                    if (success) SetValue(metaData.cliffSandNormalTiling);
+                    break;
                 default: return false;
             }
+            return success;
         }
 
-        private bool SetTextureAndTiling(Package.Asset asset, float tiling) {
-            if (asset == null) return false;
-            Texture = asset.Instantiate<Texture2D>();
-            if (Texture == null) return false;
-            Texture.anisoLevel = 8;
-            Texture.filterMode = FilterMode.Trilinear;
-            Texture.Apply();
-            Tiling = CustomTiling = tiling;
-            return true;
-        }
-
-        public void LoadTexture() {
-            global::TerrainProperties properties = TerrainManager.instance.m_properties;
+        protected override void LoadValue() {
+            TerrainProperties properties = TerrainManager.instance.m_properties;
             Texture2D oldTexture = null;
-            switch (TextureName) {
-                case Name.GrassDiffuseTexture:
+            switch (Name) {
+                case TextureName.GrassDiffuseTexture:
                     oldTexture = properties.m_grassDiffuse;
                     properties.m_grassDiffuse = Texture;
                     Shader.SetGlobalTexture("_TerrainGrassDiffuse", properties.m_grassDiffuse);
                     break;
-                case Name.RuinedDiffuseTexture:
+                case TextureName.RuinedDiffuseTexture:
                     oldTexture = properties.m_ruinedDiffuse;
                     properties.m_ruinedDiffuse = Texture;
                     Shader.SetGlobalTexture("_TerrainRuinedDiffuse", properties.m_ruinedDiffuse);
                     break;
-                case Name.PavementDiffuseTexture:
+                case TextureName.PavementDiffuseTexture:
                     oldTexture = properties.m_pavementDiffuse;
                     properties.m_pavementDiffuse = Texture;
                     Shader.SetGlobalTexture("_TerrainPavementDiffuse", properties.m_pavementDiffuse);
                     break;
-                case Name.GravelDiffuseTexture:
+                case TextureName.GravelDiffuseTexture:
                     oldTexture = properties.m_gravelDiffuse;
                     properties.m_gravelDiffuse = Texture;
                     Shader.SetGlobalTexture("_TerrainGravelDiffuse", properties.m_gravelDiffuse);
                     break;
-                case Name.CliffDiffuseTexture:
+                case TextureName.CliffDiffuseTexture:
                     oldTexture = properties.m_cliffDiffuse;
                     properties.m_cliffDiffuse = Texture;
                     Shader.SetGlobalTexture("_TerrainCliffDiffuse", properties.m_cliffDiffuse);
                     break;
-                case Name.OreDiffuseTexture:
+                case TextureName.OreDiffuseTexture:
                     oldTexture = properties.m_oreDiffuse;
                     properties.m_oreDiffuse = Texture;
                     Shader.SetGlobalTexture("_TerrainOreDiffuse", properties.m_oreDiffuse);
                     break;
-                case Name.OilDiffuseTexture:
+                case TextureName.OilDiffuseTexture:
                     oldTexture = properties.m_oilDiffuse;
                     properties.m_oilDiffuse = Texture;
                     Shader.SetGlobalTexture("_TerrainOilDiffuse", properties.m_oilDiffuse);
                     break;
-                case Name.SandDiffuseTexture:
+                case TextureName.SandDiffuseTexture:
                     oldTexture = properties.m_sandDiffuse;
                     properties.m_sandDiffuse = Texture;
                     Shader.SetGlobalTexture("_TerrainSandDiffuse", properties.m_sandDiffuse);
                     break;
-                case Name.CliffSandNormalTexture:
+                case TextureName.CliffSandNormalTexture:
                     oldTexture = properties.m_cliffSandNormal;
                     properties.m_cliffSandNormal = Texture;
                     Shader.SetGlobalTexture("_TerrainCliffSandNormal", properties.m_cliffSandNormal);
@@ -122,38 +116,38 @@ namespace ThemeMixer.Themes.Terrain
                 default:
                     break;
             }
-            UnityEngine.Object.Destroy(oldTexture);
+            if (oldTexture != null) Object.Destroy(oldTexture);
         }
 
         public void LoadTiling() {
-            global::TerrainProperties properties = TerrainManager.instance.m_properties;
-            switch (TextureName) {
-                case Name.GrassDiffuseTexture:
-                    properties.m_grassTiling = (float)(CustomTiling ?? Tiling);
+            TerrainProperties properties = TerrainManager.instance.m_properties;
+            switch (Name) {
+                case TextureName.GrassDiffuseTexture:
+                    properties.m_grassTiling = (float)(CustomValue ?? Value);
                     break;
-                case Name.RuinedDiffuseTexture:
-                    properties.m_ruinedTiling = (float)(CustomTiling ?? Tiling);
+                case TextureName.RuinedDiffuseTexture:
+                    properties.m_ruinedTiling = (float)(CustomValue ?? Value);
                     break;
-                case Name.PavementDiffuseTexture:
-                    properties.m_pavementTiling = (float)(CustomTiling ?? Tiling);
+                case TextureName.PavementDiffuseTexture:
+                    properties.m_pavementTiling = (float)(CustomValue ?? Value);
                     break;
-                case Name.GravelDiffuseTexture:
-                    properties.m_gravelTiling = (float)(CustomTiling ?? Tiling);
+                case TextureName.GravelDiffuseTexture:
+                    properties.m_gravelTiling = (float)(CustomValue ?? Value);
                     break;
-                case Name.CliffDiffuseTexture:
-                    properties.m_cliffTiling = (float)(CustomTiling ?? Tiling);
+                case TextureName.CliffDiffuseTexture:
+                    properties.m_cliffTiling = (float)(CustomValue ?? Value);
                     break;
-                case Name.OilDiffuseTexture:
-                    properties.m_oilTiling = (float)(CustomTiling ?? Tiling);
+                case TextureName.OilDiffuseTexture:
+                    properties.m_oilTiling = (float)(CustomValue ?? Value);
                     break;
-                case Name.OreDiffuseTexture:
-                    properties.m_oreTiling = (float)(CustomTiling ?? Tiling);
+                case TextureName.OreDiffuseTexture:
+                    properties.m_oreTiling = (float)(CustomValue ?? Value);
                     break;
-                case Name.SandDiffuseTexture:
-                    properties.m_sandTiling = (float)(CustomTiling ?? Tiling);
+                case TextureName.SandDiffuseTexture:
+                    properties.m_sandTiling = (float)(CustomValue ?? Value);
                     break;
-                case Name.CliffSandNormalTexture:
-                    properties.m_cliffSandNormalTiling = (float)(CustomTiling ?? Tiling);
+                case TextureName.CliffSandNormalTexture:
+                    properties.m_cliffSandNormalTiling = (float)(CustomValue ?? Value);
                     break;
                 default:
                     break;
@@ -178,7 +172,7 @@ namespace ThemeMixer.Themes.Terrain
                                    properties.m_oilTiling));
         }
 
-        public enum Name
+        public enum TextureName
         {
             GrassDiffuseTexture,
             RuinedDiffuseTexture,

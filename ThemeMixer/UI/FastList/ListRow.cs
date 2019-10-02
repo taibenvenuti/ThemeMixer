@@ -1,6 +1,7 @@
 ﻿using ColossalFramework.UI;
 using ThemeMixer.UI.Abstraction;
 using ThemeMixer.Locale;
+using ThemeMixer.Themes;
 using ThemeMixer.TranslationFramework;
 using UnityEngine;
 using ThemeMixer.Resources;
@@ -44,11 +45,11 @@ namespace ThemeMixer.UI.FastList
 
         public override void Awake() {
             base.Awake();
-            Setup(new Vector2(440.0f, 76.0f), UIUtils.DEFAULT_SPACING, true, LayoutDirection.Horizontal, LayoutStart.TopLeft, "WhiteRect");
+            Setup(new Vector2(456.0f, 76.0f), UIUtils.DEFAULT_SPACING, true, LayoutDirection.Horizontal, LayoutStart.TopLeft, "WhiteRect");
             color = isRowOdd ? OddColor : EvenColor;
             CreateThumbnail();
             CreateLabels();
-            CreateValuesPanel();
+            if(ThemePart != ThemeCategory.None) CreateValuesPanel();
             CreateCheckbox();
             this.CreateSpace(0.0f, 30.0f);
             eventMouseEnter += OnMouseEnterEvent;
@@ -56,6 +57,7 @@ namespace ThemeMixer.UI.FastList
         }
 
         public override void OnDestroy() {
+            base.OnDestroy();
             if (favouriteCheckbox != null) {
                 favouriteCheckbox.eventClicked -= OnFavouriteCheckboxMouseUp;
             }
@@ -63,7 +65,6 @@ namespace ThemeMixer.UI.FastList
             eventMouseLeave -= OnMouseLeaveEvent;
             EventFavouriteChanged = null;
             EventBlacklistedChanged = null;
-            base.OnDestroy();
         }
 
         public void Select(bool isRowOdd) {
@@ -96,24 +97,25 @@ namespace ThemeMixer.UI.FastList
         }
 
         private void CreateLabels() {
+
+            float width = ThemePart == ThemeCategory.None ? 255.0f : 189.0f;
             labelsPanel = AddUIComponent<PanelBase>();
-            labelsPanel.Setup(new Vector2(189f, 64.0f), 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
+            labelsPanel.Setup(new Vector2(width, 64.0f), 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
             labelsPanel.autoFitChildrenHorizontally = true;
 
             nameLabel = labelsPanel.AddUIComponent<UILabel>();
             nameLabel.autoSize = false;
-            nameLabel.size = new Vector2(189.0f, 33.0f);
+            nameLabel.size = new Vector2(width, 33.0f);
             nameLabel.padding = new RectOffset(5, 0, 8, 0);
             nameLabel.textScale = 1.0f;
             nameLabel.font = UIUtils.BoldFont;
 
             authorLabel = labelsPanel.AddUIComponent<UILabel>();
             authorLabel.autoSize = false;
-            authorLabel.size = new Vector2(255.0f, 33.0f);
+            authorLabel.size = new Vector2(width, 33.0f);
             authorLabel.padding = new RectOffset(5, 0, 2, 0);
             authorLabel.textScale = 0.8f;
             authorLabel.font = UIUtils.BoldFont;
-            authorLabel.width = 189.0f;
         }
 
         private void CreateValuesPanel() {
@@ -209,7 +211,9 @@ namespace ThemeMixer.UI.FastList
             spriteName = Regex.Replace(spriteName, @"(\s+|@|&|'|\(|\)|<|>|#|"")", "");
             thumbnailSprite.spriteName = spriteName;
             nameLabel.text = itemData.DisplayName;
+            nameLabel.FitString();
             authorLabel.text = string.Concat(Translation.Instance.GetTranslation(TranslationID.LABEL_BY), " ", itemData.Author);
+            authorLabel.FitString();
             favouriteCheckbox.isChecked = itemData.IsFavourite || itemData.IsBlacklisted;
             checkedSprite.spriteName = itemData.IsBlacklisted ? UISprites.Blacklisted : UISprites.Star;
             uncheckedSprite.spriteName = itemData.IsBlacklisted ? "" :  UISprites.StarOutline;

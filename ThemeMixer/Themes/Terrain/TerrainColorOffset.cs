@@ -1,71 +1,50 @@
-﻿using ColossalFramework.Packaging;
-using System.Xml.Serialization;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ThemeMixer.Themes.Terrain
 {
-    public class TerrainColorOffset : ILoadable
+    public class TerrainColorOffset : ThemePartBase
     {
-        public string PackageID;
-        public Name OffsetName;
-        public Vector3? CustomOffsetValue = null;
+        public OffsetName Name;
 
-        [XmlIgnore]
-        public Vector3? OffsetValue = null;
-
-        public TerrainColorOffset() { }
-
-        public TerrainColorOffset(string packageID, Name offsetName) {
-            PackageID = packageID;
-            OffsetName = offsetName;
+        public TerrainColorOffset(string packageID, OffsetName offsetName) : base(packageID) {
+            Name = offsetName;
         }
 
-        public bool Load(string packageID = null) {
-            if (packageID != null) PackageID = packageID;
-            if (CustomOffsetValue == null && OffsetValue == null && !SetFromTheme()) return false;
-            LoadOffset();
-            return true;
-        }
-
-        private bool SetFromTheme() {
+        protected override bool SetFromTheme() {
             MapThemeMetaData metaData = ThemeUtils.GetThemeFromPackage(PackageID);
             if (metaData == null) return false;
-            switch (OffsetName) {
-                case Name.GrassFertilityColorOffset:
-                    SetColorOffset(metaData.grassFertilityColorOffset);
+            switch (Name) {
+                case OffsetName.GrassFertilityColorOffset:
+                    SetValue(metaData.grassFertilityColorOffset);
                     break;
-                case Name.GrassFieldColorOffset:
-                    SetColorOffset(metaData.grassFieldColorOffset);
+                case OffsetName.GrassFieldColorOffset:
+                    SetValue(metaData.grassFieldColorOffset);
                     break;
-                case Name.GrassForestColorOffset:
-                    SetColorOffset(metaData.grassForestColorOffset);
+                case OffsetName.GrassForestColorOffset:
+                    SetValue(metaData.grassForestColorOffset);
                     break;
-                case Name.GrassPollutionColorOffset:
-                    SetColorOffset(metaData.grassPollutionColorOffset);
+                case OffsetName.GrassPollutionColorOffset:
+                    SetValue(metaData.grassPollutionColorOffset);
                     break;
                 default: return false;
             }
             return true;
         }
 
-        private void SetColorOffset(Vector3 offset) {
-            OffsetValue = CustomOffsetValue = offset;
-        }
-
-        private void LoadOffset() {
-            global::TerrainProperties properties = TerrainManager.instance.m_properties;
-            switch (OffsetName) {
-                case Name.GrassFertilityColorOffset:
-                    properties.m_grassFertilityColorOffset = (Vector3)(CustomOffsetValue ?? OffsetValue);
+        protected override void LoadValue() {
+            TerrainProperties properties = TerrainManager.instance.m_properties;
+            switch (Name) {
+                case OffsetName.GrassFertilityColorOffset:
+                    properties.m_grassFertilityColorOffset = (Vector3)(CustomValue ?? Value);
                     break;
-                case Name.GrassFieldColorOffset:
-                    properties.m_grassFieldColorOffset = (Vector3)(CustomOffsetValue ?? OffsetValue);
+                case OffsetName.GrassFieldColorOffset:
+                    properties.m_grassFieldColorOffset = (Vector3)(CustomValue ?? Value);
                     break;
-                case Name.GrassForestColorOffset:
-                    properties.m_grassForestColorOffset = (Vector3)(CustomOffsetValue ?? OffsetValue);
+                case OffsetName.GrassForestColorOffset:
+                    properties.m_grassForestColorOffset = (Vector3)(CustomValue ?? Value);
                     break;
-                case Name.GrassPollutionColorOffset:
-                    properties.m_grassPollutionColorOffset = (Vector3)(CustomOffsetValue ?? OffsetValue);
+                case OffsetName.GrassPollutionColorOffset:
+                    properties.m_grassPollutionColorOffset = (Vector3)(CustomValue ?? Value);
                     break;
                 default: break;
             }
@@ -73,7 +52,7 @@ namespace ThemeMixer.Themes.Terrain
         }
 
         private static void SetShaderVectors() {
-            global::TerrainProperties properties = TerrainManager.instance.m_properties;
+            TerrainProperties properties = TerrainManager.instance.m_properties;
             Shader.SetGlobalVector("_GrassFieldColorOffset", properties.m_grassFieldColorOffset);
             Shader.SetGlobalVector("_GrassFertilityColorOffset", properties.m_grassFertilityColorOffset);
             Shader.SetGlobalVector("_GrassForestColorOffset", properties.m_grassForestColorOffset);
@@ -84,7 +63,7 @@ namespace ThemeMixer.Themes.Terrain
                                    properties.m_cliffSandNormalTiling));
         }
 
-        public enum Name
+        public enum OffsetName
         {
             GrassPollutionColorOffset,
             GrassFieldColorOffset,

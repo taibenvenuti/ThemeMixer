@@ -14,12 +14,12 @@ namespace ThemeMixer.Serialization
 
         public Vector2? UITogglePosition { get; set; } = null;
 
-        public List<string>[] Favourites { get; set; } = new List<string>[(int)ThemePart.Count];
+        public List<string>[] Favourites { get; set; } = new List<string>[(int)ThemeCategory.Count];
 
-        public List<string>[] Blacklisted { get; set; } = new List<string>[(int)ThemePart.Count];
+        public List<string>[] Blacklisted { get; set; } = new List<string>[(int)ThemeCategory.Count];
 
         public Data() {
-            for (int i = 0; i < (int)ThemePart.Count; i++) {
+            for (int i = 0; i < (int)ThemeCategory.Count; i++) {
                 Favourites[i] = new List<string>();
                 Blacklisted[i] = new List<string>();
             }

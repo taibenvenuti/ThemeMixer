@@ -10,10 +10,10 @@ namespace ThemeMixer.Themes
     {
         public string Name;
         public TerrainPart Terrain;
-        public WaterTheme Water;
-        public AtmosphericTheme Atmosphere;
-        public StructuresTheme Structures;
-        public WeatherTheme Weather;
+        public WaterPart Water;
+        public AtmosphericPart Atmosphere;
+        public StructuresPart Structures;
+        public WeatherPart Weather;
 
         public ThemeMix() { }
 

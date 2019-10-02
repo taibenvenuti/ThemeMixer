@@ -1,6 +1,6 @@
 ﻿namespace ThemeMixer.Themes
 {
-    public enum ThemePart
+    public enum ThemeCategory
     {
         None,
         Themes,

@@ -22,7 +22,8 @@ namespace ThemeMixer.UI.Parts
         public override void Start() {
             base.Start();
             name = "ThemesPanel";
-            CreateFastList(new Vector2(456.0f, 720.0f), 76.0f);
+            float width = ThemeManager.Instance.Themes.Length > 7 ? 468.0f : 456.0f;
+            CreateFastList(new Vector2(width, 720.0f), 76.0f);
             SetupRowsData();
             BindEvents();
             this.CreateSpace(width, 0.0f);
@@ -101,7 +102,7 @@ namespace ThemeMixer.UI.Parts
             int count = 0;
             List<string> favList = Data.GetFavourites(ThemePart);
             List<string> blacklist = Data.GetBlacklisted(ThemePart);
-            foreach (Package.Asset asset in ThemeUtils.GetThemes()) {
+            foreach (Package.Asset asset in ThemeManager.Instance.Themes) {
                 if (favList.Contains(asset.package.packageName)) {
                     FavouritesList.Add(asset);
                 } else if (blacklist.Contains(asset.package.packageName)) {
@@ -143,7 +144,6 @@ namespace ThemeMixer.UI.Parts
 
         protected ListItem CreateListItem(Package.Asset asset) {
             string id = asset.package.packageName;
-            // Bottleneck?
             string displayName = asset.Instantiate<MapThemeMetaData>().name;
             string author = GetAuthorName(asset);
             bool isFavourite = IsFavourite(id);

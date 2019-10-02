@@ -28,50 +28,50 @@ namespace ThemeMixer.Serialization
             }
         }
 
-        private bool InGame => ToolManager.instance.m_properties != null && (ToolManager.instance.m_properties.m_mode & ItemClass.Availability.GameAndMap) != 0;
+        private bool InGame => ToolManager.instance?.m_properties != null && (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
 
         public bool HideBlacklisted => Data.HideBlacklisted;
 
-        public List<string> GetFavourites(ThemePart themePart) {
+        public List<string> GetFavourites(ThemeCategory themePart) {
             return Data.Favourites[(int)themePart];
         }
 
-        public List<string> GetBlacklisted(ThemePart themePart) {
+        public List<string> GetBlacklisted(ThemeCategory themePart) {
             return Data.Blacklisted[(int)themePart];
         }
 
-        public void AddToFavourites(string packageName, ThemePart themePart) {
+        public void AddToFavourites(string packageName, ThemeCategory themePart) {
             Add(Data.Favourites, packageName, themePart);
         }
 
-        public void RemoveFromFavourites(string packageName, ThemePart themePart) {
+        public void RemoveFromFavourites(string packageName, ThemeCategory themePart) {
             Remove(Data.Favourites, packageName, themePart);
         }
 
-        public void AddToBlacklist(string packageName, ThemePart themePart) {
+        public void AddToBlacklist(string packageName, ThemeCategory themePart) {
             Add(Data.Blacklisted, packageName, themePart);
         }
 
-        public void RemoveFromBlacklist(string packageName, ThemePart themePart) {
+        public void RemoveFromBlacklist(string packageName, ThemeCategory themePart) {
             Remove(Data.Blacklisted, packageName, themePart);
         }
 
-        public bool IsBlacklisted(string packageName, ThemePart themePart) {
+        public bool IsBlacklisted(string packageName, ThemeCategory themePart) {
             return Data.Blacklisted[(int)themePart].Contains(packageName);
         }
 
-        public bool IsFavourite(string packageName, ThemePart themePart) {
+        public bool IsFavourite(string packageName, ThemeCategory themePart) {
             return Data.Favourites[(int)themePart].Contains(packageName);
         }
 
-        private void Add(List<string>[] listArray, string packageName, ThemePart themePart) {
+        private void Add(List<string>[] listArray, string packageName, ThemeCategory themePart) {
             if (!listArray[(int)themePart].Contains(packageName)) {
                 listArray[(int)themePart].Add(packageName);
                 SaveData();
             }
         }
 
-        private void Remove(List<string>[] listArray, string packageName, ThemePart themePart) {
+        private void Remove(List<string>[] listArray, string packageName, ThemeCategory themePart) {
             if (listArray[(int)themePart].Contains(packageName)) {
                 listArray[(int)themePart].Remove(packageName);
                 SaveData();

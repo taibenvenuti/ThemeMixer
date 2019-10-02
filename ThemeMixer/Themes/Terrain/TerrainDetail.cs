@@ -1,42 +1,25 @@
-﻿using System.Xml.Serialization;
-
-namespace ThemeMixer.Themes.Terrain
+﻿namespace ThemeMixer.Themes.Terrain
 {
-    public class TerrainDetail : ILoadable
+    public class TerrainDetail : ThemePartBase
     {
-        public string PackageID;
         public Name DetailName;
-        public bool? CustomDetailValue;
 
-        [XmlIgnore]
-        public bool? DetailValue;
-
-        public TerrainDetail() { }
-
-        public TerrainDetail(string packageID, Name name) {
-            PackageID = packageID;
+        public TerrainDetail(string packageID, Name name) : base(packageID) {
             DetailName = name;
         }
 
-        public bool Load(string packageID = null) {
-            if (packageID != null) PackageID = packageID;
-            if (CustomDetailValue == null && DetailValue == null && !SetFromTheme()) return false;
-            LoadDetail();
-            return true;
-        }
-
-        private bool SetFromTheme() {
+        protected override bool SetFromTheme() {
             MapThemeMetaData metaData = ThemeUtils.GetThemeFromPackage(PackageID);
             if (metaData == null) return false;
             switch (DetailName) {
                 case Name.GrassDetailEnabled:
-                    SetDetail(metaData.grassDetailEnabled);
+                    SetValue(metaData.grassDetailEnabled);
                     break;
                 case Name.FertileDetailEnabled:
-                    SetDetail(metaData.fertileDetailEnabled);
+                    SetValue(metaData.fertileDetailEnabled);
                     break;
                 case Name.RocksDetailEnabled:
-                    SetDetail(metaData.rocksDetailEnabled);
+                    SetValue(metaData.rocksDetailEnabled);
                     break;
                 default:
                     break;
@@ -44,21 +27,17 @@ namespace ThemeMixer.Themes.Terrain
             return true;
         }
 
-        private void SetDetail(bool value) {
-            DetailValue = CustomDetailValue = value;
-        }
-
-        private void LoadDetail() {
+        protected override void LoadValue() {
             global::TerrainProperties properties = TerrainManager.instance.m_properties;
             switch (DetailName) {
                 case Name.GrassDetailEnabled:
-                    properties.m_useGrassDecorations = (bool)(CustomDetailValue ?? DetailValue);
+                    properties.m_useGrassDecorations = (bool)(CustomValue ?? Value);
                     break;
                 case Name.FertileDetailEnabled:
-                    properties.m_useFertileDecorations = (bool)(CustomDetailValue ?? DetailValue);
+                    properties.m_useFertileDecorations = (bool)(CustomValue ?? Value);
                     break;
                 case Name.RocksDetailEnabled:
-                    properties.m_useCliffDecorations = (bool)(CustomDetailValue ?? DetailValue);
+                    properties.m_useCliffDecorations = (bool)(CustomValue ?? Value);
                     break;
                 default: break;
             }

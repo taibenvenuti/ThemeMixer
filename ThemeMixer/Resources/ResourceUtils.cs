@@ -54,8 +54,8 @@ namespace ThemeMixer.Resources
 
             int maxSize = 4096;
             Rect[] regions = texture2D.PackTextures(sprites, 4, maxSize);
-
-            Material material = new Material(UIView.GetAView().defaultAtlas.material);
+            Shader shader = Shader.Find("UI/Default UI Shader");
+            Material material = new Material(shader);
             material.mainTexture = texture2D;
             textureAtlas.material = material;
             textureAtlas.name = atlasName;

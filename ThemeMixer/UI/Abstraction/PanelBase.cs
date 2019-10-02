@@ -10,7 +10,7 @@ namespace ThemeMixer.UI.Abstraction
         protected UIController Controller => UIController.Instance;
         protected SerializationService Data => SerializationService.Instance;
         protected static Color32 UIColor { get; set; } = new Color32(128, 128, 128, 255);
-        protected ThemePart ThemePart { get; private set; }
+        public ThemeCategory ThemePart { get; private set; }
 
         public UIButton CreateButton(Vector2 size, string text = "", string tooltip = "", string foregroundSprite = "", string backgroundSprite = "ButtonSmall", bool isFocusable = false, UITextureAtlas atlas = null) {
             UIButton button = AddUIComponent<UIButton>();
@@ -33,7 +33,7 @@ namespace ThemeMixer.UI.Abstraction
             if (atlas != null) button.atlas = atlas;
             return button;
         }
-        public void Setup(Vector2 size, int spacing = UIUtils.DEFAULT_SPACING, bool autoLayout = false, LayoutDirection autoLayoutDirection = LayoutDirection.Horizontal, LayoutStart autoLayoutStart = LayoutStart.TopLeft, string backgroundSprite = "", ThemePart themePart = ThemePart.None) {
+        public void Setup(Vector2 size, int spacing = UIUtils.DEFAULT_SPACING, bool autoLayout = false, LayoutDirection autoLayoutDirection = LayoutDirection.Horizontal, LayoutStart autoLayoutStart = LayoutStart.TopLeft, string backgroundSprite = "", ThemeCategory themePart = ThemeCategory.None) {
             this.size = size;
             this.autoLayout = autoLayout;
             this.autoLayoutDirection = autoLayoutDirection;
@@ -67,6 +67,7 @@ namespace ThemeMixer.UI.Abstraction
                     break;
             }
             ThemePart = themePart;
+            builtinKeyNavigation = true;
         }
 
         protected virtual void Refresh(ILoadable themePart) { }

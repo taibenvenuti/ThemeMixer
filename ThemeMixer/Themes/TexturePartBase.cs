@@ -9,6 +9,8 @@ namespace ThemeMixer.Themes
         [XmlIgnore]
         public Texture2D Texture { get; set; }
 
+        public TexturePartBase() { }
+
         public TexturePartBase(string packageID) : base(packageID) { }
 
 

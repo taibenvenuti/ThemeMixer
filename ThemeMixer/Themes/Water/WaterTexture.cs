@@ -6,6 +6,8 @@ namespace ThemeMixer.Themes.Water
     {
         public TextureName Name;
 
+        public WaterTexture() { }
+
         public WaterTexture(string packageID, TextureName name) : base(packageID) {
             Name = name;
         }

@@ -6,6 +6,8 @@ namespace ThemeMixer.Themes.Atmosphere
     {
         public ColorName Name;
 
+        public AtmosphereColor() { }
+
         public AtmosphereColor(string packageID, ColorName floatName) : base(packageID) {
             Name = floatName;
         }
@@ -18,19 +20,19 @@ namespace ThemeMixer.Themes.Atmosphere
                     SetValue(metaData.moonInnerCorona);
                     break;
                 case ColorName.MoonOuterCorona:
-                    SetValue(metaData.moonInnerCorona);
+                    SetValue(metaData.moonOuterCorona);
                     break;
                 case ColorName.SkyTint:
-                    SetValue(metaData.moonInnerCorona);
+                    SetValue(metaData.skyTint);
                     break;
                 case ColorName.NightHorizonColor:
-                    SetValue(metaData.moonInnerCorona);
+                    SetValue(metaData.nightHorizonColor);
                     break;
                 case ColorName.EarlyNightZenithColor:
-                    SetValue(metaData.moonInnerCorona);
+                    SetValue(metaData.earlyNightZenithColor);
                     break;
                 case ColorName.LateNightZenithColor:
-                    SetValue(metaData.moonInnerCorona);
+                    SetValue(metaData.lateNightZenithColor);
                     break;
                 default:
                     break;
@@ -45,7 +47,7 @@ namespace ThemeMixer.Themes.Atmosphere
                     properties.m_MoonInnerCorona = (Color)(CustomValue ?? Value);
                     break;
                 case ColorName.MoonOuterCorona:
-                    properties.m_MoonInnerCorona = (Color)(CustomValue ?? Value);
+                    properties.m_MoonOuterCorona = (Color)(CustomValue ?? Value);
                     break;
                 case ColorName.SkyTint:
                     properties.m_SkyTint = (Color)(CustomValue ?? Value);

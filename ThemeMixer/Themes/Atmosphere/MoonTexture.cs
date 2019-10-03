@@ -4,6 +4,8 @@ namespace ThemeMixer.Themes.Atmosphere
 {
     public class MoonTexture : TexturePartBase
     {
+        public MoonTexture() { }
+
         public MoonTexture(string packageID) : base (packageID){
             PackageID = packageID;
         }

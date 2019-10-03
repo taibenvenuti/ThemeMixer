@@ -80,7 +80,7 @@
     <Compile Include="UI\ToolBar.cs" />
     <Compile Include="Resources\UISprites.cs" />
     <Compile Include="Resources\ResourceUtils.cs" />
-    <Compile Include="Themes\Atmosphere\AtmosphericPart.cs" />
+    <Compile Include="Themes\Atmosphere\AtmospherePart.cs" />
     <Compile Include="Themes\ILoadable.cs" />
     <Compile Include="Serialization\SerializationService.cs" />
     <Compile Include="Themes\Structures\StructuresPart.cs" />

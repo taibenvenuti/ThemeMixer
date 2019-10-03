@@ -12,6 +12,11 @@ namespace ThemeMixer.Themes
     public class ThemeManager : MonoBehaviour
     {
         private static ThemeManager _instance;
+
+        internal ThemeMix GetCurrentMix() {
+            return CurrentMix;
+        }
+
         public static ThemeManager Instance {
             get {
                 if (_instance == null) {
@@ -61,8 +66,26 @@ namespace ThemeMixer.Themes
             }
         }
 
-        public void ThemeClicked(ListItem item) {
-
+        public void Load(ListItem item) {
+            switch (item.ThemePart) {
+                case ThemeCategory.Themes:
+                    CurrentMix = new ThemeMix(item.ID);
+                    break;
+                case ThemeCategory.Terrain:
+                    break;
+                case ThemeCategory.Water:
+                    break;
+                case ThemeCategory.Structures:
+                    break;
+                case ThemeCategory.Atmosphere:
+                    break;
+                case ThemeCategory.Weather:
+                    break;
+                case ThemeCategory.Count:
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

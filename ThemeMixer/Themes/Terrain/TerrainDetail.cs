@@ -4,6 +4,8 @@
     {
         public Name DetailName;
 
+        public TerrainDetail() { }
+
         public TerrainDetail(string packageID, Name name) : base(packageID) {
             DetailName = name;
         }

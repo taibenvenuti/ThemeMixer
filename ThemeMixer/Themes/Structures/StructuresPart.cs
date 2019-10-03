@@ -14,6 +14,8 @@ namespace ThemeMixer.Themes.Structures
         public StructureTexture BuildingAbandonedDiffuse;
         public StructureTexture LightColorPalette;
 
+        public StructuresPart() { }
+
         public void Set(string packageID) {
             SetAll(packageID);
         }

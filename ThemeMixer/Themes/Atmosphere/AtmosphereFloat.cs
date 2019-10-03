@@ -4,6 +4,7 @@
     {
         public FloatName Name;
 
+        public AtmosphereFloat() { }
         public AtmosphereFloat(string packageID, FloatName floatName) : base(packageID) {
             Name = floatName;
         }

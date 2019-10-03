@@ -24,6 +24,8 @@ namespace ThemeMixer.Themes.Terrain
         public TerrainDetail FertileDetailEnabled;
         public TerrainDetail RocksDetailEnabled;
 
+        public TerrainPart() { }
+
         public void Set(string packageID) {
             SetAll(packageID);
         }

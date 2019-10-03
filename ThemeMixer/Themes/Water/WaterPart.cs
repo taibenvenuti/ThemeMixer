@@ -12,6 +12,8 @@ namespace ThemeMixer.Themes.Water
         public WaterColor WaterDirty;
         public WaterColor WaterUnder;
 
+        public WaterPart() { }
+
         public void Set(string packageID) {
             SetAll(packageID);
         }

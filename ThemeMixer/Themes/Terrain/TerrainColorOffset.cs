@@ -6,6 +6,8 @@ namespace ThemeMixer.Themes.Terrain
     {
         public OffsetName Name;
 
+        public TerrainColorOffset() { }
+
         public TerrainColorOffset(string packageID, OffsetName offsetName) : base(packageID) {
             Name = offsetName;
         }

@@ -20,6 +20,8 @@ namespace ThemeMixer.Themes.Weather
         public WeatherValue FogProbabilityNight;
         public WeatherValue NorthernLightsProbability;
 
+        public WeatherPart() { }
+
         public void Set(string packageID) {
             SetAll(packageID);
         }

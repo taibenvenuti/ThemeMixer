@@ -3,7 +3,7 @@
 namespace ThemeMixer.Themes.Atmosphere
 {
     [Serializable]
-    public class AtmosphericPart : ILoadable, ISettable
+    public class AtmospherePart : ILoadable, ISettable
     {
         public AtmosphereFloat Longitude;
         public AtmosphereFloat Latitude;
@@ -28,6 +28,8 @@ namespace ThemeMixer.Themes.Atmosphere
         public AtmosphereColor NightHorizonColor;
         public AtmosphereColor EarlyNightZenithColor;
         public AtmosphereColor LateNightZenithColor;
+
+        public AtmospherePart() { }
 
         public void Set(string packageID) {
             SetAll(packageID);

@@ -6,6 +6,8 @@ namespace ThemeMixer.Themes.Water
     {
         public ColorName Name;
 
+        public WaterColor() { }
+
         public WaterColor(string packageID, ColorName floatName) : base(packageID) {
             Name = floatName;
         }

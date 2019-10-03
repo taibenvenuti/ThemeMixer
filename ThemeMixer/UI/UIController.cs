@@ -11,8 +11,6 @@ namespace ThemeMixer.UI
     public delegate void UIDirtyEventHandler(ILoadable themePart);
     public class UIController: MonoBehaviour
     {
-        public event UIDirtyEventHandler EventUIDirty;
-
         private static UIController _instance;
         public static UIController Instance {
             get {
@@ -54,7 +52,6 @@ namespace ThemeMixer.UI
 
         public static void Release() {
             if (_instance != null) {
-                _instance.EventUIDirty = null;
                 _instance.DestroyUI();
                 Destroy(_instance.gameObject);
                 _instance = null;
@@ -84,7 +81,7 @@ namespace ThemeMixer.UI
         }
 
         private void OnThemeClicked(ListItem item) {
-            ThemeManager.Instance.ThemeClicked(item);
+            ThemeManager.Instance.Load(item);
         }
 
         internal bool IsSelected(Package.Asset asset) {

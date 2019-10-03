@@ -6,6 +6,8 @@ namespace ThemeMixer.Themes.Structures
     {
         public TextureName Name;
 
+        public StructureTexture() { }
+
         public StructureTexture(string packageID, TextureName textureName) : base(packageID) {
             Name = textureName;
         }

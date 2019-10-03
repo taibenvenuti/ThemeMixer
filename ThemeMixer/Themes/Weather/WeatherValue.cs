@@ -4,6 +4,8 @@
     {
         public FloatName Name;
 
+        public WeatherValue() { }
+
         public WeatherValue(string packageID, FloatName floatName) : base(packageID) {
             Name = floatName;
         }
@@ -16,40 +18,40 @@
                     SetValue(metaData.minTemperatureDay);
                     break;
                 case FloatName.MaxTemperatureDay:
-                    SetValue(metaData.minTemperatureDay);
+                    SetValue(metaData.maxTemperatureDay);
                     break;
                 case FloatName.MinTemperatureNight:
-                    SetValue(metaData.minTemperatureDay);
+                    SetValue(metaData.minTemperatureNight);
                     break;
                 case FloatName.MaxTemperatureNight:
-                    SetValue(metaData.minTemperatureDay);
+                    SetValue(metaData.maxTemperatureNight);
                     break;
                 case FloatName.MinTemperatureRain:
-                    SetValue(metaData.minTemperatureDay);
+                    SetValue(metaData.minTemperatureRain);
                     break;
                 case FloatName.MaxTemperatureRain:
-                    SetValue(metaData.minTemperatureDay);
+                    SetValue(metaData.maxTemperatureRain);
                     break;
                 case FloatName.MinTemperatureFog:
-                    SetValue(metaData.minTemperatureDay);
+                    SetValue(metaData.minTemperatureFog);
                     break;
                 case FloatName.MaxTemperatureFog:
-                    SetValue(metaData.minTemperatureDay);
+                    SetValue(metaData.maxTemperatureFog);
                     break;
                 case FloatName.RainProbabilityDay:
-                    SetValue(metaData.minTemperatureDay);
+                    SetValue(metaData.rainProbabilityDay);
                     break;
                 case FloatName.RainProbabilityNight:
-                    SetValue(metaData.minTemperatureDay);
+                    SetValue(metaData.rainProbabilityNight);
                     break;
                 case FloatName.FogProbabilityDay:
-                    SetValue(metaData.minTemperatureDay);
+                    SetValue(metaData.fogProbabilityDay);
                     break;
                 case FloatName.FogProbabilityNight:
-                    SetValue(metaData.minTemperatureDay);
+                    SetValue(metaData.fogProbabilityNight);
                     break;
                 case FloatName.NorthernLightsProbability:
-                    SetValue(metaData.minTemperatureDay);
+                    SetValue(metaData.northernLightsProbability);
                     break;
                 default:
                     break;

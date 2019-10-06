@@ -2,11 +2,15 @@
 {
     public class WeatherValue : ThemePartBase
     {
-        public FloatName Name;
+        public ValueName Name;
 
         public WeatherValue() { }
 
-        public WeatherValue(string packageID, FloatName floatName) : base(packageID) {
+        public WeatherValue(ValueName valueName) {
+            Name = valueName;
+        }
+
+        public WeatherValue(string packageID, ValueName floatName) : base(packageID) {
             Name = floatName;
         }
 
@@ -14,43 +18,43 @@
             MapThemeMetaData metaData = ThemeUtils.GetThemeFromPackage(PackageID);
             if (metaData == null) return false;
             switch (Name) {
-                case FloatName.MinTemperatureDay:
+                case ValueName.MinTemperatureDay:
                     SetValue(metaData.minTemperatureDay);
                     break;
-                case FloatName.MaxTemperatureDay:
+                case ValueName.MaxTemperatureDay:
                     SetValue(metaData.maxTemperatureDay);
                     break;
-                case FloatName.MinTemperatureNight:
+                case ValueName.MinTemperatureNight:
                     SetValue(metaData.minTemperatureNight);
                     break;
-                case FloatName.MaxTemperatureNight:
+                case ValueName.MaxTemperatureNight:
                     SetValue(metaData.maxTemperatureNight);
                     break;
-                case FloatName.MinTemperatureRain:
+                case ValueName.MinTemperatureRain:
                     SetValue(metaData.minTemperatureRain);
                     break;
-                case FloatName.MaxTemperatureRain:
+                case ValueName.MaxTemperatureRain:
                     SetValue(metaData.maxTemperatureRain);
                     break;
-                case FloatName.MinTemperatureFog:
+                case ValueName.MinTemperatureFog:
                     SetValue(metaData.minTemperatureFog);
                     break;
-                case FloatName.MaxTemperatureFog:
+                case ValueName.MaxTemperatureFog:
                     SetValue(metaData.maxTemperatureFog);
                     break;
-                case FloatName.RainProbabilityDay:
+                case ValueName.RainProbabilityDay:
                     SetValue(metaData.rainProbabilityDay);
                     break;
-                case FloatName.RainProbabilityNight:
+                case ValueName.RainProbabilityNight:
                     SetValue(metaData.rainProbabilityNight);
                     break;
-                case FloatName.FogProbabilityDay:
+                case ValueName.FogProbabilityDay:
                     SetValue(metaData.fogProbabilityDay);
                     break;
-                case FloatName.FogProbabilityNight:
+                case ValueName.FogProbabilityNight:
                     SetValue(metaData.fogProbabilityNight);
                     break;
-                case FloatName.NorthernLightsProbability:
+                case ValueName.NorthernLightsProbability:
                     SetValue(metaData.northernLightsProbability);
                     break;
                 default:
@@ -62,43 +66,43 @@
         protected override void LoadValue() {
             WeatherProperties properties = WeatherManager.instance.m_properties;
             switch (Name) {
-                case FloatName.MinTemperatureDay:
+                case ValueName.MinTemperatureDay:
                     properties.m_minTemperatureDay = (float)(CustomValue ?? Value);
                     break;
-                case FloatName.MaxTemperatureDay:
+                case ValueName.MaxTemperatureDay:
                     properties.m_maxTemperatureDay = (float)(CustomValue ?? Value);
                     break;
-                case FloatName.MinTemperatureNight:
+                case ValueName.MinTemperatureNight:
                     properties.m_minTemperatureNight = (float)(CustomValue ?? Value);
                     break;
-                case FloatName.MaxTemperatureNight:
+                case ValueName.MaxTemperatureNight:
                     properties.m_maxTemperatureNight = (float)(CustomValue ?? Value);
                     break;
-                case FloatName.MinTemperatureRain:
+                case ValueName.MinTemperatureRain:
                     properties.m_minTemperatureRain = (float)(CustomValue ?? Value);
                     break;
-                case FloatName.MaxTemperatureRain:
+                case ValueName.MaxTemperatureRain:
                     properties.m_maxTemperatureRain = (float)(CustomValue ?? Value);
                     break;
-                case FloatName.MinTemperatureFog:
+                case ValueName.MinTemperatureFog:
                     properties.m_minTemperatureFog = (float)(CustomValue ?? Value);
                     break;
-                case FloatName.MaxTemperatureFog:
+                case ValueName.MaxTemperatureFog:
                     properties.m_maxTemperatureFog = (float)(CustomValue ?? Value);
                     break;
-                case FloatName.RainProbabilityDay:
+                case ValueName.RainProbabilityDay:
                     properties.m_rainProbabilityDay = (int)(CustomValue ?? Value);
                     break;
-                case FloatName.RainProbabilityNight:
+                case ValueName.RainProbabilityNight:
                     properties.m_rainProbabilityNight = (int)(CustomValue ?? Value);
                     break;
-                case FloatName.FogProbabilityDay:
+                case ValueName.FogProbabilityDay:
                     properties.m_fogProbabilityDay = (int)(CustomValue ?? Value);
                     break;
-                case FloatName.FogProbabilityNight:
+                case ValueName.FogProbabilityNight:
                     properties.m_fogProbabilityNight = (int)(CustomValue ?? Value);
                     break;
-                case FloatName.NorthernLightsProbability:
+                case ValueName.NorthernLightsProbability:
                     properties.m_northernLightsProbability = (int)(CustomValue ?? Value);
                     break;
                 default:
@@ -106,7 +110,7 @@
             }
         }
 
-        public enum FloatName
+        public enum ValueName
         {
             MinTemperatureDay,
             MaxTemperatureDay,

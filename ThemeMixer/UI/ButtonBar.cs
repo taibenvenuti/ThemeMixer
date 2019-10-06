@@ -5,6 +5,7 @@ using ThemeMixer.TranslationFramework;
 using UnityEngine;
 using ThemeMixer.Resources;
 using ThemeMixer.Themes;
+using ThemeMixer.Themes.Enums;
 
 namespace ThemeMixer.UI
 {

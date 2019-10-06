@@ -1,9 +1,8 @@
 ﻿using System;
-
 namespace ThemeMixer.Themes.Structures
 {
     [Serializable]
-    public class StructuresPart : ILoadable, ISettable
+    public class ThemeStructures : ILoadable
     {
         public StructureTexture UpwardRoadDiffuse;
         public StructureTexture DownwardRoadDiffuse;
@@ -14,7 +13,20 @@ namespace ThemeMixer.Themes.Structures
         public StructureTexture BuildingAbandonedDiffuse;
         public StructureTexture LightColorPalette;
 
-        public StructuresPart() { }
+        public ThemeStructures() {
+            Initialize();
+        }
+
+        private void Initialize() {
+            UpwardRoadDiffuse = new StructureTexture(StructureTexture.TextureName.UpwardRoadDiffuse);
+            DownwardRoadDiffuse = new StructureTexture(StructureTexture.TextureName.DownwardRoadDiffuse);
+            BuildingFloorDiffuse = new StructureTexture(StructureTexture.TextureName.BuildingFloorDiffuse);
+            BuildingBaseDiffuse = new StructureTexture(StructureTexture.TextureName.BuildingBaseDiffuse);
+            BuildingBaseNormal = new StructureTexture(StructureTexture.TextureName.BuildingBaseNormal);
+            BuildingBurntDiffuse = new StructureTexture(StructureTexture.TextureName.BuildingBurntDiffuse);
+            BuildingAbandonedDiffuse = new StructureTexture(StructureTexture.TextureName.BuildingAbandonedDiffuse);
+            LightColorPalette = new StructureTexture(StructureTexture.TextureName.LightColorPalette);
+        }
 
         public void Set(string packageID) {
             SetAll(packageID);

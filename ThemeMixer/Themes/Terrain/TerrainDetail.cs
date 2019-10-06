@@ -6,6 +6,10 @@
 
         public TerrainDetail() { }
 
+        public TerrainDetail(Name detailName) {
+            DetailName = detailName;
+        }
+
         public TerrainDetail(string packageID, Name name) : base(packageID) {
             DetailName = name;
         }

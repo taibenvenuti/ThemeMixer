@@ -8,6 +8,10 @@ namespace ThemeMixer.Themes.Terrain
 
         public TerrainTexture() { }
 
+        public TerrainTexture(TextureName textureName) {
+            Name = textureName;
+        }
+
         public TerrainTexture(string packageID, TextureName textureName) : base(packageID) {
             Name = textureName;
         }

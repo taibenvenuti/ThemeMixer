@@ -8,6 +8,10 @@ namespace ThemeMixer.Themes.Atmosphere
 
         public AtmosphereColor() { }
 
+        public AtmosphereColor(ColorName colorName) {
+            Name = colorName;
+        }
+
         public AtmosphereColor(string packageID, ColorName floatName) : base(packageID) {
             Name = floatName;
         }

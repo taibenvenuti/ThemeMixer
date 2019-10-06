@@ -1,22 +1,24 @@
 ﻿using ColossalFramework.UI;
+using System;
 using System.Reflection;
 using ThemeMixer.Resources;
 using ThemeMixer.Serialization;
-using ThemeMixer.Themes;
+using ThemeMixer.Themes.Enums;
 using ThemeMixer.UI.Parts;
 using UnityEngine;
 
 namespace ThemeMixer.UI.Abstraction
 {
-    public class PanelBase : UIPanel {
+    public class PanelBase : UIPanel
+    {
+        public static event EventHandler<ThemeDirtyEventArgs> EventThemeDirty;
         protected UIController Controller => UIController.Instance;
         protected SerializationService Data => SerializationService.Instance;
         protected static Color32 UIColor { get; set; } = new Color32(128, 128, 128, 255);
-        public ThemeCategory Category { get; protected set; } = ThemeCategory.None;
+        public ThemeCategory Category { get; set; } = ThemeCategory.None;
 
         public override void Awake() {
             base.Awake();
-            Controller.EventUIDirty += Refresh;
 
             object[] attrsB = GetType().GetCustomAttributes(typeof(UICategoryAttribute), true);
             if (attrsB != null && attrsB.Length > 0 && attrsB[0] is UICategoryAttribute b)
@@ -47,6 +49,7 @@ namespace ThemeMixer.UI.Abstraction
                         texturePanel.textureID = a.TextureID;
                 }
             }
+            Controller.EventUIDirty += OnRefreshUI;
         }
 
         public UIButton CreateButton(Vector2 size, string text = "", string tooltip = "", string foregroundSprite = "", string backgroundSprite = "ButtonSmall", bool isFocusable = false, UITextureAtlas atlas = null) {
@@ -54,7 +57,7 @@ namespace ThemeMixer.UI.Abstraction
             button.size = size;
             button.text = text;
             button.tooltip = tooltip;
-            button.textPadding = new RectOffset(0, 0, 3, 0);
+            button.textPadding = new RectOffset(8, 8, 8, 5);
             button.disabledTextColor = new Color32(128, 128, 128, 255);
             button.normalBgSprite = backgroundSprite;
             button.hoveredBgSprite = string.Concat(backgroundSprite, "Hovered");
@@ -109,6 +112,10 @@ namespace ThemeMixer.UI.Abstraction
             color = UIColor;
         }
 
-        protected virtual void Refresh(ThemeMix mix) { }
+        protected virtual void OnRefreshUI(object sender, UIDirtyEventArgs e) { }
+
+        protected virtual void OnRefreshTheme(object sender, ThemeDirtyEventArgs eventArgs) {
+            EventThemeDirty?.Invoke(sender, eventArgs);
+        }
     }
 }

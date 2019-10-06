@@ -4,7 +4,6 @@ using ThemeMixer.Resources;
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes;
 using ThemeMixer.TranslationFramework;
-using ThemeMixer.UI;
 
 namespace ThemeMixer
 {

@@ -6,6 +6,7 @@ using ThemeMixer.TranslationFramework;
 using UnityEngine;
 using ThemeMixer.Resources;
 using System.Text.RegularExpressions;
+using ThemeMixer.Themes.Enums;
 
 namespace ThemeMixer.UI.FastList
 {
@@ -244,7 +245,7 @@ namespace ThemeMixer.UI.FastList
                             : itemData.IsBlacklisted
                             ? Translation.Instance.GetTranslation(TranslationID.TOOLTIP_REMOVEBLACKLIST)
                             : Translation.Instance.GetTranslation(TranslationID.TOOLTIP_ADDFAVOURITE_ADDBLACKLIST);
-            favouriteCheckbox.RefreshTooltip();
+            //favouriteCheckbox.RefreshTooltip();
         }
 
         private void OnMouseLeaveEvent(UIComponent component, UIMouseEventParameter eventParam) {

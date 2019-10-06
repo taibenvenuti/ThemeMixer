@@ -10,11 +10,11 @@ namespace ThemeMixer.Themes
     public class ThemeMix : ILoadable
     {
         public string Name;
-        public TerrainPart Terrain;
-        public WaterPart Water;
-        public AtmospherePart Atmosphere;
-        public StructuresPart Structures;
-        public WeatherPart Weather;
+        public Terrain.ThemeTerrain Terrain;
+        public Water.ThemeWater Water;
+        public Atmosphere.ThemeAtmosphere Atmosphere;
+        public Structures.ThemeStructures Structures;
+        public Weather.ThemeWeather Weather;
 
         public ThemeMix() {
             InitializeMix();
@@ -40,11 +40,11 @@ namespace ThemeMixer.Themes
         }
 
         private void InitializeMix() {
-            Terrain = new TerrainPart();
-            Water = new WaterPart();
-            Atmosphere = new AtmospherePart();
-            Structures = new StructuresPart();
-            Weather = new WeatherPart();
+            Terrain = new ThemeTerrain();
+            Water = new ThemeWater();
+            Atmosphere = new ThemeAtmosphere();
+            Structures = new ThemeStructures();
+            Weather = new ThemeWeather();
         }
     }
 }

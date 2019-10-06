@@ -1,4 +1,5 @@
-﻿using ThemeMixer.UI.Parts;
+﻿using ThemeMixer.Themes.Enums;
+using ThemeMixer.UI.Parts;
 
 namespace ThemeMixer.Locale
 {
@@ -10,6 +11,8 @@ namespace ThemeMixer.Locale
         public const string ERROR_MISSING_PACKAGE_MESSAGE = "ERROR_MISSING_PACKAGE_MESSAGE";
         public const string ERROR_BROKEN_PACKAGE_TITLE = "ERROR_BROKEN_PACKAGE_TITLE";
         public const string ERROR_BROKEN_PACKAGE_MESSAGE = "ERROR_BROKEN_PACKAGE_MESSAGE";
+
+        public const string BUTTON_OK = "BUTTON_OK";
 
         public const string TOOLTIP_THEMES = "TOOLTIP_THEMES";
         public const string TOOLTIP_TERRAIN = "TOOLTIP_TERRAIN";
@@ -23,8 +26,16 @@ namespace ThemeMixer.Locale
         public const string TOOLTIP_REMOVEBLACKLIST = "TOOLTIP_REMOVEBLACKLIST";
 
         public const string LABEL_BY = "LABEL_BY"; 
-        public const string LABEL_LOAD_THEME = "LABEL_LOAD_THEME";
-        public const string LABEL_LOAD_TEXTURE = "LABEL_LOAD_TEXTURE";
+        public const string LABEL_THEME = "LABEL_THEME";
+        public const string LABEL_TERRAIN = "LABEL_TERRAIN";
+        public const string LABEL_ATMOSPHERE = "LABEL_ATMOSPHERE";
+        public const string LABEL_WATER = "LABEL_WATER";
+        public const string LABEL_WEATHER = "LABEL_WEATHER";
+        public const string LABEL_STRUCTURES = "LABEL_STRUCTURES";
+        public const string LABEL_COLOR = "LABEL_COLOR";
+        public const string LABEL_OFFSET = "LABEL_OFFSET";
+        public const string LABEL_VALUE = "LABEL_VALUE";
+        public const string LABEL_TEXTURE = "LABEL_TEXTURE";
         public const string LABEL_SELECT = "LABEL_SELECT";
 
         public const string LABEL_GRASS_DIFFUSE = "LABEL_GRASS_DIFFUSE";

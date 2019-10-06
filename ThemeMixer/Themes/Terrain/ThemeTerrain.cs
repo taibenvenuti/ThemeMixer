@@ -3,7 +3,7 @@
 namespace ThemeMixer.Themes.Terrain
 {
     [Serializable]
-    public class TerrainPart : ILoadable, ISettable
+    public class ThemeTerrain : ILoadable
     {
         public TerrainTexture GrassDiffuseTexture;
         public TerrainTexture RuinedDiffuseTexture;
@@ -24,7 +24,34 @@ namespace ThemeMixer.Themes.Terrain
         public TerrainDetail FertileDetailEnabled;
         public TerrainDetail RocksDetailEnabled;
 
-        public TerrainPart() { }
+        public ThemeTerrain() {
+            Initialize();
+        }
+
+        private void Initialize() {
+            GrassDiffuseTexture = new TerrainTexture(TerrainTexture.TextureName.GrassDiffuseTexture);
+            RuinedDiffuseTexture = new TerrainTexture(TerrainTexture.TextureName.RuinedDiffuseTexture);
+            PavementDiffuseTexture = new TerrainTexture(TerrainTexture.TextureName.PavementDiffuseTexture);
+            GravelDiffuseTexture = new TerrainTexture(TerrainTexture.TextureName.GravelDiffuseTexture);
+            CliffDiffuseTexture = new TerrainTexture(TerrainTexture.TextureName.CliffDiffuseTexture);
+            SandDiffuseTexture = new TerrainTexture(TerrainTexture.TextureName.SandDiffuseTexture);
+            OilDiffuseTexture = new TerrainTexture(TerrainTexture.TextureName.OilDiffuseTexture);
+            OreDiffuseTexture = new TerrainTexture(TerrainTexture.TextureName.OreDiffuseTexture);
+            CliffSandNormalTexture = new TerrainTexture(TerrainTexture.TextureName.CliffSandNormalTexture);
+
+            GrassPollutionColorOffset = new TerrainColorOffset(TerrainColorOffset.OffsetName.GrassPollutionColorOffset);
+            GrassFieldColorOffset = new TerrainColorOffset(TerrainColorOffset.OffsetName.GrassFieldColorOffset);
+            GrassFertilityColorOffset = new TerrainColorOffset(TerrainColorOffset.OffsetName.GrassFertilityColorOffset);
+            GrassForestColorOffset = new TerrainColorOffset(TerrainColorOffset.OffsetName.GrassForestColorOffset);
+
+            GrassDetailEnabled = new TerrainDetail(TerrainDetail.Name.GrassDetailEnabled);
+            FertileDetailEnabled = new TerrainDetail(TerrainDetail.Name.FertileDetailEnabled);
+            RocksDetailEnabled = new TerrainDetail(TerrainDetail.Name.RocksDetailEnabled);
+        }
+
+        public ThemeTerrain(string packageID) {
+            Load(packageID);
+        }
 
         public void Set(string packageID) {
             SetAll(packageID);

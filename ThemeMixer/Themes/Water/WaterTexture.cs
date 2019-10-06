@@ -8,8 +8,12 @@ namespace ThemeMixer.Themes.Water
 
         public WaterTexture() { }
 
-        public WaterTexture(string packageID, TextureName name) : base(packageID) {
-            Name = name;
+        public WaterTexture(TextureName textureName) {
+            Name = textureName;
+        }
+
+        public WaterTexture(string packageID, TextureName textureName) : base(packageID) {
+            Name = textureName;
         }
 
         protected override bool SetFromTheme() {

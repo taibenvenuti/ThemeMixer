@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ThemeMixer.Themes.Enums;
+using UnityEngine;
 
 namespace ThemeMixer.Themes.Structures
 {
@@ -7,6 +8,10 @@ namespace ThemeMixer.Themes.Structures
         public TextureName Name;
 
         public StructureTexture() { }
+
+        public StructureTexture(TextureName textureName) {
+            Name = textureName;
+        }
 
         public StructureTexture(string packageID, TextureName textureName) : base(packageID) {
             Name = textureName;

@@ -1,21 +1,15 @@
 ﻿using System;
 using ColossalFramework.UI;
 using ThemeMixer.Themes;
+using ThemeMixer.Themes.Enums;
 using ThemeMixer.UI.Abstraction;
 
 namespace ThemeMixer.UI.Parts
 {
 
-    public delegate void LoadTextureClickedEventHandler(string packageID, TextureID textureID);
-    public delegate void TextureTilingchangedEventHandler(float tiling, TextureID textureID);
-
     [UICategory(ThemeCategory.Terrain)]
     [UIProperties("Terrain Panel", 920.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel")]
-    public class TerrainPanel : PanelBase
-    {
-        public event LoadTextureClickedEventHandler EventLoadTextureClicked;
-        public event TextureTilingchangedEventHandler EventTextureTilingChanged;
-
+    public class TerrainPanel : PanelBase {
         [UIProperties("Textures Panel Container", 0.0f, 460.0f, 5, true, LayoutDirection.Horizontal, LayoutStart.TopLeft)]
         protected PanelBase texturesPanelContainer;
 
@@ -28,30 +22,39 @@ namespace ThemeMixer.UI.Parts
         [UIProperties("Textures Panel Right", 300.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         protected PanelBase texturesPanelRight;
 
+        [UICategory(ThemeCategory.Terrain)]
         [UITextureID(TextureID.GrassDiffuseTexture)]
         protected TexturePanel grassDiffuseTexture;
 
+        [UICategory(ThemeCategory.Terrain)]
         [UITextureID(TextureID.RuinedDiffuseTexture)]
         protected TexturePanel ruinedDiffuseTexture;
 
+        [UICategory(ThemeCategory.Terrain)]
         [UITextureID(TextureID.GravelDiffuseTexture)]
         protected TexturePanel gravelDiffuseTexture;
 
+        [UICategory(ThemeCategory.Terrain)]
         [UITextureID(TextureID.CliffDiffuseTexture)]
         protected TexturePanel cliffDiffuseTexture;
 
+        [UICategory(ThemeCategory.Terrain)]
         [UITextureID(TextureID.SandDiffuseTexture)]
         protected TexturePanel sandDiffuseTexture;
 
+        [UICategory(ThemeCategory.Terrain)]
         [UITextureID(TextureID.CliffSandNormalTexture)]
         protected TexturePanel cliffSandNormalTexture;
 
+        [UICategory(ThemeCategory.Terrain)]
         [UITextureID(TextureID.OilDiffuseTexture)]
         protected TexturePanel oilDiffuseTexture;
 
+        [UICategory(ThemeCategory.Terrain)]
         [UITextureID(TextureID.OreDiffuseTexture)]
         protected TexturePanel oreDiffuseTexture;
 
+        [UICategory(ThemeCategory.Terrain)]
         [UITextureID(TextureID.PavementDiffuseTexture)]
         protected TexturePanel pavementDiffuseTexture;
 
@@ -91,70 +94,8 @@ namespace ThemeMixer.UI.Parts
             oreDiffuseTexture = texturesPanelRight.AddUIComponent<TexturePanel>();
         }
 
-        public override void Start() {
-            base.Start();
-            BindEvents();
-        }
-
-        public override void OnDestroy() {
-            base.OnDestroy();
-            UnbindEvents();
-        }
-
-        private void BindEvents() {
-            grassDiffuseTexture.EventLoadTextureClicked += OnLoadTextureClicked;
-            ruinedDiffuseTexture.EventLoadTextureClicked += OnLoadTextureClicked;
-            gravelDiffuseTexture.EventLoadTextureClicked += OnLoadTextureClicked;
-            cliffDiffuseTexture.EventLoadTextureClicked += OnLoadTextureClicked;
-            sandDiffuseTexture.EventLoadTextureClicked += OnLoadTextureClicked;
-            cliffSandNormalTexture.EventLoadTextureClicked += OnLoadTextureClicked;
-            pavementDiffuseTexture.EventLoadTextureClicked += OnLoadTextureClicked;
-            oilDiffuseTexture.EventLoadTextureClicked += OnLoadTextureClicked;
-            oreDiffuseTexture.EventLoadTextureClicked += OnLoadTextureClicked;
-
-            grassDiffuseTexture.EventTextureTilingChanged += OnTextureTilingChanged;
-            ruinedDiffuseTexture.EventTextureTilingChanged += OnTextureTilingChanged;
-            gravelDiffuseTexture.EventTextureTilingChanged += OnTextureTilingChanged;
-            cliffDiffuseTexture.EventTextureTilingChanged += OnTextureTilingChanged;
-            sandDiffuseTexture.EventTextureTilingChanged += OnTextureTilingChanged;
-            cliffSandNormalTexture.EventTextureTilingChanged += OnTextureTilingChanged;
-            pavementDiffuseTexture.EventTextureTilingChanged += OnTextureTilingChanged;
-            oilDiffuseTexture.EventTextureTilingChanged += OnTextureTilingChanged;
-            oreDiffuseTexture.EventTextureTilingChanged += OnTextureTilingChanged;
-        }
-
-        private void UnbindEvents() {
-            grassDiffuseTexture.EventLoadTextureClicked -= OnLoadTextureClicked;
-            ruinedDiffuseTexture.EventLoadTextureClicked -= OnLoadTextureClicked;
-            gravelDiffuseTexture.EventLoadTextureClicked -= OnLoadTextureClicked;
-            cliffDiffuseTexture.EventLoadTextureClicked -= OnLoadTextureClicked;
-            sandDiffuseTexture.EventLoadTextureClicked -= OnLoadTextureClicked;
-            cliffSandNormalTexture.EventLoadTextureClicked -= OnLoadTextureClicked;
-            pavementDiffuseTexture.EventLoadTextureClicked -= OnLoadTextureClicked;
-            oilDiffuseTexture.EventLoadTextureClicked -= OnLoadTextureClicked;
-            oreDiffuseTexture.EventLoadTextureClicked -= OnLoadTextureClicked;
-
-            grassDiffuseTexture.EventTextureTilingChanged -= OnTextureTilingChanged;
-            ruinedDiffuseTexture.EventTextureTilingChanged -= OnTextureTilingChanged;
-            gravelDiffuseTexture.EventTextureTilingChanged -= OnTextureTilingChanged;
-            cliffDiffuseTexture.EventTextureTilingChanged -= OnTextureTilingChanged;
-            sandDiffuseTexture.EventTextureTilingChanged -= OnTextureTilingChanged;
-            cliffSandNormalTexture.EventTextureTilingChanged -= OnTextureTilingChanged;
-            pavementDiffuseTexture.EventTextureTilingChanged -= OnTextureTilingChanged;
-            oilDiffuseTexture.EventTextureTilingChanged -= OnTextureTilingChanged;
-            oreDiffuseTexture.EventTextureTilingChanged -= OnTextureTilingChanged;
-        }
-
-        private void OnLoadTextureClicked(string packageID, TextureID textureID) {
-            EventLoadTextureClicked?.Invoke(packageID, textureID);
-        }
-
-        private void OnTextureTilingChanged(float tiling, TextureID textureID) {
-            EventTextureTilingChanged?.Invoke(tiling, textureID);
-        }
-
-        protected override void Refresh(ThemeMix mix) {
-
+        protected override void OnRefreshUI(object sender, UIDirtyEventArgs e) {
+            base.OnRefreshUI(sender, e);
         }
     }
 }

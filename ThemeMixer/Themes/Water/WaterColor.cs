@@ -8,8 +8,12 @@ namespace ThemeMixer.Themes.Water
 
         public WaterColor() { }
 
-        public WaterColor(string packageID, ColorName floatName) : base(packageID) {
-            Name = floatName;
+        public WaterColor(ColorName colorName) {
+            Name = colorName;
+        }
+
+        public WaterColor(string packageID, ColorName colorName) : base(packageID) {
+            Name = colorName;
         }
 
         protected override bool SetFromTheme() {

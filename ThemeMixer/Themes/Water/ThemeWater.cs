@@ -3,7 +3,7 @@
 namespace ThemeMixer.Themes.Water
 {
     [Serializable]
-    public class WaterPart : ILoadable, ISettable
+    public class ThemeWater : ILoadable
     {
         public WaterTexture WaterFoam;
         public WaterTexture WaterNormal;
@@ -12,7 +12,18 @@ namespace ThemeMixer.Themes.Water
         public WaterColor WaterDirty;
         public WaterColor WaterUnder;
 
-        public WaterPart() { }
+        public ThemeWater() {
+            Initialize();
+        }
+
+        private void Initialize() {
+            WaterFoam = new WaterTexture(WaterTexture.TextureName.WaterFoam);
+            WaterNormal = new WaterTexture(WaterTexture.TextureName.WaterNormal);
+
+            WaterClean = new WaterColor(WaterColor.ColorName.WaterClean);
+            WaterDirty = new WaterColor(WaterColor.ColorName.WaterDirty);
+            WaterUnder = new WaterColor(WaterColor.ColorName.WaterUnder);
+        }
 
         public void Set(string packageID) {
             SetAll(packageID);

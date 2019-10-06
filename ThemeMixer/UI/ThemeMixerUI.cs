@@ -1,9 +1,7 @@
-﻿using System;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using ThemeMixer.Serialization;
-using ThemeMixer.Themes;
+using ThemeMixer.Themes.Enums;
 using ThemeMixer.UI.Abstraction;
-using ThemeMixer.UI.FastList;
 using ThemeMixer.UI.Parts;
 using UnityEngine;
 
@@ -12,7 +10,6 @@ namespace ThemeMixer.UI
     [UIProperties("Theme Mixer UI", 0.0f, 234.0f, 0, true, LayoutDirection.Horizontal, LayoutStart.BottomRight)]
     public class ThemeMixerUI : PanelBase
     {
-        public event ItemClickedEventHandler EventThemeClicked;
         private PanelBase currentPanel;
         private ToolBar toolBar;
         private UIPanel space;
@@ -43,39 +40,17 @@ namespace ThemeMixer.UI
             Data.SetToolbarPosition(relativePosition);
         }
 
-        private PanelBase CreatePanel(ThemeCategory category) {
+        public PanelBase CreatePanel(ThemeCategory category) {
             switch (category) {
                 case ThemeCategory.Themes:
-                    ThemesPanel themesPanel = AddUIComponent<ThemesPanel>();
-                    themesPanel.EventItemClick += OnThemeClicked;
+                    SelectThemePanel themesPanel = AddUIComponent<SelectThemePanel>();
+                    themesPanel.SetPart(ThemePart.Category);
                     return themesPanel;
                 case ThemeCategory.Terrain:
                     Parts.TerrainPanel terrainPanel = AddUIComponent<Parts.TerrainPanel>();
-                    terrainPanel.EventLoadTextureClicked += OnLoadTextureClicked;
                     return terrainPanel;
                 default: return null;
             }
-        }
-
-        private void OnLoadTextureClicked(string packageID, TextureID textureID) {
-            Controller.TextureID = textureID;
-            Controller.Mode = Mode.Texture;
-            if (currentPanel != null) {
-                if (currentPanel is FastListPanel flp) flp.EventItemClick -= OnThemeClicked;
-                Destroy(currentPanel.gameObject);
-            }
-            TerrainTextureThemesPanel panel = AddUIComponent<TerrainTextureThemesPanel>();
-            panel.EventItemClick += OnThemeClicked;
-            currentPanel = panel;
-        }
-
-        private void OnThemeClicked(ListItem item) {
-            if(currentPanel != null && item.Category != ThemeCategory.Themes) {
-                if (currentPanel is FastListPanel flp) flp.EventItemClick -= OnThemeClicked;
-                Destroy(currentPanel.gameObject);
-                currentPanel = CreatePanel(item.Category);
-            }
-            EventThemeClicked?.Invoke(item);
         }
 
         private void OnButtonClicked(Button button, Button[] buttons) {

@@ -1,7 +1,6 @@
 ﻿using ColossalFramework.UI;
 using System;
-using ThemeMixer.Themes;
-using ThemeMixer.UI.Parts;
+using ThemeMixer.Themes.Enums;
 using UnityEngine;
 
 namespace ThemeMixer.UI

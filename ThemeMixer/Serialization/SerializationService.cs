@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using ThemeMixer.Themes;
+using ThemeMixer.Themes.Enums;
 using UnityEngine;
 
 namespace ThemeMixer.Serialization

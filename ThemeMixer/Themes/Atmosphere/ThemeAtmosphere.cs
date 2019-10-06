@@ -1,9 +1,8 @@
 ﻿using System;
-
 namespace ThemeMixer.Themes.Atmosphere
 {
     [Serializable]
-    public class AtmospherePart : ILoadable, ISettable
+    public class ThemeAtmosphere : ILoadable
     {
         public AtmosphereFloat Longitude;
         public AtmosphereFloat Latitude;
@@ -29,7 +28,29 @@ namespace ThemeMixer.Themes.Atmosphere
         public AtmosphereColor EarlyNightZenithColor;
         public AtmosphereColor LateNightZenithColor;
 
-        public AtmospherePart() { }
+        public ThemeAtmosphere() {
+            Initialize();
+        }
+
+        private void Initialize() {
+            Longitude = new AtmosphereFloat(AtmosphereFloat.FloatName.Longitude);
+            Latitude = new AtmosphereFloat(AtmosphereFloat.FloatName.Latitude);
+            SunSize = new AtmosphereFloat(AtmosphereFloat.FloatName.SunSize);
+            SunAnisotropy = new AtmosphereFloat(AtmosphereFloat.FloatName.SunAnisotropy);
+            Rayleight = new AtmosphereFloat(AtmosphereFloat.FloatName.Rayleight);
+            Mie = new AtmosphereFloat(AtmosphereFloat.FloatName.Mie);
+            Exposure = new AtmosphereFloat(AtmosphereFloat.FloatName.Exposure);
+            StarsIntensity = new AtmosphereFloat(AtmosphereFloat.FloatName.StarsIntensity);
+            OuterSpaceIntensity = new AtmosphereFloat(AtmosphereFloat.FloatName.OuterSpaceIntensity);
+            MoonSize = new AtmosphereFloat(AtmosphereFloat.FloatName.MoonSize);
+            MoonTexture = new MoonTexture();
+            MoonInnerCorona = new AtmosphereColor(AtmosphereColor.ColorName.MoonInnerCorona);
+            MoonOuterCorona = new AtmosphereColor(AtmosphereColor.ColorName.MoonOuterCorona);
+            SkyTint = new AtmosphereColor(AtmosphereColor.ColorName.SkyTint);
+            NightHorizonColor = new AtmosphereColor(AtmosphereColor.ColorName.NightHorizonColor);
+            EarlyNightZenithColor = new AtmosphereColor(AtmosphereColor.ColorName.EarlyNightZenithColor);
+            LateNightZenithColor = new AtmosphereColor(AtmosphereColor.ColorName.LateNightZenithColor);
+        }
 
         public void Set(string packageID) {
             SetAll(packageID);

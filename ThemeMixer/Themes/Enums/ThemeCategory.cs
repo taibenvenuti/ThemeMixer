@@ -1,4 +1,4 @@
-﻿namespace ThemeMixer.Themes
+﻿namespace ThemeMixer.Themes.Enums
 {
     public enum ThemeCategory
     {
@@ -9,6 +9,6 @@
         Structures,
         Atmosphere,
         Weather,
-        Count,
+        Count
     }
 }

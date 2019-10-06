@@ -6,6 +6,7 @@
     <Translation ID="ERROR_MISSING_PACKAGE_MESSAGE" String="The package could not be found." />
     <Translation ID="ERROR_BROKEN_PACKAGE_TITLE" String="Broken Theme Package" />
     <Translation ID="ERROR_BROKEN_PACKAGE_MESSAGE" String="The package is invalid or broken." />
+    <Translation ID="BUTTON_OK" String="OK" />
     <Translation ID="TOOLTIP_THEMES" String="Themes" />
     <Translation ID="TOOLTIP_TERRAIN" String="Terrain" />
     <Translation ID="TOOLTIP_WATER" String="Water" />
@@ -17,8 +18,16 @@
     <Translation ID="TOOLTIP_REMOVEFAVOURITE" String="Left-click to remove from favorites, right-click to add to blacklist" />
     <Translation ID="TOOLTIP_REMOVEBLACKLIST" String="Left-click to add to favorites, right-click to remove from blacklist" />
     <Translation ID="LABEL_BY" String="by" />
-    <Translation ID="LABEL_LOAD_THEME" String="LOAD THEME" />
-    <Translation ID="LABEL_LOAD_TEXTURE" String="LOAD TEXTURE" />
+    <Translation ID="LABEL_THEME" String="Theme" />
+    <Translation ID="LABEL_TERRAIN" String="Terrain" />
+    <Translation ID="LABEL_ATMOSPHERE" String="Atmosphere" />
+    <Translation ID="LABEL_WATER" String="Water" />
+    <Translation ID="LABEL_WEATHER" String="Weather" />
+    <Translation ID="LABEL_STRUCTURES" String="Structures" />
+    <Translation ID="LABEL_COLOR" String="Color" />
+    <Translation ID="LABEL_OFFSET" String="Color Offset" />
+    <Translation ID="LABEL_VALUE" String="Value" />
+    <Translation ID="LABEL_TEXTURE" String="Texture" />
     <Translation ID="LABEL_SELECT" String="Select" />
     <Translation ID="LABEL_GRASS_DIFFUSE" String="Grass Texture" />
     <Translation ID="LABEL_RUINED_DIFFUSE" String="Dirt Texture" />

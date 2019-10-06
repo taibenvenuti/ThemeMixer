@@ -3,17 +3,17 @@ using ColossalFramework.Packaging;
 using ColossalFramework.UI;
 using ThemeMixer.Resources;
 using ThemeMixer.Themes;
+using ThemeMixer.Themes.Enums;
 using ThemeMixer.UI;
-using ThemeMixer.UI.FastList;
+using ThemeMixer.UI.Abstraction;
+using ThemeMixer.UI.Parts;
 using UnityEngine;
 
 namespace ThemeMixer
 {
-    public delegate void ItemClickedEventHandler(ListItem item);
-    public delegate void UIDirtyEventHandler(ThemeMix mix);
     public class UIController: MonoBehaviour
     {
-        public event UIDirtyEventHandler EventUIDirty;
+        public event EventHandler<UIDirtyEventArgs> EventUIDirty;
 
         private static UIController _instance;
         public static UIController Instance {
@@ -31,17 +31,37 @@ namespace ThemeMixer
             }
         }
 
-        public Mode Mode { get; set; } = Mode.Category;
-        public TextureID TextureID { get; set; } = TextureID.None;
-
-        public ThemeMix Mix => ThemeManager.Instance.CurrentMix;
+        public ThemeMix Mix { get => ThemeManager.Instance.CurrentMix; set => ThemeManager.Instance.CurrentMix = value; }
 
         public UITextureAtlas ThemeAtlas => ThemeSprites.Atlas;
 
+        public TextureID TextureID { get; private set; }
+        public ColorID ColorID { get; private set; }
+        public OffsetID OffsetID { get; private set; }
+        public ValueID ValueID { get; private set; }
+
+        public string PackageID { get; private set; }
+
         private bool InGame => ToolManager.instance?.m_properties != null && (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
 
-        private ThemeMixerUI ThemeMixerUI { get; set; }
-        private UIToggle UIToggle { get; set; }
+        private ThemeMixerUI _ui;
+        private ThemeMixerUI ThemeMixerUI {
+            get {
+                if (_ui == null) _ui = FindObjectOfType<ThemeMixerUI>();
+                return _ui;
+            }
+            set { _ui = value; }
+        }
+        private SelectPanel ThemeSelector { get; set; }
+
+        private UIToggle _toggle;
+        private UIToggle UIToggle {
+            get {
+                if (_toggle == null) _toggle = FindObjectOfType<UIToggle>();
+                return _toggle;
+            }
+            set { _toggle = value; }
+        }
 
         public static UIController Ensure() => Instance;
 
@@ -51,89 +71,53 @@ namespace ThemeMixer
         }
 
         public void OnLevelLoaded() {
+            if (UIToggle != null) {
+                Destroy(UIToggle.gameObject);
+                UIToggle = null;
+            }
             UIToggle = UIView.GetAView().AddUIComponent(typeof(UIToggle)) as UIToggle;
             UIToggle.EventUIToggleClicked += OnUIToggleClicked;
         }
 
-        public string GetTextureSpriteName(TextureID textureID) {
-            string packageName = string.Empty;
-            switch (textureID) {
-                case TextureID.GrassDiffuseTexture:
-                    packageName = Mix.Terrain.GrassDiffuseTexture.PackageID;
-                    break;
-                case TextureID.RuinedDiffuseTexture:
-                    packageName = Mix.Terrain.RuinedDiffuseTexture.PackageID;
-                    break;
-                case TextureID.PavementDiffuseTexture:
-                    packageName = Mix.Terrain.PavementDiffuseTexture.PackageID;
-                    break;
-                case TextureID.GravelDiffuseTexture:
-                    packageName = Mix.Terrain.GravelDiffuseTexture.PackageID;
-                    break;
-                case TextureID.CliffDiffuseTexture:
-                    packageName = Mix.Terrain.CliffDiffuseTexture.PackageID;
-                    break;
-                case TextureID.SandDiffuseTexture:
-                    packageName = Mix.Terrain.SandDiffuseTexture.PackageID;
-                    break;
-                case TextureID.OilDiffuseTexture:
-                    packageName = Mix.Terrain.OilDiffuseTexture.PackageID;
-                    break;
-                case TextureID.OreDiffuseTexture:
-                    packageName = Mix.Terrain.OreDiffuseTexture.PackageID;
-                    break;
-                case TextureID.CliffSandNormalTexture:
-                    packageName = Mix.Terrain.CliffSandNormalTexture.PackageID;
-                    break;
-                case TextureID.UpwardRoadDiffuse:
-                    packageName = Mix.Structures.UpwardRoadDiffuse.PackageID;
-                    break;
-                case TextureID.DownwardRoadDiffuse:
-                    packageName = Mix.Structures.DownwardRoadDiffuse.PackageID;
-                    break;
-                case TextureID.BuildingFloorDiffuse:
-                    packageName = Mix.Structures.BuildingFloorDiffuse.PackageID;
-                    break;
-                case TextureID.BuildingBaseDiffuse:
-                    packageName = Mix.Structures.BuildingBaseDiffuse.PackageID;
-                    break;
-                case TextureID.BuildingBaseNormal:
-                    packageName = Mix.Structures.BuildingBaseNormal.PackageID;
-                    break;
-                case TextureID.BuildingBurntDiffuse:
-                    packageName = Mix.Structures.BuildingBurntDiffuse.PackageID;
-                    break;
-                case TextureID.BuildingAbandonedDiffuse:
-                    packageName = Mix.Structures.BuildingAbandonedDiffuse.PackageID;
-                    break;
-                case TextureID.LightColorPalette:
-                    packageName = Mix.Structures.LightColorPalette.PackageID;
-                    break;
-                case TextureID.MoonTexture:
-                    packageName = Mix.Atmosphere.MoonTexture.PackageID;
-                    break;
-                case TextureID.WaterFoam:
-                    packageName = Mix.Water.WaterFoam.PackageID;
-                    break;
-                case TextureID.WaterNormal:
-                    packageName = Mix.Water.WaterNormal.PackageID;
-                    break;
-                default:
-                    break;
-            }
-            return string.Concat(packageName, Enum.GetName(typeof(TextureID), textureID));
-        }
-
-        internal void OnLevelUnloaded() {
+        public void OnLevelUnloaded() {
             DestroyUI();
         }
 
         public static void Release() {
             if (_instance != null) {
-                _instance.DestroyUI();
                 Destroy(_instance.gameObject);
                 _instance = null;
             }
+        }
+
+        public bool IsSelected(Package.Asset asset) {
+            return SimulationManager.instance.m_metaData.m_MapThemeMetaData?.assetRef == asset;
+        }
+
+        public void OnLoadFromTheme<T>(ThemeCategory category, T ID) {
+            ThemePart part = ThemePart.None;
+            if (ID is TextureID textureID) {
+                part = ThemePart.Texture;
+                TextureID = textureID;
+            } else if (ID is ColorID colorID) {
+                part = ThemePart.Color;
+                ColorID = colorID;
+            } else if (ID is OffsetID offsetID) {
+                part = ThemePart.Offset;
+                OffsetID = offsetID;
+            } else if (ID is ValueID valueID) {
+                part = ThemePart.Value;
+                ValueID = valueID;
+            }
+            if (part != ThemePart.None) ShowThemeSelectorPanel(category, part);
+        }
+
+        private void Awake() {
+            PanelBase.EventThemeDirty += OnThemeDirty;
+        }
+
+        private void OnDestroy() {
+            PanelBase.EventThemeDirty -= OnThemeDirty;
         }
 
         private void DestroyUI() {
@@ -149,74 +133,68 @@ namespace ThemeMixer
 
         private void OnUIToggleClicked() {
             if (ThemeMixerUI != null) {
-                ThemeMixerUI.EventThemeClicked -= OnThemeClicked;
                 Destroy(ThemeMixerUI.gameObject);
                 ThemeMixerUI = null;
                 return;
             }
             ThemeMixerUI = UIView.GetAView().AddUIComponent(typeof(ThemeMixerUI)) as ThemeMixerUI;
-            ThemeMixerUI.EventThemeClicked += OnThemeClicked;
         }
 
-        private void OnThemeClicked(ListItem item) {
-            switch (Mode) {
-                case Mode.Category:
-                    Debug.LogError(string.Concat("Load Category: ", item.Category));
-                    ThemeManager.Instance.LoadCategory(item.Category, item.ID);
+        private void ShowThemeSelectorPanel(ThemeCategory category, ThemePart part) {
+            ThemeMixerUI.isVisible = false;
+            UIToggle.isInteractive = false;
+            switch (category) {
+                case ThemeCategory.Terrain:
+                    ThemeSelector = UIView.GetAView().AddUIComponent(typeof(SelectTerrainPanel)) as SelectTerrainPanel;
                     break;
-                case Mode.Texture:
-                    ThemeManager.Instance.LoadTexture(TextureID, item.ID);
+                case ThemeCategory.Water:
+                    ThemeSelector = UIView.GetAView().AddUIComponent(typeof(SelectWaterPanel)) as SelectWaterPanel;
                     break;
-                case Mode.Color:
+                case ThemeCategory.Structures:
+                    ThemeSelector = UIView.GetAView().AddUIComponent(typeof(SelectStructuresPanel)) as SelectStructuresPanel;
                     break;
-                case Mode.Number:
+                case ThemeCategory.Atmosphere:
+                    ThemeSelector = UIView.GetAView().AddUIComponent(typeof(SelectAtmospherePanel)) as SelectAtmospherePanel;
                     break;
-                case Mode.Offset:
+                case ThemeCategory.Weather:
+                    ThemeSelector = UIView.GetAView().AddUIComponent(typeof(SelectWeatherPanel)) as SelectWeatherPanel;
                     break;
                 default:
                     break;
             }
-            Mode = Mode.Category;
-            TextureID = TextureID.None;
+            ThemeSelector?.SetPart(part);
         }
 
-        public bool IsSelected(Package.Asset asset) {
-            return SimulationManager.instance.m_metaData.m_MapThemeMetaData?.assetRef == asset;
+        public void OnThemeSelectorPanelClosing(object sender, ThemesPanelClosingEventArgs e) {
+            if (ThemeSelector != null) Destroy(ThemeSelector.gameObject);
+            ThemeMixerUI.isVisible = true;
+            UIToggle.isInteractive = true;
         }
-    }
 
-    public enum Mode
-    {
-        Category,
-        Texture,
-        Color,
-        Number,
-        Offset
-    }
+        public void OnThemeSelected(object sender, ThemeSelectedEventArgs e) {
+            switch (e.part) {
+                case ThemePart.Category:
+                    ThemeManager.Instance.LoadCategory(e.category, e.packageID);
+                    break;
+                case ThemePart.Texture:
+                    ThemeManager.Instance.LoadTexture(TextureID, e.packageID);
+                    break;
+                case ThemePart.Color:
+                    ThemeManager.Instance.LoadColor(ColorID, e.packageID);
+                    break;
+                case ThemePart.Offset:
+                    ThemeManager.Instance.LoadOffset(OffsetID, e.packageID);
+                    break;
+                case ThemePart.Value:
+                    ThemeManager.Instance.LoadValue(ValueID, e.packageID);
+                    break;
+                default:
+                    break;
+            }
+        }
 
-
-    public enum TextureID
-    {
-        None,
-        GrassDiffuseTexture,
-        RuinedDiffuseTexture,
-        PavementDiffuseTexture,
-        GravelDiffuseTexture,
-        CliffDiffuseTexture,
-        SandDiffuseTexture,
-        OilDiffuseTexture,
-        OreDiffuseTexture,
-        CliffSandNormalTexture,
-        UpwardRoadDiffuse,
-        DownwardRoadDiffuse,
-        BuildingFloorDiffuse,
-        BuildingBaseDiffuse,
-        BuildingBaseNormal,
-        BuildingBurntDiffuse,
-        BuildingAbandonedDiffuse,
-        LightColorPalette,
-        MoonTexture,
-        WaterFoam,
-        WaterNormal
+        private void OnThemeDirty(object sender, ThemeDirtyEventArgs e) {
+            ThemeManager.Instance.OnThemeDirty(e);
+        }
     }
 }

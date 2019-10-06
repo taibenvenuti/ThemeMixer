@@ -1,5 +1,8 @@
 ﻿using ColossalFramework.Packaging;
+using System;
 using System.Linq;
+using ThemeMixer.Themes.Enums;
+using ThemeMixer.UI;
 using UnityEngine;
 
 namespace ThemeMixer.Themes
@@ -35,7 +38,7 @@ namespace ThemeMixer.Themes
                 if (_currentMix == null) _currentMix = new ThemeMix();
                 return _currentMix;
             }
-            private set {
+            set {
                 _currentMix = value;
             }
         }
@@ -152,6 +155,148 @@ namespace ThemeMixer.Themes
                     break;
                 case TextureID.WaterNormal:
                     CurrentMix.Water.WaterNormal.Load(packageID);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void LoadColor(ColorID colorID, string packageID) {
+            switch (colorID) {
+                case ColorID.MoonInnerCorona:
+                    CurrentMix.Atmosphere.MoonInnerCorona.Load(packageID);
+                    break;
+                case ColorID.MoonOuterCorona:
+                    CurrentMix.Atmosphere.MoonOuterCorona.Load(packageID);
+                    break;
+                case ColorID.SkyTint:
+                    CurrentMix.Atmosphere.SkyTint.Load(packageID);
+                    break;
+                case ColorID.NightHorizonColor:
+                    CurrentMix.Atmosphere.NightHorizonColor.Load(packageID);
+                    break;
+                case ColorID.EarlyNightZenithColor:
+                    CurrentMix.Atmosphere.EarlyNightZenithColor.Load(packageID);
+                    break;
+                case ColorID.LateNightZenithColor:
+                    CurrentMix.Atmosphere.LateNightZenithColor.Load(packageID);
+                    break;
+                case ColorID.WaterClean:
+                    CurrentMix.Water.WaterClean.Load(packageID);
+                    break;
+                case ColorID.WaterDirty:
+                    CurrentMix.Water.WaterDirty.Load(packageID);
+                    break;
+                case ColorID.WaterUnder:
+                    CurrentMix.Water.WaterUnder.Load(packageID);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void OnThemeDirty(ThemeDirtyEventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        public void LoadOffset(OffsetID offsetID, string packageID) {
+            switch (offsetID) {
+                case OffsetID.GrassPollutionColorOffset:
+                    CurrentMix.Terrain.GrassPollutionColorOffset.Load(packageID);
+                    break;
+                case OffsetID.GrassFieldColorOffset:
+                    CurrentMix.Terrain.GrassFieldColorOffset.Load(packageID);
+                    break;
+                case OffsetID.GrassFertilityColorOffset:
+                    CurrentMix.Terrain.GrassFertilityColorOffset.Load(packageID);
+                    break;
+                case OffsetID.GrassForestColorOffset:
+                    CurrentMix.Terrain.GrassForestColorOffset.Load(packageID);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void LoadValue(ValueID valueID, string packageID) {
+            switch (valueID) {
+                case ValueID.Longitude:
+                    CurrentMix.Atmosphere.Longitude.Load(packageID);
+                    break;
+                case ValueID.Latitude:
+                    CurrentMix.Atmosphere.Latitude.Load(packageID);
+                    break;
+                case ValueID.SunSize:
+                    CurrentMix.Atmosphere.SunSize.Load(packageID);
+                    break;
+                case ValueID.SunAnisotropy:
+                    CurrentMix.Atmosphere.SunAnisotropy.Load(packageID);
+                    break;
+                case ValueID.MoonSize:
+                    CurrentMix.Atmosphere.MoonSize.Load(packageID);
+                    break;
+                case ValueID.Rayleight:
+                    CurrentMix.Atmosphere.Rayleight.Load(packageID);
+                    break;
+                case ValueID.Mie:
+                    CurrentMix.Atmosphere.Mie.Load(packageID);
+                    break;
+                case ValueID.Exposure:
+                    CurrentMix.Atmosphere.Exposure.Load(packageID);
+                    break;
+                case ValueID.StarsIntensity:
+                    CurrentMix.Atmosphere.StarsIntensity.Load(packageID);
+                    break;
+                case ValueID.OuterSpaceIntensity:
+                    CurrentMix.Atmosphere.OuterSpaceIntensity.Load(packageID);
+                    break;
+                case ValueID.GrassDetailEnabled:
+                    CurrentMix.Terrain.GrassDetailEnabled.Load(packageID);
+                    break;
+                case ValueID.FertileDetailEnabled:
+                    CurrentMix.Terrain.FertileDetailEnabled.Load(packageID);
+                    break;
+                case ValueID.RocksDetailEnabled:
+                    CurrentMix.Terrain.RocksDetailEnabled.Load(packageID);
+                    break;
+                case ValueID.MinTemperatureDay:
+                    CurrentMix.Weather.MinTemperatureDay.Load(packageID);
+                    break;
+                case ValueID.MaxTemperatureDay:
+                    CurrentMix.Weather.MaxTemperatureDay.Load(packageID);
+                    break;
+                case ValueID.MinTemperatureNight:
+                    CurrentMix.Weather.MinTemperatureNight.Load(packageID);
+                    break;
+                case ValueID.MaxTemperatureNight:
+                    CurrentMix.Weather.MaxTemperatureNight.Load(packageID);
+                    break;
+                case ValueID.MinTemperatureRain:
+                    CurrentMix.Weather.MinTemperatureRain.Load(packageID);
+                    break;
+                case ValueID.MaxTemperatureRain:
+                    CurrentMix.Weather.MaxTemperatureRain.Load(packageID);
+                    break;
+                case ValueID.MinTemperatureFog:
+                    CurrentMix.Weather.MinTemperatureFog.Load(packageID);
+                    break;
+                case ValueID.MaxTemperatureFog:
+                    CurrentMix.Weather.MaxTemperatureFog.Load(packageID);
+                    break;
+                case ValueID.RainProbabilityDay:
+                    CurrentMix.Weather.RainProbabilityDay.Load(packageID);
+                    break;
+                case ValueID.RainProbabilityNight:
+                    CurrentMix.Weather.RainProbabilityNight.Load(packageID);
+                    break;
+                case ValueID.FogProbabilityDay:
+                    CurrentMix.Weather.FogProbabilityDay.Load(packageID);
+                    break;
+                case ValueID.FogProbabilityNight:
+                    CurrentMix.Weather.FogProbabilityNight.Load(packageID);
+                    break;
+                case ValueID.NorthernLightsProbability:
+                    CurrentMix.Weather.NorthernLightsProbability.Load(packageID);
                     break;
                 default:
                     break;

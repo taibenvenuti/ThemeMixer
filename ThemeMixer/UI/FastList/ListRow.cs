@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace ThemeMixer.UI.FastList
 {
+    [UIProperties("List Row", 456.0f, 76.0f, UIUtils.DEFAULT_SPACING, true, LayoutDirection.Horizontal, LayoutStart.TopLeft, "WhiteRect")]
     public class ListRow : PanelBase, IUIFastListRow
     {
         public delegate void FavouriteChangedEventHandler(string itemID, bool favourite);
@@ -23,7 +24,10 @@ namespace ThemeMixer.UI.FastList
         private UIPanel thumbnailPanel;
         private UISprite thumbnailSprite;
 
+
+        [UIProperties("Labels Panel", 255.0f, 64.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         private PanelBase labelsPanel;
+
         private UILabel nameLabel;
         private UILabel authorLabel;
 
@@ -45,11 +49,10 @@ namespace ThemeMixer.UI.FastList
 
         public override void Awake() {
             base.Awake();
-            Setup(new Vector2(456.0f, 76.0f), UIUtils.DEFAULT_SPACING, true, LayoutDirection.Horizontal, LayoutStart.TopLeft, "WhiteRect");
             color = isRowOdd ? OddColor : EvenColor;
             CreateThumbnail();
             CreateLabels();
-            if(ThemePart != ThemeCategory.None) CreateValuesPanel();
+            CreateValuesPanel();
             CreateCheckbox();
             this.CreateSpace(0.0f, 30.0f);
             eventMouseEnter += OnMouseEnterEvent;
@@ -58,9 +61,8 @@ namespace ThemeMixer.UI.FastList
 
         public override void OnDestroy() {
             base.OnDestroy();
-            if (favouriteCheckbox != null) {
+            if (favouriteCheckbox != null)
                 favouriteCheckbox.eventClicked -= OnFavouriteCheckboxMouseUp;
-            }
             eventMouseEnter -= OnMouseEnterEvent;
             eventMouseLeave -= OnMouseLeaveEvent;
             EventFavouriteChanged = null;
@@ -97,10 +99,7 @@ namespace ThemeMixer.UI.FastList
         }
 
         private void CreateLabels() {
-
-            float width = ThemePart == ThemeCategory.None ? 255.0f : 189.0f;
             labelsPanel = AddUIComponent<PanelBase>();
-            labelsPanel.Setup(new Vector2(width, 64.0f), 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
             labelsPanel.autoFitChildrenHorizontally = true;
 
             nameLabel = labelsPanel.AddUIComponent<UILabel>();
@@ -134,6 +133,8 @@ namespace ThemeMixer.UI.FastList
             valuesSprite = valuesButton.AddUIComponent<UISprite>();
             valuesSprite.size = new Vector2(64.0f, 64.0f);
             valuesSprite.relativePosition = new Vector2(1.0f, 1.0f);
+
+            valuesButton.isVisible = false;
         }
 
         private void OnValuesButtonClicked(UIComponent component, UIMouseEventParameter eventParam) {
@@ -217,6 +218,9 @@ namespace ThemeMixer.UI.FastList
             favouriteCheckbox.isChecked = itemData.IsFavourite || itemData.IsBlacklisted;
             checkedSprite.spriteName = itemData.IsBlacklisted ? UISprites.Blacklisted : UISprites.Star;
             uncheckedSprite.spriteName = itemData.IsBlacklisted ? "" :  UISprites.StarOutline;
+            float width = itemData.Category == ThemeCategory.Themes || itemData.Category == ThemeCategory.None ? 255.0f : 189.0f;
+            authorLabel.width = nameLabel.width = labelsPanel.width = width;
+            valuesButton.isVisible = itemData.Category != ThemeCategory.Themes && itemData.Category != ThemeCategory.None;
             //switch (itemData.ThemePart) {
             //    case Themes.ThemePart.Terrain:
             //        break;

@@ -4,12 +4,12 @@ using ThemeMixer.TranslationFramework;
 
 namespace ThemeMixer.UI.Parts
 {
-    [UICategory(ThemeCategory.Themes)]
-    public class ThemesPanel : FastListPanel
+    [UICategory(ThemeCategory.Terrain)]
+    public class TerrainTextureThemesPanel : FastListPanel
     {
         public override void Start() {
             base.Start();
-            label.text = Translation.Instance.GetTranslation(TranslationID.LABEL_LOAD_THEME);
+            label.text = Translation.Instance.GetTranslation(TranslationID.LABEL_LOAD_TEXTURE);
         }
     }
 }

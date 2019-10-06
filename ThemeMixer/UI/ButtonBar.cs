@@ -8,6 +8,7 @@ using ThemeMixer.Themes;
 
 namespace ThemeMixer.UI
 {
+    [UIProperties("Button Bar", 40.0f, 0.0f, UIUtils.DEFAULT_SPACING, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
     public class ButtonBar : PanelBase
     {
         public delegate void ButtonClickedEventHandler(Button button, Button[] buttons);
@@ -23,8 +24,8 @@ namespace ThemeMixer.UI
 
         private Button[] buttons;
 
-        public override void Start() {
-            base.Start();
+        public override void Awake() {
+            base.Awake();
 
             CreateButtons();
             UIPanel space = AddUIComponent<UIPanel>();

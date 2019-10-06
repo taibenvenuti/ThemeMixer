@@ -17,6 +17,28 @@
     <Translation ID="TOOLTIP_REMOVEFAVOURITE" String="Left-click to remove from favorites, right-click to add to blacklist" />
     <Translation ID="TOOLTIP_REMOVEBLACKLIST" String="Left-click to add to favorites, right-click to remove from blacklist" />
     <Translation ID="LABEL_BY" String="by" />
-    <Translation ID="LOAD_THEME" String="LOAD THEME" />
+    <Translation ID="LABEL_LOAD_THEME" String="LOAD THEME" />
+    <Translation ID="LABEL_LOAD_TEXTURE" String="LOAD TEXTURE" />
+    <Translation ID="LABEL_SELECT" String="Select" />
+    <Translation ID="LABEL_GRASS_DIFFUSE" String="Grass Texture" />
+    <Translation ID="LABEL_RUINED_DIFFUSE" String="Dirt Texture" />
+    <Translation ID="LABEL_PAVEMENT_DIFFUSE" String="Pavement Texture" />
+    <Translation ID="LABEL_GRAVEL_DIFFUSE" String="Gravel Texture" />
+    <Translation ID="LABEL_CLIFF_DIFFUSE" String="Rock Texture" />
+    <Translation ID="LABEL_SAND_DIFFUSE" String="Sand Texture" />
+    <Translation ID="LABEL_OIL_DIFFUSE" String="Oil Texture" />
+    <Translation ID="LABEL_ORE_DIFFUSE" String="Ore Texture" />
+    <Translation ID="LABEL_CLIFFSAND_NORMAL" String="Rock and Sand Normal" />
+    <Translation ID="LABEL_UPWARD_ROAD_DIFFUSE" String="Road Upwards Texture" />
+    <Translation ID="LABEL_DOWNWARD_ROAD_DIFFUSE" String="Road Downwards Texture" />
+    <Translation ID="LABEL_BUILDING_FLOOR_DIFFUSE" String="Building Floor Texture" />
+    <Translation ID="LABEL_BUILDING_BASE_DIFFUSE" String="Building Base Texture" />
+    <Translation ID="LABEL_BUILDING_BASE_NORMAL" String="Building Base Normal" />
+    <Translation ID="LABEL_BUILDING_BURNT_DIFFUSE" String="Building Burnt Texture" />
+    <Translation ID="LABEL_BUILDING_ABANDONED_DIFFUSE" String="Building Abandoned" />
+    <Translation ID="LABEL_LIGHT_COLOR_PALETTE" String="Light Color Palette" />
+    <Translation ID="LABEL_MOON_DIFFUSE" String="Moon Texture" />
+    <Translation ID="LABEL_WATER_FOAM" String="Water Foam" />
+    <Translation ID="LABEL_WATER_NORMAL" String="Water Normal" />
   </Translations>
 </Language>

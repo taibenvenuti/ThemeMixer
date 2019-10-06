@@ -1,9 +1,9 @@
 ﻿using ColossalFramework.UI;
 using ThemeMixer.UI.Abstraction;
-using UnityEngine;
 
 namespace ThemeMixer.UI
 {
+    [UIProperties("Tool Bar", 40.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel")]
     public class ToolBar : PanelBase
     {
         public event DragHandle.DragEndEventHandler EventDragEnd;
@@ -12,18 +12,15 @@ namespace ThemeMixer.UI
         private DragHandle dragBar;
         private ButtonBar buttonBar;
 
-        public override void Start() {
-            base.Start();
-            name = "ToolBar";
+        public override void Awake() {
+            base.Awake();
 
             color = UIColor;
 
             dragBar = AddUIComponent<DragHandle>();
-            dragBar.Setup(new Vector2(size.x, 18.0f), 0, false, LayoutDirection.Horizontal, LayoutStart.TopLeft);
             dragBar.EventDragEnd += OnDragBarDragEnd;
 
             buttonBar = AddUIComponent<ButtonBar>();
-            buttonBar.Setup(new Vector2(size.x, 0.0f), UIUtils.DEFAULT_SPACING, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
             buttonBar.EventButtonClicked += OnButtonClicked;
         }
 

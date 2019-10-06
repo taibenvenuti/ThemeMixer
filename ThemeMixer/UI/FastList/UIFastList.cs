@@ -345,9 +345,10 @@ namespace ThemeMixer.UI.FastList
             base.OnDestroy();
 
             if (m_panel == null) return;
+            Destroy(m_panel.gameObject);
 
-            Destroy(m_panel);
-            Destroy(m_scrollbar);
+            if (m_scrollbar == null) return;
+            Destroy(m_scrollbar.gameObject);
 
             if (m_rows == null) return;
 

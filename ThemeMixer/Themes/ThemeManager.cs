@@ -1,10 +1,5 @@
 ﻿using ColossalFramework.Packaging;
-using ICities;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ThemeMixer.UI.FastList;
 using UnityEngine;
 
 namespace ThemeMixer.Themes
@@ -12,10 +7,6 @@ namespace ThemeMixer.Themes
     public class ThemeManager : MonoBehaviour
     {
         private static ThemeManager _instance;
-
-        internal ThemeMix GetCurrentMix() {
-            return CurrentMix;
-        }
 
         public static ThemeManager Instance {
             get {
@@ -38,7 +29,16 @@ namespace ThemeMixer.Themes
 
         public Package.Asset[] Themes { get; private set; } = ThemeUtils.GetThemes().ToArray();
 
-        private ThemeMix CurrentMix { get; set; }
+        private ThemeMix _currentMix;
+        public ThemeMix CurrentMix {
+            get {
+                if (_currentMix == null) _currentMix = new ThemeMix();
+                return _currentMix;
+            }
+            private set {
+                _currentMix = value;
+            }
+        }
 
         public void OnEnabled() {
             if (!InGame) return;
@@ -66,22 +66,92 @@ namespace ThemeMixer.Themes
             }
         }
 
-        public void Load(ListItem item) {
-            switch (item.ThemePart) {
+        public void LoadCategory(ThemeCategory category, string packageID) {
+            switch (category) {
                 case ThemeCategory.Themes:
-                    CurrentMix = new ThemeMix(item.ID);
+                    CurrentMix = new ThemeMix(packageID);
                     break;
                 case ThemeCategory.Terrain:
+                    CurrentMix.Terrain.Load(packageID);
                     break;
                 case ThemeCategory.Water:
+                    CurrentMix.Water.Load(packageID);
                     break;
                 case ThemeCategory.Structures:
+                    CurrentMix.Structures.Load(packageID);
                     break;
                 case ThemeCategory.Atmosphere:
+                    CurrentMix.Atmosphere.Load(packageID);
                     break;
                 case ThemeCategory.Weather:
+                    CurrentMix.Weather.Load(packageID);
                     break;
-                case ThemeCategory.Count:
+                default:
+                    break;
+            }
+        }
+
+        internal void LoadTexture(TextureID textureID, string packageID) {
+            switch (textureID) {
+                case TextureID.GrassDiffuseTexture:
+                    CurrentMix.Terrain.GrassDiffuseTexture.Load(packageID);
+                    break;
+                case TextureID.RuinedDiffuseTexture:
+                    CurrentMix.Terrain.RuinedDiffuseTexture.Load(packageID);
+                    break;
+                case TextureID.PavementDiffuseTexture:
+                    CurrentMix.Terrain.PavementDiffuseTexture.Load(packageID);
+                    break;
+                case TextureID.GravelDiffuseTexture:
+                    CurrentMix.Terrain.GravelDiffuseTexture.Load(packageID);
+                    break;
+                case TextureID.CliffDiffuseTexture:
+                    CurrentMix.Terrain.CliffDiffuseTexture.Load(packageID);
+                    break;
+                case TextureID.SandDiffuseTexture:
+                    CurrentMix.Terrain.SandDiffuseTexture.Load(packageID);
+                    break;
+                case TextureID.OilDiffuseTexture:
+                    CurrentMix.Terrain.OilDiffuseTexture.Load(packageID);
+                    break;
+                case TextureID.OreDiffuseTexture:
+                    CurrentMix.Terrain.OreDiffuseTexture.Load(packageID);
+                    break;
+                case TextureID.CliffSandNormalTexture:
+                    CurrentMix.Terrain.CliffSandNormalTexture.Load(packageID);
+                    break;
+                case TextureID.UpwardRoadDiffuse:
+                    CurrentMix.Structures.UpwardRoadDiffuse.Load(packageID);
+                    break;
+                case TextureID.DownwardRoadDiffuse:
+                    CurrentMix.Structures.DownwardRoadDiffuse.Load(packageID);
+                    break;
+                case TextureID.BuildingFloorDiffuse:
+                    CurrentMix.Structures.BuildingFloorDiffuse.Load(packageID);
+                    break;
+                case TextureID.BuildingBaseDiffuse:
+                    CurrentMix.Structures.BuildingBaseDiffuse.Load(packageID);
+                    break;
+                case TextureID.BuildingBaseNormal:
+                    CurrentMix.Structures.BuildingBaseNormal.Load(packageID);
+                    break;
+                case TextureID.BuildingBurntDiffuse:
+                    CurrentMix.Structures.BuildingBurntDiffuse.Load(packageID);
+                    break;
+                case TextureID.BuildingAbandonedDiffuse:
+                    CurrentMix.Structures.BuildingAbandonedDiffuse.Load(packageID);
+                    break;
+                case TextureID.LightColorPalette:
+                    CurrentMix.Structures.LightColorPalette.Load(packageID);
+                    break;
+                case TextureID.MoonTexture:
+                    CurrentMix.Atmosphere.MoonTexture.Load(packageID);
+                    break;
+                case TextureID.WaterFoam:
+                    CurrentMix.Water.WaterFoam.Load(packageID);
+                    break;
+                case TextureID.WaterNormal:
+                    CurrentMix.Water.WaterNormal.Load(packageID);
                     break;
                 default:
                     break;

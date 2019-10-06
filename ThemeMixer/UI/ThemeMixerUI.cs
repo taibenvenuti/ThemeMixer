@@ -1,13 +1,15 @@
-﻿using ColossalFramework.UI;
-using ThemeMixer.Locale;
+﻿using System;
+using ColossalFramework.UI;
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes;
 using ThemeMixer.UI.Abstraction;
 using ThemeMixer.UI.FastList;
+using ThemeMixer.UI.Parts;
 using UnityEngine;
 
 namespace ThemeMixer.UI
 {
+    [UIProperties("Theme Mixer UI", 0.0f, 234.0f, 0, true, LayoutDirection.Horizontal, LayoutStart.BottomRight)]
     public class ThemeMixerUI : PanelBase
     {
         public event ItemClickedEventHandler EventThemeClicked;
@@ -15,26 +17,22 @@ namespace ThemeMixer.UI
         private ToolBar toolBar;
         private UIPanel space;
 
-        public override void Start() {
-            base.Start();
-            name = "Theme Mixer UI";
-            size = new Vector2(0.0f, 234.0f);
-            autoLayout = true;
-            autoLayoutDirection = LayoutDirection.Horizontal;
-            autoLayoutStart = LayoutStart.BottomRight;
-
-            relativePosition = SerializationService.Instance.GetToolBarPosition() ?? CalculateDefaultToolBarPosition();
+        public override void Awake() {
+            base.Awake();
 
             CreateToolBar();
+        }
 
+        public override void Start() {
+            base.Start();
+
+            relativePosition = SerializationService.Instance.GetToolBarPosition() ?? CalculateDefaultToolBarPosition();
             EnsureToolbarOnScreen();
-
             RefreshZOrder();
         }
 
         private void CreateToolBar() {
             toolBar = AddUIComponent<ToolBar>();
-            toolBar.Setup(new Vector2(40.0f, 0.0f), 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel");
             toolBar.EventButtonClicked += OnButtonClicked;
             toolBar.EventDragEnd += OnDragEnd;
             space = AddUIComponent<UIPanel>();
@@ -45,31 +43,46 @@ namespace ThemeMixer.UI
             Data.SetToolbarPosition(relativePosition);
         }
 
-        private PanelBase CreatePanel(ThemeCategory themePart) {
-            switch (themePart) {
+        private PanelBase CreatePanel(ThemeCategory category) {
+            switch (category) {
                 case ThemeCategory.Themes:
-                    ThemePanelWrapper themesPanel = AddUIComponent<ThemePanelWrapper>();
-                    themesPanel.Setup(TranslationID.LOAD_THEME, themePart);
-                    themesPanel.EventItemClicked += OnThemeClicked;
+                    ThemesPanel themesPanel = AddUIComponent<ThemesPanel>();
+                    themesPanel.EventItemClick += OnThemeClicked;
                     return themesPanel;
                 case ThemeCategory.Terrain:
                     Parts.TerrainPanel terrainPanel = AddUIComponent<Parts.TerrainPanel>();
-                    terrainPanel.Setup(new Vector2(466.0f, 0.0f), UIUtils.DEFAULT_SPACING, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel", themePart);
+                    terrainPanel.EventLoadTextureClicked += OnLoadTextureClicked;
                     return terrainPanel;
                 default: return null;
             }
         }
 
+        private void OnLoadTextureClicked(string packageID, TextureID textureID) {
+            Controller.TextureID = textureID;
+            Controller.Mode = Mode.Texture;
+            if (currentPanel != null) {
+                if (currentPanel is FastListPanel flp) flp.EventItemClick -= OnThemeClicked;
+                Destroy(currentPanel.gameObject);
+            }
+            TerrainTextureThemesPanel panel = AddUIComponent<TerrainTextureThemesPanel>();
+            panel.EventItemClick += OnThemeClicked;
+            currentPanel = panel;
+        }
+
         private void OnThemeClicked(ListItem item) {
+            if(currentPanel != null && item.Category != ThemeCategory.Themes) {
+                if (currentPanel is FastListPanel flp) flp.EventItemClick -= OnThemeClicked;
+                Destroy(currentPanel.gameObject);
+                currentPanel = CreatePanel(item.Category);
+            }
             EventThemeClicked?.Invoke(item);
         }
 
         private void OnButtonClicked(Button button, Button[] buttons) {
             UnfocusButtons(buttons);
             if (currentPanel != null) {
-                bool same = button.part == currentPanel.ThemePart;
+                bool same = button.part == currentPanel.Category;
                 Destroy(currentPanel.gameObject);
-                EventThemeClicked = null;
                 currentPanel = null;
                 if (same) return;
             }

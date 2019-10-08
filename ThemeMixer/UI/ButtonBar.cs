@@ -69,7 +69,7 @@ namespace ThemeMixer.UI
             panel.size = new Vector2(30.0f, 2.0f);
             panel.atlas = UISprites.DefaultAtlas;
             panel.backgroundSprite = "WhiteRect";
-            panel.color = new Color32(53, 54, 54, 255);
+            panel.color = UIColorDark;
 
             settingsButton = new Button(ThemeCategory.None, this);
             settingsButton.EventClicked += OnButtonClicked; ;
@@ -99,13 +99,13 @@ namespace ThemeMixer.UI
         public delegate void ButtonClickedEventHandler(Button button);
         public event ButtonClickedEventHandler EventClicked;
 
-        public ThemeCategory part;
+        public ThemeCategory category;
         public UIButton button;
 
         private static Vector2 buttonSize = new Vector2(30.0f, 30.0f);
 
         public Button(ThemeCategory part, PanelBase parent) {
-            this.part = part;
+            this.category = part;
             string icon = string.Empty;
             string locale = string.Empty;
             switch (part) {
@@ -138,7 +138,7 @@ namespace ThemeMixer.UI
                     locale = TranslationID.TOOLTIP_SETTINGS;
                     break;
             }
-            button = parent.CreateButton(buttonSize, backgroundSprite: icon, atlas: UISprites.Atlas, isFocusable: true, tooltip: Translation.Instance.GetTranslation(locale));
+            button = UIUtils.CreateButton(parent, buttonSize, backgroundSprite: icon, atlas: UISprites.Atlas, isFocusable: true, tooltip: Translation.Instance.GetTranslation(locale));
             button.eventClicked += OnButtonClicked;
         }
 

@@ -1,7 +1,8 @@
 ﻿namespace ThemeMixer.Themes
 {
-    public interface ILoadable
+    public interface IMixable
     {
         bool Load(string packageID);
+        void SetCustomValue(object value);
     }
 }

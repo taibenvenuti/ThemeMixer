@@ -35,6 +35,8 @@ namespace ThemeMixer
 
         public UITextureAtlas ThemeAtlas => ThemeSprites.Atlas;
 
+
+        public ThemePart Part { get; set; } = ThemePart.None;
         public TextureID TextureID { get; private set; }
         public ColorID ColorID { get; private set; }
         public OffsetID OffsetID { get; private set; }
@@ -114,10 +116,16 @@ namespace ThemeMixer
 
         private void Awake() {
             PanelBase.EventThemeDirty += OnThemeDirty;
+            ThemeManager.Instance.EventUIDirty += OnUIDirty;
+        }
+
+        private void OnUIDirty(object sender, UIDirtyEventArgs e) {
+            EventUIDirty?.Invoke(sender, e);
         }
 
         private void OnDestroy() {
             PanelBase.EventThemeDirty -= OnThemeDirty;
+            ThemeManager.Instance.EventUIDirty -= OnUIDirty;
         }
 
         private void DestroyUI() {
@@ -140,7 +148,12 @@ namespace ThemeMixer
             ThemeMixerUI = UIView.GetAView().AddUIComponent(typeof(ThemeMixerUI)) as ThemeMixerUI;
         }
 
+        public void OnTilingChanged(TextureID textureID, float value) {
+            ThemeManager.Instance.OnTilingChanged(textureID, value);
+        }
+
         private void ShowThemeSelectorPanel(ThemeCategory category, ThemePart part) {
+            Part = part;
             ThemeMixerUI.isVisible = false;
             UIToggle.isInteractive = false;
             switch (category) {
@@ -162,10 +175,10 @@ namespace ThemeMixer
                 default:
                     break;
             }
-            ThemeSelector?.SetPart(part);
         }
 
         public void OnThemeSelectorPanelClosing(object sender, ThemesPanelClosingEventArgs e) {
+            Part = ThemePart.None;
             if (ThemeSelector != null) Destroy(ThemeSelector.gameObject);
             ThemeMixerUI.isVisible = true;
             UIToggle.isInteractive = true;

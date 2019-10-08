@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ThemeMixer.Locale;
+using ThemeMixer.Themes.Enums;
 using UnityEngine;
 
 namespace ThemeMixer.Themes
@@ -28,6 +29,31 @@ namespace ThemeMixer.Themes
 
         public static IEnumerable<Package.Asset> GetThemes() {
             return PackageManager.FilterAssets(UserAssetType.MapThemeMetaData);
+        }
+
+        public static float GetTilingValue(TextureID textureID) {
+            ThemeMix mix = ThemeManager.Instance.CurrentMix;
+            switch (textureID) {
+                case TextureID.GrassDiffuseTexture:
+                    return (float)(mix.Terrain.GrassDiffuseTexture.CustomValue ?? mix.Terrain.GrassDiffuseTexture.Value);
+                case TextureID.RuinedDiffuseTexture:
+                    return (float)(mix.Terrain.RuinedDiffuseTexture.CustomValue ?? mix.Terrain.RuinedDiffuseTexture.Value);
+                case TextureID.PavementDiffuseTexture:
+                    return (float)(mix.Terrain.PavementDiffuseTexture.CustomValue ?? mix.Terrain.PavementDiffuseTexture.Value);
+                case TextureID.GravelDiffuseTexture:
+                    return (float)(mix.Terrain.GravelDiffuseTexture.CustomValue ?? mix.Terrain.GravelDiffuseTexture.Value);
+                case TextureID.CliffDiffuseTexture:
+                    return (float)(mix.Terrain.CliffDiffuseTexture.CustomValue ?? mix.Terrain.CliffDiffuseTexture.Value);
+                case TextureID.SandDiffuseTexture:
+                    return (float)(mix.Terrain.SandDiffuseTexture.CustomValue ?? mix.Terrain.SandDiffuseTexture.Value);
+                case TextureID.OilDiffuseTexture:
+                    return (float)(mix.Terrain.OilDiffuseTexture.CustomValue ?? mix.Terrain.OilDiffuseTexture.Value);
+                case TextureID.OreDiffuseTexture:
+                    return (float)(mix.Terrain.OreDiffuseTexture.CustomValue ?? mix.Terrain.OreDiffuseTexture.Value);
+                case TextureID.CliffSandNormalTexture:
+                    return (float)(mix.Terrain.CliffSandNormalTexture.CustomValue ?? mix.Terrain.CliffSandNormalTexture.Value);
+                default: return 0.5f;
+            }
         }
     }
 }

@@ -3,7 +3,7 @@
 namespace ThemeMixer.Themes.Water
 {
     [Serializable]
-    public class ThemeWater : ILoadable
+    public class ThemeWater
     {
         public WaterTexture WaterFoam;
         public WaterTexture WaterNormal;
@@ -59,10 +59,10 @@ namespace ThemeMixer.Themes.Water
         private void SetTexture(string packageID, WaterTexture.TextureName textureName) {
             switch (textureName) {
                 case WaterTexture.TextureName.WaterFoam:
-                    WaterFoam = new WaterTexture(packageID, textureName);
+                    WaterFoam = new WaterTexture(textureName, packageID);
                     break;
                 case WaterTexture.TextureName.WaterNormal:
-                    WaterNormal = new WaterTexture(packageID, textureName);
+                    WaterNormal = new WaterTexture(textureName, packageID);
                     break;
                 default:
                     break;

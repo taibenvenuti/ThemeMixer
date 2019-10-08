@@ -12,8 +12,9 @@ namespace ThemeMixer.Themes.Water
             Name = textureName;
         }
 
-        public WaterTexture(string packageID, TextureName textureName) : base(packageID) {
+        public WaterTexture(TextureName textureName, string packageID) : base(packageID) {
             Name = textureName;
+            Load(packageID);
         }
 
         protected override bool SetFromTheme() {
@@ -21,9 +22,9 @@ namespace ThemeMixer.Themes.Water
             if (metaData == null) return false;
             switch (Name) {
                 case TextureName.WaterFoam:
-                    return SetValue(metaData.waterFoamAsset);
+                    return SetTexture(metaData.waterFoamAsset);
                 case TextureName.WaterNormal:
-                    return SetValue(metaData.waterNormalAsset);
+                    return SetTexture(metaData.waterNormalAsset);
                 default: return false;
             }
         }
@@ -46,7 +47,7 @@ namespace ThemeMixer.Themes.Water
                 default:
                     break;
             }
-            if (oldTexture != null) Object.Destroy(oldTexture);
+            if (oldTexture != null && !ReferenceEquals(oldTexture, Texture)) Object.Destroy(oldTexture);
         }
 
         public enum TextureName

@@ -2,7 +2,7 @@
 namespace ThemeMixer.Themes.Structures
 {
     [Serializable]
-    public class ThemeStructures : ILoadable
+    public class ThemeStructures
     {
         public StructureTexture UpwardRoadDiffuse;
         public StructureTexture DownwardRoadDiffuse;
@@ -56,28 +56,28 @@ namespace ThemeMixer.Themes.Structures
         private void SetTexture(string packageID, StructureTexture.TextureName textureName) {
             switch (textureName) {
                 case StructureTexture.TextureName.UpwardRoadDiffuse:
-                    UpwardRoadDiffuse = new StructureTexture(packageID, textureName);
+                    UpwardRoadDiffuse = new StructureTexture(textureName, packageID);
                     break;
                 case StructureTexture.TextureName.DownwardRoadDiffuse:
-                    DownwardRoadDiffuse = new StructureTexture(packageID, textureName);
+                    DownwardRoadDiffuse =  new StructureTexture(textureName, packageID);
                     break;
                 case StructureTexture.TextureName.BuildingFloorDiffuse:
-                    BuildingFloorDiffuse = new StructureTexture(packageID, textureName);
+                    BuildingFloorDiffuse =  new StructureTexture(textureName, packageID);
                     break;
                 case StructureTexture.TextureName.BuildingBaseDiffuse:
-                    BuildingBaseDiffuse = new StructureTexture(packageID, textureName);
+                    BuildingBaseDiffuse =  new StructureTexture(textureName, packageID);
                     break;
                 case StructureTexture.TextureName.BuildingBaseNormal:
-                    BuildingBaseNormal = new StructureTexture(packageID, textureName);
+                    BuildingBaseNormal =  new StructureTexture(textureName, packageID);
                     break;
                 case StructureTexture.TextureName.BuildingBurntDiffuse:
-                    BuildingBurntDiffuse = new StructureTexture(packageID, textureName);
+                    BuildingBurntDiffuse =  new StructureTexture(textureName, packageID);
                     break;
                 case StructureTexture.TextureName.BuildingAbandonedDiffuse:
-                    BuildingAbandonedDiffuse = new StructureTexture(packageID, textureName);
+                    BuildingAbandonedDiffuse =  new StructureTexture(textureName, packageID);
                     break;
                 case StructureTexture.TextureName.LightColorPalette:
-                    LightColorPalette = new StructureTexture(packageID, textureName);
+                    LightColorPalette =  new StructureTexture(textureName, packageID);
                     break;
                 default:
                     break;

@@ -1,7 +1,6 @@
 ﻿using ColossalFramework.UI;
 using ThemeMixer.UI.Abstraction;
 using ThemeMixer.Locale;
-using ThemeMixer.Themes;
 using ThemeMixer.TranslationFramework;
 using UnityEngine;
 using ThemeMixer.Resources;
@@ -24,7 +23,6 @@ namespace ThemeMixer.UI.FastList
 
         private UIPanel thumbnailPanel;
         private UISprite thumbnailSprite;
-
 
         [UIProperties("Labels Panel", 255.0f, 64.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         private PanelBase labelsPanel;
@@ -132,6 +130,7 @@ namespace ThemeMixer.UI.FastList
             valuesLabel.verticalAlignment = UIVerticalAlignment.Middle;
 
             valuesSprite = valuesButton.AddUIComponent<UISprite>();
+            valuesSprite.atlas = ThemeSprites.Atlas;
             valuesSprite.size = new Vector2(64.0f, 64.0f);
             valuesSprite.relativePosition = new Vector2(1.0f, 1.0f);
 
@@ -213,29 +212,31 @@ namespace ThemeMixer.UI.FastList
             spriteName = Regex.Replace(spriteName, @"(\s+|@|&|'|\(|\)|<|>|#|"")", "");
             thumbnailSprite.spriteName = spriteName;
             nameLabel.text = itemData.DisplayName;
-            nameLabel.FitString();
             authorLabel.text = string.Concat(Translation.Instance.GetTranslation(TranslationID.LABEL_BY), " ", itemData.Author);
-            authorLabel.FitString();
             favouriteCheckbox.isChecked = itemData.IsFavourite || itemData.IsBlacklisted;
             checkedSprite.spriteName = itemData.IsBlacklisted ? UISprites.Blacklisted : UISprites.Star;
             uncheckedSprite.spriteName = itemData.IsBlacklisted ? "" :  UISprites.StarOutline;
             float width = itemData.Category == ThemeCategory.Themes || itemData.Category == ThemeCategory.None ? 255.0f : 189.0f;
             authorLabel.width = nameLabel.width = labelsPanel.width = width;
+            nameLabel.FitString();
+            authorLabel.FitString();
             valuesButton.isVisible = itemData.Category != ThemeCategory.Themes && itemData.Category != ThemeCategory.None;
-            //switch (itemData.ThemePart) {
-            //    case Themes.ThemePart.Terrain:
-            //        break;
-            //    case Themes.ThemePart.Water:
-            //        break;
-            //    case Themes.ThemePart.Structures:
-            //        break;
-            //    case Themes.ThemePart.Atmosphere:
-            //        break;
-            //    case Themes.ThemePart.Weather:
-            //        break;
-            //    default:
-            //        break;
-            //}
+            switch (Controller.Part) {
+                case ThemePart.Texture:
+                    valuesButton.normalBgSprite = "WhiteRect";
+                    valuesButton.color = Color.white;
+                    valuesSprite.spriteName = UIUtils.GetTextureSpriteName(Controller.TextureID, itemData.ID);
+                    break;
+                case ThemePart.Color:
+                    break;
+                case ThemePart.Offset:
+                    break;
+                case ThemePart.Value:
+                    break;
+                default:
+                    break;
+            }
+
             UpdateCheckboxTooltip();
         }
 

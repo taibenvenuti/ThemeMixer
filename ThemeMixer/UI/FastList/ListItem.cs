@@ -1,5 +1,5 @@
-﻿using ThemeMixer.Themes;
-using ThemeMixer.Themes.Enums;
+﻿using ThemeMixer.Themes.Enums;
+using ThemeMixer.UI.Parts;
 
 namespace ThemeMixer.UI.FastList
 {

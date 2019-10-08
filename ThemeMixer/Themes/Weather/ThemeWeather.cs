@@ -3,7 +3,7 @@
 namespace ThemeMixer.Themes.Weather
 {
     [Serializable]
-    public class ThemeWeather : ILoadable
+    public class ThemeWeather
     {
         public WeatherValue MinTemperatureDay;
         public WeatherValue MaxTemperatureDay;

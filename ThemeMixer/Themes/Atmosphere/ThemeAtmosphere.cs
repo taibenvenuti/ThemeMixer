@@ -2,7 +2,7 @@
 namespace ThemeMixer.Themes.Atmosphere
 {
     [Serializable]
-    public class ThemeAtmosphere : ILoadable
+    public class ThemeAtmosphere
     {
         public AtmosphereFloat Longitude;
         public AtmosphereFloat Latitude;

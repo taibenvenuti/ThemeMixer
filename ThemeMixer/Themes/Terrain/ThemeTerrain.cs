@@ -3,7 +3,7 @@
 namespace ThemeMixer.Themes.Terrain
 {
     [Serializable]
-    public class ThemeTerrain : ILoadable
+    public class ThemeTerrain
     {
         public TerrainTexture GrassDiffuseTexture;
         public TerrainTexture RuinedDiffuseTexture;
@@ -49,10 +49,6 @@ namespace ThemeMixer.Themes.Terrain
             RocksDetailEnabled = new TerrainDetail(TerrainDetail.Name.RocksDetailEnabled);
         }
 
-        public ThemeTerrain(string packageID) {
-            Load(packageID);
-        }
-
         public void Set(string packageID) {
             SetAll(packageID);
         }
@@ -93,31 +89,31 @@ namespace ThemeMixer.Themes.Terrain
         private void SetTexture(string packageID, TerrainTexture.TextureName textureName) {
             switch (textureName) {
                 case TerrainTexture.TextureName.GrassDiffuseTexture:
-                    GrassDiffuseTexture = new TerrainTexture(packageID, textureName);
+                    GrassDiffuseTexture = new TerrainTexture(textureName, packageID);
                     break;
                 case TerrainTexture.TextureName.RuinedDiffuseTexture:
-                    RuinedDiffuseTexture = new TerrainTexture(packageID, textureName);
+                    RuinedDiffuseTexture = new TerrainTexture(textureName, packageID);
                     break;
                 case TerrainTexture.TextureName.PavementDiffuseTexture:
-                    PavementDiffuseTexture = new TerrainTexture(packageID, textureName);
+                    PavementDiffuseTexture = new TerrainTexture(textureName, packageID);
                     break;
                 case TerrainTexture.TextureName.GravelDiffuseTexture:
-                    GravelDiffuseTexture = new TerrainTexture(packageID, textureName);
+                    GravelDiffuseTexture = new TerrainTexture(textureName, packageID);
                     break;
                 case TerrainTexture.TextureName.CliffDiffuseTexture:
-                    CliffDiffuseTexture = new TerrainTexture(packageID, textureName);
+                    CliffDiffuseTexture = new TerrainTexture(textureName, packageID);
                     break;
                 case TerrainTexture.TextureName.OilDiffuseTexture:
-                    OilDiffuseTexture = new TerrainTexture(packageID, textureName);
+                    OilDiffuseTexture = new TerrainTexture(textureName, packageID);
                     break;
                 case TerrainTexture.TextureName.OreDiffuseTexture:
-                    OreDiffuseTexture = new TerrainTexture(packageID, textureName);
+                    OreDiffuseTexture = new TerrainTexture(textureName, packageID);
                     break;
                 case TerrainTexture.TextureName.SandDiffuseTexture:
-                    SandDiffuseTexture = new TerrainTexture(packageID, textureName);
+                    SandDiffuseTexture = new TerrainTexture(textureName, packageID);
                     break;
                 case TerrainTexture.TextureName.CliffSandNormalTexture:
-                    CliffSandNormalTexture = new TerrainTexture(packageID, textureName);
+                    CliffSandNormalTexture = new TerrainTexture(textureName, packageID);
                     break;
                 default:
                     break;

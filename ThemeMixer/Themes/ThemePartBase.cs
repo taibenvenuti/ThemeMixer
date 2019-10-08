@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace ThemeMixer.Themes
 {
     [Serializable]
-    public abstract class ThemePartBase : ILoadable
+    public abstract class ThemePartBase : IMixable
     {
         public string PackageID;
         [XmlIgnore]
@@ -23,15 +23,20 @@ namespace ThemeMixer.Themes
 
         public virtual bool Load(string packageID = null) {
             if (packageID != null) PackageID = packageID;
-            if (CustomValue == null && Value == null && !SetFromTheme()) return false;
+            if (!SetFromTheme() && Value == null && CustomValue == null) return false;
             LoadValue();
             return true;
         }
 
         public virtual bool SetValue(object value) {
             if (value == null) return false;
-            Value = CustomValue = value;
+            Value = value;
             return true;
+        }
+
+        public virtual void SetCustomValue(object value) {
+            CustomValue = value;
+            Load();
         }
     }
 }

@@ -9,6 +9,8 @@ namespace ThemeMixer.Themes
 {
     public class ThemeManager : MonoBehaviour
     {
+        public event EventHandler<UIDirtyEventArgs> EventUIDirty;
+
         private static ThemeManager _instance;
 
         public static ThemeManager Instance {
@@ -92,9 +94,11 @@ namespace ThemeMixer.Themes
                 default:
                     break;
             }
+
+            EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
         }
 
-        internal void LoadTexture(TextureID textureID, string packageID) {
+        public void LoadTexture(TextureID textureID, string packageID) {
             switch (textureID) {
                 case TextureID.GrassDiffuseTexture:
                     CurrentMix.Terrain.GrassDiffuseTexture.Load(packageID);
@@ -155,6 +159,41 @@ namespace ThemeMixer.Themes
                     break;
                 case TextureID.WaterNormal:
                     CurrentMix.Water.WaterNormal.Load(packageID);
+                    break;
+                default:
+                    break;
+            }
+            EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
+        }
+
+        internal void OnTilingChanged(TextureID textureID, float value) {
+            switch (textureID) {
+                case TextureID.GrassDiffuseTexture:
+                    CurrentMix.Terrain.GrassDiffuseTexture.SetCustomValue(value);
+                    break;
+                case TextureID.RuinedDiffuseTexture:
+                    CurrentMix.Terrain.RuinedDiffuseTexture.SetCustomValue(value);
+                    break;
+                case TextureID.PavementDiffuseTexture:
+                    CurrentMix.Terrain.PavementDiffuseTexture.SetCustomValue(value);
+                    break;
+                case TextureID.GravelDiffuseTexture:
+                    CurrentMix.Terrain.GravelDiffuseTexture.SetCustomValue(value);
+                    break;
+                case TextureID.CliffDiffuseTexture:
+                    CurrentMix.Terrain.CliffDiffuseTexture.SetCustomValue(value);
+                    break;
+                case TextureID.SandDiffuseTexture:
+                    CurrentMix.Terrain.SandDiffuseTexture.SetCustomValue(value);
+                    break;
+                case TextureID.OilDiffuseTexture:
+                    CurrentMix.Terrain.OilDiffuseTexture.SetCustomValue(value);
+                    break;
+                case TextureID.OreDiffuseTexture:
+                    CurrentMix.Terrain.OreDiffuseTexture.SetCustomValue(value);
+                    break;
+                case TextureID.CliffSandNormalTexture:
+                    CurrentMix.Terrain.CliffSandNormalTexture.SetCustomValue(value);
                     break;
                 default:
                     break;

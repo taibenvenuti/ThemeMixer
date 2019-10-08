@@ -18,7 +18,7 @@ namespace ThemeMixer.UI.Parts
     {
         public event EventHandler<ThemesPanelClosingEventArgs> EventPanelClosing;
         public event EventHandler<ThemeSelectedEventArgs> EventThemeSelected;
-        protected ThemePart Part { get; set; } = ThemePart.None;
+        public ThemePart Part { get; set; } = ThemePart.None;
 
         protected UILabel label;
         protected UIFastList fastList;
@@ -29,6 +29,7 @@ namespace ThemeMixer.UI.Parts
 
         public override void Awake() {
             base.Awake();
+            Part = Controller.Part;
             float width = ThemeManager.Instance.Themes.Length > 7 ? 468.0f : 456.0f;
             CreateLabel();
             CreateFastList(new Vector2(width, 720.0f), 76.0f);
@@ -43,14 +44,9 @@ namespace ThemeMixer.UI.Parts
             UnbindEvents();
         }
 
-        public void SetPart(ThemePart part) {
-            Part = part;
-            label.text = UIUtils.GetCategoryAndPartLabel(Category, part);
-        }
-
         private void CreateButton() {
             PanelBase panel = AddUIComponent<PanelBase>();
-            button = panel.CreateButton(new Vector2(100.0f, 30.0f), Translation.Instance.GetTranslation(TranslationID.BUTTON_OK));
+            button = UIUtils.CreateButton(panel, new Vector2(100.0f, 30.0f), Translation.Instance.GetTranslation(TranslationID.BUTTON_OK));
             button.eventClicked += OnOKButtonClicked;
             button.isVisible = false;
             panel.size = new Vector2(width - 10.0f, button.height);
@@ -71,6 +67,25 @@ namespace ThemeMixer.UI.Parts
             label.textAlignment = UIHorizontalAlignment.Center;
             label.verticalAlignment = UIVerticalAlignment.Middle;
             label.padding = new RectOffset(0, 0, 4, 0);
+            switch (Part) {
+                case ThemePart.Category:
+                    label.text = UIUtils.GetCategoryAndPartLabel(Category, Part);
+                    break;
+                case ThemePart.Texture:
+                    label.text = UIUtils.GetPartAndIDLabel(Controller.TextureID);
+                    break;
+                case ThemePart.Color:
+                    label.text = UIUtils.GetPartAndIDLabel(Controller.ColorID);
+                    break;
+                case ThemePart.Offset:
+                    label.text = UIUtils.GetPartAndIDLabel(Controller.OffsetID);
+                    break;
+                case ThemePart.Value:
+                    label.text = UIUtils.GetPartAndIDLabel(Controller.ValueID);
+                    break;
+                default:
+                    break;
+            }
         }
 
         protected bool IsFavourite(string itemID) {

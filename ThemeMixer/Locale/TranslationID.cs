@@ -1,4 +1,5 @@
-﻿using ThemeMixer.Themes.Enums;
+﻿using System;
+using ThemeMixer.Themes.Enums;
 using ThemeMixer.UI.Parts;
 
 namespace ThemeMixer.Locale
@@ -24,6 +25,7 @@ namespace ThemeMixer.Locale
         public const string TOOLTIP_ADDFAVOURITE_ADDBLACKLIST = "TOOLTIP_ADDFAVOURITE_ADDBLACKLIST";
         public const string TOOLTIP_REMOVEFAVOURITE = "TOOLTIP_REMOVEFAVOURITE";
         public const string TOOLTIP_REMOVEBLACKLIST = "TOOLTIP_REMOVEBLACKLIST";
+        public const string TOOLTIP_TILING = "TOOLTIP_TILING";
 
         public const string LABEL_BY = "LABEL_BY"; 
         public const string LABEL_THEME = "LABEL_THEME";
@@ -83,6 +85,18 @@ namespace ThemeMixer.Locale
                 case TextureID.WaterNormal: return LABEL_WATER_NORMAL;
                 default: return string.Empty;
             }
+        }
+
+        internal static string ColorToTranslationID(ColorID colorID) {
+            throw new NotImplementedException();
+        }
+
+        internal static string OffsetToTranslationID(OffsetID offsetID) {
+            throw new NotImplementedException();
+        }
+
+        internal static string ValueToTranslationID(ValueID valueID) {
+            throw new NotImplementedException();
         }
     }
 }

@@ -93,7 +93,7 @@
     <Compile Include="Resources\UISprites.cs" />
     <Compile Include="Resources\ResourceUtils.cs" />
     <Compile Include="Themes\Atmosphere\ThemeAtmosphere.cs" />
-    <Compile Include="Themes\ILoadable.cs" />
+    <Compile Include="Themes\IMixable.cs" />
     <Compile Include="Serialization\SerializationService.cs" />
     <Compile Include="Themes\Structures\ThemeStructures.cs" />
     <Compile Include="Themes\Terrain\TerrainDetail.cs" />

@@ -13,7 +13,7 @@ namespace ThemeMixer.Themes.Structures
             Name = textureName;
         }
 
-        public StructureTexture(string packageID, TextureName textureName) : base(packageID) {
+        public StructureTexture(TextureName textureName, string packageID) : base(packageID) {
             Name = textureName;
         }
 
@@ -22,21 +22,21 @@ namespace ThemeMixer.Themes.Structures
             if (metaData == null) return false;
             switch (Name) {
                 case TextureName.UpwardRoadDiffuse:
-                    return SetValue(metaData.upwardRoadDiffuse);
+                    return SetTexture(metaData.upwardRoadDiffuse);
                 case TextureName.DownwardRoadDiffuse:
-                    return SetValue(metaData.downwardRoadDiffuse);
+                    return SetTexture(metaData.downwardRoadDiffuse);
                 case TextureName.BuildingFloorDiffuse:
-                    return SetValue(metaData.buildingFloorDiffuse);
+                    return SetTexture(metaData.buildingFloorDiffuse);
                 case TextureName.BuildingBaseDiffuse:
-                    return SetValue(metaData.buildingBaseDiffuse);
+                    return SetTexture(metaData.buildingBaseDiffuse);
                 case TextureName.BuildingBaseNormal:
-                    return SetValue(metaData.buildingBaseNormal);
+                    return SetTexture(metaData.buildingBaseNormal);
                 case TextureName.BuildingBurntDiffuse:
-                    return SetValue(metaData.buildingBurntDiffuse);
+                    return SetTexture(metaData.buildingBurntDiffuse);
                 case TextureName.BuildingAbandonedDiffuse:
-                    return SetValue(metaData.buildingAbandonedDiffuse);
+                    return SetTexture(metaData.buildingAbandonedDiffuse);
                 case TextureName.LightColorPalette:
-                    return SetValue(metaData.lightColorPalette);
+                    return SetTexture(metaData.lightColorPalette);
                 default: return false;
             }
         }
@@ -89,7 +89,7 @@ namespace ThemeMixer.Themes.Structures
                 default:
                     break;
             }
-            if (oldTexture != null) Object.Destroy(oldTexture);
+            if (oldTexture != null && !ReferenceEquals(oldTexture, Texture)) Object.Destroy(oldTexture);
         }
 
         public enum TextureName

@@ -12,15 +12,12 @@ namespace ThemeMixer.Themes.Terrain
             Name = textureName;
         }
 
-        public TerrainTexture(string packageID, TextureName textureName) : base(packageID) {
+        public TerrainTexture(TextureName textureName, string packageID) : base(packageID) {
             Name = textureName;
         }
 
         public override bool Load(string packageID = null) {
-            if (packageID != null) PackageID = packageID;
-            if (Texture == null && !SetFromTheme()) return false;
-            LoadValue();
-            LoadTiling();
+            if(base.Load(packageID)) LoadTiling();
             return true;
         }
 
@@ -30,39 +27,39 @@ namespace ThemeMixer.Themes.Terrain
             bool success = false;
             switch (Name) {
                 case TextureName.GrassDiffuseTexture:
-                    success = SetValue(metaData.grassDiffuseAsset);
+                    success = SetTexture(metaData.grassDiffuseAsset);
                     if (success) SetValue(metaData.grassTiling);
                     break;
                 case TextureName.RuinedDiffuseTexture:
-                    success = SetValue(metaData.ruinedDiffuseAsset);
+                    success = SetTexture(metaData.ruinedDiffuseAsset);
                     if (success) SetValue(metaData.ruinedTiling);
                     break;
                 case TextureName.PavementDiffuseTexture:
-                    success = SetValue(metaData.pavementDiffuseAsset);
+                    success = SetTexture(metaData.pavementDiffuseAsset);
                     if (success) SetValue(metaData.pavementTiling);
                     break;
                 case TextureName.GravelDiffuseTexture:
-                    success = SetValue(metaData.gravelDiffuseAsset);
+                    success = SetTexture(metaData.gravelDiffuseAsset);
                     if (success) SetValue(metaData.gravelTiling);
                     break;
                 case TextureName.CliffDiffuseTexture:
-                    success = SetValue(metaData.cliffDiffuseAsset);
+                    success = SetTexture(metaData.cliffDiffuseAsset);
                     if (success) SetValue(metaData.cliffDiffuseTiling);
                     break;
                 case TextureName.OilDiffuseTexture:
-                    success = SetValue(metaData.oilDiffuseAsset);
+                    success = SetTexture(metaData.oilDiffuseAsset);
                     if (success) SetValue(metaData.oilTiling);
                     break;
                 case TextureName.OreDiffuseTexture:
-                    success = SetValue(metaData.oreDiffuseAsset);
+                    success = SetTexture(metaData.oreDiffuseAsset);
                     if (success) SetValue(metaData.oreTiling);
                     break;
                 case TextureName.SandDiffuseTexture:
-                    success = SetValue(metaData.sandDiffuseAsset);
+                    success = SetTexture(metaData.sandDiffuseAsset);
                     if (success) SetValue(metaData.sandDiffuseTiling);
                     break;
                 case TextureName.CliffSandNormalTexture:
-                    success = SetValue(metaData.cliffSandNormalAsset);
+                    success = SetTexture(metaData.cliffSandNormalAsset);
                     if (success) SetValue(metaData.cliffSandNormalTiling);
                     break;
                 default: return false;
@@ -122,7 +119,7 @@ namespace ThemeMixer.Themes.Terrain
                 default:
                     break;
             }
-            if (oldTexture != null) Object.Destroy(oldTexture);
+            if (oldTexture != null && !ReferenceEquals(oldTexture, Texture)) Object.Destroy(oldTexture);
         }
 
         public void LoadTiling() {
@@ -177,7 +174,7 @@ namespace ThemeMixer.Themes.Terrain
                                    properties.m_oreTiling,
                                    properties.m_oilTiling));
         }
-
+            
         public enum TextureName
         {
             GrassDiffuseTexture,

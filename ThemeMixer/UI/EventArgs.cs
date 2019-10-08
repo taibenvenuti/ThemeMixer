@@ -8,9 +8,9 @@ namespace ThemeMixer.UI
     {
         public ThemeCategory category = ThemeCategory.None;
         public ThemePart part = ThemePart.None;
-        public ILoadable loadable = null;
+        public IMixable loadable = null;
 
-        public ThemeDirtyEventArgs(ThemeCategory category, ThemePart part, ILoadable loadable = null) {
+        public ThemeDirtyEventArgs(ThemeCategory category, ThemePart part, IMixable loadable = null) {
             this.loadable = loadable;
             this.category = category;
             this.part = part;

@@ -7,14 +7,14 @@ using ThemeMixer.Themes.Weather;
 
 namespace ThemeMixer.Themes
 {
-    public class ThemeMix : ILoadable
+    public class ThemeMix
     {
         public string Name;
-        public Terrain.ThemeTerrain Terrain;
-        public Water.ThemeWater Water;
-        public Atmosphere.ThemeAtmosphere Atmosphere;
-        public Structures.ThemeStructures Structures;
-        public Weather.ThemeWeather Weather;
+        public ThemeTerrain Terrain;
+        public ThemeWater Water;
+        public ThemeAtmosphere Atmosphere;
+        public ThemeStructures Structures;
+        public ThemeWeather Weather;
 
         public ThemeMix() {
             InitializeMix();

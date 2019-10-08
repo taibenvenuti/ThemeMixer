@@ -28,7 +28,7 @@ namespace ThemeMixer.UI
             panel.atlas = UISprites.Atlas;
             panel.backgroundSprite = UISprites.DragHandle;
             panel.isInteractive = false;
-            panel.color = new Color32(54, 54, 54, 255);
+            panel.color = UIColorDark;
         }
 
         public override void Start() {

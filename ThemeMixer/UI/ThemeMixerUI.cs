@@ -43,8 +43,8 @@ namespace ThemeMixer.UI
         public PanelBase CreatePanel(ThemeCategory category) {
             switch (category) {
                 case ThemeCategory.Themes:
+                    Controller.Part = ThemePart.Category;
                     SelectThemePanel themesPanel = AddUIComponent<SelectThemePanel>();
-                    themesPanel.SetPart(ThemePart.Category);
                     return themesPanel;
                 case ThemeCategory.Terrain:
                     Parts.TerrainPanel terrainPanel = AddUIComponent<Parts.TerrainPanel>();
@@ -56,12 +56,12 @@ namespace ThemeMixer.UI
         private void OnButtonClicked(Button button, Button[] buttons) {
             UnfocusButtons(buttons);
             if (currentPanel != null) {
-                bool same = button.part == currentPanel.Category;
+                bool same = button.category == currentPanel.Category;
                 Destroy(currentPanel.gameObject);
                 currentPanel = null;
                 if (same) return;
             }
-            currentPanel = CreatePanel(button.part);
+            currentPanel = CreatePanel(button.category);
             SetButtonFocused(button);
             RefreshZOrder();
         }

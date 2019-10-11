@@ -155,13 +155,17 @@ namespace ThemeMixer.UI.Parts
 
         protected override void OnRefreshUI(object sender, UIDirtyEventArgs eventArgs) {
             base.OnRefreshUI(sender, eventArgs);
-            thumb.spriteName = UIUtils.GetTextureSpriteName(textureID);
-            label.text = Translation.Instance.GetTranslation(TranslationID.TextureToTranslationID(textureID));
-            float tiling = ThemeUtils.GetTilingValue(textureID);
-            slider.eventValueChanged -= OnSliderValueChanged;
-            slider.value = tiling * 10000.0f;
-            slider.eventValueChanged += OnSliderValueChanged;
-            textfield.text = string.Concat(Math.Round(tiling, 4, MidpointRounding.AwayFromZero));
+            try {
+                thumb.spriteName = UIUtils.GetTextureSpriteName(textureID);
+                label.text = Translation.Instance.GetTranslation(TranslationID.TextureToTranslationID(textureID));
+                float tiling = ThemeUtils.GetTilingValue(textureID);
+                slider.eventValueChanged -= OnSliderValueChanged;
+                slider.value = tiling * 10000.0f;
+                slider.eventValueChanged += OnSliderValueChanged;
+                textfield.text = string.Concat(Math.Round(tiling, 4, MidpointRounding.AwayFromZero));
+            } catch (Exception) {
+                Debug.LogWarning("Exception caught in TexturePanel.OnRefreshUI");
+            }
         }
     }
 }

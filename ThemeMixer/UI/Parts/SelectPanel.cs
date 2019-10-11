@@ -23,14 +23,14 @@ namespace ThemeMixer.UI.Parts
         protected UILabel label;
         protected UIFastList fastList;
         protected UIButton button;
-        protected static List<Package.Asset> FavouritesList = new List<Package.Asset>();
-        protected static List<Package.Asset> Blacklist = new List<Package.Asset>();
-        protected static List<Package.Asset> NormalList = new List<Package.Asset>();
+        protected static Dictionary<string, MapThemeMetaData> Favourites = new Dictionary<string, MapThemeMetaData>();
+        protected static Dictionary<string, MapThemeMetaData> Blacklisted = new Dictionary<string, MapThemeMetaData>();
+        protected static Dictionary<string, MapThemeMetaData> Normal = new Dictionary<string, MapThemeMetaData>();
 
         public override void Awake() {
             base.Awake();
             Part = Controller.Part;
-            float width = ThemeManager.Instance.Themes.Length > 7 ? 468.0f : 456.0f;
+            float width = ThemeManager.Instance.Themes.Count > 7 ? 468.0f : 456.0f;
             CreateLabel();
             CreateFastList(new Vector2(width, 720.0f), 76.0f);
             CreateButton();
@@ -150,49 +150,34 @@ namespace ThemeMixer.UI.Parts
             EventThemeSelected -= Controller.OnThemeSelected;
         }
         protected void SetupRowsData() {
-            int selectedIndex = 0;
             if (fastList.RowsData == null) {
                 fastList.RowsData = new FastList<object>();
             }
             fastList.RowsData.Clear();
-            FavouritesList.Clear();
-            Blacklist.Clear();
-            NormalList.Clear();
+            Favourites.Clear();
+            Blacklisted.Clear();
+            Normal.Clear();
             int index = 0;
             int count = 0;
+            int selectedIndex = 0;
             List<string> favList = Data.GetFavourites(Category);
             List<string> blacklist = Data.GetBlacklisted(Category);
-            foreach (Package.Asset asset in ThemeManager.Instance.Themes) {
-                if (favList.Contains(asset.package.packageName)) {
-                    FavouritesList.Add(asset);
-                } else if (blacklist.Contains(asset.package.packageName)) {
-                    Blacklist.Add(asset);
-                } else NormalList.Add(asset);
+            foreach (KeyValuePair<string, MapThemeMetaData> kvp in ThemeManager.Instance.Themes) {
+                if (favList.Contains(kvp.Key)) {
+                    Favourites[kvp.Key] = kvp.Value;
+                } else if (blacklist.Contains(kvp.Key)) {
+                    Blacklisted[kvp.Key] = kvp.Value;
+                } else Normal[kvp.Key] = kvp.Value;
             }
-            for (int i = 0; i < FavouritesList.Count; i++) {
-                Package.Asset asset = FavouritesList[i];
-                ListItem listItem = CreateListItem(asset);
-                if (Controller.IsSelected(asset)) selectedIndex = index;
-                fastList.RowsData.Add(listItem);
-                count++;
-                index++;
+            foreach (var fav in Favourites) {
+                CreateAndAddItemToFastList(fav.Value, ref count, ref index, ref selectedIndex);
             }
-            for (int i = 0; i < NormalList.Count; i++) {
-                Package.Asset asset = NormalList[i];
-                ListItem listItem = CreateListItem(asset);
-                if (Controller.IsSelected(asset)) selectedIndex = index;
-                fastList.RowsData.Add(listItem);
-                count++;
-                index++;
+            foreach (var norm in Normal) {
+                CreateAndAddItemToFastList(norm.Value, ref count, ref index, ref selectedIndex);
             }
             if (!Data.HideBlacklisted) {
-                for (int i = 0; i < Blacklist.Count; i++) {
-                    Package.Asset asset = Blacklist[i];
-                    ListItem listItem = CreateListItem(asset);
-                    if (Controller.IsSelected(asset)) selectedIndex = index;
-                    fastList.RowsData.Add(listItem);
-                    count++;
-                    index++;
+                foreach (var black in Blacklisted) {
+                    CreateAndAddItemToFastList(black.Value, ref count, ref index, ref selectedIndex);
                 }
             }
             fastList.RowsData.SetCapacity(count);
@@ -202,10 +187,18 @@ namespace ThemeMixer.UI.Parts
             fastList.SelectedIndex = selectedIndex;
         }
 
-        protected ListItem CreateListItem(Package.Asset asset) {
-            string id = asset.package.packageName;
-            string displayName = asset.Instantiate<MapThemeMetaData>().name;
-            string author = GetAuthorName(asset);
+        private void CreateAndAddItemToFastList(MapThemeMetaData metaData, ref int count, ref int index, ref int selectedIndex) {
+            ListItem listItem = CreateListItem(metaData);
+            if (Controller.IsSelected(metaData.assetRef)) selectedIndex = index;
+            fastList.RowsData.Add(listItem);
+            count++;
+            index++;
+        }
+
+        protected ListItem CreateListItem(MapThemeMetaData metaData) {
+            string id = metaData.assetRef.package.packageName;
+            string displayName = metaData.name;
+            string author = GetAuthorName(metaData.assetRef);
             bool isFavourite = IsFavourite(id);
             bool isBlacklisted = IsBlacklisted(id);
             return new ListItem(id, displayName, author, isFavourite, isBlacklisted, Category);

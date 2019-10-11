@@ -1,6 +1,6 @@
 ﻿using ColossalFramework.Packaging;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.UI;
 using UnityEngine;
@@ -32,7 +32,32 @@ namespace ThemeMixer.Themes
 
         private bool InGame => ToolManager.instance?.m_properties != null && (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
 
-        public Package.Asset[] Themes { get; private set; } = ThemeUtils.GetThemes().ToArray();
+
+        private Dictionary<string, MapThemeMetaData> _themes;
+        public Dictionary<string, MapThemeMetaData> Themes => _themes ?? CacheThemes();
+
+        private void RefreshThemes() {
+            if (_themes == null) _themes = new Dictionary<string, MapThemeMetaData>();
+            foreach (var asset in ThemeUtils.GetThemes()) {
+                if (asset == null || asset.package == null) continue;
+                if (!_themes.ContainsKey(asset.package.packageName)) {
+                    _themes[asset.package.packageName] = asset.Instantiate<MapThemeMetaData>();
+                    _themes[asset.package.packageName].assetRef = asset;
+                }
+            }
+        }
+
+        private Dictionary<string, MapThemeMetaData> CacheThemes() {
+            if (_themes == null) _themes = new Dictionary<string, MapThemeMetaData>();
+            _themes.Clear();
+            foreach (var asset in ThemeUtils.GetThemes()) {
+                if (asset == null || asset.package == null) continue;
+                _themes[asset.package.packageName] = asset.Instantiate<MapThemeMetaData>();
+                _themes[asset.package.packageName].assetRef = asset;
+
+            }
+            return _themes;
+        }
 
         private ThemeMix _currentMix;
         public ThemeMix CurrentMix {
@@ -52,11 +77,11 @@ namespace ThemeMixer.Themes
 
         public void OnLevelLoaded() {
             PackageManager.eventPackagesChanged += OnPackagesChanged;
-
+            CacheThemes();
         }
 
         private void OnPackagesChanged() {
-            Themes = ThemeUtils.GetThemes().ToArray();
+            RefreshThemes();
         }
 
         internal void OnLevelUnloaded() {
@@ -194,6 +219,25 @@ namespace ThemeMixer.Themes
                     break;
                 case TextureID.CliffSandNormalTexture:
                     CurrentMix.Terrain.CliffSandNormalTexture.SetCustomValue(value);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        internal void OnOffsetChanged(OffsetID offsetID, Vector3 value) {
+            switch (offsetID) {
+                case OffsetID.GrassPollutionColorOffset:
+                    CurrentMix.Terrain.GrassPollutionColorOffset.SetCustomValue(value);
+                    break;
+                case OffsetID.GrassFieldColorOffset:
+                    CurrentMix.Terrain.GrassFieldColorOffset.SetCustomValue(value);
+                    break;
+                case OffsetID.GrassFertilityColorOffset:
+                    CurrentMix.Terrain.GrassFertilityColorOffset.SetCustomValue(value);
+                    break;
+                case OffsetID.GrassForestColorOffset:
+                    CurrentMix.Terrain.GrassForestColorOffset.SetCustomValue(value);
                     break;
                 default:
                     break;

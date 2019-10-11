@@ -55,5 +55,16 @@ namespace ThemeMixer.Themes
                 default: return 0.5f;
             }
         }
+
+        internal static Vector3 GetOffsetValue(OffsetID offsetID) {
+            ThemeMix mix = ThemeManager.Instance.CurrentMix;
+            switch (offsetID) {
+                case OffsetID.GrassPollutionColorOffset: return (Vector3)(mix.Terrain.GrassPollutionColorOffset.CustomValue ?? mix.Terrain.GrassPollutionColorOffset.Value);
+                case OffsetID.GrassFieldColorOffset: return (Vector3)(mix.Terrain.GrassFieldColorOffset.CustomValue ?? mix.Terrain.GrassFieldColorOffset.Value);
+                case OffsetID.GrassFertilityColorOffset: return (Vector3)(mix.Terrain.GrassFertilityColorOffset.CustomValue ?? mix.Terrain.GrassFertilityColorOffset.Value);
+                case OffsetID.GrassForestColorOffset: return (Vector3)(mix.Terrain.GrassForestColorOffset.CustomValue ?? mix.Terrain.GrassForestColorOffset.Value);
+                default: return Vector3.zero;
+            }
+        }
     }
 }

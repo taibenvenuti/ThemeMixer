@@ -29,29 +29,40 @@ namespace ThemeMixer.UI.Abstraction
             object[] attrsA = GetType().GetCustomAttributes(typeof(UIProperties), true);
             if (attrsA != null && attrsA.Length > 0 && attrsA[0] is UIProperties a)
                 Setup(a.Name, a.Size, a.Spacing, a.AutoLayout, a.LayoutDirection, a.LayoutStart, a.BackgroundSprite);
+
+            Controller.EventUIDirty += OnRefreshUI;
         }
 
+        public override void OnDestroy() {
+            Controller.EventUIDirty -= OnRefreshUI;
+            base.OnDestroy();
+        }
         public override void Start() {
             base.Start();
             FieldInfo[] fields = GetType().GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
             foreach (FieldInfo field in fields) {
                 if (field == null || (!typeof(PanelBase).IsAssignableFrom(field.FieldType))) continue;
                 PanelBase panelBase = field.GetValue(this) as PanelBase;
-                object[] attrsD = field.GetCustomAttributes(typeof(UICategoryAttribute), true);
-                if (attrsD?.Length > 0 && attrsD[0] is UICategoryAttribute d)
+                object[] attrsA = field.GetCustomAttributes(typeof(UICategoryAttribute), true);
+                if (attrsA?.Length > 0 && attrsA[0] is UICategoryAttribute d)
                     panelBase.Category = d.Category;
 
-                object[] attrsC = field.GetCustomAttributes(typeof(UIProperties), true);
-                if (attrsC?.Length > 0 && attrsC[0] is UIProperties c)
+                object[] attrsB = field.GetCustomAttributes(typeof(UIProperties), true);
+                if (attrsB?.Length > 0 && attrsB[0] is UIProperties c)
                     panelBase.Setup(c.Name, c.Size, c.Spacing, c.AutoLayout, c.LayoutDirection, c.LayoutStart, c.BackgroundSprite);
 
                 if (panelBase is TexturePanel texturePanel) {
-                    object[] attrsA = field.GetCustomAttributes(typeof(UITextureIDAttribute), true);
-                    if (attrsA?.Length > 0 && attrsA[0] is UITextureIDAttribute a)
+                    object[] attrsC = field.GetCustomAttributes(typeof(UITextureIDAttribute), true);
+                    if (attrsC?.Length > 0 && attrsC[0] is UITextureIDAttribute a)
                         texturePanel.textureID = a.TextureID;
                 }
+
+                if (panelBase is OffsetPanel offsetPanel) {
+                    object[] attrsD = field.GetCustomAttributes(typeof(UIOffsetIDAttribute), true);
+                    if (attrsD?.Length > 0 && attrsD[0] is UIOffsetIDAttribute a)
+                        offsetPanel.offsetID = a.OffsetID;
+                }
             }
-            Controller.EventUIDirty += OnRefreshUI;
         }
 
         public virtual void Setup(string name, Vector2 size, int spacing = UIUtils.DEFAULT_SPACING, bool autoLayout = false, LayoutDirection autoLayoutDirection = LayoutDirection.Horizontal, LayoutStart autoLayoutStart = LayoutStart.TopLeft, string backgroundSprite = "") {

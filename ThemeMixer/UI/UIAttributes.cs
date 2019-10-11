@@ -46,4 +46,14 @@ namespace ThemeMixer.UI
             TextureID = textureID;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    public class UIOffsetIDAttribute : Attribute
+    {
+        public OffsetID OffsetID;
+
+        public UIOffsetIDAttribute(OffsetID offsetID) {
+            OffsetID = offsetID;
+        }
+    }
 }

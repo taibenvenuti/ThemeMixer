@@ -73,7 +73,7 @@
     <Compile Include="Themes\Water\WaterTexture.cs" />
     <Compile Include="Themes\Weather\WeatherValue.cs" />
     <Compile Include="UI\EventArgs.cs" />
-    <Compile Include="UI\Parts\ColorOffsetPanel.cs" />
+    <Compile Include="UI\Parts\OffsetPanel.cs" />
     <Compile Include="UI\Parts\SelectStructuresPanel.cs" />
     <Compile Include="UI\Parts\SelectWeatherPanel.cs" />
     <Compile Include="UI\Parts\SelectTerrainPanel.cs" />

@@ -1,4 +1,5 @@
-﻿using ColossalFramework.UI;
+﻿using System;
+using ColossalFramework.UI;
 using ThemeMixer.Locale;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.TranslationFramework;
@@ -61,10 +62,21 @@ namespace ThemeMixer.UI.Parts
         [UITextureID(TextureID.PavementDiffuseTexture)]
         protected TexturePanel pavementDiffuseTexture;
 
-        public ColorOffsetPanel grassPollutionColorOffset;
-        public ColorOffsetPanel grassFieldColorOffset;
-        public ColorOffsetPanel grassFertilityColorOffset;
-        public ColorOffsetPanel grassForestColorOffset;
+        [UICategory(ThemeCategory.Terrain)]
+        [UIOffsetID(OffsetID.GrassPollutionColorOffset)]
+        public OffsetPanel grassPollutionColorOffset;
+
+        [UICategory(ThemeCategory.Terrain)]
+        [UIOffsetID(OffsetID.GrassFieldColorOffset)]
+        public OffsetPanel grassFieldColorOffset;
+
+        [UICategory(ThemeCategory.Terrain)]
+        [UIOffsetID(OffsetID.GrassFertilityColorOffset)]
+        public OffsetPanel grassFertilityColorOffset;
+
+        [UICategory(ThemeCategory.Terrain)]
+        [UIOffsetID(OffsetID.GrassForestColorOffset)]
+        public OffsetPanel grassForestColorOffset;
 
         public UICheckBox grassDetailEnabled;
         public UICheckBox fertileDetailEnabled;
@@ -78,8 +90,22 @@ namespace ThemeMixer.UI.Parts
             CreateLeftSideTexturePanels();
             CreateMiddleTexturePanels();
             CreateRightSideTexturePanels();
+            CreateLeftSideOffsetPanels();
+            CreateMiddleSideOffsetPanels();
             this.CreateSpace(1.0f, 5.0f);
 
+        }
+
+        private void CreateMiddleSideOffsetPanels() {
+            grassPollutionColorOffset = texturesPanelCenter.AddUIComponent<OffsetPanel>();
+            texturesPanelCenter.CreateSpace(1.0f, 5.0f);
+            grassFieldColorOffset = texturesPanelCenter.AddUIComponent<OffsetPanel>();
+        }
+
+        private void CreateLeftSideOffsetPanels() {
+            grassFertilityColorOffset = texturesPanelLeft.AddUIComponent<OffsetPanel>();
+            texturesPanelLeft.CreateSpace(1.0f, 5.0f);
+            grassForestColorOffset = texturesPanelLeft.AddUIComponent<OffsetPanel>();
         }
 
         private void CreateRightSideTexturePanels() {
@@ -88,6 +114,7 @@ namespace ThemeMixer.UI.Parts
             oilDiffuseTexture = texturesPanelRight.AddUIComponent<TexturePanel>();
             texturesPanelRight.CreateSpace(1.0f, 5.0f);
             oreDiffuseTexture = texturesPanelRight.AddUIComponent<TexturePanel>();
+            texturesPanelRight.CreateSpace(1.0f, 5.0f);
         }
 
         private void CreateMiddleTexturePanels() {
@@ -96,6 +123,7 @@ namespace ThemeMixer.UI.Parts
             sandDiffuseTexture = texturesPanelCenter.AddUIComponent<TexturePanel>();
             texturesPanelCenter.CreateSpace(1.0f, 5.0f);
             cliffSandNormalTexture = texturesPanelCenter.AddUIComponent<TexturePanel>();
+            texturesPanelCenter.CreateSpace(1.0f, 5.0f);
         }
 
         private void CreateLeftSideTexturePanels() {
@@ -104,6 +132,7 @@ namespace ThemeMixer.UI.Parts
             ruinedDiffuseTexture = texturesPanelLeft.AddUIComponent<TexturePanel>();
             texturesPanelLeft.CreateSpace(1.0f, 5.0f);
             gravelDiffuseTexture = texturesPanelLeft.AddUIComponent<TexturePanel>();
+            texturesPanelLeft.CreateSpace(1.0f, 5.0f);
         }
 
         private void CreateTextureContainers() {

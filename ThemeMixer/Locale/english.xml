@@ -15,6 +15,7 @@
     <Translation ID="TOOLTIP_WEATHER" String="Weather" />
     <Translation ID="TOOLTIP_SETTINGS" String="Settings" />
     <Translation ID="TOOLTIP_TILING" String="Texture Tiling" />
+    <Translation ID="TOOLTIP_OFFSET" String="Color Offset" />
     <Translation ID="TOOLTIP_ADDFAVOURITE_ADDBLACKLIST" String="Left-click to add to favorites, right-click to add to blacklist" />
     <Translation ID="TOOLTIP_REMOVEFAVOURITE" String="Left-click to remove from favorites, right-click to add to blacklist" />
     <Translation ID="TOOLTIP_REMOVEBLACKLIST" String="Left-click to add to favorites, right-click to remove from blacklist" />
@@ -31,14 +32,14 @@
     <Translation ID="LABEL_TEXTURE" String="Texture" />
     <Translation ID="LABEL_SELECT" String="Select" />
     <Translation ID="LABEL_GRASS_DIFFUSE" String="Grass Texture" />
-    <Translation ID="LABEL_RUINED_DIFFUSE" String="Dirt Texture" />
+    <Translation ID="LABEL_RUINED_DIFFUSE" String="Ruined Texture" />
     <Translation ID="LABEL_PAVEMENT_DIFFUSE" String="Pavement Texture" />
     <Translation ID="LABEL_GRAVEL_DIFFUSE" String="Gravel Texture" />
-    <Translation ID="LABEL_CLIFF_DIFFUSE" String="Rock Texture" />
+    <Translation ID="LABEL_CLIFF_DIFFUSE" String="Cliff Texture" />
     <Translation ID="LABEL_SAND_DIFFUSE" String="Sand Texture" />
     <Translation ID="LABEL_OIL_DIFFUSE" String="Oil Texture" />
     <Translation ID="LABEL_ORE_DIFFUSE" String="Ore Texture" />
-    <Translation ID="LABEL_CLIFFSAND_NORMAL" String="Rock and Sand Normal" />
+    <Translation ID="LABEL_CLIFFSAND_NORMAL" String="Cliff and Sand Normal" />
     <Translation ID="LABEL_UPWARD_ROAD_DIFFUSE" String="Road Upwards Texture" />
     <Translation ID="LABEL_DOWNWARD_ROAD_DIFFUSE" String="Road Downwards Texture" />
     <Translation ID="LABEL_BUILDING_FLOOR_DIFFUSE" String="Building Floor Texture" />
@@ -50,5 +51,9 @@
     <Translation ID="LABEL_MOON_DIFFUSE" String="Moon Texture" />
     <Translation ID="LABEL_WATER_FOAM" String="Water Foam" />
     <Translation ID="LABEL_WATER_NORMAL" String="Water Normal" />
+    <Translation ID="LABEL_OFFSET_POLLUTION" String="Grass Pollution" />
+    <Translation ID="LABEL_OFFSET_FERTILITY" String="Grass Fertility" />
+    <Translation ID="LABEL_OFFSET_FIELD" String="Field" />
+    <Translation ID="LABEL_OFFSET_FOREST" String="Forest" />
   </Translations>
 </Language>

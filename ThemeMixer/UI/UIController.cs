@@ -206,6 +206,10 @@ namespace ThemeMixer
             }
         }
 
+        internal void OnOffsetChanged(OffsetID offsetID, Vector3 value) {
+            ThemeManager.Instance.OnOffsetChanged(offsetID, value);
+        }
+
         private void OnThemeDirty(object sender, ThemeDirtyEventArgs e) {
             ThemeManager.Instance.OnThemeDirty(e);
         }

@@ -26,6 +26,7 @@ namespace ThemeMixer.Locale
         public const string TOOLTIP_REMOVEFAVOURITE = "TOOLTIP_REMOVEFAVOURITE";
         public const string TOOLTIP_REMOVEBLACKLIST = "TOOLTIP_REMOVEBLACKLIST";
         public const string TOOLTIP_TILING = "TOOLTIP_TILING";
+        public const string TOOLTIP_OFFSET = "TOOLTIP_OFFSET";
 
         public const string LABEL_BY = "LABEL_BY"; 
         public const string LABEL_THEME = "LABEL_THEME";
@@ -60,6 +61,10 @@ namespace ThemeMixer.Locale
         public const string LABEL_MOON_DIFFUSE = "LABEL_MOON_DIFFUSE";
         public const string LABEL_WATER_FOAM = "LABEL_WATER_FOAM";
         public const string LABEL_WATER_NORMAL = "LABEL_WATER_NORMAL";
+        public const string LABEL_OFFSET_POLLUTION = "LABEL_OFFSET_POLLUTION";
+        public const string LABEL_OFFSET_FIELD = "LABEL_OFFSET_FIELD";
+        public const string LABEL_OFFSET_FERTILITY = "LABEL_OFFSET_FERTILITY";
+        public const string LABEL_OFFSET_FOREST = "LABEL_OFFSET_FOREST";
 
         public static string TextureToTranslationID(TextureID textureID) {
             switch (textureID) {
@@ -92,7 +97,13 @@ namespace ThemeMixer.Locale
         }
 
         internal static string OffsetToTranslationID(OffsetID offsetID) {
-            throw new NotImplementedException();
+            switch (offsetID) {
+                case OffsetID.GrassPollutionColorOffset: return LABEL_OFFSET_POLLUTION;
+                case OffsetID.GrassFieldColorOffset: return LABEL_OFFSET_FIELD;
+                case OffsetID.GrassFertilityColorOffset: return LABEL_OFFSET_FERTILITY;
+                case OffsetID.GrassForestColorOffset: return LABEL_OFFSET_FOREST;
+                default: return string.Empty;
+            }
         }
 
         internal static string ValueToTranslationID(ValueID valueID) {

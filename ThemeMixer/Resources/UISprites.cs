@@ -21,6 +21,11 @@ namespace ThemeMixer.Resources
         public const string Star = "Star";
         public const string StarOutline = "StarOutline";
 
+        public const string IconBorder = "IconBorder";
+        public const string IconBorderHovered = "IconBorderHovered";
+        public const string IconBorderPressed = "IconBorderPressed";
+        public const string IconBorderFocused = "IconBorderFocused";
+
         public const string ThemesIcon = "ThemesIcon";
         public const string ThemesIconHovered = "ThemesIconHovered";
         public const string ThemesIconPressed = "ThemesIconPressed";
@@ -61,12 +66,21 @@ namespace ThemeMixer.Resources
         public const string UIToggleIconPressed = "UIToggleIconPressed";
         public const string UIToggleIconFocused = "UIToggleIconFocused";
 
+        public const string UndoIcon = "UndoIcon";
+        public const string UndoIconHovered = "UndoIconHovered";
+        public const string UndoIconPressed = "UndoIconPressed";
+
 
         private static readonly string[] _spriteNames = new string[] {
             DragHandle,
             Blacklisted,
             Star,
             StarOutline,
+
+            IconBorder,
+            IconBorderHovered,
+            IconBorderPressed,
+            IconBorderFocused,
 
             ThemesIcon,
             ThemesIconHovered,
@@ -106,7 +120,11 @@ namespace ThemeMixer.Resources
             UIToggleIcon,
             UIToggleIconHovered,
             UIToggleIconPressed,
-            UIToggleIconFocused
+            UIToggleIconFocused,
+
+            UndoIcon,
+            UndoIconHovered,
+            UndoIconPressed
         };
 
         private static UITextureAtlas CreateAtlas() {

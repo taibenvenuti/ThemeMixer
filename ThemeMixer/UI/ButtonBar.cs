@@ -4,7 +4,6 @@ using ThemeMixer.Locale;
 using ThemeMixer.TranslationFramework;
 using UnityEngine;
 using ThemeMixer.Resources;
-using ThemeMixer.Themes;
 using ThemeMixer.Themes.Enums;
 
 namespace ThemeMixer.UI
@@ -138,7 +137,7 @@ namespace ThemeMixer.UI
                     locale = TranslationID.TOOLTIP_SETTINGS;
                     break;
             }
-            button = UIUtils.CreateButton(parent, buttonSize, backgroundSprite: icon, atlas: UISprites.Atlas, isFocusable: true, tooltip: Translation.Instance.GetTranslation(locale));
+            button = UIUtils.CreateButton(parent, buttonSize, foregroundSprite: UISprites.IconBorder, backgroundSprite: icon, atlas: UISprites.Atlas, isFocusable: true, tooltip: Translation.Instance.GetTranslation(locale));
             button.eventClicked += OnButtonClicked;
         }
 

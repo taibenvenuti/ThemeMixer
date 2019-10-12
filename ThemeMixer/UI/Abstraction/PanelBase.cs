@@ -17,6 +17,7 @@ namespace ThemeMixer.UI.Abstraction
         protected static Color32 UIColor { get; set; } = new Color32(100, 100, 100, 255);
         protected static Color32 UIColorDark { get; set; } = new Color32(40, 40, 40, 255);
         protected static Color32 UIColorLight { get; set; } = new Color32(128, 128, 128, 255);
+        protected static Color32 UIColorGrey { get; set; } = new Color32(55, 58, 60, 255);
         public ThemeCategory Category { get; set; } = ThemeCategory.None;
 
         public override void Awake() {

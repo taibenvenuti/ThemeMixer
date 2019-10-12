@@ -15,7 +15,7 @@ namespace ThemeMixer.UI.Parts
     public class OffsetPanel : PanelBase
     {
         public OffsetID offsetID;
-        [UIProperties("Offset Panel Title Container", 340.0f, 32.0f, 5)]
+        [UIProperties("Offset Panel Title Container", 340.0f, 22.0f, 5)]
         protected PanelBase containerTitle;
         [UIProperties("Offset Panel Red Container", 340.0f, 22.0f, 5)]
         protected PanelBase containerR;
@@ -33,6 +33,10 @@ namespace ThemeMixer.UI.Parts
         protected UITextField textfieldR;
         protected UITextField textfieldG;
         protected UITextField textfieldB;
+        protected UIButton loadButton;
+        protected UIButton resetButton;
+        protected Vector3 defaultValue;
+        private bool ignoreEvents = false;
 
         public override void Awake() {
             base.Awake();
@@ -42,37 +46,67 @@ namespace ThemeMixer.UI.Parts
         private void CreateUIElements() {
             containerTitle = AddUIComponent<PanelBase>();
             labelTitle = containerTitle.AddUIComponent<UILabel>();
+            string loadText = Translation.Instance.GetTranslation(TranslationID.BUTTON_LOADFROMTHEME);
+            string loadTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_LOADFROMTHEME);
+            loadButton = UIUtils.CreateButton(containerTitle, new Vector2(22.0f, 22.0f), tooltip: loadTooltip, backgroundSprite: "ThemesIcon", atlas: UISprites.Atlas);
+            string resetTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_RESET);
+            resetButton = UIUtils.CreateButton(containerTitle, new Vector2(22.0f, 22.0f), tooltip: resetTooltip, backgroundSprite: "", foregroundSprite: "UndoIcon", atlas: UISprites.Atlas);
 
             containerR = AddUIComponent<PanelBase>();
             labelR = containerR.AddUIComponent<UILabel>();
-            sliderR = UIUtils.CreateSlider(containerR, 218.0f, -1.0f, 1.0f, 0.0001f);
+            sliderR = UIUtils.CreateSlider(containerR, 218.0f, -0.1f, 0.1f, 0.0001f);
             textfieldR = containerR.AddUIComponent<UITextField>();
 
             containerG = AddUIComponent<PanelBase>();
             labelG = containerG.AddUIComponent<UILabel>();
-            sliderG = UIUtils.CreateSlider(containerG, 218.0f, -1.0f, 1.0f, 0.0001f);
+            sliderG = UIUtils.CreateSlider(containerG, 218.0f, -0.1f, 0.1f, 0.0001f);
             textfieldG = containerG.AddUIComponent<UITextField>();
 
             containerB = AddUIComponent<PanelBase>();
             labelB = containerB.AddUIComponent<UILabel>();
-            sliderB = UIUtils.CreateSlider(containerB, 218.0f, -1.0f, 1.0f, 0.0001f);
+            sliderB = UIUtils.CreateSlider(containerB, 218.0f, -0.1f, 0.1f, 0.0001f);
             textfieldB = containerB.AddUIComponent<UITextField>();
 
-            this.CreateSpace(0.0f, 5.0f);
+            this.CreateSpace(0.0f, 0.01f);
 
-            color = UIColor;
+            color = UIColorGrey;
         }
 
         public override void Start() {
             base.Start();
+            defaultValue = ThemeUtils.GetOffsetValue(offsetID);
             SetupLabels();
+            SetupButtons();
             SetupSliders();
             SetupTextfields();
         }
 
+        private void SetupButtons() {
+            loadButton.eventClicked += OnLoadOffsetClicked;
+            loadButton.relativePosition = new Vector2(281.0f, 0.0f);
+            resetButton.eventClicked += OnResetClicked;
+            resetButton.relativePosition = new Vector2(308.0f, 0.0f);
+        }
+
+        private void OnResetClicked(UIComponent component, UIMouseEventParameter eventParam) {
+            ignoreEvents = true;
+            sliderR.value = defaultValue.x;
+            sliderG.value = defaultValue.y;
+            sliderB.value = defaultValue.z;
+            textfieldR.text = defaultValue.x.ToString("0.####");
+            textfieldG.text = defaultValue.y.ToString("0.####");
+            textfieldB.text = defaultValue.z.ToString("0.####");
+            ignoreEvents = false;
+            Controller.OnOffsetChanged(offsetID, defaultValue);
+        }
+
+        private void OnLoadOffsetClicked(UIComponent component, UIMouseEventParameter eventParam) {
+            Controller.OnLoadFromTheme(Category, offsetID);
+        }
+
         private void SetupLabels() {
             string title = Translation.Instance.GetTranslation(TranslationID.OffsetToTranslationID(offsetID));
-            SetupLabel(labelTitle, title, new Vector2(0.0f, 5.0f), new Vector2(340.0f, 22.0f));
+            SetupLabel(labelTitle, title, new Vector2(0.0f, 0.0f), new Vector2(340.0f, 22.0f));
             SetupLabel(labelR, "R", new Vector2(0.0f, 0.0f), new Vector2(22.0f, 22.0f));
             SetupLabel(labelG, "G", new Vector2(0.0f, 0.0f), new Vector2(22.0f, 22.0f));
             SetupLabel(labelB, "B", new Vector2(0.0f, 0.0f), new Vector2(22.0f, 22.0f));
@@ -97,8 +131,7 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void SetupSlider(UISlider slider, Vector2 position) {
-            Vector3 offset = ThemeUtils.GetOffsetValue(offsetID);
-            float value = ReferenceEquals(slider, sliderR) ? offset.x : ReferenceEquals(slider, sliderG) ? offset.y : offset.z;
+            float value = ReferenceEquals(slider, sliderR) ? defaultValue.x : ReferenceEquals(slider, sliderG) ? defaultValue.y : defaultValue.z;
             slider.value = value;
             slider.eventValueChanged += OnSliderValueChanged;
             slider.tooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_OFFSET);
@@ -126,9 +159,8 @@ namespace ThemeMixer.UI.Parts
             textfield.textColor = new Color32(0, 0, 0, 255);
             textfield.textScale = 0.85f;
             textfield.color = new Color32(255, 255, 255, 255);
-            Vector3 offset = ThemeUtils.GetOffsetValue(offsetID);
-            float value = ReferenceEquals(textfield, textfieldR) ? offset.x : ReferenceEquals(textfield, textfieldG) ? offset.y : offset.z; 
-            textfield.text = value.ToString("F4");
+            float value = ReferenceEquals(textfield, textfieldR) ? defaultValue.x : ReferenceEquals(textfield, textfieldG) ? defaultValue.y : defaultValue.z; 
+            textfield.text = value.ToString("0.####");
             textfield.tooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_OFFSET);
             textfield.eventTextSubmitted += OnTextfieldTextSubmitted;
             textfield.eventKeyPress += OnTextfieldKeyPress;
@@ -137,21 +169,24 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void OnTextfieldTextSubmitted(UIComponent component, string value) {
+            if (ignoreEvents) return;
             UITextField textfield = component as UITextField;
             if (float.TryParse(textfield.text.Replace(',', '.'), out float f)) {
-                float finalValue = Mathf.Clamp(f, -1.0f, 1.0f);
-                textfield.text = finalValue.ToString("F4");
+                float finalValue = Mathf.Clamp(f, -0.1f, 0.1f);
+                textfield.text = finalValue.ToString("0.####");
                 UISlider slider = ReferenceEquals(textfield, textfieldR) ? sliderR : ReferenceEquals(textfield, textfieldG) ? sliderG : sliderB;
                 slider.value = finalValue;
             }
         }
 
         private void OnTextfieldLostFocus(UIComponent component, UIFocusEventParameter eventParam) {
+            if (ignoreEvents) return;
             UITextField textfield = component as UITextField;
             OnTextfieldTextSubmitted(component, textfield.text);
         }
 
         private void OnTextfieldKeyPress(UIComponent component, UIKeyEventParameter eventParam) {
+            if (ignoreEvents) return;
             UITextField textfield = component as UITextField;
             char ch = eventParam.character;
             if (!char.IsControl(ch) && !char.IsDigit(ch) && 
@@ -167,13 +202,14 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void OnSliderValueChanged(UIComponent component, float value) {
+            if (ignoreEvents) return;
             float rValue = sliderR.value;
             float gValue = sliderG.value;
             float bValue = sliderB.value;
 
             UISlider slider = component as UISlider;
             float finalValue = value;
-            string valueString = finalValue.ToString("F4");
+            string valueString = finalValue.ToString("0.####");
 
             if (ReferenceEquals(slider, sliderR)) {
                 textfieldR.text = valueString;
@@ -193,24 +229,17 @@ namespace ThemeMixer.UI.Parts
             base.OnRefreshUI(sender, eventArgs);
             try {
                 labelTitle.text = Translation.Instance.GetTranslation(TranslationID.OffsetToTranslationID(offsetID));
-                Vector3 offset = ThemeUtils.GetOffsetValue(offsetID);
-                sliderR.eventValueChanged -= OnSliderValueChanged;
-                sliderG.eventValueChanged -= OnSliderValueChanged;
-                sliderB.eventValueChanged -= OnSliderValueChanged;
-
-                sliderR.value = offset.x;
-                sliderG.value = offset.y;
-                sliderB.value = offset.z;
-
-                sliderR.eventValueChanged += OnSliderValueChanged;
-                sliderG.eventValueChanged += OnSliderValueChanged;
-                sliderB.eventValueChanged += OnSliderValueChanged;
-
-                textfieldR.text = offset.x.ToString("F4");
-                textfieldG.text = offset.y.ToString("F4");
-                textfieldB.text = offset.z.ToString("F4");
+                defaultValue = ThemeUtils.GetOffsetValue(offsetID);
+                ignoreEvents = true;
+                sliderR.value = defaultValue.x;
+                sliderG.value = defaultValue.y;
+                sliderB.value = defaultValue.z;
+                textfieldR.text = defaultValue.x.ToString("0.####");
+                textfieldG.text = defaultValue.y.ToString("0.####");
+                textfieldB.text = defaultValue.z.ToString("0.####");
+                ignoreEvents = false;
             } catch (Exception) {
-                Debug.LogWarning("Exception caught in TexturePanel.OnRefreshUI");
+                Debug.LogError("Exception caught in TexturePanel.OnRefreshUI");
             }
         }
     }

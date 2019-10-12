@@ -225,22 +225,45 @@ namespace ThemeMixer.Themes
             }
         }
 
+        internal void OnValueChanged<T>(ValueID valueID, T value) {
+            switch (valueID) {
+                case ValueID.Longitude: CurrentMix.Atmosphere.Longitude.SetCustomValue(value); break;
+                case ValueID.Latitude: CurrentMix.Atmosphere.Latitude.SetCustomValue(value); break;
+                case ValueID.SunSize: CurrentMix.Atmosphere.SunSize.SetCustomValue(value); break;
+                case ValueID.SunAnisotropy: CurrentMix.Atmosphere.SunAnisotropy.SetCustomValue(value); break;
+                case ValueID.MoonSize: CurrentMix.Atmosphere.MoonSize.SetCustomValue(value); break;
+                case ValueID.Rayleight: CurrentMix.Atmosphere.Rayleight.SetCustomValue(value); break;
+                case ValueID.Mie: CurrentMix.Atmosphere.Mie.SetCustomValue(value); break;
+                case ValueID.Exposure: CurrentMix.Atmosphere.Exposure.SetCustomValue(value); break;
+                case ValueID.StarsIntensity: CurrentMix.Atmosphere.StarsIntensity.SetCustomValue(value); break;
+                case ValueID.OuterSpaceIntensity: CurrentMix.Atmosphere.OuterSpaceIntensity.SetCustomValue(value); break;
+                case ValueID.GrassDetailEnabled: CurrentMix.Terrain.GrassDetailEnabled.SetCustomValue(value); break;
+                case ValueID.FertileDetailEnabled: CurrentMix.Terrain.FertileDetailEnabled.SetCustomValue(value); break;
+                case ValueID.RocksDetailEnabled: CurrentMix.Terrain.RocksDetailEnabled.SetCustomValue(value); break;
+                case ValueID.MinTemperatureDay: CurrentMix.Weather.MinTemperatureDay.SetCustomValue(value); break;
+                case ValueID.MaxTemperatureDay: CurrentMix.Weather.MaxTemperatureDay.SetCustomValue(value); break;
+                case ValueID.MinTemperatureNight: CurrentMix.Weather.MinTemperatureNight.SetCustomValue(value); break;
+                case ValueID.MaxTemperatureNight: CurrentMix.Weather.MaxTemperatureNight.SetCustomValue(value); break;
+                case ValueID.MinTemperatureRain: CurrentMix.Weather.MinTemperatureRain.SetCustomValue(value); break;
+                case ValueID.MaxTemperatureRain: CurrentMix.Weather.MaxTemperatureRain.SetCustomValue(value); break;
+                case ValueID.MinTemperatureFog: CurrentMix.Weather.MinTemperatureFog.SetCustomValue(value); break;
+                case ValueID.MaxTemperatureFog: CurrentMix.Weather.MaxTemperatureFog.SetCustomValue(value); break;
+                case ValueID.RainProbabilityDay: CurrentMix.Weather.RainProbabilityDay.SetCustomValue(value); break;
+                case ValueID.RainProbabilityNight: CurrentMix.Weather.RainProbabilityNight.SetCustomValue(value); break;
+                case ValueID.FogProbabilityDay: CurrentMix.Weather.FogProbabilityDay.SetCustomValue(value); break;
+                case ValueID.FogProbabilityNight: CurrentMix.Weather.FogProbabilityNight.SetCustomValue(value); break;
+                case ValueID.NorthernLightsProbability: CurrentMix.Weather.NorthernLightsProbability.SetCustomValue(value); break;
+                default: break;
+            }
+        }
+
         internal void OnOffsetChanged(OffsetID offsetID, Vector3 value) {
             switch (offsetID) {
-                case OffsetID.GrassPollutionColorOffset:
-                    CurrentMix.Terrain.GrassPollutionColorOffset.SetCustomValue(value);
-                    break;
-                case OffsetID.GrassFieldColorOffset:
-                    CurrentMix.Terrain.GrassFieldColorOffset.SetCustomValue(value);
-                    break;
-                case OffsetID.GrassFertilityColorOffset:
-                    CurrentMix.Terrain.GrassFertilityColorOffset.SetCustomValue(value);
-                    break;
-                case OffsetID.GrassForestColorOffset:
-                    CurrentMix.Terrain.GrassForestColorOffset.SetCustomValue(value);
-                    break;
-                default:
-                    break;
+                case OffsetID.GrassPollutionColorOffset: CurrentMix.Terrain.GrassPollutionColorOffset.SetCustomValue(value); break;
+                case OffsetID.GrassFieldColorOffset: CurrentMix.Terrain.GrassFieldColorOffset.SetCustomValue(value); break;
+                case OffsetID.GrassFertilityColorOffset: CurrentMix.Terrain.GrassFertilityColorOffset.SetCustomValue(value); break;
+                case OffsetID.GrassForestColorOffset: CurrentMix.Terrain.GrassForestColorOffset.SetCustomValue(value); break;
+                default: break;
             }
         }
 

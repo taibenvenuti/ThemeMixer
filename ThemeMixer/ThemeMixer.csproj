@@ -72,6 +72,7 @@
     <Compile Include="Themes\Water\WaterColor.cs" />
     <Compile Include="Themes\Water\WaterTexture.cs" />
     <Compile Include="Themes\Weather\WeatherValue.cs" />
+    <Compile Include="UI\CheckboxPanel.cs" />
     <Compile Include="UI\EventArgs.cs" />
     <Compile Include="UI\Parts\OffsetPanel.cs" />
     <Compile Include="UI\Parts\SelectStructuresPanel.cs" />
@@ -123,6 +124,13 @@
     <Content Include="Locale\english.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Resources\Files\IconBorder.png" />
+    <EmbeddedResource Include="Resources\Files\IconBorderFocused.png" />
+    <EmbeddedResource Include="Resources\Files\IconBorderHovered.png" />
+    <EmbeddedResource Include="Resources\Files\IconBorderPressed.png" />
+    <EmbeddedResource Include="Resources\Files\UndoIcon.png" />
+    <EmbeddedResource Include="Resources\Files\UndoIconHovered.png" />
+    <EmbeddedResource Include="Resources\Files\UndoIconPressed.png" />
     <EmbeddedResource Include="Resources\Files\Blacklisted.png" />
     <EmbeddedResource Include="Resources\Files\Star.png" />
     <EmbeddedResource Include="Resources\Files\StarOutline.png" />

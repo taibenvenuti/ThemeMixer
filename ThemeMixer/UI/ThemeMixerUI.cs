@@ -75,6 +75,7 @@ namespace ThemeMixer.UI
         private void SetButtonFocused(Button button) {
             if (button != null) {
                 button.button.normalBgSprite = button.button.focusedBgSprite = button.button.hoveredBgSprite = string.Concat(button.button.normalBgSprite.Replace("Focused", ""), "Focused");
+                button.button.normalFgSprite = button.button.focusedFgSprite = button.button.hoveredFgSprite = string.Concat(button.button.normalFgSprite.Replace("Focused", ""), "Focused");
             }
         }
 
@@ -82,6 +83,8 @@ namespace ThemeMixer.UI
             if (button != null) {
                 button.button.normalBgSprite = button.button.focusedBgSprite = button.button.normalBgSprite.Replace("Focused", "");
                 button.button.hoveredBgSprite = button.button.hoveredBgSprite.Replace("Focused", "Hovered");
+                button.button.normalFgSprite = button.button.focusedFgSprite = button.button.normalFgSprite.Replace("Focused", "");
+                button.button.hoveredFgSprite = button.button.hoveredFgSprite.Replace("Focused", "Hovered");
             }
         }
 

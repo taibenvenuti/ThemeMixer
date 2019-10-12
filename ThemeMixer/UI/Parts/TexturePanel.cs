@@ -43,7 +43,7 @@ namespace ThemeMixer.UI.Parts
             label = container.AddUIComponent<UILabel>();
             slider = UIUtils.CreateSlider(container, 165.0f, 1.0f, 2000.0f, 1.0f);
             textfield = container.AddUIComponent<UITextField>();
-            color = UIColor;
+            color = UIColorGrey;
         }
 
         public override void Start() {
@@ -111,7 +111,7 @@ namespace ThemeMixer.UI.Parts
             label.relativePosition = new Vector2(71.0f, 5.0f);
             label.autoSize = false;
             label.autoHeight = true;
-            label.size = new Vector2(219.0f, 32.0f);
+            label.size = new Vector2(219.0f, 22.0f);
             label.font = UIUtils.Font;
             label.textScale = 1.0f;
             label.padding = new RectOffset(4, 0, 4, 0);

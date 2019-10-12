@@ -14,6 +14,7 @@ namespace ThemeMixer.Locale
         public const string ERROR_BROKEN_PACKAGE_MESSAGE = "ERROR_BROKEN_PACKAGE_MESSAGE";
 
         public const string BUTTON_OK = "BUTTON_OK";
+        public const string BUTTON_LOADFROMTHEME = "BUTTON_LOADFROMTHEME";
 
         public const string TOOLTIP_THEMES = "TOOLTIP_THEMES";
         public const string TOOLTIP_TERRAIN = "TOOLTIP_TERRAIN";
@@ -27,6 +28,12 @@ namespace ThemeMixer.Locale
         public const string TOOLTIP_REMOVEBLACKLIST = "TOOLTIP_REMOVEBLACKLIST";
         public const string TOOLTIP_TILING = "TOOLTIP_TILING";
         public const string TOOLTIP_OFFSET = "TOOLTIP_OFFSET";
+        public const string TOOLTIP_LOADFROMTHEME = "TOOLTIP_LOADFROMTHEME";
+        public const string TOOLTIP_RESET = "TOOLTIP_RESET";
+
+        public const string TOOLTIP_VALUE_GRASSDETAIL = "TOOLTIP_VALUE_GRASSDETAIL";
+        public const string TOOLTIP_VALUE_CLIFFDETAIL = "TOOLTIP_VALUE_CLIFFDETAIL";
+        public const string TOOLTIP_VALUE_FERTILEDETAIL = "TOOLTIP_VALUE_FERTILEDETAIL";
 
         public const string LABEL_BY = "LABEL_BY"; 
         public const string LABEL_THEME = "LABEL_THEME";
@@ -65,6 +72,11 @@ namespace ThemeMixer.Locale
         public const string LABEL_OFFSET_FIELD = "LABEL_OFFSET_FIELD";
         public const string LABEL_OFFSET_FERTILITY = "LABEL_OFFSET_FERTILITY";
         public const string LABEL_OFFSET_FOREST = "LABEL_OFFSET_FOREST";
+
+        public const string LABEL_TITLE_DETAIL = "LABEL_TITLE_DETAIL";
+        public const string LABEL_VALUE_GRASSDETAIL = "LABEL_VALUE_GRASSDETAIL";
+        public const string LABEL_VALUE_CLIFFDETAIL = "LABEL_VALUE_CLIFFDETAIL";
+        public const string LABEL_VALUE_FERTILEDETAIL = "LABEL_VALUE_FERTILEDETAIL";
 
         public static string TextureToTranslationID(TextureID textureID) {
             switch (textureID) {

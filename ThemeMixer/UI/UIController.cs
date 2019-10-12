@@ -110,6 +110,8 @@ namespace ThemeMixer
             } else if (ID is ValueID valueID) {
                 part = ThemePart.Value;
                 ValueID = valueID;
+            } else if (ID is ThemeCategory themeCategory) {
+                part = ThemePart.Category;
             }
             if (part != ThemePart.None) ShowThemeSelectorPanel(category, part);
         }
@@ -208,6 +210,10 @@ namespace ThemeMixer
 
         internal void OnOffsetChanged(OffsetID offsetID, Vector3 value) {
             ThemeManager.Instance.OnOffsetChanged(offsetID, value);
+        }
+
+        internal void OnValueChanged<T>(ValueID valueID, T value) {
+            ThemeManager.Instance.OnValueChanged(valueID, value);
         }
 
         private void OnThemeDirty(object sender, ThemeDirtyEventArgs e) {

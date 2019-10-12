@@ -66,5 +66,38 @@ namespace ThemeMixer.Themes
                 default: return Vector3.zero;
             }
         }
+
+        public static T GetValue<T>(ValueID valueID) {
+            ThemeMix mix = ThemeManager.Instance.CurrentMix;
+            switch (valueID) {
+                case ValueID.Longitude: return (T)(mix.Atmosphere.Longitude.CustomValue ?? mix.Atmosphere.Longitude.Value);
+                case ValueID.Latitude: return (T)(mix.Atmosphere.Latitude.CustomValue ?? mix.Atmosphere.Latitude.Value);
+                case ValueID.SunSize: return (T)(mix.Atmosphere.SunSize.CustomValue ?? mix.Atmosphere.SunSize.Value);
+                case ValueID.SunAnisotropy: return (T)(mix.Atmosphere.SunAnisotropy.CustomValue ?? mix.Atmosphere.SunAnisotropy.Value);
+                case ValueID.MoonSize: return (T)(mix.Atmosphere.MoonSize.CustomValue ?? mix.Atmosphere.MoonSize.Value);
+                case ValueID.Rayleight: return (T)(mix.Atmosphere.Rayleight.CustomValue ?? mix.Atmosphere.Rayleight.Value);
+                case ValueID.Mie: return (T)(mix.Atmosphere.Mie.CustomValue ?? mix.Atmosphere.Mie.Value);
+                case ValueID.Exposure: return (T)(mix.Atmosphere.Exposure.CustomValue ?? mix.Atmosphere.Exposure.Value);
+                case ValueID.StarsIntensity: return (T)(mix.Atmosphere.StarsIntensity.CustomValue ?? mix.Atmosphere.StarsIntensity.Value);
+                case ValueID.OuterSpaceIntensity: return (T)(mix.Atmosphere.OuterSpaceIntensity.CustomValue ?? mix.Atmosphere.OuterSpaceIntensity.Value);
+                case ValueID.GrassDetailEnabled: return (T)(mix.Terrain.GrassDetailEnabled.CustomValue ?? mix.Terrain.GrassDetailEnabled.Value);
+                case ValueID.FertileDetailEnabled: return (T)(mix.Terrain.FertileDetailEnabled.CustomValue ?? mix.Terrain.FertileDetailEnabled.Value);
+                case ValueID.RocksDetailEnabled: return (T)(mix.Terrain.RocksDetailEnabled.CustomValue ?? mix.Terrain.RocksDetailEnabled.Value);
+                case ValueID.MinTemperatureDay: return (T)(mix.Weather.MinTemperatureDay.CustomValue ?? mix.Weather.MinTemperatureDay.Value);
+                case ValueID.MaxTemperatureDay: return (T)(mix.Weather.MaxTemperatureDay.CustomValue ?? mix.Weather.MaxTemperatureDay.Value);
+                case ValueID.MinTemperatureNight: return (T)(mix.Weather.MinTemperatureNight.CustomValue ?? mix.Weather.MinTemperatureNight.Value);
+                case ValueID.MaxTemperatureNight: return (T)(mix.Weather.MaxTemperatureNight.CustomValue ?? mix.Weather.MaxTemperatureNight.Value);
+                case ValueID.MinTemperatureRain: return (T)(mix.Weather.MinTemperatureRain.CustomValue ?? mix.Weather.MinTemperatureRain.Value);
+                case ValueID.MaxTemperatureRain: return (T)(mix.Weather.MaxTemperatureRain.CustomValue ?? mix.Weather.MaxTemperatureRain.Value);
+                case ValueID.MinTemperatureFog: return (T)(mix.Weather.MinTemperatureFog.CustomValue ?? mix.Weather.MinTemperatureFog.Value);
+                case ValueID.MaxTemperatureFog: return (T)(mix.Weather.MaxTemperatureFog.CustomValue ?? mix.Weather.MaxTemperatureFog.Value);
+                case ValueID.RainProbabilityDay: return (T)(mix.Weather.RainProbabilityDay.CustomValue ?? mix.Weather.RainProbabilityDay.Value);
+                case ValueID.RainProbabilityNight: return (T)(mix.Weather.RainProbabilityNight.CustomValue ?? mix.Weather.RainProbabilityNight.Value);
+                case ValueID.FogProbabilityDay: return (T)(mix.Weather.FogProbabilityDay.CustomValue ?? mix.Weather.FogProbabilityDay.Value);
+                case ValueID.FogProbabilityNight: return (T)(mix.Weather.FogProbabilityNight.CustomValue ?? mix.Weather.FogProbabilityNight.Value);
+                case ValueID.NorthernLightsProbability: return (T)(mix.Weather.NorthernLightsProbability.CustomValue ?? mix.Weather.NorthernLightsProbability.Value);
+                default: return default;
+            }
+        }
     }
 }

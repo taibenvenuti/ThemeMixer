@@ -42,12 +42,15 @@ namespace ThemeMixer.UI
                  error);
         }
 
-        public static UIButton CreateButton(UIComponent parent, Vector2 size, string text = "", string tooltip = "", string foregroundSprite = "", string backgroundSprite = "ButtonSmall", bool isFocusable = false, UITextureAtlas atlas = null) {
+        public static UIButton CreateButton(UIComponent parent, Vector2 size, 
+                string text = "", string tooltip = "", string foregroundSprite = "", 
+                string backgroundSprite = "ButtonSmall", bool isFocusable = false, 
+                UITextureAtlas atlas = null, RectOffset padding = null, float textScale = 1.0f) {
             UIButton button = parent.AddUIComponent<UIButton>();
             button.size = size;
             button.text = text;
             button.tooltip = tooltip;
-            button.textPadding = new RectOffset(8, 8, 8, 5);
+            button.textPadding = padding ?? new RectOffset(8, 8, 8, 5);
             button.disabledTextColor = new Color32(128, 128, 128, 255);
             button.normalBgSprite = backgroundSprite;
             button.hoveredBgSprite = string.Concat(backgroundSprite, "Hovered");
@@ -59,8 +62,9 @@ namespace ThemeMixer.UI
             button.pressedFgSprite = string.Concat(foregroundSprite, "Pressed");
             button.disabledFgSprite = string.Concat(foregroundSprite, "Disabled");
             button.focusedFgSprite = string.Concat(foregroundSprite, isFocusable ? "Focused" : "");
-            button.atlas = UISprites.DefaultAtlas;
-            if (atlas != null) button.atlas = atlas;
+            button.atlas = atlas ?? UISprites.DefaultAtlas;
+            button.textScale = textScale;
+            button.foregroundSpriteMode = UIForegroundSpriteMode.Stretch;
             return button;
         }
 

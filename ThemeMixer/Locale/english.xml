@@ -7,6 +7,7 @@
     <Translation ID="ERROR_BROKEN_PACKAGE_TITLE" String="Broken Theme Package" />
     <Translation ID="ERROR_BROKEN_PACKAGE_MESSAGE" String="The package is invalid or broken." />
     <Translation ID="BUTTON_OK" String="OK" />
+    <Translation ID="BUTTON_LOADFROMTHEME" String="Load" />
     <Translation ID="TOOLTIP_THEMES" String="Themes" />
     <Translation ID="TOOLTIP_TERRAIN" String="Terrain" />
     <Translation ID="TOOLTIP_WATER" String="Water" />
@@ -19,6 +20,11 @@
     <Translation ID="TOOLTIP_ADDFAVOURITE_ADDBLACKLIST" String="Left-click to add to favorites, right-click to add to blacklist" />
     <Translation ID="TOOLTIP_REMOVEFAVOURITE" String="Left-click to remove from favorites, right-click to add to blacklist" />
     <Translation ID="TOOLTIP_REMOVEBLACKLIST" String="Left-click to add to favorites, right-click to remove from blacklist" />
+    <Translation ID="TOOLTIP_LOADFROMTHEME" String="Load this value from a map theme" />
+    <Translation ID="TOOLTIP_RESET" String="Reset to last loaded value" />
+    <Translation ID="TOOLTIP_VALUE_GRASSDETAIL" String="Toggle 'decorative' grass sprites" />
+    <Translation ID="TOOLTIP_VALUE_CLIFFDETAIL" String="Toggle 'decorative' rock sprites" />
+    <Translation ID="TOOLTIP_VALUE_FERTILEDETAIL" String="Toggle 'decorative' fertile sprites" />
     <Translation ID="LABEL_BY" String="by" />
     <Translation ID="LABEL_THEME" String="Theme" />
     <Translation ID="LABEL_TERRAIN" String="Terrain" />
@@ -51,9 +57,13 @@
     <Translation ID="LABEL_MOON_DIFFUSE" String="Moon Texture" />
     <Translation ID="LABEL_WATER_FOAM" String="Water Foam" />
     <Translation ID="LABEL_WATER_NORMAL" String="Water Normal" />
-    <Translation ID="LABEL_OFFSET_POLLUTION" String="Grass Pollution" />
-    <Translation ID="LABEL_OFFSET_FERTILITY" String="Grass Fertility" />
+    <Translation ID="LABEL_OFFSET_POLLUTION" String="Pollution" />
+    <Translation ID="LABEL_OFFSET_FERTILITY" String="Fertility" />
     <Translation ID="LABEL_OFFSET_FIELD" String="Field" />
     <Translation ID="LABEL_OFFSET_FOREST" String="Forest" />
+    <Translation ID="LABEL_TITLE_DETAIL" String="Decoration Sprites" />
+    <Translation ID="LABEL_VALUE_GRASSDETAIL" String="Show Grass Sprites" />
+    <Translation ID="LABEL_VALUE_CLIFFDETAIL" String="Show Rock Sprites" />
+    <Translation ID="LABEL_VALUE_FERTILEDETAIL" String="Show Fertile Sprites" />
   </Translations>
 </Language>

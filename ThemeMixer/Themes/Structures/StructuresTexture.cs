@@ -13,12 +13,12 @@ namespace ThemeMixer.Themes.Structures
             Name = textureName;
         }
 
-        public StructureTexture(TextureName textureName, string packageID) : base(packageID) {
+        public StructureTexture(TextureName textureName, string themeID) : base(themeID) {
             Name = textureName;
         }
 
         protected override bool SetFromTheme() {
-            MapThemeMetaData metaData = ThemeUtils.GetThemeFromPackage(PackageID);
+            MapThemeMetaData metaData = ThemeManager.GetTheme(ThemeID);
             if (metaData == null) return false;
             switch (Name) {
                 case TextureName.UpwardRoadDiffuse:

@@ -40,20 +40,20 @@ namespace ThemeMixer.Themes.Weather
             NorthernLightsProbability = new WeatherValue(WeatherValue.ValueName.NorthernLightsProbability);
         }
 
-        public void Set(string packageID) {
-            SetAll(packageID);
+        public void Set(string themeID) {
+            SetAll(themeID);
         }
 
-        public bool Load(string packageID = null) {
-            if (packageID != null) {
-                Set(packageID);
+        public bool Load(string themeID = null) {
+            if (themeID != null) {
+                Set(themeID);
             }
             return LoadAll();
         }
 
-        private void SetAll(string packageID) {
+        private void SetAll(string themeID) {
             for (int i = 0; i < (int)WeatherValue.ValueName.Count; i++) {
-                SetValue(packageID, (WeatherValue.ValueName)i);
+                SetValue(themeID, (WeatherValue.ValueName)i);
             }
         }
 
@@ -65,46 +65,46 @@ namespace ThemeMixer.Themes.Weather
             return success;
         }
 
-        private void SetValue(string packageID, WeatherValue.ValueName name) {
+        private void SetValue(string themeID, WeatherValue.ValueName name) {
             switch (name) {
                 case WeatherValue.ValueName.MinTemperatureDay:
-                    MinTemperatureDay = new WeatherValue(packageID, name);
+                    MinTemperatureDay = new WeatherValue(themeID, name);
                     break;
                 case WeatherValue.ValueName.MaxTemperatureDay:
-                    MaxTemperatureDay = new WeatherValue(packageID, name);
+                    MaxTemperatureDay = new WeatherValue(themeID, name);
                     break;
                 case WeatherValue.ValueName.MinTemperatureNight:
-                    MinTemperatureNight = new WeatherValue(packageID, name);
+                    MinTemperatureNight = new WeatherValue(themeID, name);
                     break;
                 case WeatherValue.ValueName.MaxTemperatureNight:
-                    MaxTemperatureNight = new WeatherValue(packageID, name);
+                    MaxTemperatureNight = new WeatherValue(themeID, name);
                     break;
                 case WeatherValue.ValueName.MinTemperatureRain:
-                    MinTemperatureRain = new WeatherValue(packageID, name);
+                    MinTemperatureRain = new WeatherValue(themeID, name);
                     break;
                 case WeatherValue.ValueName.MaxTemperatureRain:
-                    MaxTemperatureRain = new WeatherValue(packageID, name);
+                    MaxTemperatureRain = new WeatherValue(themeID, name);
                     break;
                 case WeatherValue.ValueName.MinTemperatureFog:
-                    MinTemperatureFog = new WeatherValue(packageID, name);
+                    MinTemperatureFog = new WeatherValue(themeID, name);
                     break;
                 case WeatherValue.ValueName.MaxTemperatureFog:
-                    MaxTemperatureFog = new WeatherValue(packageID, name);
+                    MaxTemperatureFog = new WeatherValue(themeID, name);
                     break;
                 case WeatherValue.ValueName.RainProbabilityDay:
-                    RainProbabilityDay = new WeatherValue(packageID, name);
+                    RainProbabilityDay = new WeatherValue(themeID, name);
                     break;
                 case WeatherValue.ValueName.RainProbabilityNight:
-                    RainProbabilityNight = new WeatherValue(packageID, name);
+                    RainProbabilityNight = new WeatherValue(themeID, name);
                     break;
                 case WeatherValue.ValueName.FogProbabilityDay:
-                    FogProbabilityDay = new WeatherValue(packageID, name);
+                    FogProbabilityDay = new WeatherValue(themeID, name);
                     break;
                 case WeatherValue.ValueName.FogProbabilityNight:
-                    FogProbabilityNight = new WeatherValue(packageID, name);
+                    FogProbabilityNight = new WeatherValue(themeID, name);
                     break;
                 case WeatherValue.ValueName.NorthernLightsProbability:
-                    NorthernLightsProbability = new WeatherValue(packageID, name);
+                    NorthernLightsProbability = new WeatherValue(themeID, name);
                     break;
                 default:
                     break;

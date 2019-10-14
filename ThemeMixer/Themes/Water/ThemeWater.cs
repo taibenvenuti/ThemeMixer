@@ -25,23 +25,23 @@ namespace ThemeMixer.Themes.Water
             WaterUnder = new WaterColor(WaterColor.ColorName.WaterUnder);
         }
 
-        public void Set(string packageID) {
-            SetAll(packageID);
+        public void Set(string themeID) {
+            SetAll(themeID);
         }
 
-        public bool Load(string packageID = null) {
-            if (packageID != null) {
-                Set(packageID);
+        public bool Load(string themeID = null) {
+            if (themeID != null) {
+                Set(themeID);
             }
             return LoadAll();
         }
 
-        private void SetAll(string packageID) {
+        private void SetAll(string themeID) {
             for (int i = 0; i < (int)WaterTexture.TextureName.Count; i++) {
-                SetTexture(packageID, (WaterTexture.TextureName)i);
+                SetTexture(themeID, (WaterTexture.TextureName)i);
             }
             for (int j = 0; j < (int)WaterColor.ColorName.Count; j++) {
-                SetColor(packageID, (WaterColor.ColorName)j);
+                SetColor(themeID, (WaterColor.ColorName)j);
             }
         }
 
@@ -56,13 +56,13 @@ namespace ThemeMixer.Themes.Water
             return success;
         }
 
-        private void SetTexture(string packageID, WaterTexture.TextureName textureName) {
+        private void SetTexture(string themeID, WaterTexture.TextureName textureName) {
             switch (textureName) {
                 case WaterTexture.TextureName.WaterFoam:
-                    WaterFoam = new WaterTexture(textureName, packageID);
+                    WaterFoam = new WaterTexture(textureName, themeID);
                     break;
                 case WaterTexture.TextureName.WaterNormal:
-                    WaterNormal = new WaterTexture(textureName, packageID);
+                    WaterNormal = new WaterTexture(textureName, themeID);
                     break;
                 default:
                     break;
@@ -79,16 +79,16 @@ namespace ThemeMixer.Themes.Water
             }
         }
 
-        private void SetColor(string packageID, WaterColor.ColorName name) {
+        private void SetColor(string themeID, WaterColor.ColorName name) {
             switch (name) {
                 case WaterColor.ColorName.WaterClean:
-                    WaterClean = new WaterColor(packageID, name);
+                    WaterClean = new WaterColor(themeID, name);
                     break;
                 case WaterColor.ColorName.WaterDirty:
-                    WaterDirty = new WaterColor(packageID, name);
+                    WaterDirty = new WaterColor(themeID, name);
                     break;
                 case WaterColor.ColorName.WaterUnder:
-                    WaterUnder = new WaterColor(packageID, name);
+                    WaterUnder = new WaterColor(themeID, name);
                     break;
                 default:
                     break;

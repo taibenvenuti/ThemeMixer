@@ -2,7 +2,6 @@
 using ColossalFramework.UI;
 using ThemeMixer.Locale;
 using ThemeMixer.Resources;
-using ThemeMixer.Themes;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.TranslationFramework;
 using ThemeMixer.UI.Abstraction;
@@ -10,10 +9,11 @@ using UnityEngine;
 
 namespace ThemeMixer.UI.Parts
 {
-
     [UICategory(ThemeCategory.Terrain)]
     [UIProperties("Terrain Panel", 1070.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel")]
     public class TerrainPanel : PanelBase {
+        protected UITabstrip tabstrip;
+
         protected UIPanel labelPanel;
         protected UILabel label;
         protected UIButton loadButton;
@@ -206,21 +206,21 @@ namespace ThemeMixer.UI.Parts
             label.text = Translation.Instance.GetTranslation(TranslationID.LABEL_TITLE_DETAIL);
 
             grassDetail = detailPanelInner.AddUIComponent<CheckboxPanel>();
-            bool grassState = ThemeUtils.GetValue<bool>(ValueID.GrassDetailEnabled);
+            bool grassState = Controller.GetValue<bool>(ValueID.GrassDetailEnabled);
             string grassLabelText = Translation.Instance.GetTranslation(TranslationID.LABEL_VALUE_GRASSDETAIL);
             string grassTooltipText = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_VALUE_GRASSDETAIL);
             grassDetail.Initialize(grassState, grassLabelText, grassTooltipText);
             grassDetail.EventCheckboxStateChanged += OnDetailStateChanged;
 
             fertileDetail = detailPanelInner.AddUIComponent<CheckboxPanel>();
-            bool fertileState = ThemeUtils.GetValue<bool>(ValueID.FertileDetailEnabled);
+            bool fertileState = Controller.GetValue<bool>(ValueID.FertileDetailEnabled);
             string fertileLabelText = Translation.Instance.GetTranslation(TranslationID.LABEL_VALUE_FERTILEDETAIL);
             string fertileTooltipText = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_VALUE_FERTILEDETAIL);
             fertileDetail.Initialize(fertileState, fertileLabelText, fertileTooltipText);
             fertileDetail.EventCheckboxStateChanged += OnDetailStateChanged;
 
             cliffDetail = detailPanelInner.AddUIComponent<CheckboxPanel>();
-            bool cliffState = ThemeUtils.GetValue<bool>(ValueID.RocksDetailEnabled);
+            bool cliffState = Controller.GetValue<bool>(ValueID.RocksDetailEnabled);
             string cliffLabelText = Translation.Instance.GetTranslation(TranslationID.LABEL_VALUE_CLIFFDETAIL);
             string cliffTooltipText = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_VALUE_CLIFFDETAIL);
             cliffDetail.Initialize(cliffState, cliffLabelText, cliffTooltipText);
@@ -241,9 +241,9 @@ namespace ThemeMixer.UI.Parts
         protected override void OnRefreshUI(object sender, UIDirtyEventArgs e) {
             base.OnRefreshUI(sender, e);
             try {
-                cliffDetail.SetState(ThemeUtils.GetValue<bool>(ValueID.RocksDetailEnabled));
-                fertileDetail.SetState(ThemeUtils.GetValue<bool>(ValueID.FertileDetailEnabled));
-                grassDetail.SetState(ThemeUtils.GetValue<bool>(ValueID.GrassDetailEnabled));
+                cliffDetail.SetState(Controller.GetValue<bool>(ValueID.RocksDetailEnabled));
+                fertileDetail.SetState(Controller.GetValue<bool>(ValueID.FertileDetailEnabled));
+                grassDetail.SetState(Controller.GetValue<bool>(ValueID.GrassDetailEnabled));
             } catch (Exception ex) {
                 Debug.LogError(string.Concat("Error caught in TerrainPanel.RefreshUI: ", ex));
             }

@@ -10,7 +10,6 @@ using UnityEngine;
 
 namespace ThemeMixer.Serialization
 {
-    //TODO Implement Favs + Blacklisted
     public class SerializationService : MonoBehaviour
     {
         private static SerializationService _instance;
@@ -30,6 +29,23 @@ namespace ThemeMixer.Serialization
         }
 
         private bool InGame => ToolManager.instance?.m_properties != null && (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
+
+        public List<SavedSwatch> GetSavedSwatches() {
+            return new List<SavedSwatch>(Data.SavedSwatches);
+        }
+        public void UpdateSavedSwatches(List<SavedSwatch> savedSwatches) {
+            Data.SavedSwatches = new List<SavedSwatch>(savedSwatches);
+            SaveData();
+        }
+
+        public void SaveLocalMix(ThemeMix mix) {
+            Data.LocalMix = mix;
+            SaveData();
+        }
+
+        public ThemeMix GetSavedLocalMix() {
+            return Data.LocalMix;
+        }
 
         public bool HideBlacklisted => Data.HideBlacklisted;
 

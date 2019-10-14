@@ -2,7 +2,6 @@
 using System;
 using ThemeMixer.Locale;
 using ThemeMixer.Resources;
-using ThemeMixer.Themes;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.TranslationFramework;
 using ThemeMixer.UI.Abstraction;
@@ -14,7 +13,7 @@ namespace ThemeMixer.UI.Parts
     [UIProperties("Offset Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect")]
     public class OffsetPanel : PanelBase
     {
-        public OffsetID offsetID;
+        public OffsetID OffsetID;
         [UIProperties("Offset Panel Title Container", 340.0f, 22.0f, 5)]
         protected PanelBase containerTitle;
         [UIProperties("Offset Panel Red Container", 340.0f, 22.0f, 5)]
@@ -74,7 +73,7 @@ namespace ThemeMixer.UI.Parts
 
         public override void Start() {
             base.Start();
-            defaultValue = ThemeUtils.GetOffsetValue(offsetID);
+            defaultValue = Controller.GetOffsetValue(OffsetID);
             SetupLabels();
             SetupButtons();
             SetupSliders();
@@ -97,15 +96,15 @@ namespace ThemeMixer.UI.Parts
             textfieldG.text = defaultValue.y.ToString("0.####");
             textfieldB.text = defaultValue.z.ToString("0.####");
             ignoreEvents = false;
-            Controller.OnOffsetChanged(offsetID, defaultValue);
+            Controller.OnOffsetChanged(OffsetID, defaultValue);
         }
 
         private void OnLoadOffsetClicked(UIComponent component, UIMouseEventParameter eventParam) {
-            Controller.OnLoadFromTheme(Category, offsetID);
+            Controller.OnLoadFromTheme(Category, OffsetID);
         }
 
         private void SetupLabels() {
-            string title = Translation.Instance.GetTranslation(TranslationID.OffsetToTranslationID(offsetID));
+            string title = Translation.Instance.GetTranslation(TranslationID.OffsetToTranslationID(OffsetID));
             SetupLabel(labelTitle, title, new Vector2(0.0f, 0.0f), new Vector2(340.0f, 22.0f));
             SetupLabel(labelR, "R", new Vector2(0.0f, 0.0f), new Vector2(22.0f, 22.0f));
             SetupLabel(labelG, "G", new Vector2(0.0f, 0.0f), new Vector2(22.0f, 22.0f));
@@ -213,23 +212,23 @@ namespace ThemeMixer.UI.Parts
 
             if (ReferenceEquals(slider, sliderR)) {
                 textfieldR.text = valueString;
-                Controller.OnOffsetChanged(offsetID, new Vector3(finalValue, gValue, bValue));
+                Controller.OnOffsetChanged(OffsetID, new Vector3(finalValue, gValue, bValue));
             }
             if (ReferenceEquals(slider, sliderG)) {
                 textfieldG.text = valueString;
-                Controller.OnOffsetChanged(offsetID, new Vector3(rValue, finalValue, bValue));
+                Controller.OnOffsetChanged(OffsetID, new Vector3(rValue, finalValue, bValue));
             }
             if (ReferenceEquals(slider, sliderB)) {
                 textfieldB.text = valueString;
-                Controller.OnOffsetChanged(offsetID, new Vector3(rValue, gValue, finalValue));
+                Controller.OnOffsetChanged(OffsetID, new Vector3(rValue, gValue, finalValue));
             }
         }
 
         protected override void OnRefreshUI(object sender, UIDirtyEventArgs eventArgs) {
             base.OnRefreshUI(sender, eventArgs);
             try {
-                labelTitle.text = Translation.Instance.GetTranslation(TranslationID.OffsetToTranslationID(offsetID));
-                defaultValue = ThemeUtils.GetOffsetValue(offsetID);
+                labelTitle.text = Translation.Instance.GetTranslation(TranslationID.OffsetToTranslationID(OffsetID));
+                defaultValue = Controller.GetOffsetValue(OffsetID);
                 ignoreEvents = true;
                 sliderR.value = defaultValue.x;
                 sliderG.value = defaultValue.y;

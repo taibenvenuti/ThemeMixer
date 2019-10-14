@@ -28,20 +28,20 @@ namespace ThemeMixer.Themes.Structures
             LightColorPalette = new StructureTexture(StructureTexture.TextureName.LightColorPalette);
         }
 
-        public void Set(string packageID) {
-            SetAll(packageID);
+        public void Set(string themeID) {
+            SetAll(themeID);
         }
 
-        public bool Load(string packageID = null) {
-            if (packageID != null) {
-                Set(packageID);
+        public bool Load(string themeID = null) {
+            if (themeID != null) {
+                Set(themeID);
             }
             return LoadAll();
         }
 
-        private void SetAll(string packageID) {
+        private void SetAll(string themeID) {
             for (int i = 0; i < (int)StructureTexture.TextureName.Count; i++) {
-                SetTexture(packageID, (StructureTexture.TextureName)i);
+                SetTexture(themeID, (StructureTexture.TextureName)i);
             }
         }
 
@@ -53,31 +53,31 @@ namespace ThemeMixer.Themes.Structures
             return success;
         }
 
-        private void SetTexture(string packageID, StructureTexture.TextureName textureName) {
+        private void SetTexture(string themeID, StructureTexture.TextureName textureName) {
             switch (textureName) {
                 case StructureTexture.TextureName.UpwardRoadDiffuse:
-                    UpwardRoadDiffuse = new StructureTexture(textureName, packageID);
+                    UpwardRoadDiffuse = new StructureTexture(textureName, themeID);
                     break;
                 case StructureTexture.TextureName.DownwardRoadDiffuse:
-                    DownwardRoadDiffuse =  new StructureTexture(textureName, packageID);
+                    DownwardRoadDiffuse =  new StructureTexture(textureName, themeID);
                     break;
                 case StructureTexture.TextureName.BuildingFloorDiffuse:
-                    BuildingFloorDiffuse =  new StructureTexture(textureName, packageID);
+                    BuildingFloorDiffuse =  new StructureTexture(textureName, themeID);
                     break;
                 case StructureTexture.TextureName.BuildingBaseDiffuse:
-                    BuildingBaseDiffuse =  new StructureTexture(textureName, packageID);
+                    BuildingBaseDiffuse =  new StructureTexture(textureName, themeID);
                     break;
                 case StructureTexture.TextureName.BuildingBaseNormal:
-                    BuildingBaseNormal =  new StructureTexture(textureName, packageID);
+                    BuildingBaseNormal =  new StructureTexture(textureName, themeID);
                     break;
                 case StructureTexture.TextureName.BuildingBurntDiffuse:
-                    BuildingBurntDiffuse =  new StructureTexture(textureName, packageID);
+                    BuildingBurntDiffuse =  new StructureTexture(textureName, themeID);
                     break;
                 case StructureTexture.TextureName.BuildingAbandonedDiffuse:
-                    BuildingAbandonedDiffuse =  new StructureTexture(textureName, packageID);
+                    BuildingAbandonedDiffuse =  new StructureTexture(textureName, themeID);
                     break;
                 case StructureTexture.TextureName.LightColorPalette:
-                    LightColorPalette =  new StructureTexture(textureName, packageID);
+                    LightColorPalette =  new StructureTexture(textureName, themeID);
                     break;
                 default:
                     break;

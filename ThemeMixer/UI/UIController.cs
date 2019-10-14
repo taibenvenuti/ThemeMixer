@@ -42,9 +42,13 @@ namespace ThemeMixer
         public OffsetID OffsetID { get; private set; }
         public ValueID ValueID { get; private set; }
 
-        public string PackageID { get; private set; }
+        public string ThemeID { get; private set; }
 
         private bool InGame => ToolManager.instance?.m_properties != null && (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
+
+        internal Color GetCurrentColor(ColorID colorID) {
+            return ThemeManager.Instance.GetCurrentColor(colorID);
+        }
 
         private ThemeMixerUI _ui;
         private ThemeMixerUI ThemeMixerUI {
@@ -63,6 +67,10 @@ namespace ThemeMixer
                 return _toggle;
             }
             set { _toggle = value; }
+        }
+
+        internal string GetTextureThemeID(TextureID textureID) {
+            return ThemeManager.Instance.GetTextureThemeID(textureID);
         }
 
         public static UIController Ensure() => Instance;
@@ -96,6 +104,10 @@ namespace ThemeMixer
             return SimulationManager.instance.m_metaData.m_MapThemeMetaData?.assetRef == asset;
         }
 
+        public float GetTilingValue(TextureID textureID) {
+            return ThemeManager.Instance.GetTilingValue(textureID);
+        }
+
         public void OnLoadFromTheme<T>(ThemeCategory category, T ID) {
             ThemePart part = ThemePart.None;
             if (ID is TextureID textureID) {
@@ -114,6 +126,10 @@ namespace ThemeMixer
                 part = ThemePart.Category;
             }
             if (part != ThemePart.None) ShowThemeSelectorPanel(category, part);
+        }
+
+        internal Vector3 GetOffsetValue(OffsetID offsetID) {
+            return ThemeManager.Instance.GetOffsetValue(offsetID);
         }
 
         private void Awake() {
@@ -189,19 +205,19 @@ namespace ThemeMixer
         public void OnThemeSelected(object sender, ThemeSelectedEventArgs e) {
             switch (e.part) {
                 case ThemePart.Category:
-                    ThemeManager.Instance.LoadCategory(e.category, e.packageID);
+                    ThemeManager.Instance.LoadCategory(e.category, e.themeID);
                     break;
                 case ThemePart.Texture:
-                    ThemeManager.Instance.LoadTexture(TextureID, e.packageID);
+                    ThemeManager.Instance.LoadTexture(TextureID, e.themeID);
                     break;
                 case ThemePart.Color:
-                    ThemeManager.Instance.LoadColor(ColorID, e.packageID);
+                    ThemeManager.Instance.LoadColor(ColorID, e.themeID);
                     break;
                 case ThemePart.Offset:
-                    ThemeManager.Instance.LoadOffset(OffsetID, e.packageID);
+                    ThemeManager.Instance.LoadOffset(OffsetID, e.themeID);
                     break;
                 case ThemePart.Value:
-                    ThemeManager.Instance.LoadValue(ValueID, e.packageID);
+                    ThemeManager.Instance.LoadValue(ValueID, e.themeID);
                     break;
                 default:
                     break;
@@ -218,6 +234,14 @@ namespace ThemeMixer
 
         private void OnThemeDirty(object sender, ThemeDirtyEventArgs e) {
             ThemeManager.Instance.OnThemeDirty(e);
+        }
+
+        internal T GetValue<T>(ValueID valueID) {
+            return ThemeManager.Instance.GetValue<T>(valueID);
+        }
+
+        internal void OnColorChanged(ColorID colorID, Color32 defaultValue) {
+            ThemeManager.Instance.OnColorChanged(colorID, defaultValue);
         }
     }
 }

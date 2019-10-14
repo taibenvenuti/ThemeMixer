@@ -44,6 +44,14 @@ namespace ThemeMixer.UI.Parts
             UnbindEvents();
         }
 
+        protected override void OnKeyDown(UIKeyEventParameter p) {
+            if (p.keycode == KeyCode.Escape || p.keycode == KeyCode.Return) {
+                p.Use();
+                EventPanelClosing?.Invoke(this, new ThemesPanelClosingEventArgs(Category, Part));
+            }
+            base.OnKeyDown(p);
+        }
+
         private void CreateButton() {
             PanelBase panel = AddUIComponent<PanelBase>();
             button = UIUtils.CreateButton(panel, new Vector2(100.0f, 30.0f), Translation.Instance.GetTranslation(TranslationID.BUTTON_OK));
@@ -196,7 +204,7 @@ namespace ThemeMixer.UI.Parts
         }
 
         protected ListItem CreateListItem(MapThemeMetaData metaData) {
-            string id = metaData.assetRef.package.packageName;
+            string id = metaData.assetRef.fullName;
             string displayName = metaData.name;
             string author = GetAuthorName(metaData.assetRef);
             bool isFavourite = IsFavourite(id);

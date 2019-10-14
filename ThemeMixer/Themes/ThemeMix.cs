@@ -20,22 +20,22 @@ namespace ThemeMixer.Themes
             InitializeMix();
         }
 
-        public ThemeMix(string packageID) {
+        public ThemeMix(string themeID) {
             InitializeMix();
-            Load(packageID);
+            Load(themeID);
         }
 
         public void OnPreSerialize() { }
 
         public void OnPostDeserialize() { }
 
-        public bool Load(string packageID) {
+        public bool Load(string themeID) {
             bool success = true;
-            if (!Terrain.Load(packageID)) success = false;
-            if (!Water.Load(packageID)) success = false;
-            if (!Atmosphere.Load(packageID)) success = false;
-            if (!Structures.Load(packageID)) success = false;
-            if (!Weather.Load(packageID)) success = false;
+            if (!Terrain.Load(themeID)) success = false;
+            if (!Water.Load(themeID)) success = false;
+            if (!Atmosphere.Load(themeID)) success = false;
+            if (!Structures.Load(themeID)) success = false;
+            if (!Weather.Load(themeID)) success = false;
             return success;
         }
 

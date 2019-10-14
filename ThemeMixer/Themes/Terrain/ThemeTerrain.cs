@@ -49,26 +49,26 @@ namespace ThemeMixer.Themes.Terrain
             RocksDetailEnabled = new TerrainDetail(TerrainDetail.Name.RocksDetailEnabled);
         }
 
-        public void Set(string packageID) {
-            SetAll(packageID);
+        public void Set(string themeID) {
+            SetAll(themeID);
         }
 
-        public bool Load(string packageID = null) {
-            if (packageID != null) {
-                Set(packageID);
+        public bool Load(string themeID = null) {
+            if (themeID != null) {
+                Set(themeID);
             }
             return LoadAll();
         }
 
-        private void SetAll(string packageID) {
+        private void SetAll(string themeID) {
             for (int i = 0; i < (int)TerrainTexture.TextureName.Count; i++) {
-                SetTexture(packageID, (TerrainTexture.TextureName)i);
+                SetTexture(themeID, (TerrainTexture.TextureName)i);
             }
             for (int j = 0; j < (int)TerrainColorOffset.OffsetName.Count; j++) {
-                SetColorOffset(packageID, (TerrainColorOffset.OffsetName)j);
+                SetColorOffset(themeID, (TerrainColorOffset.OffsetName)j);
             }
             for (int k = 0; k < (int)TerrainDetail.Name.Count; k++) {
-                SetDetail(packageID, (TerrainDetail.Name)k);
+                SetDetail(themeID, (TerrainDetail.Name)k);
             }
         }
 
@@ -86,34 +86,34 @@ namespace ThemeMixer.Themes.Terrain
             return success;
         }
 
-        private void SetTexture(string packageID, TerrainTexture.TextureName textureName) {
+        private void SetTexture(string themeID, TerrainTexture.TextureName textureName) {
             switch (textureName) {
                 case TerrainTexture.TextureName.GrassDiffuseTexture:
-                    GrassDiffuseTexture = new TerrainTexture(textureName, packageID);
+                    GrassDiffuseTexture = new TerrainTexture(textureName, themeID);
                     break;
                 case TerrainTexture.TextureName.RuinedDiffuseTexture:
-                    RuinedDiffuseTexture = new TerrainTexture(textureName, packageID);
+                    RuinedDiffuseTexture = new TerrainTexture(textureName, themeID);
                     break;
                 case TerrainTexture.TextureName.PavementDiffuseTexture:
-                    PavementDiffuseTexture = new TerrainTexture(textureName, packageID);
+                    PavementDiffuseTexture = new TerrainTexture(textureName, themeID);
                     break;
                 case TerrainTexture.TextureName.GravelDiffuseTexture:
-                    GravelDiffuseTexture = new TerrainTexture(textureName, packageID);
+                    GravelDiffuseTexture = new TerrainTexture(textureName, themeID);
                     break;
                 case TerrainTexture.TextureName.CliffDiffuseTexture:
-                    CliffDiffuseTexture = new TerrainTexture(textureName, packageID);
+                    CliffDiffuseTexture = new TerrainTexture(textureName, themeID);
                     break;
                 case TerrainTexture.TextureName.OilDiffuseTexture:
-                    OilDiffuseTexture = new TerrainTexture(textureName, packageID);
+                    OilDiffuseTexture = new TerrainTexture(textureName, themeID);
                     break;
                 case TerrainTexture.TextureName.OreDiffuseTexture:
-                    OreDiffuseTexture = new TerrainTexture(textureName, packageID);
+                    OreDiffuseTexture = new TerrainTexture(textureName, themeID);
                     break;
                 case TerrainTexture.TextureName.SandDiffuseTexture:
-                    SandDiffuseTexture = new TerrainTexture(textureName, packageID);
+                    SandDiffuseTexture = new TerrainTexture(textureName, themeID);
                     break;
                 case TerrainTexture.TextureName.CliffSandNormalTexture:
-                    CliffSandNormalTexture = new TerrainTexture(textureName, packageID);
+                    CliffSandNormalTexture = new TerrainTexture(textureName, themeID);
                     break;
                 default:
                     break;
@@ -144,19 +144,19 @@ namespace ThemeMixer.Themes.Terrain
             }
         }
 
-        private void SetColorOffset(string packageID, TerrainColorOffset.OffsetName offsetName) {
+        private void SetColorOffset(string themeID, TerrainColorOffset.OffsetName offsetName) {
             switch (offsetName) {
                 case TerrainColorOffset.OffsetName.GrassPollutionColorOffset:
-                    GrassPollutionColorOffset = new TerrainColorOffset(packageID, offsetName);
+                    GrassPollutionColorOffset = new TerrainColorOffset(themeID, offsetName);
                     break;
                 case TerrainColorOffset.OffsetName.GrassFieldColorOffset:
-                    GrassFieldColorOffset = new TerrainColorOffset(packageID, offsetName);
+                    GrassFieldColorOffset = new TerrainColorOffset(themeID, offsetName);
                     break;
                 case TerrainColorOffset.OffsetName.GrassFertilityColorOffset:
-                    GrassFertilityColorOffset = new TerrainColorOffset(packageID, offsetName);
+                    GrassFertilityColorOffset = new TerrainColorOffset(themeID, offsetName);
                     break;
                 case TerrainColorOffset.OffsetName.GrassForestColorOffset:
-                    GrassForestColorOffset = new TerrainColorOffset(packageID, offsetName);
+                    GrassForestColorOffset = new TerrainColorOffset(themeID, offsetName);
                     break;
                 default:
                     break;
@@ -177,16 +177,16 @@ namespace ThemeMixer.Themes.Terrain
             }
         }
 
-        private void SetDetail(string packageID, TerrainDetail.Name detailName) {
+        private void SetDetail(string themeID, TerrainDetail.Name detailName) {
             switch (detailName) {
                 case TerrainDetail.Name.GrassDetailEnabled:
-                    GrassDetailEnabled = new TerrainDetail(packageID, detailName);
+                    GrassDetailEnabled = new TerrainDetail(themeID, detailName);
                     break;
                 case TerrainDetail.Name.FertileDetailEnabled:
-                    FertileDetailEnabled = new TerrainDetail(packageID, detailName);
+                    FertileDetailEnabled = new TerrainDetail(themeID, detailName);
                     break;
                 case TerrainDetail.Name.RocksDetailEnabled:
-                    RocksDetailEnabled = new TerrainDetail(packageID, detailName);
+                    RocksDetailEnabled = new TerrainDetail(themeID, detailName);
                     break;
                 default:
                     break;

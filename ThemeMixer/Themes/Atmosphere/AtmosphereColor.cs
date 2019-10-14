@@ -12,12 +12,12 @@ namespace ThemeMixer.Themes.Atmosphere
             Name = colorName;
         }
 
-        public AtmosphereColor(string packageID, ColorName floatName) : base(packageID) {
+        public AtmosphereColor(string themeID, ColorName floatName) : base(themeID) {
             Name = floatName;
         }
 
         protected override bool SetFromTheme() {
-            MapThemeMetaData metaData = ThemeUtils.GetThemeFromPackage(PackageID);
+            MapThemeMetaData metaData = ThemeManager.GetTheme(ThemeID);
             if (metaData == null) return false;
             switch (Name) {
                 case ColorName.MoonInnerCorona:

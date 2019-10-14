@@ -2,7 +2,6 @@
 using System;
 using ThemeMixer.Locale;
 using ThemeMixer.Resources;
-using ThemeMixer.Themes;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.TranslationFramework;
 using ThemeMixer.UI.Abstraction;
@@ -25,6 +24,12 @@ namespace ThemeMixer.UI.Parts
         protected UISlider slider;
         protected UITextField textfield;
 
+        protected UIButton loadButton;
+        protected UIButton resetButton;
+
+        private float defaultValue;
+        bool ignoreEvents = false;
+
         public override void Awake() {
             base.Awake();
             object[] attrs = GetType().GetCustomAttributes(typeof(UITextureIDAttribute), true);
@@ -43,15 +48,44 @@ namespace ThemeMixer.UI.Parts
             label = container.AddUIComponent<UILabel>();
             slider = UIUtils.CreateSlider(container, 165.0f, 1.0f, 2000.0f, 1.0f);
             textfield = container.AddUIComponent<UITextField>();
+            string loadText = Translation.Instance.GetTranslation(TranslationID.BUTTON_LOADFROMTHEME);
+            string loadTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_LOADFROMTHEME);
+            loadButton = UIUtils.CreateButton(container, new Vector2(22.0f, 22.0f), tooltip: loadTooltip, backgroundSprite: "ThemesIcon", atlas: UISprites.Atlas);
+            string resetTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_RESET);
+            resetButton = UIUtils.CreateButton(container, new Vector2(22.0f, 22.0f), tooltip: resetTooltip, backgroundSprite: "", foregroundSprite: "UndoIcon", atlas: UISprites.Atlas);
             color = UIColorGrey;
+
         }
 
         public override void Start() {
             base.Start();
+            defaultValue = Controller.GetTilingValue(textureID);
             SetupThumbnail();
             SetupLabel();
+            SetupButtons();
             SetupSlider();
             SetupSliderTextfield();
+        }
+        private void SetupButtons() {
+            loadButton.eventClicked += OnLoadClicked;
+            loadButton.relativePosition = new Vector2(281.0f, 5.0f);
+            resetButton.eventClicked += OnResetClicked;
+            resetButton.relativePosition = new Vector2(308.0f, 5.0f);
+            if (Category == ThemeCategory.Terrain) return;
+            resetButton.Hide();
+            loadButton.relativePosition = resetButton.relativePosition;
+            loadButton.anchor |= UIAnchorStyle.CenterVertical;
+        }
+        private void OnResetClicked(UIComponent component, UIMouseEventParameter eventParam) {
+            ignoreEvents = true;
+            slider.value = defaultValue * 10000.0f;
+            textfield.text = string.Concat(Math.Round(defaultValue, 4, MidpointRounding.AwayFromZero));
+            ignoreEvents = false;
+            Controller.OnTilingChanged(textureID, defaultValue);
+        }
+
+        private void OnLoadClicked(UIComponent component, UIMouseEventParameter eventParam) {
+            Controller.OnLoadFromTheme(Category, textureID);
         }
 
         private void SetupSliderTextfield() {
@@ -70,14 +104,16 @@ namespace ThemeMixer.UI.Parts
             textfield.textScale = 0.85f;
             textfield.color = new Color32(255, 255, 255, 255);
             textfield.relativePosition = new Vector2(261.0f, 35.0f);
+            textfield.text = string.Concat(Math.Round(Controller.GetTilingValue(textureID), 4, MidpointRounding.AwayFromZero));
             textfield.eventTextSubmitted += OnTextfieldTextSubmitted;
             textfield.eventKeyPress += OnTextfieldKeyPress;
             textfield.eventLostFocus += OnTextfieldLostFocus;
-            textfield.text = string.Concat(Math.Round(ThemeUtils.GetTilingValue(textureID), 4, MidpointRounding.AwayFromZero));
             textfield.tooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_TILING);
+            if (Category != ThemeCategory.Terrain) textfield.isVisible = false; ;
         }
 
         private void OnTextfieldTextSubmitted(UIComponent component, string value) {
+            if (ignoreEvents) return;
             if (float.TryParse(textfield.text.Replace(',', '.'), out float f)) {
                 float finalValue = Mathf.Clamp(f, 0.0001f, 0.2f);
                 textfield.text = finalValue.ToString();
@@ -86,10 +122,12 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void OnTextfieldLostFocus(UIComponent component, UIFocusEventParameter eventParam) {
+            if (ignoreEvents) return;
             OnTextfieldTextSubmitted(textfield, textfield.text);
         }
 
         private void OnTextfieldKeyPress(UIComponent component, UIKeyEventParameter eventParam) {
+            if (ignoreEvents) return;
             char ch = eventParam.character;
             if (!char.IsControl(ch) && !char.IsDigit(ch) && (ch != '.' || (ch == '.' && textfield.text.Contains("."))) && (ch != ',' || (ch == ',' && textfield.text.Contains(",")))) {
                 eventParam.Use();
@@ -102,9 +140,10 @@ namespace ThemeMixer.UI.Parts
 
         private void SetupSlider() {
             slider.relativePosition = new Vector2(80.0f, 40.0f);
-            slider.value = ThemeUtils.GetTilingValue(textureID) * 10000.0f;
+            slider.value = Controller.GetTilingValue(textureID) * 10000.0f;
             slider.eventValueChanged += OnSliderValueChanged;
             slider.tooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_TILING);
+            if (Category != ThemeCategory.Terrain) slider.isVisible = false;
         }
 
         private void SetupLabel() {
@@ -116,6 +155,7 @@ namespace ThemeMixer.UI.Parts
             label.textScale = 1.0f;
             label.padding = new RectOffset(4, 0, 4, 0);
             label.text = Translation.Instance.GetTranslation(TranslationID.TextureToTranslationID(textureID));
+            if (Category != ThemeCategory.Terrain) label.anchor |= UIAnchorStyle.CenterVertical;
         }
 
         private void SetupThumbnail() {
@@ -144,10 +184,12 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void OnTextureClicked(UIComponent component, UIMouseEventParameter eventParam) {
+            if (ignoreEvents) return;
             Controller.OnLoadFromTheme(Category, textureID);
         }
 
         private void OnSliderValueChanged(UIComponent component, float value) {
+            if (ignoreEvents) return;
             float finalValue = value / 10000.0f;
             Controller.OnTilingChanged(textureID, finalValue);
             textfield.text = string.Concat(Math.Round(finalValue, 4, MidpointRounding.AwayFromZero));
@@ -156,13 +198,14 @@ namespace ThemeMixer.UI.Parts
         protected override void OnRefreshUI(object sender, UIDirtyEventArgs eventArgs) {
             base.OnRefreshUI(sender, eventArgs);
             try {
+                float tiling = Controller.GetTilingValue(textureID);
+                defaultValue = tiling;
                 thumb.spriteName = UIUtils.GetTextureSpriteName(textureID);
                 label.text = Translation.Instance.GetTranslation(TranslationID.TextureToTranslationID(textureID));
-                float tiling = ThemeUtils.GetTilingValue(textureID);
-                slider.eventValueChanged -= OnSliderValueChanged;
+                ignoreEvents = true;
                 slider.value = tiling * 10000.0f;
-                slider.eventValueChanged += OnSliderValueChanged;
                 textfield.text = string.Concat(Math.Round(tiling, 4, MidpointRounding.AwayFromZero));
+                ignoreEvents = false;
             } catch (Exception) {
                 Debug.LogWarning("Exception caught in TexturePanel.OnRefreshUI");
             }

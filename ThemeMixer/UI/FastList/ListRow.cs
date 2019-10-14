@@ -224,7 +224,7 @@ namespace ThemeMixer.UI.FastList
             switch (Controller.Part) {
                 case ThemePart.Texture:
                     valuesButton.normalBgSprite = "WhiteRect";
-                    valuesButton.color = Color.white;
+                    valuesButton.color = UnityEngine.Color.white;
                     valuesSprite.spriteName = UIUtils.GetTextureSpriteName(Controller.TextureID, itemData.ID);
                     break;
                 case ThemePart.Color:

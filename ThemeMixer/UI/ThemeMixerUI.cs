@@ -7,23 +7,21 @@ using UnityEngine;
 
 namespace ThemeMixer.UI
 {
-    [UIProperties("Theme Mixer UI", 0.0f, 234.0f, 0, true, LayoutDirection.Horizontal, LayoutStart.BottomRight)]
     public class ThemeMixerUI : PanelBase
     {
         private PanelBase currentPanel;
         private ToolBar toolBar;
         private UIPanel space;
 
-        public override void Awake() {
-            base.Awake();
-
-            CreateToolBar();
-        }
-
         public override void Start() {
             base.Start();
-
+            Vector2 screenRes = UIView.GetAView().GetScreenResolution();
             relativePosition = SerializationService.Instance.GetToolBarPosition() ?? CalculateDefaultToolBarPosition();
+
+            LayoutStart layoutStart = (relativePosition.x + 20.0f > screenRes.x / 2.0f) ? ((relativePosition.y + 137.5f > screenRes.y / 2.0f) ? LayoutStart.BottomRight : LayoutStart.TopRight) : (relativePosition.y + 137.5f > screenRes.y / 2.0f) ? LayoutStart.BottomLeft : LayoutStart.TopLeft;
+            Setup("Theme Mixer UI", new Vector2( 0.0f, 275.0f), 0, true, LayoutDirection.Horizontal, layoutStart);
+            autoFitChildrenHorizontally = false;
+            CreateToolBar();
             EnsureToolbarOnScreen();
             RefreshZOrder();
         }
@@ -49,6 +47,9 @@ namespace ThemeMixer.UI
                 case ThemeCategory.Terrain:
                     Parts.TerrainPanel terrainPanel = AddUIComponent<Parts.TerrainPanel>();
                     return terrainPanel;
+                case ThemeCategory.Water:
+                    Parts.WaterPanel waterPanel = AddUIComponent<Parts.WaterPanel>();
+                    return waterPanel;
                 default: return null;
             }
         }
@@ -103,20 +104,21 @@ namespace ThemeMixer.UI
 
         public override void Update() {
             base.Update();
-
             Vector2 screenRes = UIView.GetAView().GetScreenResolution();
 
             if ((autoLayoutStart == LayoutStart.TopLeft || autoLayoutStart == LayoutStart.BottomLeft) && relativePosition.x > screenRes.x / 2.0f) {
                 autoLayoutStart = autoLayoutStart == LayoutStart.TopLeft ? LayoutStart.TopRight : LayoutStart.BottomRight;
                 RefreshZOrder();
+
             } else if ((autoLayoutStart == LayoutStart.TopRight || autoLayoutStart == LayoutStart.BottomRight) && relativePosition.x + width < screenRes.x / 2.0f) {
                 autoLayoutStart = autoLayoutStart == LayoutStart.TopRight ? LayoutStart.TopLeft : LayoutStart.BottomLeft;
                 RefreshZOrder();
             }
-            if ((autoLayoutStart == LayoutStart.TopLeft || autoLayoutStart == LayoutStart.TopRight) && relativePosition.y > screenRes.y / 2.0f) {
+            if (currentPanel == null) return;
+            if ((autoLayoutStart == LayoutStart.TopLeft || autoLayoutStart == LayoutStart.TopRight) && relativePosition.y > screenRes.y / 2.0f || currentPanel.absolutePosition.y + currentPanel.height > screenRes.y) {
                 autoLayoutStart = autoLayoutStart == LayoutStart.TopLeft ? LayoutStart.BottomLeft : LayoutStart.BottomRight;
                 RefreshZOrder();
-            } else if ((autoLayoutStart == LayoutStart.BottomLeft || autoLayoutStart == LayoutStart.BottomRight) && relativePosition.y + height < screenRes.y / 2.0f) {
+            } else if ((autoLayoutStart == LayoutStart.BottomLeft || autoLayoutStart == LayoutStart.BottomRight) && relativePosition.y + height < screenRes.y / 2.0f || currentPanel.absolutePosition.y < 0.0f) {
                 autoLayoutStart = autoLayoutStart == LayoutStart.BottomLeft ? LayoutStart.TopLeft : LayoutStart.TopRight;
                 RefreshZOrder();
             }

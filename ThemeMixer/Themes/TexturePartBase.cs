@@ -11,7 +11,7 @@ namespace ThemeMixer.Themes
 
         public TexturePartBase() { }
 
-        public TexturePartBase(string packageID) : base(packageID) { }
+        public TexturePartBase(string themeID) : base(themeID) { }
 
         public bool SetTexture(Package.Asset asset) {
             if (asset == null) return false;

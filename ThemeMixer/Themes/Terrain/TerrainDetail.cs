@@ -10,12 +10,12 @@
             DetailName = detailName;
         }
 
-        public TerrainDetail(string packageID, Name name) : base(packageID) {
+        public TerrainDetail(string themeID, Name name) : base(themeID) {
             DetailName = name;
         }
 
         protected override bool SetFromTheme() {
-            MapThemeMetaData metaData = ThemeUtils.GetThemeFromPackage(PackageID);
+            MapThemeMetaData metaData = ThemeManager.GetTheme(ThemeID);
             if (metaData == null) return false;
             switch (DetailName) {
                 case Name.GrassDetailEnabled:

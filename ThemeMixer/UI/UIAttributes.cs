@@ -56,4 +56,14 @@ namespace ThemeMixer.UI
             OffsetID = offsetID;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    public class UIColorIDAttribute : Attribute
+    {
+        public ColorID ColorID;
+
+        public UIColorIDAttribute(ColorID colorID) {
+            ColorID = colorID;
+        }
+    }
 }

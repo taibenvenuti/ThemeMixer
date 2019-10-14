@@ -1,6 +1,7 @@
 ﻿using ColossalFramework.UI;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using ThemeMixer.Locale;
 using ThemeMixer.Resources;
 using ThemeMixer.Themes;
@@ -89,75 +90,76 @@ namespace ThemeMixer.UI
             return slider;
         }
 
-        public static string GetTextureSpriteName(TextureID textureID, string packageID = "") {
-            if(packageID == string.Empty) {
+        public static string GetTextureSpriteName(TextureID textureID, string themeID = "") {
+            if(themeID == string.Empty) {
                 ThemeMix mix = ThemeManager.Instance.CurrentMix;
                 switch (textureID) {
                     case TextureID.GrassDiffuseTexture:
-                        packageID = mix.Terrain.GrassDiffuseTexture.PackageID;
+                        themeID = mix.Terrain.GrassDiffuseTexture.ThemeID;
                         break;
                     case TextureID.RuinedDiffuseTexture:
-                        packageID = mix.Terrain.RuinedDiffuseTexture.PackageID;
+                        themeID = mix.Terrain.RuinedDiffuseTexture.ThemeID;
                         break;
                     case TextureID.PavementDiffuseTexture:
-                        packageID = mix.Terrain.PavementDiffuseTexture.PackageID;
+                        themeID = mix.Terrain.PavementDiffuseTexture.ThemeID;
                         break;
                     case TextureID.GravelDiffuseTexture:
-                        packageID = mix.Terrain.GravelDiffuseTexture.PackageID;
+                        themeID = mix.Terrain.GravelDiffuseTexture.ThemeID;
                         break;
                     case TextureID.CliffDiffuseTexture:
-                        packageID = mix.Terrain.CliffDiffuseTexture.PackageID;
+                        themeID = mix.Terrain.CliffDiffuseTexture.ThemeID;
                         break;
                     case TextureID.SandDiffuseTexture:
-                        packageID = mix.Terrain.SandDiffuseTexture.PackageID;
+                        themeID = mix.Terrain.SandDiffuseTexture.ThemeID;
                         break;
                     case TextureID.OilDiffuseTexture:
-                        packageID = mix.Terrain.OilDiffuseTexture.PackageID;
+                        themeID = mix.Terrain.OilDiffuseTexture.ThemeID;
                         break;
                     case TextureID.OreDiffuseTexture:
-                        packageID = mix.Terrain.OreDiffuseTexture.PackageID;
+                        themeID = mix.Terrain.OreDiffuseTexture.ThemeID;
                         break;
                     case TextureID.CliffSandNormalTexture:
-                        packageID = mix.Terrain.CliffSandNormalTexture.PackageID;
+                        themeID = mix.Terrain.CliffSandNormalTexture.ThemeID;
                         break;
                     case TextureID.UpwardRoadDiffuse:
-                        packageID = mix.Structures.UpwardRoadDiffuse.PackageID;
+                        themeID = mix.Structures.UpwardRoadDiffuse.ThemeID;
                         break;
                     case TextureID.DownwardRoadDiffuse:
-                        packageID = mix.Structures.DownwardRoadDiffuse.PackageID;
+                        themeID = mix.Structures.DownwardRoadDiffuse.ThemeID;
                         break;
                     case TextureID.BuildingFloorDiffuse:
-                        packageID = mix.Structures.BuildingFloorDiffuse.PackageID;
+                        themeID = mix.Structures.BuildingFloorDiffuse.ThemeID;
                         break;
                     case TextureID.BuildingBaseDiffuse:
-                        packageID = mix.Structures.BuildingBaseDiffuse.PackageID;
+                        themeID = mix.Structures.BuildingBaseDiffuse.ThemeID;
                         break;
                     case TextureID.BuildingBaseNormal:
-                        packageID = mix.Structures.BuildingBaseNormal.PackageID;
+                        themeID = mix.Structures.BuildingBaseNormal.ThemeID;
                         break;
                     case TextureID.BuildingBurntDiffuse:
-                        packageID = mix.Structures.BuildingBurntDiffuse.PackageID;
+                        themeID = mix.Structures.BuildingBurntDiffuse.ThemeID;
                         break;
                     case TextureID.BuildingAbandonedDiffuse:
-                        packageID = mix.Structures.BuildingAbandonedDiffuse.PackageID;
+                        themeID = mix.Structures.BuildingAbandonedDiffuse.ThemeID;
                         break;
                     case TextureID.LightColorPalette:
-                        packageID = mix.Structures.LightColorPalette.PackageID;
+                        themeID = mix.Structures.LightColorPalette.ThemeID;
                         break;
                     case TextureID.MoonTexture:
-                        packageID = mix.Atmosphere.MoonTexture.PackageID;
+                        themeID = mix.Atmosphere.MoonTexture.ThemeID;
                         break;
                     case TextureID.WaterFoam:
-                        packageID = mix.Water.WaterFoam.PackageID;
+                        themeID = mix.Water.WaterFoam.ThemeID;
                         break;
                     case TextureID.WaterNormal:
-                        packageID = mix.Water.WaterNormal.PackageID;
+                        themeID = mix.Water.WaterNormal.ThemeID;
                         break;
                     default:
                         break;
                 }
             }
-            return string.Concat(packageID, Enum.GetName(typeof(TextureID), textureID));
+            themeID = Regex.Replace(themeID, @"(\s+|@|&|'|\(|\)|<|>|#|"")", "");
+            return string.Concat(themeID, Enum.GetName(typeof(TextureID), textureID));
         }
 
         public static string GetCategoryAndPartLabel(ThemeCategory category, ThemePart part) {

@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lib.Harmony.1.2.0.1\lib\net35\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\..\..\References\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
@@ -55,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Patching\LoadThemePatch.cs" />
     <Compile Include="Resources\ThemeSprites.cs" />
     <Compile Include="Serialization\Data.cs" />
     <Compile Include="Themes\Atmosphere\AtmosphereColor.cs" />
@@ -73,6 +77,11 @@
     <Compile Include="Themes\Water\WaterTexture.cs" />
     <Compile Include="Themes\Weather\WeatherValue.cs" />
     <Compile Include="UI\CheckboxPanel.cs" />
+    <Compile Include="UI\ColorPanel\ButtonPanel.cs" />
+    <Compile Include="UI\ColorPanel\ColorPanel.cs" />
+    <Compile Include="Serialization\SavedSwatch.cs" />
+    <Compile Include="UI\ColorPanel\SavedSwatchPanel.cs" />
+    <Compile Include="UI\ColorPanel\SwatchButton.cs" />
     <Compile Include="UI\EventArgs.cs" />
     <Compile Include="UI\Parts\OffsetPanel.cs" />
     <Compile Include="UI\Parts\SelectStructuresPanel.cs" />
@@ -89,6 +98,7 @@
     <Compile Include="UI\FastList\UIFastList.cs" />
     <Compile Include="UI\ButtonBar.cs" />
     <Compile Include="UI\DragHandle.cs" />
+    <Compile Include="UI\Parts\WaterPanel.cs" />
     <Compile Include="UI\ThemeMixerUI.cs" />
     <Compile Include="UI\ToolBar.cs" />
     <Compile Include="Resources\UISprites.cs" />
@@ -103,7 +113,6 @@
     <Compile Include="Themes\ThemeMix.cs" />
     <Compile Include="Themes\Terrain\TerrainColorOffset.cs" />
     <Compile Include="Themes\Terrain\TerrainTexture.cs" />
-    <Compile Include="Themes\ThemeUtils.cs" />
     <Compile Include="Themes\Water\ThemeWater.cs" />
     <Compile Include="Themes\Weather\ThemeWeather.cs" />
     <Compile Include="UI\UIController.cs" />
@@ -124,6 +133,7 @@
     <Content Include="Locale\english.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Resources\Files\Swatch.png" />
     <EmbeddedResource Include="Resources\Files\IconBorder.png" />
     <EmbeddedResource Include="Resources\Files\IconBorderFocused.png" />
     <EmbeddedResource Include="Resources\Files\IconBorderHovered.png" />
@@ -168,7 +178,9 @@
     <EmbeddedResource Include="Resources\Files\WeatherIconHovered.png" />
     <EmbeddedResource Include="Resources\Files\WeatherIconPressed.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)" mkdir "$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"

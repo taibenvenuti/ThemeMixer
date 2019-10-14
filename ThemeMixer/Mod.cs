@@ -13,6 +13,8 @@ namespace ThemeMixer
 
         public string Description => Translation.Instance.GetTranslation(TranslationID.MOD_DESCRIPTION);
 
+        public static bool InGame => (ToolManager.instance.m_properties.m_mode == ItemClass.Availability.Game);
+
         public void OnEnabled() {
             EnsureManagers();
             ManagersOnEnabled();

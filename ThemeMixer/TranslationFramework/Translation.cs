@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using ColossalFramework.Globalization;
@@ -93,6 +94,10 @@ namespace ThemeMixer.TranslationFramework
                 }
             }
             else UnityEngine.Debug.LogWarning("Mod Path was empty!");
+        }
+
+        internal string GetTranslation(object tOOLTIP_BUTTON_SAVE_COLOREXISTS) {
+            throw new NotImplementedException();
         }
 
         /// <summary>

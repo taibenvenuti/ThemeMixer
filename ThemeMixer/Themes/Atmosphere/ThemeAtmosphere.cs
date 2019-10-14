@@ -52,25 +52,25 @@ namespace ThemeMixer.Themes.Atmosphere
             LateNightZenithColor = new AtmosphereColor(AtmosphereColor.ColorName.LateNightZenithColor);
         }
 
-        public void Set(string packageID) {
-            SetAll(packageID);
+        public void Set(string themeID) {
+            SetAll(themeID);
         }
 
-        public bool Load(string packageID = null) {
-            if (packageID != null) {
-                Set(packageID);
+        public bool Load(string themeID = null) {
+            if (themeID != null) {
+                Set(themeID);
             }
             return LoadAll();
         }
 
-        private void SetAll(string packageID) {
+        private void SetAll(string themeID) {
             for (int i = 0; i < (int)AtmosphereFloat.FloatName.Count; i++) {
-                SetFloat(packageID, (AtmosphereFloat.FloatName)i);
+                SetFloat(themeID, (AtmosphereFloat.FloatName)i);
             }
             for (int j = 0; j < (int)AtmosphereColor.ColorName.Count; j++) {
-                SetColor(packageID, (AtmosphereColor.ColorName)j);
+                SetColor(themeID, (AtmosphereColor.ColorName)j);
             }
-            SetMoon(packageID);
+            SetMoon(themeID);
         }
 
         private bool LoadAll() {
@@ -85,37 +85,37 @@ namespace ThemeMixer.Themes.Atmosphere
             return success;
         }
 
-        private void SetFloat(string packageID, AtmosphereFloat.FloatName name) {
+        private void SetFloat(string themeID, AtmosphereFloat.FloatName name) {
             switch (name) {
                 case AtmosphereFloat.FloatName.Longitude:
-                    Longitude = new AtmosphereFloat(packageID, name);
+                    Longitude = new AtmosphereFloat(themeID, name);
                     break;
                 case AtmosphereFloat.FloatName.Latitude:
-                    Latitude = new AtmosphereFloat(packageID, name);
+                    Latitude = new AtmosphereFloat(themeID, name);
                     break;
                 case AtmosphereFloat.FloatName.SunSize:
-                    SunSize = new AtmosphereFloat(packageID, name);
+                    SunSize = new AtmosphereFloat(themeID, name);
                     break;
                 case AtmosphereFloat.FloatName.SunAnisotropy:
-                    SunAnisotropy = new AtmosphereFloat(packageID, name);
+                    SunAnisotropy = new AtmosphereFloat(themeID, name);
                     break;
                 case AtmosphereFloat.FloatName.MoonSize:
-                    MoonSize = new AtmosphereFloat(packageID, name);
+                    MoonSize = new AtmosphereFloat(themeID, name);
                     break;
                 case AtmosphereFloat.FloatName.Rayleight:
-                    Rayleight = new AtmosphereFloat(packageID, name);
+                    Rayleight = new AtmosphereFloat(themeID, name);
                     break;
                 case AtmosphereFloat.FloatName.Mie:
-                    Mie = new AtmosphereFloat(packageID, name);
+                    Mie = new AtmosphereFloat(themeID, name);
                     break;
                 case AtmosphereFloat.FloatName.Exposure:
-                    Exposure = new AtmosphereFloat(packageID, name);
+                    Exposure = new AtmosphereFloat(themeID, name);
                     break;
                 case AtmosphereFloat.FloatName.StarsIntensity:
-                    StarsIntensity = new AtmosphereFloat(packageID, name);
+                    StarsIntensity = new AtmosphereFloat(themeID, name);
                     break;
                 case AtmosphereFloat.FloatName.OuterSpaceIntensity:
-                    OuterSpaceIntensity = new AtmosphereFloat(packageID, name);
+                    OuterSpaceIntensity = new AtmosphereFloat(themeID, name);
                     break;
                 default:
                     break;
@@ -148,25 +148,25 @@ namespace ThemeMixer.Themes.Atmosphere
             }
         }
 
-        private void SetColor(string packageID, AtmosphereColor.ColorName name) {
+        private void SetColor(string themeID, AtmosphereColor.ColorName name) {
             switch (name) {
                 case AtmosphereColor.ColorName.MoonInnerCorona:
-                    MoonInnerCorona = new AtmosphereColor(packageID, name);
+                    MoonInnerCorona = new AtmosphereColor(themeID, name);
                     break;
                 case AtmosphereColor.ColorName.MoonOuterCorona:
-                    MoonOuterCorona = new AtmosphereColor(packageID, name);
+                    MoonOuterCorona = new AtmosphereColor(themeID, name);
                     break;
                 case AtmosphereColor.ColorName.SkyTint:
-                    SkyTint = new AtmosphereColor(packageID, name);
+                    SkyTint = new AtmosphereColor(themeID, name);
                     break;
                 case AtmosphereColor.ColorName.NightHorizonColor:
-                    NightHorizonColor = new AtmosphereColor(packageID, name);
+                    NightHorizonColor = new AtmosphereColor(themeID, name);
                     break;
                 case AtmosphereColor.ColorName.EarlyNightZenithColor:
-                    EarlyNightZenithColor = new AtmosphereColor(packageID, name);
+                    EarlyNightZenithColor = new AtmosphereColor(themeID, name);
                     break;
                 case AtmosphereColor.ColorName.LateNightZenithColor:
-                    LateNightZenithColor = new AtmosphereColor(packageID, name);
+                    LateNightZenithColor = new AtmosphereColor(themeID, name);
                     break;
                 default:
                     break;
@@ -191,8 +191,8 @@ namespace ThemeMixer.Themes.Atmosphere
             }
         }
 
-        private void SetMoon(string packageID) {
-            MoonTexture = new MoonTexture(packageID);
+        private void SetMoon(string themeID) {
+            MoonTexture = new MoonTexture(themeID);
         }
 
         private bool LoadMoon() {

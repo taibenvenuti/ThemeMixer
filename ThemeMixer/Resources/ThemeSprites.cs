@@ -75,14 +75,14 @@ namespace ThemeMixer.Resources
         private static UITextureAtlas CreateAtlas() {
             _spriteNames.Clear();
             _spriteTextures.Clear();
-            var themeAssets = Themes.ThemeUtils.GetThemes();
+            var themeAssets = PackageManager.FilterAssets(UserAssetType.MapThemeMetaData);
             foreach (Package.Asset themeAsset in themeAssets) {
                 if (themeAsset == null || themeAsset.package == null) continue;
                 MapThemeMetaData meta = themeAsset.Instantiate<MapThemeMetaData>();
                 if (meta == null) continue;
                 for (int i = 0; i < _assetNames.Length; i++) {
                     string assetName = i < 2 ? string.Concat(meta.name, "_", _assetNames[i]) : _assetNames[i];
-                    string spriteName = string.Concat(themeAsset.package.packageName, assetName);
+                    string spriteName = string.Concat(themeAsset.fullName, assetName);
                     spriteName = Regex.Replace(spriteName, @"(\s+|@|&|'|\(|\)|<|>|#|"")", "");
 
                     Texture2D tex = themeAsset.package.Find(assetName)?.Instantiate<Texture2D>();

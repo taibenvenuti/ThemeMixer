@@ -70,6 +70,8 @@ namespace ThemeMixer.Resources
         public const string UndoIconHovered = "UndoIconHovered";
         public const string UndoIconPressed = "UndoIconPressed";
 
+        public const string Swatch = "Swatch";
+
 
         private static readonly string[] _spriteNames = new string[] {
             DragHandle,
@@ -124,7 +126,9 @@ namespace ThemeMixer.Resources
 
             UndoIcon,
             UndoIconHovered,
-            UndoIconPressed
+            UndoIconPressed,
+
+            Swatch
         };
 
         private static UITextureAtlas CreateAtlas() {

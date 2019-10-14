@@ -12,17 +12,17 @@ namespace ThemeMixer.Themes.Terrain
             Name = textureName;
         }
 
-        public TerrainTexture(TextureName textureName, string packageID) : base(packageID) {
+        public TerrainTexture(TextureName textureName, string themeID) : base(themeID) {
             Name = textureName;
         }
 
-        public override bool Load(string packageID = null) {
-            if(base.Load(packageID)) LoadTiling();
+        public override bool Load(string themeID = null) {
+            if(base.Load(themeID)) LoadTiling();
             return true;
         }
 
         protected override bool SetFromTheme() {
-            MapThemeMetaData metaData = ThemeUtils.GetThemeFromPackage(PackageID);
+            MapThemeMetaData metaData = ThemeManager.GetTheme(ThemeID);
             if (metaData == null) return false;
             bool success = false;
             switch (Name) {

@@ -1,9 +1,10 @@
-﻿using ColossalFramework.UI;
+﻿    using ColossalFramework.UI;
 using System;
 using System.Reflection;
 using ThemeMixer.Resources;
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes.Enums;
+using ThemeMixer.UI.Color;
 using ThemeMixer.UI.Parts;
 using UnityEngine;
 
@@ -40,28 +41,36 @@ namespace ThemeMixer.UI.Abstraction
         }
         public override void Start() {
             base.Start();
+
             FieldInfo[] fields = GetType().GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
             foreach (FieldInfo field in fields) {
                 if (field == null || (!typeof(PanelBase).IsAssignableFrom(field.FieldType))) continue;
                 PanelBase panelBase = field.GetValue(this) as PanelBase;
+                
                 object[] attrsA = field.GetCustomAttributes(typeof(UICategoryAttribute), true);
-                if (attrsA?.Length > 0 && attrsA[0] is UICategoryAttribute d)
-                    panelBase.Category = d.Category;
+                if (attrsA?.Length > 0 && attrsA[0] is UICategoryAttribute a)
+                    panelBase.Category = a.Category;
 
                 object[] attrsB = field.GetCustomAttributes(typeof(UIProperties), true);
-                if (attrsB?.Length > 0 && attrsB[0] is UIProperties c)
-                    panelBase.Setup(c.Name, c.Size, c.Spacing, c.AutoLayout, c.LayoutDirection, c.LayoutStart, c.BackgroundSprite);
+                if (attrsB?.Length > 0 && attrsB[0] is UIProperties b)
+                    panelBase.Setup(b.Name, b.Size, b.Spacing, b.AutoLayout, b.LayoutDirection, b.LayoutStart, b.BackgroundSprite);
 
                 if (panelBase is TexturePanel texturePanel) {
                     object[] attrsC = field.GetCustomAttributes(typeof(UITextureIDAttribute), true);
-                    if (attrsC?.Length > 0 && attrsC[0] is UITextureIDAttribute a)
-                        texturePanel.textureID = a.TextureID;
+                    if (attrsC?.Length > 0 && attrsC[0] is UITextureIDAttribute c)
+                        texturePanel.textureID = c.TextureID;
                 }
 
                 if (panelBase is OffsetPanel offsetPanel) {
                     object[] attrsD = field.GetCustomAttributes(typeof(UIOffsetIDAttribute), true);
-                    if (attrsD?.Length > 0 && attrsD[0] is UIOffsetIDAttribute a)
-                        offsetPanel.offsetID = a.OffsetID;
+                    if (attrsD?.Length > 0 && attrsD[0] is UIOffsetIDAttribute d)
+                        offsetPanel.OffsetID = d.OffsetID;
+                }
+
+                if (panelBase is ColorPanel colorPanel) {
+                    object[] attrsE = field.GetCustomAttributes(typeof(UIColorIDAttribute), true);
+                    if (attrsE?.Length > 0 && attrsE[0] is UIColorIDAttribute e)
+                        colorPanel.ColorID = e.ColorID;
                 }
             }
         }

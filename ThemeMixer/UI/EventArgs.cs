@@ -28,12 +28,12 @@ namespace ThemeMixer.UI
 
     public class ThemeSelectedEventArgs : EventArgs
     {
-        public string packageID;
+        public string themeID;
         public ThemeCategory category = ThemeCategory.None;
         public ThemePart part = ThemePart.None;
 
-        public ThemeSelectedEventArgs(string packageID, ThemeCategory category, ThemePart part) {
-            this.packageID = packageID;
+        public ThemeSelectedEventArgs(string themeID, ThemeCategory category, ThemePart part) {
+            this.themeID = themeID;
             this.category = category;
             this.part = part;
         }

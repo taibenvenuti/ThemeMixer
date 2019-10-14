@@ -12,12 +12,12 @@ namespace ThemeMixer.Themes.Water
             Name = colorName;
         }
 
-        public WaterColor(string packageID, ColorName colorName) : base(packageID) {
+        public WaterColor(string themeID, ColorName colorName) : base(themeID) {
             Name = colorName;
         }
 
         protected override bool SetFromTheme() {
-            MapThemeMetaData metaData = ThemeUtils.GetThemeFromPackage(PackageID);
+            MapThemeMetaData metaData = ThemeManager.GetTheme(ThemeID);
             if (metaData == null) return false;
             switch (Name) {
                 case ColorName.WaterClean:

@@ -6,13 +6,13 @@ namespace ThemeMixer.Themes.Atmosphere
     {
         public MoonTexture() { }
 
-        public MoonTexture(string packageID) : base (packageID){
-            PackageID = packageID;
-            Load(packageID);
+        public MoonTexture(string themeID) : base (themeID){
+            ThemeID = themeID;
+            Load(themeID);
         }
 
-        public override bool Load(string packageID = null) {
-            if (packageID != null) PackageID = packageID;
+        public override bool Load(string themeID = null) {
+            if (themeID != null) ThemeID = themeID;
             if (!SetFromTheme() && Texture == null) return false;
             LoadValue();
             return true;
@@ -26,7 +26,7 @@ namespace ThemeMixer.Themes.Atmosphere
         }
 
         protected override bool SetFromTheme() {
-            MapThemeMetaData metaData = ThemeUtils.GetThemeFromPackage(PackageID);
+            MapThemeMetaData metaData = ThemeManager.GetTheme(ThemeID);
             if (metaData == null) return false;
             return SetTexture(metaData.moonTexture);
         }

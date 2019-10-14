@@ -12,13 +12,13 @@ namespace ThemeMixer.Themes.Water
             Name = textureName;
         }
 
-        public WaterTexture(TextureName textureName, string packageID) : base(packageID) {
+        public WaterTexture(TextureName textureName, string themeID) : base(themeID) {
             Name = textureName;
-            Load(packageID);
+            Load(themeID);
         }
 
         protected override bool SetFromTheme() {
-            MapThemeMetaData metaData = ThemeUtils.GetThemeFromPackage(PackageID);
+            MapThemeMetaData metaData = ThemeManager.GetTheme(ThemeID);
             if (metaData == null) return false;
             switch (Name) {
                 case TextureName.WaterFoam:

@@ -8,6 +8,7 @@ namespace ThemeMixer.UI.Parts
         public override void Start() {
             base.Start();
             button.isVisible = true;
+            CenterToParent();
         }
     }
 }

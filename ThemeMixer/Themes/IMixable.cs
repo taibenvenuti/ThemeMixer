@@ -2,7 +2,7 @@
 {
     public interface IMixable
     {
-        bool Load(string packageID);
+        bool Load(string themeID);
         void SetCustomValue(object value);
     }
 }

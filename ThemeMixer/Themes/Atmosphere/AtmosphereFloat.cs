@@ -10,12 +10,12 @@
             Name = floatName;
         }
 
-        public AtmosphereFloat(string packageID, FloatName floatName) : base(packageID) {
+        public AtmosphereFloat(string themeID, FloatName floatName) : base(themeID) {
             Name = floatName;
         }
 
         protected override bool SetFromTheme() {
-            MapThemeMetaData metaData = ThemeUtils.GetThemeFromPackage(PackageID);
+            MapThemeMetaData metaData = ThemeManager.GetTheme(ThemeID);
             if (metaData == null) return false;
             switch (Name) {
                 case FloatName.Longitude:

@@ -12,12 +12,12 @@ namespace ThemeMixer.Themes.Terrain
             Name = offsetName;
         }
 
-        public TerrainColorOffset(string packageID, OffsetName offsetName) : base(packageID) {
+        public TerrainColorOffset(string themeID, OffsetName offsetName) : base(themeID) {
             Name = offsetName;
         }
 
         protected override bool SetFromTheme() {
-            MapThemeMetaData metaData = ThemeUtils.GetThemeFromPackage(PackageID);
+            MapThemeMetaData metaData = ThemeManager.GetTheme(ThemeID);
             if (metaData == null) return false;
             switch (Name) {
                 case OffsetName.GrassFertilityColorOffset:

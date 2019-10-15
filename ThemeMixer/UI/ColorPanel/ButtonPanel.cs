@@ -10,11 +10,10 @@ namespace ThemeMixer.UI.Color
         public event ButtonClickedEventHandler EventButtonClicked;
 
         private UIButton button;
-
-        public override void Start() {
-            base.Start(); 
+        public override void Awake() {
+            base.Awake();
             CreateButton();
-            this.CreateSpace(0.0f, 10.0f);
+            this.CreateSpace(0.0f, 5.0f);
         }
 
         public override void OnDestroy() {

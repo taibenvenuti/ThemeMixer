@@ -1,8 +1,6 @@
 ﻿using ColossalFramework.UI;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using ThemeMixer.Locale;
 using ThemeMixer.Resources;
 using ThemeMixer.Serialization;
@@ -15,18 +13,24 @@ namespace ThemeMixer.UI.Color
 {
     public class ColorPanel : PanelBase
     {
+        private UIPanel topPanel;
+        private UIButton colorButton;
+        private UILabel colorLabel;
+        private UIButton loadButton;
+        private UIButton resetButton;
+
         private UIColorPicker colorPicker;
 
-        [UIProperties("RGB Panel", 0.0f, 35.0f, 5, true, LayoutDirection.Horizontal, LayoutStart.TopLeft)]
+        [UIProperties("RGB Panel", 0.0f, 25.0f, 5, true, LayoutDirection.Horizontal, LayoutStart.TopLeft)]
         private PanelBase rgbPanel;
 
-        [UIProperties("Buttons Panel", 0.0f, 34.0f, 10, true, LayoutDirection.Horizontal, LayoutStart.TopLeft)]
+        [UIProperties("Buttons Panel", 0.0f, 30.0f, 10, true, LayoutDirection.Horizontal, LayoutStart.TopLeft)]
         private PanelBase buttonsPanel;
 
-        [UIProperties("Reset Button", 0.0f, 40.0f, 0, true, LayoutDirection.Horizontal, LayoutStart.TopLeft)]
-        private ButtonPanel resetButton;
+        [UIProperties("Close Button", 0.0f, 30.0f, 0, true, LayoutDirection.Horizontal, LayoutStart.TopLeft)]
+        private ButtonPanel closeButton;
 
-        [UIProperties("Save Button", 0.0f, 40.0f, 0, true, LayoutDirection.Horizontal, LayoutStart.TopLeft)]
+        [UIProperties("Save Button", 0.0f, 30.0f, 0, true, LayoutDirection.Horizontal, LayoutStart.TopLeft)]
         private ButtonPanel saveButton;
 
         private UIPanel colorPanel;
@@ -41,52 +45,85 @@ namespace ThemeMixer.UI.Color
 
         public ColorID ColorID;
         private Color32 defaultValue;
+        bool visible = false;
 
         public override void Awake() {
             base.Awake();
+            topPanel = AddUIComponent<UIPanel>();
+            string colorButtonTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_OPENCOLORPICKER);
+            colorButton = UIUtils.CreateButton(topPanel, new Vector2(22.0f, 22.0f), tooltip: colorButtonTooltip, backgroundSprite: "WhiteRect", atlas: UISprites.DefaultAtlas);
+            colorLabel = topPanel.AddUIComponent<UILabel>();
+            string loadTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_LOADFROMTHEME);
+            loadButton = UIUtils.CreateButton(topPanel, new Vector2(22.0f, 22.0f), tooltip: loadTooltip, backgroundSprite: "ThemesIcon", atlas: UISprites.Atlas);
+            string resetTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_RESET);
+            resetButton = UIUtils.CreateButton(topPanel, new Vector2(22.0f, 22.0f), tooltip: resetTooltip, backgroundSprite: "", foregroundSprite: "UndoIcon", atlas: UISprites.Atlas);
             savedSwatches = Data.GetSavedSwatches();
             if (Mod.InGame) {
                 UIColorField field = UITemplateManager.Get<UIPanel>("LineTemplate").Find<UIColorField>("LineColor");
                 field = Instantiate(field);
                 colorPicker = Instantiate(field.colorPicker);
+                AttachUIComponent(colorPicker.gameObject);
+                UITextureSprite hsb = colorPicker.component.Find<UITextureSprite>("HSBField");
+                UISlider hue = colorPicker.component.Find<UISlider>("HueSlider");
+                hsb.relativePosition = new Vector3(55.0f, 12.0f);
+                hue.relativePosition = new Vector3(267.0f, 12.0f);
             }
             rgbPanel = AddUIComponent<PanelBase>();
             buttonsPanel = AddUIComponent<PanelBase>();
-            resetButton = buttonsPanel.AddUIComponent<ButtonPanel>();
+            closeButton = buttonsPanel.AddUIComponent<ButtonPanel>();
             saveButton = buttonsPanel.AddUIComponent<ButtonPanel>();
 
-
             RefreshSavedSwatchesPanel();
-            this.CreateSpace(255.0f, 11.0f);
-            RefreshColors();
+            this.CreateSpace(1.0f, 0.1f);
+
             color = UIColor;
-            padding = new RectOffset(1, 0, 0, 0);
             autoFitChildrenHorizontally = true;
         }
 
         public override void Start() {
             base.Start();
             defaultValue = Controller.GetCurrentColor(ColorID);
+            SetupTopPanel();
             if (Mod.InGame) SetupColorPicker();
             SetupRGBPanel();
             SetupButtonsPanel();
+            RefreshColors();
+            OnCloseClicked();
+
+            color = UIColorGrey;
         }
 
-        public override void OnDestroy() {
-            redTextField.eventGotFocus -= OnGotFocus;
-            redTextField.eventKeyPress -= OnKeyPress;
-            redTextField.eventTextChanged -= OnTextChanged;
-            redTextField.eventTextSubmitted -= OnTextSubmitted;
-            greenTextField.eventGotFocus -= OnGotFocus;
-            greenTextField.eventKeyPress -= OnKeyPress;
-            greenTextField.eventTextChanged -= OnTextChanged;
-            greenTextField.eventTextSubmitted -= OnTextSubmitted;
-            blueTextField.eventGotFocus -= OnGotFocus;
-            blueTextField.eventKeyPress -= OnKeyPress;
-            blueTextField.eventTextChanged -= OnTextChanged;
-            blueTextField.eventTextSubmitted -= OnTextSubmitted;
-            if (colorPicker != null) colorPicker.eventColorUpdated -= OnColorUpdated;
-            base.OnDestroy();
+        private void SetupTopPanel() {
+            topPanel.size = new Vector2(345, 22.0f);
+            colorButton.relativePosition = new Vector3(0.0f, 0.0f);
+            colorButton.eventClicked += OnColorButtonClicked; 
+            colorLabel.height = 22.0f;
+            colorLabel.font = UIUtils.Font;
+            colorLabel.textScale = 1.0f;
+            colorLabel.padding = new RectOffset(4, 0, 4, 0);
+            colorLabel.text = UIUtils.GetColorName(ColorID);
+            colorLabel.relativePosition = new Vector3(32.0f, 0.0f);
+            loadButton.relativePosition = new Vector3(291.0f, 0.0f);
+            loadButton.eventClicked += OnLoadClicked;
+            resetButton.relativePosition = new Vector3(318.0f, 0.0f);
+            resetButton.eventClicked += OnResetClicked;
+        }
+
+        private void OnLoadClicked(UIComponent component, UIMouseEventParameter eventParam) {
+            Controller.OnLoadFromTheme(Category, ColorID);
+        }
+
+        private void OnResetClicked(UIComponent component, UIMouseEventParameter eventParam) {
+            Controller.OnColorChanged(ColorID, defaultValue);
+            RefreshColors();
+        }
+
+        private void OnColorButtonClicked(UIComponent component, UIMouseEventParameter eventParam) {
+            visible = !visible;
+            if (colorPicker != null) colorPicker.component.isVisible = visible;
+            rgbPanel.isVisible = visible;
+            buttonsPanel.isVisible = visible;
+            savedSwatchesPanel.isVisible = visible;
         }
 
         public override void Update() {
@@ -114,12 +151,11 @@ namespace ThemeMixer.UI.Color
             colorPicker.component.color = UIColor;
             UIPanel pickerPanel = colorPicker.component as UIPanel;
             pickerPanel.backgroundSprite = "";
-            colorPicker.component.size = new Vector2(254f, 217f);
-            AttachUIComponent(colorPicker.gameObject);
+            pickerPanel.size = new Vector2(340f, 217f);
         }
 
         private void SetupRGBPanel() {
-            rgbPanel.padding = new RectOffset(10, 0, 5, 0);
+            rgbPanel.padding = new RectOffset(55, 0, 0, 5);
             colorPanel = rgbPanel.AddUIComponent<UIPanel>();
             colorPanel.backgroundSprite = "WhiteRect";
             colorPanel.size = new Vector2(28.0f, 25.0f);
@@ -174,15 +210,15 @@ namespace ThemeMixer.UI.Color
         }
 
         private void SetupButtonsPanel() {
-            buttonsPanel.padding = new RectOffset(10, 0, 5, 0);
+            buttonsPanel.padding = new RectOffset(55, 0, 0, 0);
             SetupResetButton();
             SetupSaveButton();
         }
 
         private void SetupResetButton() {
-            resetButton.SetAnchor(UIAnchorStyle.Left | UIAnchorStyle.CenterVertical);
-            resetButton.SetText(Translation.Instance.GetTranslation(TranslationID.BUTTON_RESET));
-            resetButton.EventButtonClicked += OnResetClicked;
+            closeButton.SetAnchor(UIAnchorStyle.Left | UIAnchorStyle.CenterVertical);
+            closeButton.SetText(Translation.Instance.GetTranslation(TranslationID.BUTTON_CLOSE));
+            closeButton.EventButtonClicked += OnCloseClicked;
         }
 
         private void SetupSaveButton() {
@@ -196,17 +232,16 @@ namespace ThemeMixer.UI.Color
             if (savedSwatchesPanel != null) Destroy(savedSwatchesPanel.gameObject);
             savedSwatchesPanel = AddUIComponent<PanelBase>();
             savedSwatchesPanel.Setup("Saved Swatches Panel", new Vector2(256.0f, 0.0f), 0,  true, LayoutDirection.Vertical, LayoutStart.TopLeft);
-            savedSwatchesPanel.padding = new RectOffset(5, 0, 5, 0);
-            foreach (var savedSwatch in savedSwatches) {
-                AddSavedSwatch(savedSwatch);
-            }
+            savedSwatchesPanel.padding = new RectOffset(0, 0, 0, 5);
+            foreach (var savedSwatch in savedSwatches) AddSavedSwatch(savedSwatch);
+            savedSwatchesPanel.isVisible = savedSwatches.Count != 0;
         }
 
         private void AddSavedSwatch(SavedSwatch savedSwatch) {
             SavedSwatchPanel savedSwatchPanel = savedSwatchesPanel.AddUIComponent<SavedSwatchPanel>();
-            savedSwatchPanel.Setup("Saved Swatch", new Vector2(256.0f, 24.0f), 0, true, LayoutDirection.Horizontal, LayoutStart.TopLeft, ColorID);
+            savedSwatchPanel.Setup("Saved Swatch", new Vector2(256.0f, 24.0f), 0, true, LayoutDirection.Horizontal, LayoutStart.TopLeft, ColorID, savedSwatch);
             savedSwatchPanel.savedSwatch = savedSwatch;
-            savedSwatchPanel.autoLayoutPadding = new RectOffset(5, 0, 5, 0);
+            savedSwatchPanel.autoLayoutPadding = new RectOffset(0, 5, 5, 5);
             savedSwatchPanel.EventSwatchClicked += OnSavedSwatchClicked;
             savedSwatchPanel.EventRemoveSwatch += OnSavedSwatchRemoved;
             savedSwatchPanel.EventSwatchRenamed += OnSavedSwatchRenamed;
@@ -237,9 +272,12 @@ namespace ThemeMixer.UI.Color
             }
         }
 
-        private void OnResetClicked() {
-            Controller.OnColorChanged(ColorID, defaultValue);
-            RefreshColors();
+        private void OnCloseClicked() {
+            visible = false;
+            if (colorPicker != null) colorPicker.component.isVisible = visible;
+            rgbPanel.isVisible = visible;
+            buttonsPanel.isVisible = visible;
+            savedSwatchesPanel.isVisible = visible;
         }
 
         private void OnGotFocus(UIComponent component, UIFocusEventParameter eventParam) {
@@ -302,6 +340,7 @@ namespace ThemeMixer.UI.Color
         private void OnColorUpdated(UnityEngine.Color value) {
             currentColor = value;
             if (colorPanel != null) colorPanel.color = value;
+            colorButton.color = value;
             UpdateTextfields();
             updateNeeded = true;
         }

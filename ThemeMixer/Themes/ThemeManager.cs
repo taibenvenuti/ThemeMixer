@@ -55,15 +55,15 @@ namespace ThemeMixer.Themes
 
         internal Color GetCurrentColor(ColorID colorID) {
             switch (colorID) {
-                case ColorID.MoonInnerCorona: return (Color32)(CurrentMix.Atmosphere.MoonInnerCorona.CustomValue ?? CurrentMix.Atmosphere.MoonInnerCorona.Value);
-                case ColorID.MoonOuterCorona: return (Color32)(CurrentMix.Atmosphere.MoonOuterCorona.CustomValue ?? CurrentMix.Atmosphere.MoonOuterCorona.Value);
-                case ColorID.SkyTint: return (Color32)(CurrentMix.Atmosphere.SkyTint.CustomValue ?? CurrentMix.Atmosphere.SkyTint.Value);
-                case ColorID.NightHorizonColor: return (Color32)(CurrentMix.Atmosphere.NightHorizonColor.CustomValue ?? CurrentMix.Atmosphere.NightHorizonColor.Value);
-                case ColorID.EarlyNightZenithColor: return (Color32)(CurrentMix.Atmosphere.EarlyNightZenithColor.CustomValue ?? CurrentMix.Atmosphere.EarlyNightZenithColor.Value);
-                case ColorID.LateNightZenithColor: return (Color32)(CurrentMix.Atmosphere.LateNightZenithColor.CustomValue ?? CurrentMix.Atmosphere.LateNightZenithColor.Value);
-                case ColorID.WaterClean: return (Color32)(CurrentMix.Water.WaterClean.CustomValue ?? CurrentMix.Water.WaterClean.Value);
-                case ColorID.WaterDirty: return (Color32)(CurrentMix.Water.WaterDirty.CustomValue ?? CurrentMix.Water.WaterDirty.Value);
-                case ColorID.WaterUnder: return (Color32)(CurrentMix.Water.WaterUnder.CustomValue ?? CurrentMix.Water.WaterUnder.Value);
+                case ColorID.MoonInnerCorona: return (Color)(CurrentMix.Atmosphere.MoonInnerCorona.CustomValue ?? CurrentMix.Atmosphere.MoonInnerCorona.Value);
+                case ColorID.MoonOuterCorona: return (Color)(CurrentMix.Atmosphere.MoonOuterCorona.CustomValue ?? CurrentMix.Atmosphere.MoonOuterCorona.Value);
+                case ColorID.SkyTint: return (Color)(CurrentMix.Atmosphere.SkyTint.CustomValue ?? CurrentMix.Atmosphere.SkyTint.Value);
+                case ColorID.NightHorizonColor: return (Color)(CurrentMix.Atmosphere.NightHorizonColor.CustomValue ?? CurrentMix.Atmosphere.NightHorizonColor.Value);
+                case ColorID.EarlyNightZenithColor: return (Color)(CurrentMix.Atmosphere.EarlyNightZenithColor.CustomValue ?? CurrentMix.Atmosphere.EarlyNightZenithColor.Value);
+                case ColorID.LateNightZenithColor: return (Color)(CurrentMix.Atmosphere.LateNightZenithColor.CustomValue ?? CurrentMix.Atmosphere.LateNightZenithColor.Value);
+                case ColorID.WaterClean: return (Color)(CurrentMix.Water.WaterClean.CustomValue ?? CurrentMix.Water.WaterClean.Value);
+                case ColorID.WaterDirty: return (Color)(CurrentMix.Water.WaterDirty.CustomValue ?? CurrentMix.Water.WaterDirty.Value);
+                case ColorID.WaterUnder: return (Color  )(CurrentMix.Water.WaterUnder.CustomValue ?? CurrentMix.Water.WaterUnder.Value);
                 default: return default;
             }
         }
@@ -169,7 +169,7 @@ namespace ThemeMixer.Themes
             EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
         }
 
-        internal void OnColorChanged(ColorID colorID, Color32 value) {
+        internal void OnColorChanged(ColorID colorID, Color value) {
             switch (colorID) {
                 case ColorID.MoonInnerCorona: CurrentMix.Atmosphere.MoonInnerCorona.SetCustomValue(value); break;
                 case ColorID.MoonOuterCorona: CurrentMix.Atmosphere.MoonOuterCorona.SetCustomValue(value); break;

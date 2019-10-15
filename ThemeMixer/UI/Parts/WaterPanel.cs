@@ -1,5 +1,4 @@
-﻿using System;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using ThemeMixer.Locale;
 using ThemeMixer.Resources;
 using ThemeMixer.Themes.Enums;
@@ -27,27 +26,24 @@ namespace ThemeMixer.UI.Parts
         protected TexturePanel waterNormalPanel;
 
         [UICategory(ThemeCategory.Water)]
-        [UIProperties("Colors Panel", 350.0f, 113.0f)]
+        [UIProperties("Colors Panel", 360.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         protected PanelBase colorsPanel;
 
         [UICategory(ThemeCategory.Water)]
-        protected ColorPanel colorFieldPanel;
-
-        [UICategory(ThemeCategory.Water)]
         [UIColorID(ColorID.WaterClean)]
+        [UIProperties("WaterClean Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect")]
         protected ColorPanel waterCleanColorPanel;
 
         [UICategory(ThemeCategory.Water)]
-        [UIColorID(ColorID.WaterDirty)]
-        protected ColorPanel waterDirtyColorPanel;
-
-        [UICategory(ThemeCategory.Water)]
         [UIColorID(ColorID.WaterUnder)]
+        [UIProperties("WaterUnder Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect")]
         protected ColorPanel waterUnderColorPanel;
 
-        protected UIButton waterCleanColorPicker;
-        protected UIButton waterDirtyColorPicker;
-        protected UIButton waterUnderColorPicker;
+        [UICategory(ThemeCategory.Water)]
+        [UIColorID(ColorID.WaterDirty)]
+        [UIProperties("WaterDirty Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect")]
+        protected ColorPanel waterDirtyColorPanel;
+
 
         public override void Awake() {
             base.Awake();
@@ -79,7 +75,13 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void CreateColorsPanel() {
-
+            colorsPanel = AddUIComponent<PanelBase>();
+            waterCleanColorPanel = colorsPanel.AddUIComponent<ColorPanel>();
+            colorsPanel.CreateSpace(1.0f, 5.0f);
+            waterUnderColorPanel = colorsPanel.AddUIComponent<ColorPanel>();
+            colorsPanel.CreateSpace(1.0f, 5.0f);
+            waterDirtyColorPanel = colorsPanel.AddUIComponent<ColorPanel>();
+            colorsPanel.CreateSpace(1.0f, 5.0f);
         }
 
         private void OnLoadWaterFromTheme(UIComponent component, UIMouseEventParameter eventParam) {

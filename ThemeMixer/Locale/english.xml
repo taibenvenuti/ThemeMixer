@@ -7,7 +7,8 @@
     <Translation ID="ERROR_BROKEN_PACKAGE_TITLE" String="Broken Theme Package" />
     <Translation ID="ERROR_BROKEN_PACKAGE_MESSAGE" String="The package is invalid or broken." />
     <Translation ID="BUTTON_OK" String="OK" />
-    <Translation ID="BUTTON_LOADFROMTHEME" String="Load" />
+    <Translation ID="BUTTON_CLOSE" String="Close" />
+    <Translation ID="BUTTON_SAVE" String="Save" />
     <Translation ID="TOOLTIP_THEMES" String="Themes" />
     <Translation ID="TOOLTIP_TERRAIN" String="Terrain" />
     <Translation ID="TOOLTIP_WATER" String="Water" />
@@ -25,6 +26,10 @@
     <Translation ID="TOOLTIP_VALUE_GRASSDETAIL" String="Toggle 'decorative' grass sprites" />
     <Translation ID="TOOLTIP_VALUE_CLIFFDETAIL" String="Toggle 'decorative' rock sprites" />
     <Translation ID="TOOLTIP_VALUE_FERTILEDETAIL" String="Toggle 'decorative' fertile sprites" />
+    <Translation ID="TOOLTIP_OPENCOLORPICKER" String="Open color picker" />
+    <Translation ID="TOOLTIP_BUTTON_SAVE_MAXREACHED" String="You've reached the maximum amount of saved colors" />
+    <Translation ID="TOOLTIP_BUTTON_SAVE_COLOREXISTS" String="The currently selected color is already saved" />
+    <Translation ID="TOOLTIP_BUTTON_SAVE" String="Save current color as favorite" />
     <Translation ID="LABEL_BY" String="by" />
     <Translation ID="LABEL_THEME" String="Theme" />
     <Translation ID="LABEL_TERRAIN" String="Terrain" />
@@ -65,5 +70,18 @@
     <Translation ID="LABEL_VALUE_GRASSDETAIL" String="Show Grass Sprites" />
     <Translation ID="LABEL_VALUE_CLIFFDETAIL" String="Show Rock Sprites" />
     <Translation ID="LABEL_VALUE_FERTILEDETAIL" String="Show Fertile Sprites" />
+    <Translation ID="LABEL_RED" String="R" />
+    <Translation ID="LABEL_GREEN" String="G" />
+    <Translation ID="LABEL_BLUE" String="B" />
+    <Translation ID="LABEL_NEW_SWATCH" String="New saved color" />
+    <Translation ID="LABEL_MOONINNERCORONA" String="Inner moon corona" />
+    <Translation ID="LABEL_MOONOUTERCORONA" String="Outer moon corona" />
+    <Translation ID="LABEL_SKYTINT" String="Sky tint" />
+    <Translation ID="LABEL_NIGHTHORIZONCOLOR" String="Night horizon" />
+    <Translation ID="LABEL_EARLYNIGHTZENITHCOLOR" String="Early night zenith" />
+    <Translation ID="LABEL_LATENIGHTZENITHCOLOR" String="Late night zenith" />
+    <Translation ID="LABEL_WATERCLEAN" String="Water" />
+    <Translation ID="LABEL_WATERDIRTY" String="Polluted water" />
+    <Translation ID="LABEL_WATERUNDER" String="Underwater" />
   </Translations>
 </Language>

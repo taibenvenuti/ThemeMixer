@@ -240,7 +240,7 @@ namespace ThemeMixer
             return ThemeManager.Instance.GetValue<T>(valueID);
         }
 
-        internal void OnColorChanged(ColorID colorID, Color32 defaultValue) {
+        internal void OnColorChanged(ColorID colorID, Color defaultValue) {
             ThemeManager.Instance.OnColorChanged(colorID, defaultValue);
         }
     }

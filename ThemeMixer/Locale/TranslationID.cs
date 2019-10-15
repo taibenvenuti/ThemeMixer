@@ -14,12 +14,8 @@ namespace ThemeMixer.Locale
         public const string ERROR_BROKEN_PACKAGE_MESSAGE = "ERROR_BROKEN_PACKAGE_MESSAGE";
 
         public const string BUTTON_OK = "BUTTON_OK";
-        public const string BUTTON_LOADFROMTHEME = "BUTTON_LOADFROMTHEME";
-
-        //
-        public const string BUTTON_RESET = "BUTTON_RESET";
+        public const string BUTTON_CLOSE = "BUTTON_CLOSE";
         public const string BUTTON_SAVE = "BUTTON_SAVE";
-        //
 
         public const string TOOLTIP_THEMES = "TOOLTIP_THEMES";
         public const string TOOLTIP_TERRAIN = "TOOLTIP_TERRAIN";
@@ -39,16 +35,27 @@ namespace ThemeMixer.Locale
         public const string TOOLTIP_VALUE_GRASSDETAIL = "TOOLTIP_VALUE_GRASSDETAIL";
         public const string TOOLTIP_VALUE_CLIFFDETAIL = "TOOLTIP_VALUE_CLIFFDETAIL";
         public const string TOOLTIP_VALUE_FERTILEDETAIL = "TOOLTIP_VALUE_FERTILEDETAIL";
-        //
+
         public const string TOOLTIP_BUTTON_SAVE_MAXREACHED = "TOOLTIP_BUTTON_SAVE_MAXREACHED";
         public const string TOOLTIP_BUTTON_SAVE_COLOREXISTS = "TOOLTIP_BUTTON_SAVE_COLOREXISTS";
         public const string TOOLTIP_BUTTON_SAVE = "TOOLTIP_BUTTON_SAVE";
+        public const string TOOLTIP_OPENCOLORPICKER = "TOOLTIP_OPENCOLORPICKER";
 
         public const string LABEL_RED = "LABEL_RED";
         public const string LABEL_GREEN = "LABEL_GREEN";
         public const string LABEL_BLUE = "LABEL_BLUE";
         public const string LABEL_NEW_SWATCH = "LABEL_NEW_SWATCH";
-        //
+
+        public const string LABEL_MOONINNERCORONA = "LABEL_MOONINNERCORONA";
+        public const string LABEL_MOONOUTERCORONA = "LABEL_MOONOUTERCORONA";
+        public const string LABEL_SKYTINT = "LABEL_SKYTINT";
+        public const string LABEL_NIGHTHORIZONCOLOR = "LABEL_NIGHTHORIZONCOLOR";
+        public const string LABEL_EARLYNIGHTZENITHCOLOR = "LABEL_EARLYNIGHTZENITHCOLOR";
+        public const string LABEL_LATENIGHTZENITHCOLOR = "LABEL_LATENIGHTZENITHCOLOR";
+        public const string LABEL_WATERCLEAN = "LABEL_WATERCLEAN";
+        public const string LABEL_WATERDIRTY = "LABEL_WATERDIRTY";
+        public const string LABEL_WATERUNDER = "LABEL_WATERUNDER";
+
         public const string LABEL_BY = "LABEL_BY"; 
         public const string LABEL_THEME = "LABEL_THEME";
         public const string LABEL_TERRAIN = "LABEL_TERRAIN";

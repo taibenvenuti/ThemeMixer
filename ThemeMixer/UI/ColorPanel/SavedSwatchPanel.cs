@@ -1,5 +1,4 @@
-﻿using System;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using ThemeMixer.Resources;
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes.Enums;
@@ -31,13 +30,6 @@ namespace ThemeMixer.UI.Color
         }
 
         public override void OnDestroy() {
-            swatchButton.EventSwatchClicked -= OnSwatchClicked;
-            textField.eventTextChanged -= OnTextChanged;
-            deleteButton.eventClicked -= OnDeleteClicked;
-            eventMouseEnter -= OnMouseEnter;
-            eventMouseLeave -= OnMouseLeave;
-            deleteButton.eventMouseEnter -= OnMouseEnter;
-            deleteButton.eventMouseLeave -= OnMouseLeave;
             EventSwatchClicked = null;
             base.OnDestroy();
         }
@@ -50,12 +42,12 @@ namespace ThemeMixer.UI.Color
             textField.normalBgSprite = "";
             textField.hoveredBgSprite = "ButtonSmallHovered";
             textField.focusedBgSprite = "ButtonSmallHovered";
-            textField.size = new Vector2(187.0f, 19.0f);
+            textField.size = new Vector2(290.0f, 19.0f);
             textField.font = UIUtils.Font;
-            textField.textScale = 1f;
+            textField.textScale = 0.8f;
             textField.verticalAlignment = UIVerticalAlignment.Middle;
             textField.horizontalAlignment = UIHorizontalAlignment.Left;
-            textField.padding = new RectOffset(5, 0, 3, 3);
+            textField.padding = new RectOffset(5, 0, 4, 4);
             textField.builtinKeyNavigation = true;
             textField.isInteractive = true;
             textField.readOnly = false;
@@ -99,8 +91,9 @@ namespace ThemeMixer.UI.Color
             EventSwatchClicked?.Invoke(color);
         }
 
-        internal void Setup(string v1, Vector2 vector2, int v2, bool v3, LayoutDirection horizontal, LayoutStart topLeft, ColorID colorID) {
+        internal void Setup(string v1, Vector2 vector2, int v2, bool v3, LayoutDirection horizontal, LayoutStart topLeft, ColorID colorID, SavedSwatch savedSwatch) {
             Setup(v1, vector2, v2, v3, horizontal, topLeft);
+            Setup(savedSwatch);
             this.colorID = colorID;
         }
     }

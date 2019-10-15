@@ -104,6 +104,7 @@ namespace ThemeMixer.UI
 
         public override void Update() {
             base.Update();
+            return;
             Vector2 screenRes = UIView.GetAView().GetScreenResolution();
 
             if ((autoLayoutStart == LayoutStart.TopLeft || autoLayoutStart == LayoutStart.BottomLeft) && relativePosition.x > screenRes.x / 2.0f) {

@@ -48,7 +48,6 @@ namespace ThemeMixer.UI.Parts
             label = container.AddUIComponent<UILabel>();
             slider = UIUtils.CreateSlider(container, 165.0f, 1.0f, 2000.0f, 1.0f);
             textfield = container.AddUIComponent<UITextField>();
-            string loadText = Translation.Instance.GetTranslation(TranslationID.BUTTON_LOADFROMTHEME);
             string loadTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_LOADFROMTHEME);
             loadButton = UIUtils.CreateButton(container, new Vector2(22.0f, 22.0f), tooltip: loadTooltip, backgroundSprite: "ThemesIcon", atlas: UISprites.Atlas);
             string resetTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_RESET);

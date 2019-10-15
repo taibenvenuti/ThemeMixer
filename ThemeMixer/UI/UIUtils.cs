@@ -162,6 +162,21 @@ namespace ThemeMixer.UI
             return string.Concat(themeID, Enum.GetName(typeof(TextureID), textureID));
         }
 
+        internal static string GetColorName(ColorID colorID) {
+            switch (colorID) {
+                case ColorID.MoonInnerCorona: return Translation.Instance.GetTranslation(TranslationID.LABEL_MOONINNERCORONA);
+                case ColorID.MoonOuterCorona: return Translation.Instance.GetTranslation(TranslationID.LABEL_MOONOUTERCORONA);
+                case ColorID.SkyTint: return Translation.Instance.GetTranslation(TranslationID.LABEL_SKYTINT);
+                case ColorID.NightHorizonColor: return Translation.Instance.GetTranslation(TranslationID.LABEL_NIGHTHORIZONCOLOR);
+                case ColorID.EarlyNightZenithColor: return Translation.Instance.GetTranslation(TranslationID.LABEL_EARLYNIGHTZENITHCOLOR);
+                case ColorID.LateNightZenithColor: return Translation.Instance.GetTranslation(TranslationID.LABEL_LATENIGHTZENITHCOLOR);
+                case ColorID.WaterClean: return Translation.Instance.GetTranslation(TranslationID.LABEL_WATERCLEAN);
+                case ColorID.WaterDirty: return Translation.Instance.GetTranslation(TranslationID.LABEL_WATERDIRTY);
+                case ColorID.WaterUnder: return Translation.Instance.GetTranslation(TranslationID.LABEL_WATERUNDER);
+                default: return string.Empty;
+            }
+        }
+
         public static string GetCategoryAndPartLabel(ThemeCategory category, ThemePart part) {
             string prefix = string.Concat(Translation.Instance.GetTranslation(TranslationID.LABEL_SELECT), " ");
             string text = string.Empty;

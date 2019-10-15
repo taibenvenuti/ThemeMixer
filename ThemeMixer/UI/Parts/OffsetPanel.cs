@@ -45,7 +45,6 @@ namespace ThemeMixer.UI.Parts
         private void CreateUIElements() {
             containerTitle = AddUIComponent<PanelBase>();
             labelTitle = containerTitle.AddUIComponent<UILabel>();
-            string loadText = Translation.Instance.GetTranslation(TranslationID.BUTTON_LOADFROMTHEME);
             string loadTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_LOADFROMTHEME);
             loadButton = UIUtils.CreateButton(containerTitle, new Vector2(22.0f, 22.0f), tooltip: loadTooltip, backgroundSprite: "ThemesIcon", atlas: UISprites.Atlas);
             string resetTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_RESET);

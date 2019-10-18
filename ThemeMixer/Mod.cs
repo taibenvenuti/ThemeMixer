@@ -9,7 +9,7 @@ namespace ThemeMixer
 {
     public class Mod : IUserMod, ILoadingExtension
     {
-        public string Name => "Theme Mixer 2.0";
+        public string Name => "Theme Mixer 2";
 
         public string Description => Translation.Instance.GetTranslation(TranslationID.MOD_DESCRIPTION);
 

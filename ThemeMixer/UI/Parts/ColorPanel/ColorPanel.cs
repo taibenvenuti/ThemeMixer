@@ -1,5 +1,4 @@
 ﻿using ColossalFramework.UI;
-using System;
 using System.Collections.Generic;
 using ThemeMixer.Locale;
 using ThemeMixer.Resources;
@@ -13,6 +12,8 @@ namespace ThemeMixer.UI.Color
 {
     public class ColorPanel : PanelBase
     {
+        public event PropertyChangedEventHandler<bool> EventVisibilityChanged;
+
         private UIPanel topPanel;
         private UIButton colorButton;
         private UILabel colorLabel;
@@ -45,7 +46,8 @@ namespace ThemeMixer.UI.Color
 
         public ColorID ColorID;
         private Color32 defaultValue;
-        bool visible = false;
+        private bool visible = false;
+        private bool ignoreEvents = false;
 
         public override void Awake() {
             base.Awake();
@@ -57,7 +59,7 @@ namespace ThemeMixer.UI.Color
             loadButton = UIUtils.CreateButton(topPanel, new Vector2(22.0f, 22.0f), tooltip: loadTooltip, backgroundSprite: "ThemesIcon", atlas: UISprites.Atlas);
             string resetTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_RESET);
             resetButton = UIUtils.CreateButton(topPanel, new Vector2(22.0f, 22.0f), tooltip: resetTooltip, backgroundSprite: "", foregroundSprite: "UndoIcon", atlas: UISprites.Atlas);
-            savedSwatches = Data.GetSavedSwatches();
+            savedSwatches = Data.GetSavedSwatches(ColorID);
             if (Mod.InGame) {
                 UIColorField field = UITemplateManager.Get<UIPanel>("LineTemplate").Find<UIColorField>("LineColor");
                 field = Instantiate(field);
@@ -93,6 +95,15 @@ namespace ThemeMixer.UI.Color
             color = UIColorGrey;
         }
 
+        private void RefreshSavedSwatchesPanel() {
+            if (savedSwatchesPanel != null) Destroy(savedSwatchesPanel.gameObject);
+            savedSwatchesPanel = AddUIComponent<PanelBase>();
+            savedSwatchesPanel.Setup("Saved Swatches Panel", new Vector2(256.0f, 0.0f), 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
+            savedSwatchesPanel.padding = new RectOffset(0, 0, 0, 5);
+            foreach (var savedSwatch in savedSwatches) AddSavedSwatch(savedSwatch);
+            savedSwatchesPanel.isVisible = savedSwatches.Count != 0;
+        }
+
         private void SetupTopPanel() {
             topPanel.size = new Vector2(345, 22.0f);
             colorButton.relativePosition = new Vector3(0.0f, 0.0f);
@@ -110,20 +121,24 @@ namespace ThemeMixer.UI.Color
         }
 
         private void OnLoadClicked(UIComponent component, UIMouseEventParameter eventParam) {
+            if (ignoreEvents) return;
             Controller.OnLoadFromTheme(Category, ColorID);
         }
 
         private void OnResetClicked(UIComponent component, UIMouseEventParameter eventParam) {
+            if (ignoreEvents) return;
             Controller.OnColorChanged(ColorID, defaultValue);
             RefreshColors();
         }
 
         private void OnColorButtonClicked(UIComponent component, UIMouseEventParameter eventParam) {
+            if (ignoreEvents) return;
             visible = !visible;
             if (colorPicker != null) colorPicker.component.isVisible = visible;
             rgbPanel.isVisible = visible;
             buttonsPanel.isVisible = visible;
             savedSwatchesPanel.isVisible = visible;
+            EventVisibilityChanged?.Invoke(this, visible);
         }
 
         public override void Update() {
@@ -228,15 +243,6 @@ namespace ThemeMixer.UI.Color
             if (savedSwatches.Count == MAX_SAVED_SWATCHES) saveButton.Disable();
         }
 
-        private void RefreshSavedSwatchesPanel() {
-            if (savedSwatchesPanel != null) Destroy(savedSwatchesPanel.gameObject);
-            savedSwatchesPanel = AddUIComponent<PanelBase>();
-            savedSwatchesPanel.Setup("Saved Swatches Panel", new Vector2(256.0f, 0.0f), 0,  true, LayoutDirection.Vertical, LayoutStart.TopLeft);
-            savedSwatchesPanel.padding = new RectOffset(0, 0, 0, 5);
-            foreach (var savedSwatch in savedSwatches) AddSavedSwatch(savedSwatch);
-            savedSwatchesPanel.isVisible = savedSwatches.Count != 0;
-        }
-
         private void AddSavedSwatch(SavedSwatch savedSwatch) {
             SavedSwatchPanel savedSwatchPanel = savedSwatchesPanel.AddUIComponent<SavedSwatchPanel>();
             savedSwatchPanel.Setup("Saved Swatch", new Vector2(256.0f, 24.0f), 0, true, LayoutDirection.Horizontal, LayoutStart.TopLeft, ColorID, savedSwatch);
@@ -248,13 +254,15 @@ namespace ThemeMixer.UI.Color
         }
 
         private void OnSavedSwatchRenamed(SavedSwatch savedSwatch) {
+            if (ignoreEvents) return;
             //
         }
 
         private void OnSavedSwatchRemoved(SavedSwatchPanel savedSwatchPanel) {
+            if (ignoreEvents) return;
             if (savedSwatchPanel != null) {
                 savedSwatches.Remove(savedSwatchPanel.savedSwatch);
-                Data.UpdateSavedSwatches(savedSwatches);
+                Data.UpdateSavedSwatches(savedSwatches, ColorID);
                 Destroy(savedSwatchPanel.gameObject);
             }
         }
@@ -264,28 +272,33 @@ namespace ThemeMixer.UI.Color
         }
 
         private void OnSaveClicked() {
+            if (ignoreEvents) return;
             if (savedSwatches.Find(s => s.Color.r == currentColor.r && s.Color.g == currentColor.g && s.Color.b == currentColor.b) == null) {
                 SavedSwatch newSwatch = new SavedSwatch() { Name = Translation.Instance.GetTranslation(TranslationID.LABEL_NEW_SWATCH), Color = currentColor };
                 AddSavedSwatch(newSwatch);
                 savedSwatches.Add(newSwatch);
-                Data.UpdateSavedSwatches(savedSwatches);
+                Data.UpdateSavedSwatches(savedSwatches, ColorID);
             }
         }
 
         private void OnCloseClicked() {
+            if (ignoreEvents) return;
             visible = false;
             if (colorPicker != null) colorPicker.component.isVisible = visible;
             rgbPanel.isVisible = visible;
             buttonsPanel.isVisible = visible;
             savedSwatchesPanel.isVisible = visible;
+            EventVisibilityChanged?.Invoke(this, visible);
         }
 
         private void OnGotFocus(UIComponent component, UIFocusEventParameter eventParam) {
+            if (ignoreEvents) return;
             UITextField textField = component as UITextField;
             textField.SelectAll();
         }
 
         private void OnTextChanged(UIComponent component, string value) {
+            if (ignoreEvents) return;
             UITextField textField = component as UITextField;
             textField.eventTextChanged -= OnTextChanged;
             textField.text = GetClampedString(value);
@@ -304,6 +317,7 @@ namespace ThemeMixer.UI.Color
         }
 
         private void OnKeyPress(UIComponent component, UIKeyEventParameter parameter) {
+            if (ignoreEvents) return;
             char ch = parameter.character;
             if (!char.IsControl(ch) && !char.IsDigit(ch)) {
                 parameter.Use();
@@ -311,6 +325,7 @@ namespace ThemeMixer.UI.Color
         }
 
         private void OnTextSubmitted(UIComponent component, string value) {
+            if (ignoreEvents) return;
             UITextField textField = component as UITextField;
             Color32 color = currentColor;
             if (textField == redTextField) {
@@ -338,28 +353,23 @@ namespace ThemeMixer.UI.Color
         }
 
         private void OnColorUpdated(UnityEngine.Color value) {
+            if (ignoreEvents) return;
             currentColor = value;
             if (colorPanel != null) colorPanel.color = value;
-            colorButton.color = value;
+            colorButton.color = colorButton.hoveredColor = colorButton.pressedColor = colorButton.focusedColor = value;
             UpdateTextfields();
             updateNeeded = true;
         }
 
         private void UpdateTextfields() {
             if (redTextField != null) {
-                redTextField.eventTextChanged -= OnTextChanged;
                 redTextField.text = currentColor.r.ToString();
-                redTextField.eventTextChanged += OnTextChanged;
             }
             if (greenTextField != null) {
-                greenTextField.eventTextChanged -= OnTextChanged;
                 greenTextField.text = currentColor.g.ToString();
-                greenTextField.eventTextChanged += OnTextChanged;
             }
             if (blueTextField != null) {
-                blueTextField.eventTextChanged -= OnTextChanged;
                 blueTextField.text = currentColor.b.ToString();
-                blueTextField.eventTextChanged += OnTextChanged;
             }
         }
 
@@ -369,13 +379,13 @@ namespace ThemeMixer.UI.Color
         }
 
         private void RefreshColors() {
+            ignoreEvents = true;
             currentColor = colorPanel.color = Controller.GetCurrentColor(ColorID);
             if (colorPicker != null) {
-                colorPicker.eventColorUpdated -= OnColorUpdated;
                 colorPicker.color = Controller.GetCurrentColor(ColorID);
-                colorPicker.eventColorUpdated += OnColorUpdated;
             }
             UpdateTextfields();
+            ignoreEvents = false;
         }
     }
 }

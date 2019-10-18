@@ -42,14 +42,17 @@ namespace ThemeMixer.UI
             switch (category) {
                 case ThemeCategory.Themes:
                     Controller.Part = ThemePart.Category;
-                    SelectThemePanel themesPanel = AddUIComponent<SelectThemePanel>();
-                    return themesPanel;
+                    return AddUIComponent<SelectThemePanel>();
                 case ThemeCategory.Terrain:
-                    Parts.TerrainPanel terrainPanel = AddUIComponent<Parts.TerrainPanel>();
-                    return terrainPanel;
+                    return AddUIComponent<Parts.TerrainPanel>();
                 case ThemeCategory.Water:
-                    Parts.WaterPanel waterPanel = AddUIComponent<Parts.WaterPanel>();
-                    return waterPanel;
+                    return AddUIComponent<Parts.WaterPanel>();
+                case ThemeCategory.Structures:
+                    return AddUIComponent<StructuresPanel>();
+                case ThemeCategory.Weather:
+                    return AddUIComponent<WeatherPanel>();
+                case ThemeCategory.Atmosphere:
+                    return AddUIComponent<AtmospherePanel>();
                 default: return null;
             }
         }

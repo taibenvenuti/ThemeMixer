@@ -13,14 +13,11 @@ namespace ThemeMixer.UI.Parts
     public class TexturePanel : PanelBase
     {
         public TextureID textureID;
-        [UIProperties("Texture Panel", 340.0f, 66.0f)]
         protected PanelBase container;
         protected UIButton thumbBackground;
         protected UIPanel thumbMiddleground;
         protected UISprite thumb;
         protected UILabel label;
-        [UIProperties("Texture Panel Space", 340.0f, 0.01f)]
-        protected PanelBase panelBottom;
         protected UISlider slider;
         protected UITextField textfield;
 
@@ -41,7 +38,8 @@ namespace ThemeMixer.UI.Parts
 
         private void CreateUIElements() {
             container = AddUIComponent<PanelBase>();
-            panelBottom = AddUIComponent<PanelBase>();
+            container.size = new Vector2(340.0f, 66.0f);
+            this.CreateSpace(340.0f, 0.1f);
             thumbBackground = container.AddUIComponent<UIButton>();
             thumbMiddleground = container.AddUIComponent<UIPanel>();
             thumb = container.AddUIComponent<UISprite>();

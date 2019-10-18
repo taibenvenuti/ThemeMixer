@@ -2,8 +2,6 @@
 {
     public enum ColorID
     {
-        None,
-
         MoonInnerCorona,
         MoonOuterCorona,
 
@@ -14,6 +12,8 @@
 
         WaterClean,
         WaterDirty,
-        WaterUnder
+        WaterUnder,
+
+        Count
     }
 }

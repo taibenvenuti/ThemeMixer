@@ -9,7 +9,7 @@
         SunSize,
         SunAnisotropy,
         MoonSize,
-        Rayleight,
+        Rayleigh,
         Mie,
         Exposure,
         StarsIntensity,

@@ -30,11 +30,12 @@ namespace ThemeMixer.Serialization
 
         private bool InGame => ToolManager.instance?.m_properties != null && (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
 
-        public List<SavedSwatch> GetSavedSwatches() {
-            return new List<SavedSwatch>(Data.SavedSwatches);
+        public List<SavedSwatch> GetSavedSwatches(ColorID colorID) {
+            return new List<SavedSwatch>(Data.SavedSwatches[(int)colorID]);
         }
-        public void UpdateSavedSwatches(List<SavedSwatch> savedSwatches) {
-            Data.SavedSwatches = new List<SavedSwatch>(savedSwatches);
+
+        public void UpdateSavedSwatches(List<SavedSwatch> savedSwatches, ColorID colorID) {
+            Data.SavedSwatches[(int)colorID] = new List<SavedSwatch>(savedSwatches);
             SaveData();
         }
 

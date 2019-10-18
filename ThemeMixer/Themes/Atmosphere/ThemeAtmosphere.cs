@@ -6,24 +6,19 @@ namespace ThemeMixer.Themes.Atmosphere
     {
         public AtmosphereFloat Longitude;
         public AtmosphereFloat Latitude;
-
         public AtmosphereFloat SunSize;
         public AtmosphereFloat SunAnisotropy;
-
-        public MoonTexture MoonTexture;
-
-        public AtmosphereFloat MoonSize;
-
-        public AtmosphereColor MoonInnerCorona;
-        public AtmosphereColor MoonOuterCorona;
-
         public AtmosphereFloat Rayleight;
         public AtmosphereFloat Mie;
         public AtmosphereFloat Exposure;
+        public AtmosphereColor SkyTint;
+
+        public MoonTexture MoonTexture;
+        public AtmosphereFloat MoonSize;
         public AtmosphereFloat StarsIntensity;
         public AtmosphereFloat OuterSpaceIntensity;
-
-        public AtmosphereColor SkyTint;
+        public AtmosphereColor MoonInnerCorona;
+        public AtmosphereColor MoonOuterCorona;
         public AtmosphereColor NightHorizonColor;
         public AtmosphereColor EarlyNightZenithColor;
         public AtmosphereColor LateNightZenithColor;

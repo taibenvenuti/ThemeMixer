@@ -169,6 +169,21 @@ namespace ThemeMixer.Themes
             EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
         }
 
+        internal Color GetColor(ColorID colorID, string themeID) {
+            switch (colorID) {
+                case ColorID.MoonInnerCorona: return Themes[themeID].moonInnerCorona;
+                case ColorID.MoonOuterCorona: return Themes[themeID].moonOuterCorona;
+                case ColorID.SkyTint: return Themes[themeID].skyTint;
+                case ColorID.NightHorizonColor: return Themes[themeID].nightHorizonColor;
+                case ColorID.EarlyNightZenithColor: return Themes[themeID].earlyNightZenithColor;
+                case ColorID.LateNightZenithColor: return Themes[themeID].lateNightZenithColor;
+                case ColorID.WaterClean: return Themes[themeID].waterClean;
+                case ColorID.WaterDirty: return Themes[themeID].waterDirty;
+                case ColorID.WaterUnder: return Themes[themeID].waterUnder;
+                default: return default;
+            }
+        }
+
         internal void OnColorChanged(ColorID colorID, Color value) {
             switch (colorID) {
                 case ColorID.MoonInnerCorona: CurrentMix.Atmosphere.MoonInnerCorona.SetCustomValue(value); break;
@@ -205,7 +220,7 @@ namespace ThemeMixer.Themes
                 case ValueID.SunSize: CurrentMix.Atmosphere.SunSize.SetCustomValue(value); break;
                 case ValueID.SunAnisotropy: CurrentMix.Atmosphere.SunAnisotropy.SetCustomValue(value); break;
                 case ValueID.MoonSize: CurrentMix.Atmosphere.MoonSize.SetCustomValue(value); break;
-                case ValueID.Rayleight: CurrentMix.Atmosphere.Rayleight.SetCustomValue(value); break;
+                case ValueID.Rayleigh: CurrentMix.Atmosphere.Rayleight.SetCustomValue(value); break;
                 case ValueID.Mie: CurrentMix.Atmosphere.Mie.SetCustomValue(value); break;
                 case ValueID.Exposure: CurrentMix.Atmosphere.Exposure.SetCustomValue(value); break;
                 case ValueID.StarsIntensity: CurrentMix.Atmosphere.StarsIntensity.SetCustomValue(value); break;
@@ -253,6 +268,7 @@ namespace ThemeMixer.Themes
                 case ColorID.WaterUnder: CurrentMix.Water.WaterUnder.Load(themeID); break;
                 default: break;
             }
+            EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
         }
 
         public void OnThemeDirty(ThemeDirtyEventArgs e) {
@@ -267,6 +283,7 @@ namespace ThemeMixer.Themes
                 case OffsetID.GrassForestColorOffset: CurrentMix.Terrain.GrassForestColorOffset.Load(themeID); break;
                 default: break;
             }
+            EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
         }
 
         public void LoadValue(ValueID valueID, string themeID) {
@@ -276,7 +293,7 @@ namespace ThemeMixer.Themes
                 case ValueID.SunSize: CurrentMix.Atmosphere.SunSize.Load(themeID); break;
                 case ValueID.SunAnisotropy: CurrentMix.Atmosphere.SunAnisotropy.Load(themeID); break;
                 case ValueID.MoonSize: CurrentMix.Atmosphere.MoonSize.Load(themeID); break;
-                case ValueID.Rayleight: CurrentMix.Atmosphere.Rayleight.Load(themeID); break;
+                case ValueID.Rayleigh: CurrentMix.Atmosphere.Rayleight.Load(themeID); break;
                 case ValueID.Mie: CurrentMix.Atmosphere.Mie.Load(themeID); break;
                 case ValueID.Exposure: CurrentMix.Atmosphere.Exposure.Load(themeID); break;
                 case ValueID.StarsIntensity: CurrentMix.Atmosphere.StarsIntensity.Load(themeID); break;
@@ -299,6 +316,7 @@ namespace ThemeMixer.Themes
                 case ValueID.NorthernLightsProbability: CurrentMix.Weather.NorthernLightsProbability.Load(themeID); break;
                 default: break;
             }
+            EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
         }
 
         public float GetTilingValue(TextureID textureID) {
@@ -338,7 +356,7 @@ namespace ThemeMixer.Themes
                 case ValueID.SunSize: return (T)(CurrentMix.Atmosphere.SunSize.CustomValue ?? CurrentMix.Atmosphere.SunSize.Value);
                 case ValueID.SunAnisotropy: return (T)(CurrentMix.Atmosphere.SunAnisotropy.CustomValue ?? CurrentMix.Atmosphere.SunAnisotropy.Value);
                 case ValueID.MoonSize: return (T)(CurrentMix.Atmosphere.MoonSize.CustomValue ?? CurrentMix.Atmosphere.MoonSize.Value);
-                case ValueID.Rayleight: return (T)(CurrentMix.Atmosphere.Rayleight.CustomValue ?? CurrentMix.Atmosphere.Rayleight.Value);
+                case ValueID.Rayleigh: return (T)(CurrentMix.Atmosphere.Rayleight.CustomValue ?? CurrentMix.Atmosphere.Rayleight.Value);
                 case ValueID.Mie: return (T)(CurrentMix.Atmosphere.Mie.CustomValue ?? CurrentMix.Atmosphere.Mie.Value);
                 case ValueID.Exposure: return (T)(CurrentMix.Atmosphere.Exposure.CustomValue ?? CurrentMix.Atmosphere.Exposure.Value);
                 case ValueID.StarsIntensity: return (T)(CurrentMix.Atmosphere.StarsIntensity.CustomValue ?? CurrentMix.Atmosphere.StarsIntensity.Value);

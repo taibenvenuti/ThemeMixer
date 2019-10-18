@@ -14,13 +14,9 @@ namespace ThemeMixer.UI.Parts
     public class OffsetPanel : PanelBase
     {
         public OffsetID OffsetID;
-        [UIProperties("Offset Panel Title Container", 340.0f, 22.0f, 5)]
         protected PanelBase containerTitle;
-        [UIProperties("Offset Panel Red Container", 340.0f, 22.0f, 5)]
         protected PanelBase containerR;
-        [UIProperties("Offset Panel Green Container", 340.0f, 22.0f, 5)]
         protected PanelBase containerG;
-        [UIProperties("Offset Panel Blue Container", 340.0f, 22.0f, 5)]
         protected PanelBase containerB;
         protected UILabel labelTitle;
         protected UILabel labelR;
@@ -44,6 +40,8 @@ namespace ThemeMixer.UI.Parts
 
         private void CreateUIElements() {
             containerTitle = AddUIComponent<PanelBase>();
+            containerTitle.size = new Vector2(340.0f, 22.0f);
+            containerTitle.padding = new RectOffset(5, 0, 5, 0);
             labelTitle = containerTitle.AddUIComponent<UILabel>();
             string loadTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_LOADFROMTHEME);
             loadButton = UIUtils.CreateButton(containerTitle, new Vector2(22.0f, 22.0f), tooltip: loadTooltip, backgroundSprite: "ThemesIcon", atlas: UISprites.Atlas);
@@ -51,16 +49,22 @@ namespace ThemeMixer.UI.Parts
             resetButton = UIUtils.CreateButton(containerTitle, new Vector2(22.0f, 22.0f), tooltip: resetTooltip, backgroundSprite: "", foregroundSprite: "UndoIcon", atlas: UISprites.Atlas);
 
             containerR = AddUIComponent<PanelBase>();
+            containerR.size = new Vector2(340.0f, 22.0f);
+            containerR.padding = new RectOffset(5, 0, 5, 0);
             labelR = containerR.AddUIComponent<UILabel>();
             sliderR = UIUtils.CreateSlider(containerR, 218.0f, -0.1f, 0.1f, 0.0001f);
             textfieldR = containerR.AddUIComponent<UITextField>();
 
             containerG = AddUIComponent<PanelBase>();
+            containerG.size = new Vector2(340.0f, 22.0f);
+            containerG.padding = new RectOffset(5, 0, 5, 0);
             labelG = containerG.AddUIComponent<UILabel>();
             sliderG = UIUtils.CreateSlider(containerG, 218.0f, -0.1f, 0.1f, 0.0001f);
             textfieldG = containerG.AddUIComponent<UITextField>();
 
             containerB = AddUIComponent<PanelBase>();
+            containerB.size = new Vector2(340.0f, 22.0f);
+            containerB.padding = new RectOffset(5, 0, 5, 0);
             labelB = containerB.AddUIComponent<UILabel>();
             sliderB = UIUtils.CreateSlider(containerB, 218.0f, -0.1f, 0.1f, 0.0001f);
             textfieldB = containerB.AddUIComponent<UITextField>();

@@ -6,9 +6,10 @@ namespace ThemeMixer.UI
 {
     public static class UIExtensions
     {
-        public static void CreateSpace(this PanelBase parent, float width, float height) {
+        public static UIPanel CreateSpace(this PanelBase parent, float width, float height) {
             UIPanel panel = parent.AddUIComponent<UIPanel>();
             panel.size = new Vector2(width, height);
+            return panel;
         }
 
         public static void FitString(this UILabel label) {

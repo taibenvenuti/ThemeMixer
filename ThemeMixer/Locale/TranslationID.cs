@@ -99,6 +99,30 @@ namespace ThemeMixer.Locale
         public const string LABEL_VALUE_CLIFFDETAIL = "LABEL_VALUE_CLIFFDETAIL";
         public const string LABEL_VALUE_FERTILEDETAIL = "LABEL_VALUE_FERTILEDETAIL";
 
+        public const string LABEL_VALUE_LONGITUDE = "LABEL_VALUE_LONGITUDE";
+        public const string LABEL_VALUE_LATITUDE = "LABEL_VALUE_LATITUDE";
+        public const string LABEL_VALUE_SUNSIZE = "LABEL_VALUE_SUNSIZE";
+        public const string LABEL_VALUE_SUNANISOTROPY = "LABEL_VALUE_SUNANISOTROPY";
+        public const string LABEL_VALUE_MOONSIZE = "LABEL_VALUE_MOONSIZE";
+        public const string LABEL_VALUE_RAYLEIGH = "LABEL_VALUE_RAYLEIGH";
+        public const string LABEL_VALUE_MIE = "LABEL_VALUE_MIE";
+        public const string LABEL_VALUE_EXPOSURE = "LABEL_VALUE_EXPOSURE";
+        public const string LABEL_VALUE_STARSINTENSITY = "LABEL_VALUE_STARSINTENSITY";
+        public const string LABEL_VALUE_OUTERSPACEINTENSITY = "LABEL_VALUE_OUTERSPACEINTENSITY";
+        public const string LABEL_VALUE_MINTEMPERATUREDAY = "LABEL_VALUE_MINTEMPERATUREDAY";
+        public const string LABEL_VALUE_MAXTEMPERATUREDAY = "LABEL_VALUE_MAXTEMPERATUREDAY";
+        public const string LABEL_VALUE_MINTEMPERATURENIGHT = "LABEL_VALUE_MINTEMPERATURENIGHT";
+        public const string LABEL_VALUE_MAXTEMPERATURENIGHT = "LABEL_VALUE_MAXTEMPERATURENIGHT";
+        public const string LABEL_VALUE_MINTEMPERATURERAIN = "LABEL_VALUE_MINTEMPERATURERAIN";
+        public const string LABEL_VALUE_MAXTEMPERATURERAIN = "LABEL_VALUE_MAXTEMPERATURERAIN";
+        public const string LABEL_VALUE_MINTEMPERATUREFOG = "LABEL_VALUE_MINTEMPERATUREFOG";
+        public const string LABEL_VALUE_MAXTEMPERATUREFOG = "LABEL_VALUE_MAXTEMPERATUREFOG";
+        public const string LABEL_VALUE_RAINPROBABILITYDAY = "LABEL_VALUE_RAINPROBABILITYDAY";
+        public const string LABEL_VALUE_RAINPROBABILITYNIGHT = "LABEL_VALUE_RAINPROBABILITYNIGHT";
+        public const string LABEL_VALUE_FOGPROBABILITYDAY = "LABEL_VALUE_FOGPROBABILITYDAY";
+        public const string LABEL_VALUE_FOGPROBABILITYNIGHT = "LABEL_VALUE_FOGPROBABILITYNIGHT";
+        public const string LABEL_VALUE_NORTHERNLIGHTSPROBABILITY = "LABEL_VALUE_NORTHERNLIGHTSPROBABILITY";
+
         public static string TextureToTranslationID(TextureID textureID) {
             switch (textureID) {
                 case TextureID.GrassDiffuseTexture: return LABEL_GRASS_DIFFUSE;
@@ -126,7 +150,18 @@ namespace ThemeMixer.Locale
         }
 
         internal static string ColorToTranslationID(ColorID colorID) {
-            throw new NotImplementedException();
+            switch (colorID) {
+                case ColorID.MoonInnerCorona: return LABEL_MOONINNERCORONA;
+                case ColorID.MoonOuterCorona: return LABEL_MOONOUTERCORONA;
+                case ColorID.SkyTint: return LABEL_SKYTINT;
+                case ColorID.NightHorizonColor: return LABEL_NIGHTHORIZONCOLOR;
+                case ColorID.EarlyNightZenithColor: return LABEL_EARLYNIGHTZENITHCOLOR;
+                case ColorID.LateNightZenithColor: return LABEL_LATENIGHTZENITHCOLOR;
+                case ColorID.WaterClean: return LABEL_WATERCLEAN;
+                case ColorID.WaterDirty: return LABEL_WATERDIRTY;
+                case ColorID.WaterUnder: return LABEL_WATERUNDER;
+                default: return string.Empty;
+            }
         }
 
         internal static string OffsetToTranslationID(OffsetID offsetID) {
@@ -140,7 +175,68 @@ namespace ThemeMixer.Locale
         }
 
         internal static string ValueToTranslationID(ValueID valueID) {
-            throw new NotImplementedException();
+            switch (valueID) {
+                case ValueID.Longitude: return LABEL_VALUE_LONGITUDE;
+                case ValueID.Latitude: return LABEL_VALUE_LATITUDE;
+                case ValueID.SunSize: return LABEL_VALUE_SUNSIZE;
+                case ValueID.SunAnisotropy: return LABEL_VALUE_SUNANISOTROPY;
+                case ValueID.MoonSize: return LABEL_VALUE_MOONSIZE;
+                case ValueID.Rayleigh: return LABEL_VALUE_RAYLEIGH;
+                case ValueID.Mie: return LABEL_VALUE_MIE;
+                case ValueID.Exposure: return LABEL_VALUE_EXPOSURE;
+                case ValueID.StarsIntensity: return LABEL_VALUE_STARSINTENSITY;
+                case ValueID.OuterSpaceIntensity: return LABEL_VALUE_OUTERSPACEINTENSITY;
+                case ValueID.GrassDetailEnabled: return LABEL_VALUE_GRASSDETAIL;
+                case ValueID.FertileDetailEnabled: return LABEL_VALUE_FERTILEDETAIL;
+                case ValueID.RocksDetailEnabled: return LABEL_VALUE_CLIFFDETAIL;
+                case ValueID.MinTemperatureDay: return LABEL_VALUE_MINTEMPERATUREDAY;
+                case ValueID.MaxTemperatureDay: return LABEL_VALUE_MAXTEMPERATUREDAY;
+                case ValueID.MinTemperatureNight: return LABEL_VALUE_MINTEMPERATURENIGHT;
+                case ValueID.MaxTemperatureNight: return LABEL_VALUE_MAXTEMPERATURENIGHT;
+                case ValueID.MinTemperatureRain: return LABEL_VALUE_MINTEMPERATURERAIN;
+                case ValueID.MaxTemperatureRain: return LABEL_VALUE_MAXTEMPERATURERAIN;
+                case ValueID.MinTemperatureFog: return LABEL_VALUE_MINTEMPERATUREFOG;
+                case ValueID.MaxTemperatureFog: return LABEL_VALUE_MAXTEMPERATUREFOG;
+                case ValueID.RainProbabilityDay: return LABEL_VALUE_RAINPROBABILITYDAY;
+                case ValueID.RainProbabilityNight: return LABEL_VALUE_RAINPROBABILITYNIGHT;
+                case ValueID.FogProbabilityDay: return LABEL_VALUE_FOGPROBABILITYDAY;
+                case ValueID.FogProbabilityNight: return LABEL_VALUE_FOGPROBABILITYNIGHT;
+                case ValueID.NorthernLightsProbability: return LABEL_VALUE_NORTHERNLIGHTSPROBABILITY;
+                default: return string.Empty;
+            }
+        }
+
+
+        internal static string GetValueTooltipID(ValueID valueID) {
+            switch (valueID) {
+                case ValueID.Longitude: return LABEL_VALUE_LONGITUDE;
+                case ValueID.Latitude: return LABEL_VALUE_LATITUDE;
+                case ValueID.SunSize: return LABEL_VALUE_SUNSIZE;
+                case ValueID.SunAnisotropy: return LABEL_VALUE_SUNANISOTROPY;
+                case ValueID.MoonSize: return LABEL_VALUE_MOONSIZE;
+                case ValueID.Rayleigh: return LABEL_VALUE_RAYLEIGH;
+                case ValueID.Mie: return LABEL_VALUE_MIE;
+                case ValueID.Exposure: return LABEL_VALUE_EXPOSURE;
+                case ValueID.StarsIntensity: return LABEL_VALUE_STARSINTENSITY;
+                case ValueID.OuterSpaceIntensity: return LABEL_VALUE_OUTERSPACEINTENSITY;
+                case ValueID.GrassDetailEnabled: return LABEL_VALUE_GRASSDETAIL;
+                case ValueID.FertileDetailEnabled: return LABEL_VALUE_FERTILEDETAIL;
+                case ValueID.RocksDetailEnabled: return LABEL_VALUE_CLIFFDETAIL;
+                case ValueID.MinTemperatureDay: return LABEL_VALUE_MINTEMPERATUREDAY;
+                case ValueID.MaxTemperatureDay: return LABEL_VALUE_MAXTEMPERATUREDAY;
+                case ValueID.MinTemperatureNight: return LABEL_VALUE_MINTEMPERATURENIGHT;
+                case ValueID.MaxTemperatureNight: return LABEL_VALUE_MAXTEMPERATURENIGHT;
+                case ValueID.MinTemperatureRain: return LABEL_VALUE_MINTEMPERATURERAIN;
+                case ValueID.MaxTemperatureRain: return LABEL_VALUE_MAXTEMPERATURERAIN;
+                case ValueID.MinTemperatureFog: return LABEL_VALUE_MINTEMPERATUREFOG;
+                case ValueID.MaxTemperatureFog: return LABEL_VALUE_MAXTEMPERATUREFOG;
+                case ValueID.RainProbabilityDay: return LABEL_VALUE_RAINPROBABILITYDAY;
+                case ValueID.RainProbabilityNight: return LABEL_VALUE_RAINPROBABILITYNIGHT;
+                case ValueID.FogProbabilityDay: return LABEL_VALUE_FOGPROBABILITYDAY;
+                case ValueID.FogProbabilityNight: return LABEL_VALUE_FOGPROBABILITYNIGHT;
+                case ValueID.NorthernLightsProbability: return LABEL_VALUE_NORTHERNLIGHTSPROBABILITY;
+                default: return string.Empty;
+            }
         }
     }
 }

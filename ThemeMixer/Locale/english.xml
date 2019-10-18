@@ -83,5 +83,30 @@
     <Translation ID="LABEL_WATERCLEAN" String="Water" />
     <Translation ID="LABEL_WATERDIRTY" String="Polluted water" />
     <Translation ID="LABEL_WATERUNDER" String="Underwater" />
+
+
+    <Translation ID="LABEL_VALUE_LONGITUDE" String="Longitude" />
+    <Translation ID="LABEL_VALUE_LATITUDE" String="Latitude" />
+    <Translation ID="LABEL_VALUE_SUNSIZE" String="Sun size" />
+    <Translation ID="LABEL_VALUE_SUNANISOTROPY" String="Sun anisotropy" />
+    <Translation ID="LABEL_VALUE_MOONSIZE" String="Moon size" />
+    <Translation ID="LABEL_VALUE_RAYLEIGH" String="Rayleigh scattering" />
+    <Translation ID="LABEL_VALUE_MIE" String="Mie scattering" />
+    <Translation ID="LABEL_VALUE_EXPOSURE" String="Exposure" />
+    <Translation ID="LABEL_VALUE_STARSINTENSITY" String="Stars intensity" />
+    <Translation ID="LABEL_VALUE_OUTERSPACEINTENSITY" String="Outerspace intensity" />
+    <Translation ID="LABEL_VALUE_MINTEMPERATUREDAY" String="Day min temperature" />
+    <Translation ID="LABEL_VALUE_MAXTEMPERATUREDAY" String="Day max temperature" />
+    <Translation ID="LABEL_VALUE_MINTEMPERATURENIGHT" String="Night min temperature" />
+    <Translation ID="LABEL_VALUE_MAXTEMPERATURENIGHT" String="Night max temperature" />
+    <Translation ID="LABEL_VALUE_MINTEMPERATURERAIN" String="Min raining temperature" />
+    <Translation ID="LABEL_VALUE_MAXTEMPERATURERAIN" String="Max raining temperature" />
+    <Translation ID="LABEL_VALUE_MINTEMPERATUREFOG" String="Min foggy temperature" />
+    <Translation ID="LABEL_VALUE_MAXTEMPERATUREFOG" String="Max foggy temperature" />
+    <Translation ID="LABEL_VALUE_RAINPROBABILITYDAY" String="Rain probability day" />
+    <Translation ID="LABEL_VALUE_RAINPROBABILITYNIGHT" String="Rain probability night" />
+    <Translation ID="LABEL_VALUE_FOGPROBABILITYDAY" String="Fog probability day" />
+    <Translation ID="LABEL_VALUE_FOGPROBABILITYNIGHT" String="Fog probability night" />
+    <Translation ID="LABEL_VALUE_NORTHERNLIGHTSPROBABILITY" String="Northern lights probability" />
   </Translations>
 </Language>

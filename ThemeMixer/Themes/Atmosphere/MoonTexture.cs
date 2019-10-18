@@ -21,7 +21,6 @@ namespace ThemeMixer.Themes.Atmosphere
         public override bool SetValue(object asset) {
             bool result = base.SetValue(asset);
             if (!result) return false;
-            Texture.wrapMode = TextureWrapMode.Clamp;
             return true;
         }
 
@@ -34,6 +33,7 @@ namespace ThemeMixer.Themes.Atmosphere
         protected override void LoadValue() {
             DayNightProperties properties = DayNightProperties.instance;
             Texture oldTexture = properties.m_MoonTexture;
+            Texture.wrapMode = TextureWrapMode.Clamp;
             properties.m_MoonTexture = Texture;
             if (oldTexture != null && !ReferenceEquals(oldTexture, Texture)) Object.Destroy(oldTexture);
         }

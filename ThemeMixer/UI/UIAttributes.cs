@@ -66,4 +66,14 @@ namespace ThemeMixer.UI
             ColorID = colorID;
         }
     }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    public class UIValueIDAttribute : Attribute
+    {
+        public ValueID ValueID;
+
+        public UIValueIDAttribute(ValueID valueID) {
+            ValueID = valueID;
+        }
+    }
 }

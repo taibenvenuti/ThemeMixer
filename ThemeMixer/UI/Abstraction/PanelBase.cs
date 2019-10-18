@@ -1,4 +1,4 @@
-﻿    using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using System;
 using System.Reflection;
 using ThemeMixer.Resources;
@@ -71,6 +71,12 @@ namespace ThemeMixer.UI.Abstraction
                     object[] attrsE = field.GetCustomAttributes(typeof(UIColorIDAttribute), true);
                     if (attrsE?.Length > 0 && attrsE[0] is UIColorIDAttribute e)
                         colorPanel.ColorID = e.ColorID;
+                }
+
+                if (panelBase is ValuePanel valuePanel) {
+                    object[] attrsF = field.GetCustomAttributes(typeof(UIValueIDAttribute), true);
+                    if (attrsF?.Length > 0 && attrsF[0] is UIValueIDAttribute f)
+                        valuePanel.ValueID = f.ValueID;
                 }
             }
         }

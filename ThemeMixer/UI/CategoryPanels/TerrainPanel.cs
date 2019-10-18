@@ -12,7 +12,6 @@ namespace ThemeMixer.UI.Parts
     [UICategory(ThemeCategory.Terrain)]
     [UIProperties("Terrain Panel", 1070.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel")]
     public class TerrainPanel : PanelBase {
-        protected UITabstrip tabstrip;
 
         protected UIPanel labelPanel;
         protected UILabel label;

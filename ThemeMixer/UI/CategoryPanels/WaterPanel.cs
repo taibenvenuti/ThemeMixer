@@ -44,6 +44,8 @@ namespace ThemeMixer.UI.Parts
         [UIProperties("WaterDirty Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect")]
         protected ColorPanel waterDirtyColorPanel;
 
+        private UIPanel space1;
+        private UIPanel space2;
 
         public override void Awake() {
             base.Awake();
@@ -77,11 +79,23 @@ namespace ThemeMixer.UI.Parts
         private void CreateColorsPanel() {
             colorsPanel = AddUIComponent<PanelBase>();
             waterCleanColorPanel = colorsPanel.AddUIComponent<ColorPanel>();
-            colorsPanel.CreateSpace(1.0f, 5.0f);
+            waterCleanColorPanel.EventVisibilityChanged += OnColorPanelVisibilityChanged;
+            space1 = colorsPanel.CreateSpace(1.0f, 5.0f);
             waterUnderColorPanel = colorsPanel.AddUIComponent<ColorPanel>();
-            colorsPanel.CreateSpace(1.0f, 5.0f);
+            waterUnderColorPanel.EventVisibilityChanged += OnColorPanelVisibilityChanged;
+            space2 = colorsPanel.CreateSpace(1.0f, 5.0f);
             waterDirtyColorPanel = colorsPanel.AddUIComponent<ColorPanel>();
+            waterDirtyColorPanel.EventVisibilityChanged += OnColorPanelVisibilityChanged;
             colorsPanel.CreateSpace(1.0f, 5.0f);
+        }
+
+        private void OnColorPanelVisibilityChanged(UIComponent component, bool value) {
+            waterFoamPanel.isVisible = !value;
+            waterNormalPanel.isVisible = !value;
+            space1.isVisible = space2.isVisible = !value;
+            waterCleanColorPanel.isVisible = ReferenceEquals(component, waterCleanColorPanel) ? true : !value;
+            waterUnderColorPanel.isVisible = ReferenceEquals(component, waterUnderColorPanel) ? true : !value;
+            waterDirtyColorPanel.isVisible = ReferenceEquals(component, waterDirtyColorPanel) ? true : !value;
         }
 
         private void OnLoadWaterFromTheme(UIComponent component, UIMouseEventParameter eventParam) {

@@ -15,12 +15,15 @@ namespace ThemeMixer.Serialization
         public Vector2? UITogglePosition { get; set; } = null;
         public List<string>[] Favourites { get; set; } = new List<string>[(int)ThemeCategory.Count];
         public List<string>[] Blacklisted { get; set; } = new List<string>[(int)ThemeCategory.Count];
-        public List<SavedSwatch> SavedSwatches { get; set; } = new List<SavedSwatch>();
+        public List<SavedSwatch>[] SavedSwatches { get; set; } = new List<SavedSwatch>[(int)ColorID.Count];
 
         public Data() {
             for (int i = 0; i < (int)ThemeCategory.Count; i++) {
                 Favourites[i] = new List<string>();
                 Blacklisted[i] = new List<string>();
+            }
+            for (int i = 0; i < (int)ColorID.Count; i++) {
+                SavedSwatches[i] = new List<SavedSwatch>();
             }
         }
 

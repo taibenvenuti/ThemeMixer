@@ -228,6 +228,12 @@ namespace ThemeMixer.UI.FastList
                     valuesSprite.spriteName = UIUtils.GetTextureSpriteName(Controller.TextureID, itemData.ID);
                     break;
                 case ThemePart.Color:
+                    valuesButton.normalBgSprite = "WhiteRect";
+                    valuesButton.hoveredBgSprite = "WhiteRect";
+                    valuesButton.pressedBgSprite = "WhiteRect";
+                    valuesButton.focusedBgSprite = "WhiteRect";
+                    Color32 color = Controller.GetColor(Controller.ColorID, itemData.ID);
+                    valuesButton.color = valuesButton.hoveredColor = valuesButton.pressedColor = valuesButton.focusedColor = color;
                     break;
                 case ThemePart.Offset:
                     break;

@@ -243,5 +243,9 @@ namespace ThemeMixer
         internal void OnColorChanged(ColorID colorID, Color defaultValue) {
             ThemeManager.Instance.OnColorChanged(colorID, defaultValue);
         }
+
+        internal Color GetColor(ColorID colorID, string themeID) {
+            return ThemeManager.Instance.GetColor(colorID, themeID);
+        }
     }
 }

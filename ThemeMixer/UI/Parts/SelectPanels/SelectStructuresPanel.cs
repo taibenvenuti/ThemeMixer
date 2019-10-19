@@ -7,7 +7,11 @@ namespace ThemeMixer.UI.Parts
         public override void Awake() {
             Category = ThemeCategory.Structures;
             base.Awake();
-            button.isVisible = true;
+            buttonPanel.isVisible = true;
+        }
+
+        public override void Start() {
+            base.Start();
             CenterToParent();
         }
     }

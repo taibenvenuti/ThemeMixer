@@ -7,7 +7,7 @@ namespace ThemeMixer.UI.Parts
         public override void Awake() {
             Category = ThemeCategory.Themes;
             base.Awake();
-            button.isVisible = false;
+            buttonPanel.isVisible = false;
         }
     }
 }

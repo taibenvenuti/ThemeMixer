@@ -1,4 +1,5 @@
 ﻿using ColossalFramework.UI;
+using System;
 using System.Collections.Generic;
 using ThemeMixer.Locale;
 using ThemeMixer.Resources;
@@ -12,7 +13,7 @@ namespace ThemeMixer.UI.Color
 {
     public abstract class ColorPanel : PanelBase
     {
-        public event PropertyChangedEventHandler<bool> EventVisibilityChanged;
+        public event EventHandler<ColorPanelVisibilityChangedEventArgs> EventVisibilityChanged;
 
         private UIPanel topPanel;
         private UIButton colorButton;
@@ -73,8 +74,8 @@ namespace ThemeMixer.UI.Color
                 AttachUIComponent(colorPicker.gameObject);
                 UITextureSprite hsb = colorPicker.component.Find<UITextureSprite>("HSBField");
                 UISlider hue = colorPicker.component.Find<UISlider>("HueSlider");
-                hsb.relativePosition = new Vector3(55.0f, 12.0f);
-                hue.relativePosition = new Vector3(267.0f, 12.0f);
+                hsb.relativePosition = new Vector3(55.0f, 7.0f);
+                hue.relativePosition = new Vector3(267.0f, 7.0f);
             }
             rgbPanel = AddUIComponent<PanelBase>();
             buttonsPanel = AddUIComponent<PanelBase>();
@@ -131,7 +132,7 @@ namespace ThemeMixer.UI.Color
             rgbPanel.isVisible = visible;
             buttonsPanel.isVisible = visible;
             savedSwatchesPanel.isVisible = visible;
-            EventVisibilityChanged?.Invoke(this, visible);
+            EventVisibilityChanged?.Invoke(this, new ColorPanelVisibilityChangedEventArgs(this, visible));
         }
 
         public override void Update() {
@@ -159,7 +160,7 @@ namespace ThemeMixer.UI.Color
             colorPicker.component.color = UIColor;
             UIPanel pickerPanel = colorPicker.component as UIPanel;
             pickerPanel.backgroundSprite = "";
-            pickerPanel.size = new Vector2(340f, 217f);
+            pickerPanel.size = new Vector2(340f, 212f);
         }
 
         private void SetupRGBPanel() {
@@ -285,7 +286,7 @@ namespace ThemeMixer.UI.Color
             rgbPanel.isVisible = visible;
             buttonsPanel.isVisible = visible;
             savedSwatchesPanel.isVisible = visible;
-            EventVisibilityChanged?.Invoke(this, visible);
+            EventVisibilityChanged?.Invoke(this, new ColorPanelVisibilityChangedEventArgs(this, visible));
         }
 
         private void OnGotFocus(UIComponent component, UIFocusEventParameter eventParam) {

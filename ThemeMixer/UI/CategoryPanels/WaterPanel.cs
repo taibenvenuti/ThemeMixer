@@ -72,13 +72,13 @@ namespace ThemeMixer.UI.Parts
             colorsPanel.CreateSpace(1.0f, 5.0f);
         }
 
-        private void OnColorPanelVisibilityChanged(UIComponent component, bool value) {
-            waterFoamPanel.isVisible = !value;
-            waterNormalPanel.isVisible = !value;
-            space1.isVisible = space2.isVisible = !value;
-            waterCleanColorPanel.isVisible = ReferenceEquals(component, waterCleanColorPanel) ? true : !value;
-            waterUnderColorPanel.isVisible = ReferenceEquals(component, waterUnderColorPanel) ? true : !value;
-            waterDirtyColorPanel.isVisible = ReferenceEquals(component, waterDirtyColorPanel) ? true : !value;
+        private void OnColorPanelVisibilityChanged(object sender, ColorPanelVisibilityChangedEventArgs eventArgs) {
+            waterFoamPanel.isVisible = !eventArgs.visible;
+            waterNormalPanel.isVisible = !eventArgs.visible;
+            space1.isVisible = space2.isVisible = !eventArgs.visible;
+            waterCleanColorPanel.isVisible = ReferenceEquals(eventArgs.panel, waterCleanColorPanel) ? true : !eventArgs.visible;
+            waterUnderColorPanel.isVisible = ReferenceEquals(eventArgs.panel, waterUnderColorPanel) ? true : !eventArgs.visible;
+            waterDirtyColorPanel.isVisible = ReferenceEquals(eventArgs.panel, waterDirtyColorPanel) ? true : !eventArgs.visible;
         }
 
         private void OnLoadWaterFromTheme(UIComponent component, UIMouseEventParameter eventParam) {

@@ -1,6 +1,7 @@
 ﻿using System;
 using ThemeMixer.Themes;
 using ThemeMixer.Themes.Enums;
+using ThemeMixer.UI.Color;
 
 namespace ThemeMixer.UI
 {
@@ -46,6 +47,17 @@ namespace ThemeMixer.UI
         public ThemesPanelClosingEventArgs(ThemeCategory category, ThemePart part) {
             this.category = category;
             this.part = part;
+        }
+    }
+
+    public class ColorPanelVisibilityChangedEventArgs : EventArgs
+    {
+        public bool visible;
+        public ColorPanel panel;
+
+        public ColorPanelVisibilityChangedEventArgs(ColorPanel panel, bool visible) {
+            this.visible = visible;
+            this.panel = panel;
         }
     }
 }

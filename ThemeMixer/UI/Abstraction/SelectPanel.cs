@@ -21,6 +21,7 @@ namespace ThemeMixer.UI.Parts
 
         protected UILabel label;
         protected UIFastList fastList;
+        protected PanelBase buttonPanel;
         protected UIButton button;
         protected static Dictionary<string, MapThemeMetaData> Favourites = new Dictionary<string, MapThemeMetaData>();
         protected static Dictionary<string, MapThemeMetaData> Blacklisted = new Dictionary<string, MapThemeMetaData>();
@@ -53,12 +54,11 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void CreateButton() {
-            PanelBase panel = AddUIComponent<PanelBase>();
-            button = UIUtils.CreateButton(panel, new Vector2(100.0f, 30.0f), Translation.Instance.GetTranslation(TranslationID.BUTTON_OK));
+            buttonPanel = AddUIComponent<PanelBase>();
+            button = UIUtils.CreateButton(buttonPanel, new Vector2(100.0f, 30.0f), Translation.Instance.GetTranslation(TranslationID.BUTTON_OK));
             button.eventClicked += OnOKButtonClicked;
-            button.isVisible = false;
-            panel.size = new Vector2(width - 10.0f, button.height);
-            button.relativePosition = new Vector2(panel.width - button.width, 0.0f);
+            buttonPanel.size = new Vector2(width - 10.0f, button.height);
+            button.relativePosition = new Vector2(buttonPanel.width - button.width, 0.0f);
         }
 
         private void OnOKButtonClicked(UIComponent component, UIMouseEventParameter eventParam) {

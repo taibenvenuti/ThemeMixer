@@ -8,80 +8,35 @@ using ThemeMixer.UI.Abstraction;
 using UnityEngine;
 namespace ThemeMixer.UI.Parts
 {
-    [UICategory(ThemeCategory.Weather)]
-    [UIProperties("Weather Panel", 1070.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel")]
     public class WeatherPanel : PanelBase
     {
         protected UIPanel labelPanel;
         protected UILabel label;
         protected UIButton loadButton;
 
-        [UIProperties("Weather Container", 0.0f, 460.0f, 5, true, LayoutDirection.Horizontal, LayoutStart.TopLeft)]
         protected PanelBase container;
-
-        [UIProperties("Weather Panel Left", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         protected PanelBase panelLeft;
-
-        [UIProperties("Weather Panel Center", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         protected PanelBase panelCenter;
-
-        [UIProperties("Weather Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         protected PanelBase panelRight;
 
-        [UICategory(ThemeCategory.Weather)]
-        [UIValueID(ValueID.MinTemperatureDay)]
-        protected ValuePanel minTemperatureDay;
-
-        [UICategory(ThemeCategory.Weather)]
-        [UIValueID(ValueID.MaxTemperatureDay)]
-        protected ValuePanel maxTemperatureDay;
-
-        [UICategory(ThemeCategory.Weather)]
-        [UIValueID(ValueID.MinTemperatureNight)]
-        protected ValuePanel minTemperatureNight;
-
-        [UICategory(ThemeCategory.Weather)]
-        [UIValueID(ValueID.MaxTemperatureNight)]
-        protected ValuePanel maxTemperatureNight;
-
-        [UICategory(ThemeCategory.Weather)]
-        [UIValueID(ValueID.MinTemperatureRain)]
-        protected ValuePanel minTemperatureRain;
-
-        [UICategory(ThemeCategory.Weather)]
-        [UIValueID(ValueID.MaxTemperatureRain)]
-        protected ValuePanel maxTemperatureRain;
-
-        [UICategory(ThemeCategory.Weather)]
-        [UIValueID(ValueID.MinTemperatureFog)]
-        protected ValuePanel minTemperatureFog;
-
-        [UICategory(ThemeCategory.Weather)]
-        [UIValueID(ValueID.MaxTemperatureFog)]
-        protected ValuePanel maxTemperatureFog;
-
-        [UICategory(ThemeCategory.Weather)]
-        [UIValueID(ValueID.RainProbabilityDay)]
-        protected ValuePanel rainProbabilityDay;
-
-        [UICategory(ThemeCategory.Weather)]
-        [UIValueID(ValueID.RainProbabilityNight)]
-        protected ValuePanel rainProbabilityNight;
-
-        [UICategory(ThemeCategory.Weather)]
-        [UIValueID(ValueID.FogProbabilityDay)]
-        protected ValuePanel fogProbabilityDay;
-
-        [UICategory(ThemeCategory.Weather)]
-        [UIValueID(ValueID.FogProbabilityNight)]
-        protected ValuePanel fogProbabilityNight;
-
-        [UICategory(ThemeCategory.Weather)]
-        [UIValueID(ValueID.NorthernLightsProbability)]
-        protected ValuePanel northernLightsProbability;
+        protected MinTemperatureDayPanel minTemperatureDay;
+        protected MaxTemperatureDayPanel maxTemperatureDay;
+        protected MinTemperatureNightPanel minTemperatureNight;
+        protected MaxTemperatureNightPanel maxTemperatureNight;
+        protected MinTemperatureRainPanel minTemperatureRain;
+        protected MaxTemperatureRainPanel maxTemperatureRain;
+        protected MinTemperatureFogPanel minTemperatureFog;
+        protected MaxTemperatureFogPanel maxTemperatureFog;
+        protected RainProbabilityDayPanel rainProbabilityDay;
+        protected RainProbabilityNightPanel rainProbabilityNight;
+        protected FogProbabilityDayPanel fogProbabilityDay;
+        protected FogProbabilityNightPanel fogProbabilityNight;
+        protected NorthernLightsProbabilityPanel northernLightsProbability;
 
         public override void Awake() {
             base.Awake();
+            Category = ThemeCategory.Weather;
+            Setup("Weather Panel", 1070.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel");
             this.CreateSpace(1.0f, 5.0f);
             CreateLabel();
             CreateContainers();
@@ -112,40 +67,44 @@ namespace ThemeMixer.UI.Parts
 
         private void CreateContainers() {
             container = AddUIComponent<PanelBase>();
+            container.Setup("Weather Container", 0.0f, 460.0f, 5, true, LayoutDirection.Horizontal, LayoutStart.TopLeft);
             container.autoFitChildrenVertically = true;
             panelLeft = container.AddUIComponent<PanelBase>();
+            panelLeft.Setup("Weather Panel Left", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
             panelCenter = container.AddUIComponent<PanelBase>();
+            panelCenter.Setup("Weather Panel Center", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
             panelRight = container.AddUIComponent<PanelBase>();
+            panelRight.Setup("Weather Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
         }
 
         private void CreatePanels() {
-            rainProbabilityDay = panelLeft.AddUIComponent<ValuePanel>();
+            rainProbabilityDay = panelLeft.AddUIComponent<RainProbabilityDayPanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            rainProbabilityNight = panelLeft.AddUIComponent<ValuePanel>();
+            rainProbabilityNight = panelLeft.AddUIComponent<RainProbabilityNightPanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            fogProbabilityDay = panelLeft.AddUIComponent<ValuePanel>();
+            fogProbabilityDay = panelLeft.AddUIComponent<FogProbabilityDayPanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            fogProbabilityNight = panelLeft.AddUIComponent<ValuePanel>();
+            fogProbabilityNight = panelLeft.AddUIComponent<FogProbabilityNightPanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            northernLightsProbability = panelLeft.AddUIComponent<ValuePanel>();
+            northernLightsProbability = panelLeft.AddUIComponent<NorthernLightsProbabilityPanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
 
-            minTemperatureDay = panelCenter.AddUIComponent<ValuePanel>();
+            minTemperatureDay = panelCenter.AddUIComponent<MinTemperatureDayPanel>();
             panelCenter.CreateSpace(1.0f, 5.0f);
-            maxTemperatureDay = panelCenter.AddUIComponent<ValuePanel>();
+            maxTemperatureDay = panelCenter.AddUIComponent<MaxTemperatureDayPanel>();
             panelCenter.CreateSpace(1.0f, 5.0f);
-            minTemperatureNight = panelCenter.AddUIComponent<ValuePanel>();
+            minTemperatureNight = panelCenter.AddUIComponent<MinTemperatureNightPanel>();
             panelCenter.CreateSpace(1.0f, 5.0f);
-            maxTemperatureNight = panelCenter.AddUIComponent<ValuePanel>();
+            maxTemperatureNight = panelCenter.AddUIComponent<MaxTemperatureNightPanel>();
             panelCenter.CreateSpace(1.0f, 5.0f);
 
-            minTemperatureRain = panelRight.AddUIComponent<ValuePanel>();
+            minTemperatureRain = panelRight.AddUIComponent<MinTemperatureRainPanel>();
             panelRight.CreateSpace(1.0f, 5.0f);
-            maxTemperatureRain = panelRight.AddUIComponent<ValuePanel>();
+            maxTemperatureRain = panelRight.AddUIComponent<MaxTemperatureRainPanel>();
             panelRight.CreateSpace(1.0f, 5.0f);
-            minTemperatureFog = panelRight.AddUIComponent<ValuePanel>();
+            minTemperatureFog = panelRight.AddUIComponent<MinTemperatureFogPanel>();
             panelRight.CreateSpace(1.0f, 5.0f);
-            maxTemperatureFog = panelRight.AddUIComponent<ValuePanel>();
+            maxTemperatureFog = panelRight.AddUIComponent<MaxTemperatureFogPanel>();
             panelRight.CreateSpace(1.0f, 5.0f);
         }
     }

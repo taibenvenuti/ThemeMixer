@@ -1,5 +1,6 @@
 ﻿using ColossalFramework.UI;
 using ThemeMixer.Resources;
+using ThemeMixer.Themes.Enums;
 using ThemeMixer.UI.Abstraction;
 using UnityEngine;
 
@@ -19,9 +20,8 @@ namespace ThemeMixer.UI
 
         public override void Awake() {
             base.Awake();
-            autoLayout = true;
-            autoLayoutDirection = LayoutDirection.Horizontal;
-            autoLayoutStart = LayoutStart.TopLeft;
+            Category = ThemeCategory.Terrain;
+            Setup("Sprite Detail Checkbox", 0.0f, 22.0f, 0, true, LayoutDirection.Horizontal, LayoutStart.TopLeft);
             CreateCheckbox();
             CreateLabel();
         }

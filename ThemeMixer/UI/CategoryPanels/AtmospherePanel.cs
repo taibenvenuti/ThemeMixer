@@ -8,95 +8,41 @@ using ThemeMixer.UI.Color;
 using UnityEngine;
 namespace ThemeMixer.UI.Parts
 {
-    [UICategory(ThemeCategory.Atmosphere)]
-    [UIProperties("Atmosphere Panel", 715.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel")]
     public class AtmospherePanel : PanelBase
     {
         protected UIPanel labelPanel;
         protected UILabel label;
         protected UIButton loadButton;
-
-        [UIProperties("Atmosphere Container", 0.0f, 460.0f, 5, true, LayoutDirection.Horizontal, LayoutStart.TopLeft)]
         protected PanelBase container;
-
-        [UIProperties("Atmosphere Panel Left", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         protected PanelBase panelLeft;
-
-        [UIProperties("Atmosphere Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         protected PanelBase panelRight; 
 
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIValueID(ValueID.Longitude)]
-        protected ValuePanel longitude;
+        protected LongitudePanel longitude;
+        protected LatitudePanel latitude;
+        protected SunSizePanel sunSize;
+        protected SunAnisotropyPanel sunAnisotropy;
+        protected RayleighPanel rayleigh;
+        protected MiePanel mie;
+        protected ExposurePanel exposure;
+        protected MoonSizePanel moonSize;
+        protected StarsIntensityPanel starsIntensity;
+        protected OuterSpaceIntensityPanel outerSpaceIntensity;
 
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIValueID(ValueID.Latitude)]
-        protected ValuePanel latitude;
+        protected SkyTintPanel skyTint;
+        protected MoonTexturePanel moonTexture;
+        protected MoonInnerCoronaPanel moonInnerCorona;
+        protected MoonOuterCoronaPanel moonOuterCorona;
+        protected NightHorizonPanel nightHorizonColor;
+        protected EarlyNightZenithPanel earlyNightZenithColor;
+        protected LateNightZenithPanel lateNightZenithColor;
 
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIValueID(ValueID.SunSize)]
-        protected ValuePanel sunSize;
-
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIValueID(ValueID.SunAnisotropy)]
-        protected ValuePanel sunAnisotropy;
-
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIValueID(ValueID.Rayleigh)]
-        protected ValuePanel rayleigh;
-
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIValueID(ValueID.Mie)]
-        protected ValuePanel mie;
-
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIValueID(ValueID.Exposure)]
-        protected ValuePanel exposure;
-
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIColorID(ColorID.SkyTint)]
-        protected ColorPanel skyTint;
-
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UITextureID(TextureID.MoonTexture)]
-        protected TexturePanel moonTexture;
-
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIValueID(ValueID.MoonSize)]
-        protected ValuePanel moonSize;
-
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIColorID(ColorID.MoonInnerCorona)]
-        protected ColorPanel moonInnerCorona;
-
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIColorID(ColorID.MoonOuterCorona)]
-        protected ColorPanel moonOuterCorona;
-
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIColorID(ColorID.NightHorizonColor)]
-        protected ColorPanel nightHorizonColor;
-
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIColorID(ColorID.EarlyNightZenithColor)]
-        protected ColorPanel earlyNightZenithColor;
-
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIColorID(ColorID.LateNightZenithColor)]
-        protected ColorPanel lateNightZenithColor;
-
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIValueID(ValueID.StarsIntensity)]
-        protected ValuePanel starsIntensity;
-
-        [UICategory(ThemeCategory.Atmosphere)]
-        [UIValueID(ValueID.OuterSpaceIntensity)]
-        protected ValuePanel outerSpaceIntensity;
 
         bool ignoreEvents = false;
 
         public override void Awake() {
             base.Awake();
+            Category = ThemeCategory.Atmosphere;
+            Setup("Atmosphere Panel", 715.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel");
             this.CreateSpace(1.0f, 5.0f);
             CreateLabel();
             CreateContainers();
@@ -127,52 +73,55 @@ namespace ThemeMixer.UI.Parts
 
         private void CreateContainers() {
             container = AddUIComponent<PanelBase>();
+            container.Setup("Atmosphere Container", 0.0f, 460.0f, 5, true, LayoutDirection.Horizontal, LayoutStart.TopLeft);
             container.autoFitChildrenVertically = true;
             panelLeft = container.AddUIComponent<PanelBase>();
+            panelLeft.Setup("Atmosphere Panel Left", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
             panelRight = container.AddUIComponent<PanelBase>();
+            panelRight.Setup("Atmosphere Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
         }
 
         private void CreatePanels() {
-            longitude = panelLeft.AddUIComponent<ValuePanel>();
+            longitude = panelLeft.AddUIComponent<LongitudePanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            latitude = panelLeft.AddUIComponent<ValuePanel>();
+            latitude = panelLeft.AddUIComponent<LatitudePanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            sunSize = panelLeft.AddUIComponent<ValuePanel>();
+            sunSize = panelLeft.AddUIComponent<SunSizePanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            sunAnisotropy = panelLeft.AddUIComponent<ValuePanel>();
+            sunAnisotropy = panelLeft.AddUIComponent<SunAnisotropyPanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            rayleigh = panelLeft.AddUIComponent<ValuePanel>();
+            rayleigh = panelLeft.AddUIComponent<RayleighPanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            mie = panelLeft.AddUIComponent<ValuePanel>();
+            mie = panelLeft.AddUIComponent<MiePanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            exposure = panelLeft.AddUIComponent<ValuePanel>();
+            exposure = panelLeft.AddUIComponent<ExposurePanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            skyTint = panelLeft.AddUIComponent<ColorPanel>();
+            skyTint = panelLeft.AddUIComponent<SkyTintPanel>();
             skyTint.EventVisibilityChanged += OnColorPanelVisibilityChanged;
             panelLeft.CreateSpace(1.0f, 5.0f);
 
-            moonTexture = panelRight.AddUIComponent<TexturePanel>();
+            moonTexture = panelRight.AddUIComponent<MoonTexturePanel>();
             panelRight.CreateSpace(1.0f, 5.0f);
-            moonSize = panelRight.AddUIComponent<ValuePanel>();
+            moonSize = panelRight.AddUIComponent<MoonSizePanel>();
             panelRight.CreateSpace(1.0f, 5.0f);
-            moonInnerCorona = panelRight.AddUIComponent<ColorPanel>();
+            moonInnerCorona = panelRight.AddUIComponent<MoonInnerCoronaPanel>();
             moonInnerCorona.EventVisibilityChanged += OnColorPanelVisibilityChanged;
             panelRight.CreateSpace(1.0f, 5.0f);
-            moonOuterCorona = panelRight.AddUIComponent<ColorPanel>();
+            moonOuterCorona = panelRight.AddUIComponent<MoonOuterCoronaPanel>();
             moonOuterCorona.EventVisibilityChanged += OnColorPanelVisibilityChanged;
             panelRight.CreateSpace(1.0f, 5.0f);
-            nightHorizonColor = panelRight.AddUIComponent<ColorPanel>();
+            nightHorizonColor = panelRight.AddUIComponent<NightHorizonPanel>();
             nightHorizonColor.EventVisibilityChanged += OnColorPanelVisibilityChanged;
             panelRight.CreateSpace(1.0f, 5.0f);
-            earlyNightZenithColor = panelRight.AddUIComponent<ColorPanel>();
+            earlyNightZenithColor = panelRight.AddUIComponent<EarlyNightZenithPanel>();
             earlyNightZenithColor.EventVisibilityChanged += OnColorPanelVisibilityChanged;
             panelRight.CreateSpace(1.0f, 5.0f);
-            lateNightZenithColor = panelRight.AddUIComponent<ColorPanel>();
+            lateNightZenithColor = panelRight.AddUIComponent<LateNightZenithPanel>();
             lateNightZenithColor.EventVisibilityChanged += OnColorPanelVisibilityChanged;
             panelRight.CreateSpace(1.0f, 5.0f);
-            starsIntensity = panelRight.AddUIComponent<ValuePanel>();
+            starsIntensity = panelRight.AddUIComponent<StarsIntensityPanel>();
             panelRight.CreateSpace(1.0f, 5.0f);
-            outerSpaceIntensity = panelRight.AddUIComponent<ValuePanel>();
+            outerSpaceIntensity = panelRight.AddUIComponent<OuterSpaceIntensityPanel>();
             panelRight.CreateSpace(1.0f, 5.0f);
         }
 

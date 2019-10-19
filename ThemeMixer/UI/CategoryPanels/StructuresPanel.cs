@@ -8,57 +8,29 @@ using UnityEngine;
 
 namespace ThemeMixer.UI.Parts
 {
-    [UICategory(ThemeCategory.Structures)]
-    [UIProperties("Terrain Panel", 715.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel")]
     public class StructuresPanel : PanelBase
     {
         protected UIPanel labelPanel;
         protected UILabel label;
         protected UIButton loadButton;
 
-        [UIProperties("Structures Container", 0.0f, 460.0f, 5, true, LayoutDirection.Horizontal, LayoutStart.TopLeft)]
         protected PanelBase container;
-
-        [UIProperties("Structures Panel Left", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         protected PanelBase panelLeft;
-
-        [UIProperties("Structures Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         protected PanelBase panelRight;
 
-        [UICategory(ThemeCategory.Structures)]
-        [UITextureID(TextureID.UpwardRoadDiffuse)]
-        protected TexturePanel upwardRoadDiffuse;
-
-        [UICategory(ThemeCategory.Structures)]
-        [UITextureID(TextureID.DownwardRoadDiffuse)]
-        protected TexturePanel downwardRoadDiffuse;
-
-        [UICategory(ThemeCategory.Structures)]
-        [UITextureID(TextureID.BuildingFloorDiffuse)]
-        protected TexturePanel buildingFloorDiffuse;
-
-        [UICategory(ThemeCategory.Structures)]
-        [UITextureID(TextureID.BuildingBaseDiffuse)]
-        protected TexturePanel buildingBaseDiffuse;
-
-        [UICategory(ThemeCategory.Structures)]
-        [UITextureID(TextureID.BuildingBaseNormal)]
-        protected TexturePanel buildingBaseNormal;
-
-        [UICategory(ThemeCategory.Structures)]
-        [UITextureID(TextureID.BuildingBurntDiffuse)]
-        protected TexturePanel buildingBurntDiffuse;
-
-        [UICategory(ThemeCategory.Structures)]
-        [UITextureID(TextureID.BuildingAbandonedDiffuse)]
-        protected TexturePanel buildingAbandonedDiffuse;
-
-        [UICategory(ThemeCategory.Structures)]
-        [UITextureID(TextureID.LightColorPalette)]
-        protected TexturePanel lightColorPalette;
+        protected UpwardRoadDiffusePanel upwardRoadDiffuse;
+        protected DownwardRoadDiffusePanel downwardRoadDiffuse;
+        protected BuildingFloorDiffusePanel buildingFloorDiffuse;
+        protected BuildingBaseDiffusePanel buildingBaseDiffuse;
+        protected BuildingBaseNormalPanel buildingBaseNormal;
+        protected BuildingBurntDiffusePanel buildingBurntDiffuse;
+        protected BuildingAbandonedDiffusePanel buildingAbandonedDiffuse;
+        protected LightColorPalettePanel lightColorPalette;
 
         public override void Awake() {
             base.Awake();
+            Category = ThemeCategory.Structures;
+            Setup("Terrain Panel", 715.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel");
             this.CreateSpace(1.0f, 5.0f);
             CreateLabel();
             CreateContainers();
@@ -90,29 +62,32 @@ namespace ThemeMixer.UI.Parts
 
         private void CreateContainers() {
             container = AddUIComponent<PanelBase>();
+            container.Setup("Structures Container", 0.0f, 460.0f, 5, true, LayoutDirection.Horizontal, LayoutStart.TopLeft);
             container.autoFitChildrenVertically = true;
             panelLeft = container.AddUIComponent<PanelBase>();
+            panelLeft.Setup("Structures Panel Left", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
             panelRight = container.AddUIComponent<PanelBase>();
+            panelRight.Setup("Structures Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
         }
 
         private void CreateLeftSideTexturePanels() {
-            upwardRoadDiffuse = panelLeft.AddUIComponent<TexturePanel>();
+            upwardRoadDiffuse = panelLeft.AddUIComponent<UpwardRoadDiffusePanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            downwardRoadDiffuse = panelLeft.AddUIComponent<TexturePanel>();
+            downwardRoadDiffuse = panelLeft.AddUIComponent<DownwardRoadDiffusePanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            buildingBaseDiffuse = panelLeft.AddUIComponent<TexturePanel>();
+            buildingBaseDiffuse = panelLeft.AddUIComponent<BuildingBaseDiffusePanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            buildingBaseNormal = panelLeft.AddUIComponent<TexturePanel>();
+            buildingBaseNormal = panelLeft.AddUIComponent<BuildingBaseNormalPanel>();
         }
 
         private void CreateRightSideTexturePanels() {
-            buildingFloorDiffuse = panelRight.AddUIComponent<TexturePanel>();
+            buildingFloorDiffuse = panelRight.AddUIComponent<BuildingFloorDiffusePanel>();
             panelRight.CreateSpace(1.0f, 5.0f);
-            buildingBurntDiffuse = panelRight.AddUIComponent<TexturePanel>();
+            buildingBurntDiffuse = panelRight.AddUIComponent<BuildingBurntDiffusePanel>();
             panelRight.CreateSpace(1.0f, 5.0f);
-            buildingAbandonedDiffuse = panelRight.AddUIComponent<TexturePanel>();
+            buildingAbandonedDiffuse = panelRight.AddUIComponent<BuildingAbandonedDiffusePanel>();
             panelRight.CreateSpace(1.0f, 5.0f);
-            lightColorPalette = panelRight.AddUIComponent<TexturePanel>();
+            lightColorPalette = panelRight.AddUIComponent<LightColorPalettePanel>();
         }
     }
 }

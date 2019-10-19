@@ -9,7 +9,6 @@ using ThemeMixer.Themes.Enums;
 
 namespace ThemeMixer.UI.FastList
 {
-    [UIProperties("List Row", 456.0f, 76.0f, UIUtils.DEFAULT_SPACING, true, LayoutDirection.Horizontal, LayoutStart.TopLeft, "WhiteRect")]
     public class ListRow : PanelBase, IUIFastListRow
     {
         public delegate void FavouriteChangedEventHandler(string itemID, bool favourite);
@@ -24,7 +23,6 @@ namespace ThemeMixer.UI.FastList
         private UIPanel thumbnailPanel;
         private UISprite thumbnailSprite;
 
-        [UIProperties("Labels Panel", 255.0f, 64.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         private PanelBase labelsPanel;
 
         private UILabel nameLabel;
@@ -48,6 +46,7 @@ namespace ThemeMixer.UI.FastList
 
         public override void Awake() {
             base.Awake();
+            Setup("List Row", 456.0f, 76.0f, UIUtils.DEFAULT_SPACING, true, LayoutDirection.Horizontal, LayoutStart.TopLeft, "WhiteRect");
             color = isRowOdd ? OddColor : EvenColor;
             CreateThumbnail();
             CreateLabels();
@@ -99,6 +98,7 @@ namespace ThemeMixer.UI.FastList
 
         private void CreateLabels() {
             labelsPanel = AddUIComponent<PanelBase>();
+            labelsPanel.Setup("Labels Panel", 255.0f, 64.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
             labelsPanel.autoFitChildrenHorizontally = true;
 
             nameLabel = labelsPanel.AddUIComponent<UILabel>();

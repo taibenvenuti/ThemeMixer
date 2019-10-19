@@ -17,9 +17,8 @@ namespace ThemeMixer.UI
             base.Start();
             Vector2 screenRes = UIView.GetAView().GetScreenResolution();
             relativePosition = SerializationService.Instance.GetToolBarPosition() ?? CalculateDefaultToolBarPosition();
-
             LayoutStart layoutStart = (relativePosition.x + 20.0f > screenRes.x / 2.0f) ? ((relativePosition.y + 137.5f > screenRes.y / 2.0f) ? LayoutStart.BottomRight : LayoutStart.TopRight) : (relativePosition.y + 137.5f > screenRes.y / 2.0f) ? LayoutStart.BottomLeft : LayoutStart.TopLeft;
-            Setup("Theme Mixer UI", new Vector2( 0.0f, 275.0f), 0, true, LayoutDirection.Horizontal, layoutStart);
+            Setup("Theme Mixer UI", 0.0f, 275.0f, 0, true, LayoutDirection.Horizontal, layoutStart);
             autoFitChildrenHorizontally = false;
             CreateToolBar();
             EnsureToolbarOnScreen();
@@ -107,7 +106,6 @@ namespace ThemeMixer.UI
 
         public override void Update() {
             base.Update();
-            return;
             Vector2 screenRes = UIView.GetAView().GetScreenResolution();
 
             if ((autoLayoutStart == LayoutStart.TopLeft || autoLayoutStart == LayoutStart.BottomLeft) && relativePosition.x > screenRes.x / 2.0f) {

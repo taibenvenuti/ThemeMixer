@@ -9,104 +9,42 @@ using UnityEngine;
 
 namespace ThemeMixer.UI.Parts
 {
-    [UICategory(ThemeCategory.Terrain)]
-    [UIProperties("Terrain Panel", 1070.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel")]
     public class TerrainPanel : PanelBase {
 
         protected UIPanel labelPanel;
         protected UILabel label;
         protected UIButton loadButton;
 
-        [UIProperties("Terrain Container", 0.0f, 460.0f, 5, true, LayoutDirection.Horizontal, LayoutStart.TopLeft)]
         protected PanelBase container;
-
-        [UIProperties("Terrain Panel Left", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         protected PanelBase panelLeft;
-
-        [UIProperties("Terrain Panel Center", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         protected PanelBase panelCenter;
-
-        [UIProperties("Terrain Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         protected PanelBase panelRight;
 
-        [UICategory(ThemeCategory.Terrain)]
-        [UITextureID(TextureID.GrassDiffuseTexture)]
-        protected TexturePanel grassDiffuseTexture;
-
-        [UICategory(ThemeCategory.Terrain)]
-        [UITextureID(TextureID.RuinedDiffuseTexture)]
-        protected TexturePanel ruinedDiffuseTexture;
-
-        [UICategory(ThemeCategory.Terrain)]
-        [UITextureID(TextureID.GravelDiffuseTexture)]
-        protected TexturePanel gravelDiffuseTexture;
-
-        [UICategory(ThemeCategory.Terrain)]
-        [UITextureID(TextureID.CliffDiffuseTexture)]
-        protected TexturePanel cliffDiffuseTexture;
-
-        [UICategory(ThemeCategory.Terrain)]
-        [UITextureID(TextureID.SandDiffuseTexture)]
-        protected TexturePanel sandDiffuseTexture;
-
-        [UICategory(ThemeCategory.Terrain)]
-        [UITextureID(TextureID.CliffSandNormalTexture)]
-        protected TexturePanel cliffSandNormalTexture;
-
-        [UICategory(ThemeCategory.Terrain)]
-        [UITextureID(TextureID.OilDiffuseTexture)]
-        protected TexturePanel oilDiffuseTexture;
-
-        [UICategory(ThemeCategory.Terrain)]
-        [UITextureID(TextureID.OreDiffuseTexture)]
-        protected TexturePanel oreDiffuseTexture;
-
-        [UICategory(ThemeCategory.Terrain)]
-        [UITextureID(TextureID.PavementDiffuseTexture)]
-        protected TexturePanel pavementDiffuseTexture;
-
-        [UICategory(ThemeCategory.Terrain)]
-        [UIOffsetID(OffsetID.GrassPollutionColorOffset)]
-        public OffsetPanel grassPollutionColorOffset;
-
-        [UICategory(ThemeCategory.Terrain)]
-        [UIOffsetID(OffsetID.GrassFieldColorOffset)]
-        public OffsetPanel grassFieldColorOffset;
-
-        [UICategory(ThemeCategory.Terrain)]
-        [UIOffsetID(OffsetID.GrassFertilityColorOffset)]
-        public OffsetPanel grassFertilityColorOffset;
-
-        [UICategory(ThemeCategory.Terrain)]
-        [UIOffsetID(OffsetID.GrassForestColorOffset)]
-        public OffsetPanel grassForestColorOffset;
+        protected GrassDiffusePanel grassDiffuseTexture;
+        protected RuinedDiffusePanel ruinedDiffuseTexture;
+        protected GravelDiffusePanel gravelDiffuseTexture;
+        protected CliffDiffusePanel cliffDiffuseTexture;
+        protected SandDiffusePanel sandDiffuseTexture;
+        protected CliffSandNormalPanel cliffSandNormalTexture;
+        protected OilDiffusePanel oilDiffuseTexture;
+        protected OreDiffusePanel oreDiffuseTexture;
+        protected PavementDiffusePanel pavementDiffuseTexture;
+        public GrassPollutionPanel grassPollutionColorOffset;
+        public GrassFieldPanel grassFieldColorOffset;
+        public GrassFertilityPanel grassFertilityColorOffset;
+        public GrassForestPanel grassForestColorOffset;
         
-        [UICategory(ThemeCategory.Terrain)]
-        [UIProperties("Terrain Detail Panel", 350.0f, 231.0f, 5, backgroundSprite: "WhiteRect")]
         public PanelBase detailPanel;
-        
-        [UICategory(ThemeCategory.Terrain)]
-        [UIProperties("Terrain Detail Panel Inside", 1.0f, 1.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         public PanelBase detailPanelInner;
 
-        [UICategory(ThemeCategory.Terrain)]
-        [UIProperties("Cliff Detail Checkbox", 0.0f, 22.0f)]
         public CheckboxPanel cliffDetail;
-
-        [UICategory(ThemeCategory.Terrain)]
-        [UIProperties("Fertile Detail Checkbox", 0.0f, 22.0f)]
         public CheckboxPanel fertileDetail;
-
-        [UICategory(ThemeCategory.Terrain)]
-        [UIProperties("Grass Detail Checkbox", 0.0f, 22.0f)]
         public CheckboxPanel grassDetail;
-
-        public UICheckBox grassDetailEnabled;
-        public UICheckBox fertileDetailEnabled;
-        public UICheckBox rocksDetailEnabled;
 
         public override void Awake() {
             base.Awake();
+            Category = ThemeCategory.Terrain;
+            Setup("Terrain Panel", 1070.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel");
             this.CreateSpace(1.0f, 5.0f);
             CreateLabel();
             CreateContainers();
@@ -117,10 +55,6 @@ namespace ThemeMixer.UI.Parts
             CreateMiddleSideOffsetPanels();
             CreateDetailPanel();
             this.CreateSpace(1.0f, 5.0f);
-        }
-
-        public override void Start() {
-            base.Start();
             detailPanel.color = UIColorGrey;
         }
 
@@ -147,54 +81,60 @@ namespace ThemeMixer.UI.Parts
 
         private void CreateContainers() {
             container = AddUIComponent<PanelBase>();
+            container.Setup("Terrain Container", 0.0f, 460.0f, 5, true, LayoutDirection.Horizontal, LayoutStart.TopLeft);
             container.autoFitChildrenVertically = true;
             panelLeft = container.AddUIComponent<PanelBase>();
+            panelLeft.Setup("Terrain Panel Left", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
             panelCenter = container.AddUIComponent<PanelBase>();
+            panelCenter.Setup("Terrain Panel Center", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
             panelRight = container.AddUIComponent<PanelBase>();
+            panelRight.Setup("Terrain Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
         }
 
         private void CreateLeftSideTexturePanels() {
-            grassDiffuseTexture = panelLeft.AddUIComponent<TexturePanel>();
+            grassDiffuseTexture = panelLeft.AddUIComponent<GrassDiffusePanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            ruinedDiffuseTexture = panelLeft.AddUIComponent<TexturePanel>();
+            ruinedDiffuseTexture = panelLeft.AddUIComponent<RuinedDiffusePanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            gravelDiffuseTexture = panelLeft.AddUIComponent<TexturePanel>();
+            gravelDiffuseTexture = panelLeft.AddUIComponent<GravelDiffusePanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
         }
 
         private void CreateMiddleTexturePanels() {
-            cliffDiffuseTexture = panelCenter.AddUIComponent<TexturePanel>();
+            cliffDiffuseTexture = panelCenter.AddUIComponent<CliffDiffusePanel>();
             panelCenter.CreateSpace(1.0f, 5.0f);
-            sandDiffuseTexture = panelCenter.AddUIComponent<TexturePanel>();
+            sandDiffuseTexture = panelCenter.AddUIComponent<SandDiffusePanel>();
             panelCenter.CreateSpace(1.0f, 5.0f);
-            cliffSandNormalTexture = panelCenter.AddUIComponent<TexturePanel>();
+            cliffSandNormalTexture = panelCenter.AddUIComponent<CliffSandNormalPanel>();
             panelCenter.CreateSpace(1.0f, 5.0f);
         }
 
         private void CreateRightSideTexturePanels() {
-            pavementDiffuseTexture = panelRight.AddUIComponent<TexturePanel>();
+            pavementDiffuseTexture = panelRight.AddUIComponent<PavementDiffusePanel>();
             panelRight.CreateSpace(1.0f, 5.0f);
-            oilDiffuseTexture = panelRight.AddUIComponent<TexturePanel>();
+            oilDiffuseTexture = panelRight.AddUIComponent<OilDiffusePanel>();
             panelRight.CreateSpace(1.0f, 5.0f);
-            oreDiffuseTexture = panelRight.AddUIComponent<TexturePanel>();
+            oreDiffuseTexture = panelRight.AddUIComponent<OreDiffusePanel>();
             panelRight.CreateSpace(1.0f, 5.0f);
         }
 
         private void CreateLeftSideOffsetPanels() {
-            grassFertilityColorOffset = panelLeft.AddUIComponent<OffsetPanel>();
+            grassFertilityColorOffset = panelLeft.AddUIComponent<GrassFertilityPanel>();
             panelLeft.CreateSpace(1.0f, 5.0f);
-            grassForestColorOffset = panelLeft.AddUIComponent<OffsetPanel>();
+            grassForestColorOffset = panelLeft.AddUIComponent<GrassForestPanel>();
         }
 
         private void CreateMiddleSideOffsetPanels() {
-            grassPollutionColorOffset = panelCenter.AddUIComponent<OffsetPanel>();
+            grassPollutionColorOffset = panelCenter.AddUIComponent<GrassPollutionPanel>();
             panelCenter.CreateSpace(1.0f, 5.0f);
-            grassFieldColorOffset = panelCenter.AddUIComponent<OffsetPanel>();
+            grassFieldColorOffset = panelCenter.AddUIComponent<GrassFieldPanel>();
         }
 
         private void CreateDetailPanel() {
             detailPanel = panelRight.AddUIComponent<PanelBase>();
+            detailPanel.Setup("Terrain Detail Panel", 350.0f, 231.0f, 5, backgroundSprite: "WhiteRect");
             detailPanelInner = detailPanel.AddUIComponent<PanelBase>();
+            detailPanelInner.Setup("Terrain Detail Panel Inside", 1.0f, 1.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
             detailPanelInner.anchor = UIAnchorStyle.CenterHorizontal | UIAnchorStyle.CenterVertical;
 
             UILabel label = detailPanelInner.AddUIComponent<UILabel>();

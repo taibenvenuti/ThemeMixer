@@ -9,43 +9,28 @@ using UnityEngine;
 
 namespace ThemeMixer.UI.Parts
 {
-    [UICategory(ThemeCategory.Water)]
-    [UIProperties("Water Panel", 360.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel")]
     public class WaterPanel : PanelBase
     {
         protected UIPanel labelPanel;
         protected UILabel label;
         protected UIButton loadButton;
 
-        [UICategory(ThemeCategory.Water)]
-        [UITextureID(TextureID.WaterFoam)]
-        protected TexturePanel waterFoamPanel;
+        protected WaterFoamPanel waterFoamPanel;
+        protected WaterNormalPanel waterNormalPanel;
 
-        [UICategory(ThemeCategory.Water)]
-        [UITextureID(TextureID.WaterNormal)]
-        protected TexturePanel waterNormalPanel;
-
-        [UICategory(ThemeCategory.Water)]
-        [UIProperties("Colors Panel", 360.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         protected PanelBase colorsPanel;
 
-        [UICategory(ThemeCategory.Water)]
-        [UIColorID(ColorID.WaterClean)]
-        protected ColorPanel waterCleanColorPanel;
-
-        [UICategory(ThemeCategory.Water)]
-        [UIColorID(ColorID.WaterUnder)]
-        protected ColorPanel waterUnderColorPanel;
-
-        [UICategory(ThemeCategory.Water)]
-        [UIColorID(ColorID.WaterDirty)]
-        protected ColorPanel waterDirtyColorPanel;
+        protected WaterCleanPanel waterCleanColorPanel;
+        protected WaterUnderPanel waterUnderColorPanel;
+        protected WaterDirtyPanel waterDirtyColorPanel;
 
         private UIPanel space1;
         private UIPanel space2;
 
         public override void Awake() {
             base.Awake();
+            Category = ThemeCategory.Water;
+            Setup("Water Panel", 360.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel");
             CreateLabel();
             CreateTexturePanels();
             CreateColorsPanel();
@@ -69,19 +54,20 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void CreateTexturePanels() {
-            waterNormalPanel = AddUIComponent<TexturePanel>();
-            waterFoamPanel = AddUIComponent<TexturePanel>();
+            waterNormalPanel = AddUIComponent<WaterNormalPanel>();
+            waterFoamPanel = AddUIComponent<WaterFoamPanel>();
         }
 
         private void CreateColorsPanel() {
             colorsPanel = AddUIComponent<PanelBase>();
-            waterCleanColorPanel = colorsPanel.AddUIComponent<ColorPanel>();
+            colorsPanel.Setup("Colors Panel", 360.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
+            waterCleanColorPanel = colorsPanel.AddUIComponent<WaterCleanPanel>();
             waterCleanColorPanel.EventVisibilityChanged += OnColorPanelVisibilityChanged;
             space1 = colorsPanel.CreateSpace(1.0f, 5.0f);
-            waterUnderColorPanel = colorsPanel.AddUIComponent<ColorPanel>();
+            waterUnderColorPanel = colorsPanel.AddUIComponent<WaterUnderPanel>();
             waterUnderColorPanel.EventVisibilityChanged += OnColorPanelVisibilityChanged;
             space2 = colorsPanel.CreateSpace(1.0f, 5.0f);
-            waterDirtyColorPanel = colorsPanel.AddUIComponent<ColorPanel>();
+            waterDirtyColorPanel = colorsPanel.AddUIComponent<WaterDirtyPanel>();
             waterDirtyColorPanel.EventVisibilityChanged += OnColorPanelVisibilityChanged;
             colorsPanel.CreateSpace(1.0f, 5.0f);
         }

@@ -3,7 +3,6 @@ using ThemeMixer.UI.Abstraction;
 
 namespace ThemeMixer.UI
 {
-    [UIProperties("Tool Bar", 40.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel")]
     public class ToolBar : PanelBase
     {
         public event DragHandle.DragEndEventHandler EventDragEnd;
@@ -14,7 +13,7 @@ namespace ThemeMixer.UI
 
         public override void Awake() {
             base.Awake();
-
+            Setup("Tool Bar", 40.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel");
             color = UIColor;
 
             dragBar = AddUIComponent<DragHandle>();

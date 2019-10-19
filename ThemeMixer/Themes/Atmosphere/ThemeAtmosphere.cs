@@ -15,13 +15,13 @@ namespace ThemeMixer.Themes.Atmosphere
 
         public MoonTexture MoonTexture;
         public AtmosphereFloat MoonSize;
-        public AtmosphereFloat StarsIntensity;
-        public AtmosphereFloat OuterSpaceIntensity;
         public AtmosphereColor MoonInnerCorona;
         public AtmosphereColor MoonOuterCorona;
         public AtmosphereColor NightHorizonColor;
         public AtmosphereColor EarlyNightZenithColor;
         public AtmosphereColor LateNightZenithColor;
+        public AtmosphereFloat StarsIntensity;
+        public AtmosphereFloat OuterSpaceIntensity;
 
         public ThemeAtmosphere() {
             Initialize();

@@ -31,17 +31,14 @@ namespace ThemeMixer.UI.Parts
 
         [UICategory(ThemeCategory.Water)]
         [UIColorID(ColorID.WaterClean)]
-        [UIProperties("WaterClean Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect")]
         protected ColorPanel waterCleanColorPanel;
 
         [UICategory(ThemeCategory.Water)]
         [UIColorID(ColorID.WaterUnder)]
-        [UIProperties("WaterUnder Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect")]
         protected ColorPanel waterUnderColorPanel;
 
         [UICategory(ThemeCategory.Water)]
         [UIColorID(ColorID.WaterDirty)]
-        [UIProperties("WaterDirty Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect")]
         protected ColorPanel waterDirtyColorPanel;
 
         private UIPanel space1;

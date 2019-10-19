@@ -25,7 +25,7 @@ namespace ThemeMixer.UI.Parts
         [UIProperties("Weather Panel Center", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         protected PanelBase panelCenter;
 
-        [UIProperties("Structures Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
+        [UIProperties("Weather Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft)]
         protected PanelBase panelRight;
 
         [UICategory(ThemeCategory.Weather)]

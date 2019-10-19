@@ -91,7 +91,7 @@ namespace ThemeMixer.UI.Color
             SetupButtonsPanel();
             RefreshColors();
             OnCloseClicked();
-
+            Setup("Color Panel", new Vector2(350.0f, 0.0f), 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect");
             color = UIColorGrey;
         }
 

@@ -1,8 +1,9 @@
-﻿using ColossalFramework.UI;
+﻿using System;
+using ColossalFramework.UI;
 using ThemeMixer.UI.Abstraction;
 using UnityEngine;
 
-namespace ThemeMixer.UI.Color
+namespace ThemeMixer.UI
 {
     public class ButtonPanel : PanelBase
     {
@@ -30,6 +31,9 @@ namespace ThemeMixer.UI.Color
         public void SetAnchor(UIAnchorStyle anchors) {
             button.anchor = anchors;
         }
+        public void AlignRight() {
+            button.relativePosition = new Vector3(width - button.width, 0.0f);
+        }
 
         public void SetText(string text, string tooltip = "") {
             button.text = text;
@@ -38,6 +42,15 @@ namespace ThemeMixer.UI.Color
 
         private void OnButtonClicked(UIComponent component, UIMouseEventParameter eventParam) {
             EventButtonClicked?.Invoke();
+        }
+
+        internal void DisableButton() {
+            button.Disable();
+        }
+        internal void EnableButton(string text = null) {
+            button.Enable();
+            if (text != null)
+                SetText(text);
         }
     }
 }

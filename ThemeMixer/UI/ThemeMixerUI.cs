@@ -2,6 +2,7 @@
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.UI.Abstraction;
+using ThemeMixer.UI.CategoryPanels;
 using ThemeMixer.UI.Parts;
 using UnityEngine;
 
@@ -52,6 +53,8 @@ namespace ThemeMixer.UI
                     return AddUIComponent<WeatherPanel>();
                 case ThemeCategory.Atmosphere:
                     return AddUIComponent<AtmospherePanel>();
+                case ThemeCategory.Mixes:
+                    return AddUIComponent<MixesPanel>();
                 default: return null;
             }
         }

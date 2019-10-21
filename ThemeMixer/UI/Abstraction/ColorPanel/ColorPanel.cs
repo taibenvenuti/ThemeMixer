@@ -101,7 +101,7 @@ namespace ThemeMixer.UI.Color
         private void SetupTopPanel() {
             topPanel.size = new Vector2(345, 22.0f);
             colorButton.relativePosition = new Vector3(0.0f, 0.0f);
-            colorButton.eventClicked += OnColorButtonClicked; 
+            colorButton.eventClicked += OnColorButtonClicked;
             colorLabel.height = 22.0f;
             colorLabel.font = UIUtils.Font;
             colorLabel.textScale = 1.0f;
@@ -378,7 +378,12 @@ namespace ThemeMixer.UI.Color
 
         private void RefreshColors() {
             ignoreEvents = true;
-            currentColor = colorPanel.color = Controller.GetCurrentColor(ColorID);
+            currentColor = colorPanel.color =
+                colorButton.color =
+                colorButton.hoveredColor =
+                colorButton.pressedColor =
+                colorButton.focusedColor =
+                Controller.GetCurrentColor(ColorID);
             if (colorPicker != null) {
                 colorPicker.color = Controller.GetCurrentColor(ColorID);
             }

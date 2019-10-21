@@ -1,8 +1,11 @@
 ﻿using ColossalFramework.Packaging;
+using ICities;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using ThemeMixer.Serialization;
 using ThemeMixer.Themes.Enums;
-using ThemeMixer.Themes.Terrain;
 using ThemeMixer.UI;
 using UnityEngine;
 
@@ -42,6 +45,42 @@ namespace ThemeMixer.Themes
         private Dictionary<string, MapThemeMetaData> _themes;
         public Dictionary<string, MapThemeMetaData> Themes => _themes ?? CacheThemes();
 
+        private const string DataID = "_THEMEMIXER2_DATA_";
+        public ThemeMix CurrentMix { get; set; }
+
+        private string MixID { get; set; } = null;
+
+        internal void OnSaveData(ISerializableData serializableDataManager) {
+            if (MixID == null) return;
+            using (var memoryStream = new MemoryStream()) {
+                try {
+                    var binaryFormatter = new BinaryFormatter();
+                    binaryFormatter.Serialize(memoryStream, MixID);
+                    serializableDataManager.SaveData(DataID, memoryStream.ToArray());
+                } catch (Exception exception) {
+                    Debug.LogError(exception);
+                }
+            }
+        }
+
+        internal void OnLoadData(ISerializableData serializableDataManager) {
+            var data = serializableDataManager.LoadData(DataID);
+            if (data == null || data.Length == 0) return;
+
+            var binaryFormatter = new BinaryFormatter();
+            using (var memoryStream = new MemoryStream(data)) {
+                try {
+                    MixID = binaryFormatter.Deserialize(memoryStream) as string;
+                } catch (Exception exception) {
+                    Debug.LogError(exception);
+                }
+            }
+            if (MixID != null) {
+                ThemeMix mix = SerializationService.Instance.GetMix(MixID);
+                if (mix != null && mix.Load()) CurrentMix = mix;
+            }
+        }
+
         private void RefreshThemes() {
             if (_themes == null) _themes = new Dictionary<string, MapThemeMetaData>();
             foreach (var asset in PackageManager.FilterAssets(UserAssetType.MapThemeMetaData)) {
@@ -80,7 +119,10 @@ namespace ThemeMixer.Themes
             }
             return _themes;
         }
-        public ThemeMix CurrentMix { get; set; }
+
+        private void SaveLocalMix() {
+            SerializationService.Instance.SaveLocalMix(CurrentMix);
+        }
 
         public void OnEnabled() {
             if (!InGame) return;
@@ -90,7 +132,7 @@ namespace ThemeMixer.Themes
         public void OnLevelLoaded() {
             PackageManager.eventPackagesChanged += OnPackagesChanged;
             CacheThemes();
-            CurrentMix = Serialization.SerializationService.Instance.GetSavedLocalMix();
+            CurrentMix = SerializationService.Instance.GetSavedLocalMix();
             if (CurrentMix == null) {
                 switch (SimulationManager.instance.m_metaData.m_environment) {
                     case "Sunny":
@@ -109,7 +151,14 @@ namespace ThemeMixer.Themes
                         CurrentMix = new ThemeMix("1888413747.CO-Tropical-Theme");
                         break;
                 }
-            }
+                SaveLocalMix();
+            } else CurrentMix.Load();
+        }
+
+        internal void SaveMix(string saveName) {
+            CurrentMix.SetName(saveName);
+            SaveLocalMix();
+            SerializationService.Instance.SaveMix(CurrentMix);
         }
 
         private void OnPackagesChanged() {
@@ -138,8 +187,13 @@ namespace ThemeMixer.Themes
                 case ThemeCategory.Weather: CurrentMix.Weather.Load(themeID); break;
                 default: break;
             }
-
+            SaveLocalMix();
             EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
+        }
+
+        internal void LoadMix(ThemeMix mix) {
+            CurrentMix = mix;
+            CurrentMix.Load();
         }
 
         public void LoadTexture(TextureID textureID, string themeID) {
@@ -166,6 +220,7 @@ namespace ThemeMixer.Themes
                 case TextureID.WaterNormal: CurrentMix.Water.WaterNormal.Load(themeID); break;
                 default: break;
             }
+            SaveLocalMix();
             EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
         }
 
@@ -182,6 +237,7 @@ namespace ThemeMixer.Themes
                 case ColorID.WaterUnder: return Themes[themeID].waterUnder;
                 default: return default;
             }
+            SaveLocalMix();
         }
 
         internal void OnColorChanged(ColorID colorID, Color value) {
@@ -196,6 +252,7 @@ namespace ThemeMixer.Themes
                 case ColorID.WaterDirty: CurrentMix.Water.WaterDirty.SetCustomValue(value); break;
                 case ColorID.WaterUnder: CurrentMix.Water.WaterUnder.SetCustomValue(value); break;
             }
+            SaveLocalMix();
         }
 
         internal void OnTilingChanged(TextureID textureID, float value) {
@@ -211,6 +268,7 @@ namespace ThemeMixer.Themes
                 case TextureID.CliffSandNormalTexture: CurrentMix.Terrain.CliffSandNormalTexture.SetCustomValue(value); break;
                 default: break;
             }
+            SaveLocalMix();
         }
 
         internal void OnValueChanged<T>(ValueID valueID, T value) {
@@ -243,6 +301,7 @@ namespace ThemeMixer.Themes
                 case ValueID.NorthernLightsProbability: CurrentMix.Weather.NorthernLightsProbability.SetCustomValue(value); break;
                 default: break;
             }
+            SaveLocalMix();
         }
 
         internal void OnOffsetChanged(OffsetID offsetID, Vector3 value) {
@@ -253,6 +312,7 @@ namespace ThemeMixer.Themes
                 case OffsetID.GrassForestColorOffset: CurrentMix.Terrain.GrassForestColorOffset.SetCustomValue(value); break;
                 default: break;
             }
+            SaveLocalMix();
         }
 
         public void LoadColor(ColorID colorID, string themeID) {
@@ -268,6 +328,7 @@ namespace ThemeMixer.Themes
                 case ColorID.WaterUnder: CurrentMix.Water.WaterUnder.Load(themeID); break;
                 default: break;
             }
+            SaveLocalMix();
             EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
         }
 
@@ -283,6 +344,7 @@ namespace ThemeMixer.Themes
                 case OffsetID.GrassForestColorOffset: CurrentMix.Terrain.GrassForestColorOffset.Load(themeID); break;
                 default: break;
             }
+            SaveLocalMix();
             EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
         }
 
@@ -316,6 +378,7 @@ namespace ThemeMixer.Themes
                 case ValueID.NorthernLightsProbability: CurrentMix.Weather.NorthernLightsProbability.Load(themeID); break;
                 default: break;
             }
+            SaveLocalMix();
             EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
         }
 

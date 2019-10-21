@@ -16,6 +16,8 @@ namespace ThemeMixer.Locale
         public const string BUTTON_OK = "BUTTON_OK";
         public const string BUTTON_CLOSE = "BUTTON_CLOSE";
         public const string BUTTON_SAVE = "BUTTON_SAVE";
+        public const string BUTTON_LOAD = "BUTTON_LOAD";
+        public const string BUTTON_SAVED = "BUTTON_SAVED";
 
         public const string TOOLTIP_THEMES = "TOOLTIP_THEMES";
         public const string TOOLTIP_TERRAIN = "TOOLTIP_TERRAIN";
@@ -40,6 +42,7 @@ namespace ThemeMixer.Locale
         public const string TOOLTIP_BUTTON_SAVE_COLOREXISTS = "TOOLTIP_BUTTON_SAVE_COLOREXISTS";
         public const string TOOLTIP_BUTTON_SAVE = "TOOLTIP_BUTTON_SAVE";
         public const string TOOLTIP_OPENCOLORPICKER = "TOOLTIP_OPENCOLORPICKER";
+        public const string TOOLTIP_USEASDEFAULT = "TOOLTIP_USEASDEFAULT";
 
         public const string LABEL_RED = "LABEL_RED";
         public const string LABEL_GREEN = "LABEL_GREEN";
@@ -56,10 +59,18 @@ namespace ThemeMixer.Locale
         public const string LABEL_WATERDIRTY = "LABEL_WATERDIRTY";
         public const string LABEL_WATERUNDER = "LABEL_WATERUNDER";
 
+
+        public const string LABEL_SELECTMIX = "LABEL_SELECTMIX";
+        public const string LABEL_SAVEMIX = "LABEL_SAVEMIX";
+        public const string LABEL_USEASDEFAULT = "LABEL_USEASDEFAULT";
+        public const string LABEL_NAME = "LABEL_NAME";
+
+
         public const string LABEL_BY = "LABEL_BY"; 
         public const string LABEL_THEME = "LABEL_THEME";
         public const string LABEL_TERRAIN = "LABEL_TERRAIN";
         public const string LABEL_ATMOSPHERE = "LABEL_ATMOSPHERE";
+        public const string LABEL_MIXES = "LABEL_MIXES";
         public const string LABEL_WATER = "LABEL_WATER";
         public const string LABEL_WEATHER = "LABEL_WEATHER";
         public const string LABEL_STRUCTURES = "LABEL_STRUCTURES";

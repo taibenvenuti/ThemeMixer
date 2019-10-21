@@ -9,6 +9,7 @@
         Structures,
         Atmosphere,
         Weather,
+        Mixes,
         Count
     }
 }

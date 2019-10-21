@@ -9,6 +9,7 @@ namespace ThemeMixer.Themes
 {
     public class ThemeMix
     {
+        public string ID;
         public string Name;
         public ThemeTerrain Terrain;
         public ThemeWater Water;
@@ -29,7 +30,7 @@ namespace ThemeMixer.Themes
 
         public void OnPostDeserialize() { }
 
-        public bool Load(string themeID) {
+        public bool Load(string themeID = null) {
             bool success = true;
             if (!Terrain.Load(themeID)) success = false;
             if (!Water.Load(themeID)) success = false;
@@ -40,11 +41,17 @@ namespace ThemeMixer.Themes
         }
 
         private void InitializeMix() {
+            ID = string.Concat(Name, "_", Guid.NewGuid().ToString("N"));
             Terrain = new ThemeTerrain();
             Water = new ThemeWater();
             Atmosphere = new ThemeAtmosphere();
             Structures = new ThemeStructures();
             Weather = new ThemeWeather();
+        }
+
+        public void SetName(string name) {
+            Name = name;
+            ID = string.Concat(name.Replace(" ", ""), ID.Substring(ID.IndexOf('_')));
         }
     }
 }

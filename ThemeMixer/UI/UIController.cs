@@ -195,6 +195,10 @@ namespace ThemeMixer
             }
         }
 
+        internal void SaveMix(string saveName) {
+            ThemeManager.Instance.SaveMix(saveName);
+        }
+
         public void OnThemeSelectorPanelClosing(object sender, ThemesPanelClosingEventArgs e) {
             Part = ThemePart.None;
             if (ThemeSelector != null) Destroy(ThemeSelector.gameObject);
@@ -222,6 +226,10 @@ namespace ThemeMixer
                 default:
                     break;
             }
+        }
+
+        internal void LoadMix(ThemeMix mix) {
+            ThemeManager.Instance.LoadMix(mix);
         }
 
         internal void OnOffsetChanged(OffsetID offsetID, Vector3 value) {

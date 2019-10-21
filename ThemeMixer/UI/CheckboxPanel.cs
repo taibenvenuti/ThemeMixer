@@ -1,4 +1,5 @@
-﻿using ColossalFramework.UI;
+﻿using System;
+using ColossalFramework.UI;
 using ThemeMixer.Resources;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.UI.Abstraction;
@@ -10,6 +11,7 @@ namespace ThemeMixer.UI
     {
         public event PropertyChangedEventHandler<bool> EventCheckboxStateChanged;
 
+        private UIPanel checkboxPanel;
         private UICheckBox checkbox;
         private UILabel label;
 
@@ -21,13 +23,13 @@ namespace ThemeMixer.UI
         public override void Awake() {
             base.Awake();
             Category = ThemeCategory.Terrain;
-            Setup("Sprite Detail Checkbox", 0.0f, 22.0f, 0, true, LayoutDirection.Horizontal, LayoutStart.TopLeft);
+            Setup("Checkbox Panel", 0.0f, 22.0f, 0, true, LayoutDirection.Horizontal, LayoutStart.TopLeft);
             CreateCheckbox();
             CreateLabel();
         }
 
         private void CreateCheckbox() {
-            UIPanel checkboxPanel = AddUIComponent<UIPanel>();
+            checkboxPanel = AddUIComponent<UIPanel>();
             checkboxPanel.size = new Vector2(25.0f, 22.0f);
             checkbox = checkboxPanel.AddUIComponent<UICheckBox>();
             checkbox.size = new Vector2(15.0f, 15.0f);
@@ -67,6 +69,13 @@ namespace ThemeMixer.UI
 
         public void SetState(bool state) {
             checkbox.isChecked = state;
+        }
+
+        public void MakeSmallVersion () {
+            label.textScale = 0.8f;
+            checkboxPanel.height = 18.0f;
+            height = 18.0f;
+
         }
 
         private void OnCheckboxStateChanged(UIComponent component, bool value) {

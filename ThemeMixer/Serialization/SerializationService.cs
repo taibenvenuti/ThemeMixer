@@ -3,6 +3,7 @@ using ColossalFramework.Plugins;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using ThemeMixer.Themes;
 using ThemeMixer.Themes.Enums;
@@ -82,6 +83,11 @@ namespace ThemeMixer.Serialization
             return Data.Favourites[(int)themePart].Contains(packageName);
         }
 
+        internal ThemeMix GetMix(string mixID) {
+            if (Mixes.TryGetValue(mixID, out ThemeMix mix)) return mix;
+            return null;
+        }
+
         private void Add(List<string>[] listArray, string packageName, ThemeCategory themePart) {
             if (!listArray[(int)themePart].Contains(packageName)) {
                 listArray[(int)themePart].Add(packageName);
@@ -150,38 +156,119 @@ namespace ThemeMixer.Serialization
             Data.UITogglePosition = position;
         }
 
-        public List<ThemeMix> Mixes { get; private set; } = new List<ThemeMix>();
+        public Dictionary<string, ThemeMix> Mixes { get; private set; } = new Dictionary<string, ThemeMix>();
+        private List<string> mixIds = new List<string>();
+        private List<string> mixNames = new List<string>();
+        private string[] _mixNames;
+        public string[] MixNames { 
+            get {
+                if (mixIds.Count != Mixes.Count || _mixNames == null) {
+                    _mixNames = GetMixNames();
+                }
+                return _mixNames;
+            } 
+        }
 
+        private string[] GetMixNames() {
+            mixIds.Clear();
+            foreach (var mix in Mixes) {
+                mixIds.Add(mix.Key);
+            }
+            mixIds.Sort();
+            mixNames.Clear();
+            foreach (var mixID in mixIds) {
+                mixNames.Add(Mixes[mixID].Name);
+            }
+            return mixNames.ToArray();
+        }
+
+        public ThemeMix GetMixByIndex(int index) {
+            if (Mixes.TryGetValue(mixIds[index], out ThemeMix mix)) {
+                return mix;
+            }
+            return null;
+        }
         private void OnPluginsChanged() {
             LoadAvailableMixes();
         }
 
         private void LoadAvailableMixes() {
-            if (Mixes.Count != 0) Mixes.Clear();
             foreach (PluginManager.PluginInfo plugin in PluginManager.instance.GetPluginsInfo()) {
-                if (!plugin.isEnabled) continue;
-                ThemeMix mix = LoadMix(Path.Combine(plugin.modPath, "ThemeMix.xml"));
+                ThemeMix mix = LoadMix(plugin);
                 if (mix == null) continue;
-                Mixes.Add(mix);
+                Mixes[mix.ID] = mix;
             }
         }
 
-        //TODO Create directory, Source folder, .cs file, etc.
-        public void SaveMix(string filePath, ThemeMix mix) {
+        public void SaveMix(ThemeMix mix) {
+            string newMixModPath = DataLocation.modsPath;
+            string mixName = Regex.Replace(mix.Name, @"(\s+|@|&|'|\(|\)|<|>|#|"")", "");
+            string mixDir = Path.Combine(newMixModPath, mixName);
+            string mixModSourceDir = Path.Combine(mixDir, "Source");
+            string code = string.Concat(
+                "using ICities;",
+                "\nnamespace ", mixName,
+                "\n{",
+                "\n\tpublic class ", mixName, "Mod : IUserMod",
+                "\n\t{",
+                "\n\t\tpublic string Name",
+                "\n\t\t{",
+                "\n\t\t\tget",
+                "\n\t\t\t{",
+                "\n\t\t\t\treturn \"", mixName, "\";",
+                "\n\t\t\t}",
+                "\n\t\t}",
+                "\n\t\tpublic string Description",
+                "\n\t\t{",
+                "\n\t\t\tget",
+                "\n\t\t\t{",
+                "\n\t\t\t\treturn \"", "A theme mix for use with Theme Mixer 2.", "\";",
+                "\n\t\t\t}",
+                "\n\t\t}",
+                "\n\t}",
+                "\n}");
+
+            if (!Directory.Exists(mixDir)) {
+                try {
+                    Directory.CreateDirectory(mixDir);
+                } catch (Exception e) {
+                    Debug.LogError(string.Concat("Failed Creating Theme Mix: ", e.Message));
+                    return;
+                }
+            }
+
+            if (!Directory.Exists(mixModSourceDir)) {
+                try {
+                    Directory.CreateDirectory(mixModSourceDir);
+                } catch (Exception e) {
+                    Debug.LogError(string.Concat("Failed Creating Theme Mix: ", e.Message));
+                    return;
+                }
+            }
+
+            try {
+                File.WriteAllText(Path.Combine(mixModSourceDir, mixName + ".cs"), code);
+            } catch (Exception e) {
+                Debug.LogError(string.Concat("Failed Creating Theme Mix: ", e.Message));
+                return;
+            }
+
+            string xml = Path.Combine(mixDir, "ThemeMix.xml");
             XmlSerializer serializer = new XmlSerializer(typeof(ThemeMix));
-            using (StreamWriter writer = new StreamWriter(filePath)) {
-                mix.OnPreSerialize();
-                serializer.Serialize(writer, mix);
+            try {
+                using (StreamWriter writer = new StreamWriter(xml)) {
+                    mix.OnPreSerialize();
+                    serializer.Serialize(writer, mix);
+                }
+            } catch (Exception e) {
+                Debug.LogError(string.Concat("Failed Creating Theme Mix: ", e.Message));
+                return;
             }
-            if (!Mixes.Contains(mix)) Mixes.Add(mix);
+            LoadAvailableMixes();
         }
 
-        //TODO delete mix mod
-        public void DeleteMix(string filePath) {
-            throw new NotImplementedException();
-        }
-
-        public ThemeMix LoadMix(string filePath) {
+        public ThemeMix LoadMix(PluginManager.PluginInfo plugin) {
+            string filePath = Path.Combine(plugin.modPath, "ThemeMix.xml");
             XmlSerializer serializer = new XmlSerializer(typeof(ThemeMix));
             try {
                 using (StreamReader reader = new StreamReader(filePath)) {

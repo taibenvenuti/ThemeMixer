@@ -9,6 +9,8 @@
     <Translation ID="BUTTON_OK" String="OK" />
     <Translation ID="BUTTON_CLOSE" String="Close" />
     <Translation ID="BUTTON_SAVE" String="Save" />
+    <Translation ID="BUTTON_SAVED" String="Saved!" />
+    <Translation ID="BUTTON_LOAD" String="Load" />
     <Translation ID="TOOLTIP_THEMES" String="Themes" />
     <Translation ID="TOOLTIP_TERRAIN" String="Terrain" />
     <Translation ID="TOOLTIP_WATER" String="Water" />
@@ -30,7 +32,13 @@
     <Translation ID="TOOLTIP_BUTTON_SAVE_MAXREACHED" String="You've reached the maximum amount of saved colors" />
     <Translation ID="TOOLTIP_BUTTON_SAVE_COLOREXISTS" String="The currently selected color is already saved" />
     <Translation ID="TOOLTIP_BUTTON_SAVE" String="Save current color as favorite" />
+    <Translation ID="TOOLTIP_USEASDEFAULT" String="Use this mix as the default mix used when you start a new city" />
+    <Translation ID="LABEL_SELECTMIX" String="Select mix:" />
+    <Translation ID="LABEL_SAVEMIX" String="Save mix" />
+    <Translation ID="LABEL_USEASDEFAULT" String="Use as default" />
+    <Translation ID="LABEL_NAME" String="Name" />
     <Translation ID="LABEL_BY" String="by" />
+    <Translation ID="LABEL_MIXES" String="Mixes" />
     <Translation ID="LABEL_THEME" String="Theme" />
     <Translation ID="LABEL_TERRAIN" String="Terrain" />
     <Translation ID="LABEL_ATMOSPHERE" String="Atmosphere" />

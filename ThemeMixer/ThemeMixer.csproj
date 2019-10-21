@@ -61,6 +61,7 @@
     <Compile Include="Patching\LoadThemePatch.cs" />
     <Compile Include="Resources\ThemeSprites.cs" />
     <Compile Include="Serialization\Data.cs" />
+    <Compile Include="Serialization\SerializableDataExtension.cs" />
     <Compile Include="Themes\Atmosphere\AtmosphereColor.cs" />
     <Compile Include="Themes\Atmosphere\AtmosphereFloat.cs" />
     <Compile Include="Themes\Atmosphere\MoonTexture.cs" />
@@ -69,13 +70,14 @@
     <Compile Include="Themes\Enums\ValueID.cs" />
     <Compile Include="Themes\Structures\StructuresTexture.cs" />
     <Compile Include="Themes\Enums\TextureID.cs" />
-    <Compile Include="Themes\TexturePartBase.cs" />
+    <Compile Include="Themes\Abstraction\TexturePartBase.cs" />
     <Compile Include="Themes\Enums\ThemeCategory.cs" />
-    <Compile Include="Themes\ThemePartBase.cs" />
+    <Compile Include="Themes\Abstraction\ThemePartBase.cs" />
     <Compile Include="Themes\Enums\ThemePart.cs" />
     <Compile Include="Themes\Water\WaterColor.cs" />
     <Compile Include="Themes\Water\WaterTexture.cs" />
     <Compile Include="Themes\Weather\WeatherValue.cs" />
+    <Compile Include="UI\CategoryPanels\MixesPanel.cs" />
     <Compile Include="UI\CheckboxPanel.cs" />
     <Compile Include="UI\ButtonPanel.cs" />
     <Compile Include="UI\Abstraction\ColorPanel\ColorPanel.cs" />

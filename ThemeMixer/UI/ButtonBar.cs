@@ -69,7 +69,7 @@ namespace ThemeMixer.UI
             panel.backgroundSprite = "WhiteRect";
             panel.color = UIColorDark;
 
-            settingsButton = new Button(ThemeCategory.None, this);
+            settingsButton = new Button(ThemeCategory.Mixes, this);
             settingsButton.EventClicked += OnButtonClicked; ;
 
             CreateButtonArray();

@@ -79,8 +79,6 @@ namespace ThemeMixer.Themes.Structures
                 case StructureTexture.TextureName.LightColorPalette:
                     LightColorPalette =  new StructureTexture(textureName, themeID);
                     break;
-                default:
-                    break;
             }
         }
 

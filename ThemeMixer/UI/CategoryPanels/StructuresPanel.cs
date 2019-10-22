@@ -4,28 +4,20 @@ using ThemeMixer.Resources;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.TranslationFramework;
 using ThemeMixer.UI.Abstraction;
+using ThemeMixer.UI.Parts.TexturePanels;
 using UnityEngine;
 
-namespace ThemeMixer.UI.Parts
+namespace ThemeMixer.UI.CategoryPanels
 {
     public class StructuresPanel : PanelBase
     {
-        protected UIPanel labelPanel;
-        protected UILabel label;
-        protected UIButton loadButton;
+        private UIPanel _labelPanel;
+        private UILabel _label;
+        private UIButton _loadButton;
 
-        protected PanelBase container;
-        protected PanelBase panelLeft;
-        protected PanelBase panelRight;
-
-        protected UpwardRoadDiffusePanel upwardRoadDiffuse;
-        protected DownwardRoadDiffusePanel downwardRoadDiffuse;
-        protected BuildingFloorDiffusePanel buildingFloorDiffuse;
-        protected BuildingBaseDiffusePanel buildingBaseDiffuse;
-        protected BuildingBaseNormalPanel buildingBaseNormal;
-        protected BuildingBurntDiffusePanel buildingBurntDiffuse;
-        protected BuildingAbandonedDiffusePanel buildingAbandonedDiffuse;
-        protected LightColorPalettePanel lightColorPalette;
+        private PanelBase _container;
+        private PanelBase _panelLeft;
+        private PanelBase _panelRight;
 
         public override void Awake() {
             base.Awake();
@@ -40,20 +32,20 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void CreateLabel() {
-            labelPanel = AddUIComponent<UIPanel>();
-            labelPanel.size = new Vector2(width, 22.0f);
-            label = labelPanel.AddUIComponent<UILabel>();
-            label.font = UIUtils.BoldFont;
-            label.textScale = 1.0f;
-            label.textAlignment = UIHorizontalAlignment.Center;
-            label.verticalAlignment = UIVerticalAlignment.Middle;
-            label.padding = new RectOffset(0, 0, 4, 0);
-            label.text = Translation.Instance.GetTranslation(TranslationID.LABEL_STRUCTURES);
-            label.anchor = UIAnchorStyle.CenterHorizontal | UIAnchorStyle.CenterVertical;
+            _labelPanel = AddUIComponent<UIPanel>();
+            _labelPanel.size = new Vector2(width, 22.0f);
+            _label = _labelPanel.AddUIComponent<UILabel>();
+            _label.font = UIUtils.BoldFont;
+            _label.textScale = 1.0f;
+            _label.textAlignment = UIHorizontalAlignment.Center;
+            _label.verticalAlignment = UIVerticalAlignment.Middle;
+            _label.padding = new RectOffset(0, 0, 4, 0);
+            _label.text = Translation.Instance.GetTranslation(TranslationID.LABEL_STRUCTURES);
+            _label.anchor = UIAnchorStyle.CenterHorizontal | UIAnchorStyle.CenterVertical;
             string loadTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_LOADFROMTHEME);
-            loadButton = UIUtils.CreateButton(label, new Vector2(22.0f, 22.0f), tooltip: loadTooltip, backgroundSprite: "ThemesIcon", atlas: UISprites.Atlas);
-            loadButton.relativePosition = new Vector2(label.width + 5.0f, 0.0f);
-            loadButton.eventClicked += OnLoadTerrainFromTheme;
+            _loadButton = UIUtils.CreateButton(_label, new Vector2(22.0f, 22.0f), tooltip: loadTooltip, backgroundSprite: "ThemesIcon", atlas: UISprites.Atlas);
+            _loadButton.relativePosition = new Vector2(_label.width + 5.0f, 0.0f);
+            _loadButton.eventClicked += OnLoadTerrainFromTheme;
         }
 
         private void OnLoadTerrainFromTheme(UIComponent component, UIMouseEventParameter eventParam) {
@@ -61,33 +53,33 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void CreateContainers() {
-            container = AddUIComponent<PanelBase>();
-            container.Setup("Structures Container", 0.0f, 460.0f, 5, true, LayoutDirection.Horizontal, LayoutStart.TopLeft);
-            container.autoFitChildrenVertically = true;
-            panelLeft = container.AddUIComponent<PanelBase>();
-            panelLeft.Setup("Structures Panel Left", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
-            panelRight = container.AddUIComponent<PanelBase>();
-            panelRight.Setup("Structures Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
+            _container = AddUIComponent<PanelBase>();
+            _container.Setup("Structures Container", 0.0f, 460.0f, 5, true);
+            _container.autoFitChildrenVertically = true;
+            _panelLeft = _container.AddUIComponent<PanelBase>();
+            _panelLeft.Setup("Structures Panel Left", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical);
+            _panelRight = _container.AddUIComponent<PanelBase>();
+            _panelRight.Setup("Structures Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical);
         }
 
         private void CreateLeftSideTexturePanels() {
-            upwardRoadDiffuse = panelLeft.AddUIComponent<UpwardRoadDiffusePanel>();
-            panelLeft.CreateSpace(1.0f, 5.0f);
-            downwardRoadDiffuse = panelLeft.AddUIComponent<DownwardRoadDiffusePanel>();
-            panelLeft.CreateSpace(1.0f, 5.0f);
-            buildingBaseDiffuse = panelLeft.AddUIComponent<BuildingBaseDiffusePanel>();
-            panelLeft.CreateSpace(1.0f, 5.0f);
-            buildingBaseNormal = panelLeft.AddUIComponent<BuildingBaseNormalPanel>();
+            _panelLeft.AddUIComponent<UpwardRoadDiffusePanel>();
+            _panelLeft.CreateSpace(1.0f, 5.0f);
+            _panelLeft.AddUIComponent<DownwardRoadDiffusePanel>();
+            _panelLeft.CreateSpace(1.0f, 5.0f);
+            _panelLeft.AddUIComponent<BuildingBaseDiffusePanel>();
+            _panelLeft.CreateSpace(1.0f, 5.0f);
+            _panelLeft.AddUIComponent<BuildingBaseNormalPanel>();
         }
 
         private void CreateRightSideTexturePanels() {
-            buildingFloorDiffuse = panelRight.AddUIComponent<BuildingFloorDiffusePanel>();
-            panelRight.CreateSpace(1.0f, 5.0f);
-            buildingBurntDiffuse = panelRight.AddUIComponent<BuildingBurntDiffusePanel>();
-            panelRight.CreateSpace(1.0f, 5.0f);
-            buildingAbandonedDiffuse = panelRight.AddUIComponent<BuildingAbandonedDiffusePanel>();
-            panelRight.CreateSpace(1.0f, 5.0f);
-            lightColorPalette = panelRight.AddUIComponent<LightColorPalettePanel>();
+            _panelRight.AddUIComponent<BuildingFloorDiffusePanel>();
+            _panelRight.CreateSpace(1.0f, 5.0f);
+            _panelRight.AddUIComponent<BuildingBurntDiffusePanel>();
+            _panelRight.CreateSpace(1.0f, 5.0f);
+            _panelRight.AddUIComponent<BuildingAbandonedDiffusePanel>();
+            _panelRight.CreateSpace(1.0f, 5.0f);
+            _panelRight.AddUIComponent<LightColorPalettePanel>();
         }
     }
 }

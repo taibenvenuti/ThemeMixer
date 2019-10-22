@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using ThemeMixer.Themes.Abstraction;
+using UnityEngine;
 
 namespace ThemeMixer.Themes.Water
 {
@@ -6,6 +8,7 @@ namespace ThemeMixer.Themes.Water
     {
         public ColorName Name;
 
+        [UsedImplicitly]
         public WaterColor() { }
 
         public WaterColor(ColorName colorName) {
@@ -29,8 +32,6 @@ namespace ThemeMixer.Themes.Water
                 case ColorName.WaterUnder:
                     SetValue(metaData.waterUnder);
                     break;
-                default:
-                    break;
             }
             return true;
         }
@@ -49,8 +50,6 @@ namespace ThemeMixer.Themes.Water
                 case ColorName.WaterUnder:
                     properties.m_waterColorUnder = (Color)(CustomValue ?? Value);
                     Shader.SetGlobalColor("_WaterColorUnder", properties.m_waterColorUnder);
-                    break;
-                default:
                     break;
             }
         }

@@ -5,41 +5,34 @@ using ThemeMixer.Resources;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.TranslationFramework;
 using ThemeMixer.UI.Abstraction;
+using ThemeMixer.UI.Parts.OffsetPanels;
+using ThemeMixer.UI.Parts.TexturePanels;
 using UnityEngine;
 
-namespace ThemeMixer.UI.Parts
+namespace ThemeMixer.UI.CategoryPanels
 {
     public class TerrainPanel : PanelBase {
 
-        protected UIPanel labelPanel;
-        protected UILabel label;
-        protected UIButton loadButton;
+        private UIPanel _labelPanel;
+        private UILabel _label;
+        private UIButton _loadButton;
 
-        protected PanelBase container;
-        protected PanelBase panelLeft;
-        protected PanelBase panelCenter;
-        protected PanelBase panelRight;
+        private PanelBase _container;
+        private PanelBase _panelLeft;
+        private PanelBase _panelCenter;
+        private PanelBase _panelRight;
 
-        protected GrassDiffusePanel grassDiffuseTexture;
-        protected RuinedDiffusePanel ruinedDiffuseTexture;
-        protected GravelDiffusePanel gravelDiffuseTexture;
-        protected CliffDiffusePanel cliffDiffuseTexture;
-        protected SandDiffusePanel sandDiffuseTexture;
-        protected CliffSandNormalPanel cliffSandNormalTexture;
-        protected OilDiffusePanel oilDiffuseTexture;
-        protected OreDiffusePanel oreDiffuseTexture;
-        protected PavementDiffusePanel pavementDiffuseTexture;
-        public GrassPollutionPanel grassPollutionColorOffset;
-        public GrassFieldPanel grassFieldColorOffset;
-        public GrassFertilityPanel grassFertilityColorOffset;
-        public GrassForestPanel grassForestColorOffset;
+        public GrassPollutionPanel GrassPollutionColorOffset;
+        public GrassFieldPanel GrassFieldColorOffset;
+        public GrassFertilityPanel GrassFertilityColorOffset;
+        public GrassForestPanel GrassForestColorOffset;
         
-        public PanelBase detailPanel;
-        public PanelBase detailPanelInner;
+        public PanelBase DetailPanel;
+        public PanelBase DetailPanelInner;
 
-        public CheckboxPanel cliffDetail;
-        public CheckboxPanel fertileDetail;
-        public CheckboxPanel grassDetail;
+        public CheckboxPanel CliffDetail;
+        public CheckboxPanel FertileDetail;
+        public CheckboxPanel GrassDetail;
 
         public override void Awake() {
             base.Awake();
@@ -55,24 +48,24 @@ namespace ThemeMixer.UI.Parts
             CreateMiddleSideOffsetPanels();
             CreateDetailPanel();
             this.CreateSpace(1.0f, 5.0f);
-            detailPanel.color = UIColorGrey;
+            DetailPanel.color = UIColorGrey;
         }
 
         private void CreateLabel() {
-            labelPanel = AddUIComponent<UIPanel>();
-            labelPanel.size = new Vector2(width, 22.0f);
-            label = labelPanel.AddUIComponent<UILabel>();
-            label.font = UIUtils.BoldFont;
-            label.textScale = 1.0f;
-            label.textAlignment = UIHorizontalAlignment.Center;
-            label.verticalAlignment = UIVerticalAlignment.Middle;
-            label.padding = new RectOffset(0, 0, 4, 0);
-            label.text = Translation.Instance.GetTranslation(TranslationID.LABEL_TERRAIN);
-            label.anchor = UIAnchorStyle.CenterHorizontal | UIAnchorStyle.CenterVertical;
+            _labelPanel = AddUIComponent<UIPanel>();
+            _labelPanel.size = new Vector2(width, 22.0f);
+            _label = _labelPanel.AddUIComponent<UILabel>();
+            _label.font = UIUtils.BoldFont;
+            _label.textScale = 1.0f;
+            _label.textAlignment = UIHorizontalAlignment.Center;
+            _label.verticalAlignment = UIVerticalAlignment.Middle;
+            _label.padding = new RectOffset(0, 0, 4, 0);
+            _label.text = Translation.Instance.GetTranslation(TranslationID.LABEL_TERRAIN);
+            _label.anchor = UIAnchorStyle.CenterHorizontal | UIAnchorStyle.CenterVertical;
             string loadTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_LOADFROMTHEME);
-            loadButton = UIUtils.CreateButton(label, new Vector2(22.0f, 22.0f), tooltip: loadTooltip, backgroundSprite: "ThemesIcon", atlas: UISprites.Atlas);
-            loadButton.relativePosition = new Vector2(label.width + 5.0f, 0.0f);
-            loadButton.eventClicked += OnLoadTerrainFromTheme;
+            _loadButton = UIUtils.CreateButton(_label, new Vector2(22.0f, 22.0f), tooltip: loadTooltip, backgroundSprite: "ThemesIcon", atlas: UISprites.Atlas);
+            _loadButton.relativePosition = new Vector2(_label.width + 5.0f, 0.0f);
+            _loadButton.eventClicked += OnLoadTerrainFromTheme;
         }
 
         private void OnLoadTerrainFromTheme(UIComponent component, UIMouseEventParameter eventParam) {
@@ -80,109 +73,109 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void CreateContainers() {
-            container = AddUIComponent<PanelBase>();
-            container.Setup("Terrain Container", 0.0f, 460.0f, 5, true, LayoutDirection.Horizontal, LayoutStart.TopLeft);
-            container.autoFitChildrenVertically = true;
-            panelLeft = container.AddUIComponent<PanelBase>();
-            panelLeft.Setup("Terrain Panel Left", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
-            panelCenter = container.AddUIComponent<PanelBase>();
-            panelCenter.Setup("Terrain Panel Center", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
-            panelRight = container.AddUIComponent<PanelBase>();
-            panelRight.Setup("Terrain Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
+            _container = AddUIComponent<PanelBase>();
+            _container.Setup("Terrain Container", 0.0f, 460.0f, 5, true);
+            _container.autoFitChildrenVertically = true;
+            _panelLeft = _container.AddUIComponent<PanelBase>();
+            _panelLeft.Setup("Terrain Panel Left", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical);
+            _panelCenter = _container.AddUIComponent<PanelBase>();
+            _panelCenter.Setup("Terrain Panel Center", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical);
+            _panelRight = _container.AddUIComponent<PanelBase>();
+            _panelRight.Setup("Terrain Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical);
         }
 
         private void CreateLeftSideTexturePanels() {
-            grassDiffuseTexture = panelLeft.AddUIComponent<GrassDiffusePanel>();
-            panelLeft.CreateSpace(1.0f, 5.0f);
-            ruinedDiffuseTexture = panelLeft.AddUIComponent<RuinedDiffusePanel>();
-            panelLeft.CreateSpace(1.0f, 5.0f);
-            gravelDiffuseTexture = panelLeft.AddUIComponent<GravelDiffusePanel>();
-            panelLeft.CreateSpace(1.0f, 5.0f);
+            _panelLeft.AddUIComponent<GrassDiffusePanel>();
+            _panelLeft.CreateSpace(1.0f, 5.0f);
+            _panelLeft.AddUIComponent<RuinedDiffusePanel>();
+            _panelLeft.CreateSpace(1.0f, 5.0f);
+            _panelLeft.AddUIComponent<GravelDiffusePanel>();
+            _panelLeft.CreateSpace(1.0f, 5.0f);
         }
 
         private void CreateMiddleTexturePanels() {
-            cliffDiffuseTexture = panelCenter.AddUIComponent<CliffDiffusePanel>();
-            panelCenter.CreateSpace(1.0f, 5.0f);
-            sandDiffuseTexture = panelCenter.AddUIComponent<SandDiffusePanel>();
-            panelCenter.CreateSpace(1.0f, 5.0f);
-            cliffSandNormalTexture = panelCenter.AddUIComponent<CliffSandNormalPanel>();
-            panelCenter.CreateSpace(1.0f, 5.0f);
+            _panelCenter.AddUIComponent<CliffDiffusePanel>();
+            _panelCenter.CreateSpace(1.0f, 5.0f);
+            _panelCenter.AddUIComponent<SandDiffusePanel>();
+            _panelCenter.CreateSpace(1.0f, 5.0f);
+            _panelCenter.AddUIComponent<CliffSandNormalPanel>();
+            _panelCenter.CreateSpace(1.0f, 5.0f);
         }
 
         private void CreateRightSideTexturePanels() {
-            pavementDiffuseTexture = panelRight.AddUIComponent<PavementDiffusePanel>();
-            panelRight.CreateSpace(1.0f, 5.0f);
-            oilDiffuseTexture = panelRight.AddUIComponent<OilDiffusePanel>();
-            panelRight.CreateSpace(1.0f, 5.0f);
-            oreDiffuseTexture = panelRight.AddUIComponent<OreDiffusePanel>();
-            panelRight.CreateSpace(1.0f, 5.0f);
+            _panelRight.AddUIComponent<PavementDiffusePanel>();
+            _panelRight.CreateSpace(1.0f, 5.0f);
+            _panelRight.AddUIComponent<OilDiffusePanel>();
+            _panelRight.CreateSpace(1.0f, 5.0f);
+            _panelRight.AddUIComponent<OreDiffusePanel>();
+            _panelRight.CreateSpace(1.0f, 5.0f);
         }
 
         private void CreateLeftSideOffsetPanels() {
-            grassFertilityColorOffset = panelLeft.AddUIComponent<GrassFertilityPanel>();
-            panelLeft.CreateSpace(1.0f, 5.0f);
-            grassForestColorOffset = panelLeft.AddUIComponent<GrassForestPanel>();
+            GrassFertilityColorOffset = _panelLeft.AddUIComponent<GrassFertilityPanel>();
+            _panelLeft.CreateSpace(1.0f, 5.0f);
+            GrassForestColorOffset = _panelLeft.AddUIComponent<GrassForestPanel>();
         }
 
         private void CreateMiddleSideOffsetPanels() {
-            grassPollutionColorOffset = panelCenter.AddUIComponent<GrassPollutionPanel>();
-            panelCenter.CreateSpace(1.0f, 5.0f);
-            grassFieldColorOffset = panelCenter.AddUIComponent<GrassFieldPanel>();
+            GrassPollutionColorOffset = _panelCenter.AddUIComponent<GrassPollutionPanel>();
+            _panelCenter.CreateSpace(1.0f, 5.0f);
+            GrassFieldColorOffset = _panelCenter.AddUIComponent<GrassFieldPanel>();
         }
 
         private void CreateDetailPanel() {
-            detailPanel = panelRight.AddUIComponent<PanelBase>();
-            detailPanel.Setup("Terrain Detail Panel", 350.0f, 231.0f, 5, backgroundSprite: "WhiteRect");
-            detailPanelInner = detailPanel.AddUIComponent<PanelBase>();
-            detailPanelInner.Setup("Terrain Detail Panel Inside", 1.0f, 1.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
-            detailPanelInner.anchor = UIAnchorStyle.CenterHorizontal | UIAnchorStyle.CenterVertical;
+            DetailPanel = _panelRight.AddUIComponent<PanelBase>();
+            DetailPanel.Setup("Terrain Detail Panel", 350.0f, 231.0f, 5, bgSprite: "WhiteRect");
+            DetailPanelInner = DetailPanel.AddUIComponent<PanelBase>();
+            DetailPanelInner.Setup("Terrain Detail Panel Inside", 1.0f, 1.0f, 5, true, LayoutDirection.Vertical);
+            DetailPanelInner.anchor = UIAnchorStyle.CenterHorizontal | UIAnchorStyle.CenterVertical;
 
-            UILabel label = detailPanelInner.AddUIComponent<UILabel>();
+            UILabel label = DetailPanelInner.AddUIComponent<UILabel>();
             label.font = UIUtils.Font;
             label.textScale = 1.0f;
             label.padding = new RectOffset(4, 0, 4, 0);
             label.relativePosition = Vector2.zero;
             label.text = Translation.Instance.GetTranslation(TranslationID.LABEL_TITLE_DETAIL);
 
-            grassDetail = detailPanelInner.AddUIComponent<CheckboxPanel>();
+            GrassDetail = DetailPanelInner.AddUIComponent<CheckboxPanel>();
             bool grassState = Controller.GetValue<bool>(ValueID.GrassDetailEnabled);
             string grassLabelText = Translation.Instance.GetTranslation(TranslationID.LABEL_VALUE_GRASSDETAIL);
             string grassTooltipText = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_VALUE_GRASSDETAIL);
-            grassDetail.Initialize(grassState, grassLabelText, grassTooltipText);
-            grassDetail.EventCheckboxStateChanged += OnDetailStateChanged;
+            GrassDetail.Initialize(grassState, grassLabelText, grassTooltipText);
+            GrassDetail.EventCheckboxStateChanged += OnDetailStateChanged;
 
-            fertileDetail = detailPanelInner.AddUIComponent<CheckboxPanel>();
+            FertileDetail = DetailPanelInner.AddUIComponent<CheckboxPanel>();
             bool fertileState = Controller.GetValue<bool>(ValueID.FertileDetailEnabled);
             string fertileLabelText = Translation.Instance.GetTranslation(TranslationID.LABEL_VALUE_FERTILEDETAIL);
             string fertileTooltipText = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_VALUE_FERTILEDETAIL);
-            fertileDetail.Initialize(fertileState, fertileLabelText, fertileTooltipText);
-            fertileDetail.EventCheckboxStateChanged += OnDetailStateChanged;
+            FertileDetail.Initialize(fertileState, fertileLabelText, fertileTooltipText);
+            FertileDetail.EventCheckboxStateChanged += OnDetailStateChanged;
 
-            cliffDetail = detailPanelInner.AddUIComponent<CheckboxPanel>();
+            CliffDetail = DetailPanelInner.AddUIComponent<CheckboxPanel>();
             bool cliffState = Controller.GetValue<bool>(ValueID.RocksDetailEnabled);
             string cliffLabelText = Translation.Instance.GetTranslation(TranslationID.LABEL_VALUE_CLIFFDETAIL);
             string cliffTooltipText = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_VALUE_CLIFFDETAIL);
-            cliffDetail.Initialize(cliffState, cliffLabelText, cliffTooltipText);
-            cliffDetail.EventCheckboxStateChanged += OnDetailStateChanged;
+            CliffDetail.Initialize(cliffState, cliffLabelText, cliffTooltipText);
+            CliffDetail.EventCheckboxStateChanged += OnDetailStateChanged;
 
-            detailPanelInner.autoFitChildrenHorizontally = true;
+            DetailPanelInner.autoFitChildrenHorizontally = true;
         }
 
         private void OnDetailStateChanged(UIComponent comp, bool state) {
             CheckboxPanel cbp = comp as CheckboxPanel;
             ValueID id = ValueID.None;
-            if (ReferenceEquals(cbp, cliffDetail)) id = ValueID.RocksDetailEnabled;
-            if (ReferenceEquals(cbp, fertileDetail)) id = ValueID.FertileDetailEnabled;
-            if (ReferenceEquals(cbp, grassDetail)) id = ValueID.GrassDetailEnabled;
+            if (ReferenceEquals(cbp, CliffDetail)) id = ValueID.RocksDetailEnabled;
+            if (ReferenceEquals(cbp, FertileDetail)) id = ValueID.FertileDetailEnabled;
+            if (ReferenceEquals(cbp, GrassDetail)) id = ValueID.GrassDetailEnabled;
             Controller.OnValueChanged(id, state);
         }
 
         protected override void OnRefreshUI(object sender, UIDirtyEventArgs e) {
             base.OnRefreshUI(sender, e);
             try {
-                cliffDetail.SetState(Controller.GetValue<bool>(ValueID.RocksDetailEnabled));
-                fertileDetail.SetState(Controller.GetValue<bool>(ValueID.FertileDetailEnabled));
-                grassDetail.SetState(Controller.GetValue<bool>(ValueID.GrassDetailEnabled));
+                CliffDetail.SetState(Controller.GetValue<bool>(ValueID.RocksDetailEnabled));
+                FertileDetail.SetState(Controller.GetValue<bool>(ValueID.FertileDetailEnabled));
+                GrassDetail.SetState(Controller.GetValue<bool>(ValueID.GrassDetailEnabled));
             } catch (Exception ex) {
                 Debug.LogError(string.Concat("Error caught in TerrainPanel.RefreshUI: ", ex));
             }

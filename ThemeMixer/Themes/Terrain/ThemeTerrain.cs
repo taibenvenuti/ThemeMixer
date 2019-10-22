@@ -115,8 +115,6 @@ namespace ThemeMixer.Themes.Terrain
                 case TerrainTexture.TextureName.CliffSandNormalTexture:
                     CliffSandNormalTexture = new TerrainTexture(textureName, themeID);
                     break;
-                default:
-                    break;
             }
         }
 
@@ -158,8 +156,6 @@ namespace ThemeMixer.Themes.Terrain
                 case TerrainColorOffset.OffsetName.GrassForestColorOffset:
                     GrassForestColorOffset = new TerrainColorOffset(themeID, offsetName);
                     break;
-                default:
-                    break;
             }
         }
 
@@ -187,8 +183,6 @@ namespace ThemeMixer.Themes.Terrain
                     break;
                 case TerrainDetail.Name.RocksDetailEnabled:
                     RocksDetailEnabled = new TerrainDetail(themeID, detailName);
-                    break;
-                default:
                     break;
             }
         }

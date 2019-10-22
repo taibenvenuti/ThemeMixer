@@ -1,9 +1,13 @@
-﻿namespace ThemeMixer.Themes.Terrain
+﻿using JetBrains.Annotations;
+using ThemeMixer.Themes.Abstraction;
+
+namespace ThemeMixer.Themes.Terrain
 {
     public class TerrainDetail : ThemePartBase
     {
         public Name DetailName;
 
+        [UsedImplicitly]
         public TerrainDetail() { }
 
         public TerrainDetail(Name detailName) {
@@ -27,14 +31,12 @@
                 case Name.RocksDetailEnabled:
                     SetValue(metaData.rocksDetailEnabled);
                     break;
-                default:
-                    break;
             }
             return true;
         }
 
         protected override void LoadValue() {
-            global::TerrainProperties properties = TerrainManager.instance.m_properties;
+            TerrainProperties properties = TerrainManager.instance.m_properties;
             switch (DetailName) {
                 case Name.GrassDetailEnabled:
                     properties.m_useGrassDecorations = (bool)(CustomValue ?? Value);
@@ -45,7 +47,6 @@
                 case Name.RocksDetailEnabled:
                     properties.m_useCliffDecorations = (bool)(CustomValue ?? Value);
                     break;
-                default: break;
             }
         }
 

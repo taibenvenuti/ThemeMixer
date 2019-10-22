@@ -4,28 +4,29 @@ using ThemeMixer.Resources;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.TranslationFramework;
 using ThemeMixer.UI.Abstraction;
-using ThemeMixer.UI.Color;
+using ThemeMixer.UI.Parts.ColorPanels;
+using ThemeMixer.UI.Parts.TexturePanels;
 using UnityEngine;
 
-namespace ThemeMixer.UI.Parts
+namespace ThemeMixer.UI.CategoryPanels
 {
     public class WaterPanel : PanelBase
     {
-        protected UIPanel labelPanel;
-        protected UILabel label;
-        protected UIButton loadButton;
+        private UIPanel _labelPanel;
+        private UILabel _label;
+        private UIButton _loadButton;
 
-        protected WaterFoamPanel waterFoamPanel;
-        protected WaterNormalPanel waterNormalPanel;
+        private WaterFoamPanel _waterFoamPanel;
+        private WaterNormalPanel _waterNormalPanel;
 
-        protected PanelBase colorsPanel;
+        private PanelBase _colorsPanel;
 
-        protected WaterCleanPanel waterCleanColorPanel;
-        protected WaterUnderPanel waterUnderColorPanel;
-        protected WaterDirtyPanel waterDirtyColorPanel;
+        private WaterCleanPanel _waterCleanColorPanel;
+        private WaterUnderPanel _waterUnderColorPanel;
+        private WaterDirtyPanel _waterDirtyColorPanel;
 
-        private UIPanel space1;
-        private UIPanel space2;
+        private UIPanel _space1;
+        private UIPanel _space2;
 
         public override void Awake() {
             base.Awake();
@@ -37,48 +38,48 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void CreateLabel() {
-            labelPanel = AddUIComponent<UIPanel>();
-            labelPanel.size = new Vector2(width, 22.0f);
-            label = labelPanel.AddUIComponent<UILabel>();
-            label.font = UIUtils.BoldFont;
-            label.textScale = 1.0f;
-            label.textAlignment = UIHorizontalAlignment.Center;
-            label.verticalAlignment = UIVerticalAlignment.Middle;
-            label.padding = new RectOffset(0, 0, 4, 0);
-            label.text = Translation.Instance.GetTranslation(TranslationID.LABEL_WATER);
-            label.anchor = UIAnchorStyle.CenterHorizontal | UIAnchorStyle.CenterVertical;
+            _labelPanel = AddUIComponent<UIPanel>();
+            _labelPanel.size = new Vector2(width, 22.0f);
+            _label = _labelPanel.AddUIComponent<UILabel>();
+            _label.font = UIUtils.BoldFont;
+            _label.textScale = 1.0f;
+            _label.textAlignment = UIHorizontalAlignment.Center;
+            _label.verticalAlignment = UIVerticalAlignment.Middle;
+            _label.padding = new RectOffset(0, 0, 4, 0);
+            _label.text = Translation.Instance.GetTranslation(TranslationID.LABEL_WATER);
+            _label.anchor = UIAnchorStyle.CenterHorizontal | UIAnchorStyle.CenterVertical;
             string loadTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_LOADFROMTHEME);
-            loadButton = UIUtils.CreateButton(label, new Vector2(22.0f, 22.0f), tooltip: loadTooltip, backgroundSprite: "ThemesIcon", atlas: UISprites.Atlas);
-            loadButton.relativePosition = new Vector2(label.width + 5.0f, 0.0f);
-            loadButton.eventClicked += OnLoadWaterFromTheme;
+            _loadButton = UIUtils.CreateButton(_label, new Vector2(22.0f, 22.0f), tooltip: loadTooltip, backgroundSprite: "ThemesIcon", atlas: UISprites.Atlas);
+            _loadButton.relativePosition = new Vector2(_label.width + 5.0f, 0.0f);
+            _loadButton.eventClicked += OnLoadWaterFromTheme;
         }
 
         private void CreateTexturePanels() {
-            waterNormalPanel = AddUIComponent<WaterNormalPanel>();
-            waterFoamPanel = AddUIComponent<WaterFoamPanel>();
+            _waterNormalPanel = AddUIComponent<WaterNormalPanel>();
+            _waterFoamPanel = AddUIComponent<WaterFoamPanel>();
         }
 
         private void CreateColorsPanel() {
-            colorsPanel = AddUIComponent<PanelBase>();
-            colorsPanel.Setup("Colors Panel", 360.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
-            waterCleanColorPanel = colorsPanel.AddUIComponent<WaterCleanPanel>();
-            waterCleanColorPanel.EventVisibilityChanged += OnColorPanelVisibilityChanged;
-            space1 = colorsPanel.CreateSpace(1.0f, 5.0f);
-            waterUnderColorPanel = colorsPanel.AddUIComponent<WaterUnderPanel>();
-            waterUnderColorPanel.EventVisibilityChanged += OnColorPanelVisibilityChanged;
-            space2 = colorsPanel.CreateSpace(1.0f, 5.0f);
-            waterDirtyColorPanel = colorsPanel.AddUIComponent<WaterDirtyPanel>();
-            waterDirtyColorPanel.EventVisibilityChanged += OnColorPanelVisibilityChanged;
-            colorsPanel.CreateSpace(1.0f, 5.0f);
+            _colorsPanel = AddUIComponent<PanelBase>();
+            _colorsPanel.Setup("Colors Panel", 360.0f, 0.0f, 0, true, LayoutDirection.Vertical);
+            _waterCleanColorPanel = _colorsPanel.AddUIComponent<WaterCleanPanel>();
+            _waterCleanColorPanel.EventVisibilityChanged += OnColorPanelVisibilityChanged;
+            _space1 = _colorsPanel.CreateSpace(1.0f, 5.0f);
+            _waterUnderColorPanel = _colorsPanel.AddUIComponent<WaterUnderPanel>();
+            _waterUnderColorPanel.EventVisibilityChanged += OnColorPanelVisibilityChanged;
+            _space2 = _colorsPanel.CreateSpace(1.0f, 5.0f);
+            _waterDirtyColorPanel = _colorsPanel.AddUIComponent<WaterDirtyPanel>();
+            _waterDirtyColorPanel.EventVisibilityChanged += OnColorPanelVisibilityChanged;
+            _colorsPanel.CreateSpace(1.0f, 5.0f);
         }
 
         private void OnColorPanelVisibilityChanged(object sender, ColorPanelVisibilityChangedEventArgs eventArgs) {
-            waterFoamPanel.isVisible = !eventArgs.visible;
-            waterNormalPanel.isVisible = !eventArgs.visible;
-            space1.isVisible = space2.isVisible = !eventArgs.visible;
-            waterCleanColorPanel.isVisible = ReferenceEquals(eventArgs.panel, waterCleanColorPanel) ? true : !eventArgs.visible;
-            waterUnderColorPanel.isVisible = ReferenceEquals(eventArgs.panel, waterUnderColorPanel) ? true : !eventArgs.visible;
-            waterDirtyColorPanel.isVisible = ReferenceEquals(eventArgs.panel, waterDirtyColorPanel) ? true : !eventArgs.visible;
+            _waterFoamPanel.isVisible = !eventArgs.Visible;
+            _waterNormalPanel.isVisible = !eventArgs.Visible;
+            _space1.isVisible = _space2.isVisible = !eventArgs.Visible;
+            _waterCleanColorPanel.isVisible = ReferenceEquals(eventArgs.Panel, _waterCleanColorPanel) || !eventArgs.Visible;
+            _waterUnderColorPanel.isVisible = ReferenceEquals(eventArgs.Panel, _waterUnderColorPanel) || !eventArgs.Visible;
+            _waterDirtyColorPanel.isVisible = ReferenceEquals(eventArgs.Panel, _waterDirtyColorPanel) || !eventArgs.Visible;
         }
 
         private void OnLoadWaterFromTheme(UIComponent component, UIMouseEventParameter eventParam) {

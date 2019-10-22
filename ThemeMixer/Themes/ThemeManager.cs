@@ -19,27 +19,25 @@ namespace ThemeMixer.Themes
 
         public static ThemeManager Instance {
             get {
-                if (_instance == null) {
-                    _instance = FindObjectOfType<ThemeManager>();
-                    if (_instance == null) {
-                        GameObject gameObject = GameObject.Find("ThemeMixer");
-                        if (gameObject == null) gameObject = new GameObject("ThemeMixer");
-                        _instance = gameObject.AddComponent<ThemeManager>();
-                        DontDestroyOnLoad(_instance.gameObject);
-                    }
-                }
+                if (_instance != null) return _instance;
+                _instance = FindObjectOfType<ThemeManager>();
+                if (_instance != null) return _instance;
+                GameObject gameObject = GameObject.Find("ThemeMixer");
+                if (gameObject == null) gameObject = new GameObject("ThemeMixer");
+                _instance = gameObject.AddComponent<ThemeManager>();
+                DontDestroyOnLoad(_instance.gameObject);
                 return _instance;
             }
         }
 
-        internal MapThemeMetaData GetTheme(string themeID) {
-            if (Themes.TryGetValue(themeID, out MapThemeMetaData theme)) return theme;
-            return null;
+        internal MapThemeMetaData GetTheme(string themeID)
+        {
+            return Themes.TryGetValue(themeID, out MapThemeMetaData theme) ? theme : null;
         }
 
         public static ThemeManager Ensure() => Instance;
 
-        private bool InGame => ToolManager.instance?.m_properties != null && (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
+        private static bool InGame => ToolManager.instance?.m_properties != null && (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
 
 
         private Dictionary<string, MapThemeMetaData> _themes;
@@ -48,7 +46,7 @@ namespace ThemeMixer.Themes
         private const string DataID = "_THEMEMIXER2_DATA_";
         public ThemeMix CurrentMix { get; set; }
 
-        private string MixID { get; set; } = null;
+        private string MixID { get; set; }
 
         internal void OnSaveData(ISerializableData serializableDataManager) {
             if (MixID == null) return;
@@ -75,20 +73,19 @@ namespace ThemeMixer.Themes
                     Debug.LogError(exception);
                 }
             }
-            if (MixID != null) {
-                ThemeMix mix = SerializationService.Instance.GetMix(MixID);
-                if (mix != null && mix.Load()) CurrentMix = mix;
-            }
+
+            if (MixID == null) return;
+            ThemeMix mix = SerializationService.Instance.GetMix(MixID);
+            if (mix != null && mix.Load()) CurrentMix = mix;
         }
 
         private void RefreshThemes() {
             if (_themes == null) _themes = new Dictionary<string, MapThemeMetaData>();
-            foreach (var asset in PackageManager.FilterAssets(UserAssetType.MapThemeMetaData)) {
+            foreach (Package.Asset asset in PackageManager.FilterAssets(UserAssetType.MapThemeMetaData)) {
                 if (asset == null || asset.package == null) continue;
-                if (!_themes.ContainsKey(asset.package.packageName)) {
-                    _themes[asset.fullName] = asset.Instantiate<MapThemeMetaData>();
-                    _themes[asset.fullName].assetRef = asset;
-                }
+                if (_themes.ContainsKey(asset.package.packageName)) continue;
+                _themes[asset.fullName] = asset.Instantiate<MapThemeMetaData>();
+                _themes[asset.fullName].assetRef = asset;
             }
         }
 
@@ -110,7 +107,7 @@ namespace ThemeMixer.Themes
         private Dictionary<string, MapThemeMetaData> CacheThemes() {
             if (_themes == null) _themes = new Dictionary<string, MapThemeMetaData>();
             _themes.Clear();
-            foreach (var asset in PackageManager.FilterAssets(UserAssetType.MapThemeMetaData)) {
+            foreach (Package.Asset asset in PackageManager.FilterAssets(UserAssetType.MapThemeMetaData)) {
                 if (asset == null || asset.package == null) continue;
                 if (asset.fullName.Contains("CO-Winter-Theme") && !SteamHelper.IsDLCOwned(SteamHelper.DLC.SnowFallDLC)) continue;
                 _themes[asset.fullName] = asset.Instantiate<MapThemeMetaData>();
@@ -132,7 +129,8 @@ namespace ThemeMixer.Themes
         public void OnLevelLoaded() {
             PackageManager.eventPackagesChanged += OnPackagesChanged;
             CacheThemes();
-            CurrentMix = SerializationService.Instance.GetSavedLocalMix();
+            if (CurrentMix != null) return;
+            CurrentMix = SerializationService.Instance.GetDefaultMix() ?? SerializationService.Instance.GetSavedLocalMix();
             if (CurrentMix == null) {
                 switch (SimulationManager.instance.m_metaData.m_environment) {
                     case "Sunny":
@@ -185,7 +183,6 @@ namespace ThemeMixer.Themes
                 case ThemeCategory.Structures: CurrentMix.Structures.Load(themeID); break;
                 case ThemeCategory.Atmosphere: CurrentMix.Atmosphere.Load(themeID); break;
                 case ThemeCategory.Weather: CurrentMix.Weather.Load(themeID); break;
-                default: break;
             }
             SaveLocalMix();
             EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
@@ -193,6 +190,7 @@ namespace ThemeMixer.Themes
 
         internal void LoadMix(ThemeMix mix) {
             CurrentMix = mix;
+            MixID = mix.ID;
             CurrentMix.Load();
         }
 
@@ -218,7 +216,6 @@ namespace ThemeMixer.Themes
                 case TextureID.MoonTexture: CurrentMix.Atmosphere.MoonTexture.Load(themeID); break;
                 case TextureID.WaterFoam: CurrentMix.Water.WaterFoam.Load(themeID); break;
                 case TextureID.WaterNormal: CurrentMix.Water.WaterNormal.Load(themeID); break;
-                default: break;
             }
             SaveLocalMix();
             EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
@@ -237,7 +234,6 @@ namespace ThemeMixer.Themes
                 case ColorID.WaterUnder: return Themes[themeID].waterUnder;
                 default: return default;
             }
-            SaveLocalMix();
         }
 
         internal void OnColorChanged(ColorID colorID, Color value) {
@@ -266,7 +262,6 @@ namespace ThemeMixer.Themes
                 case TextureID.OilDiffuseTexture: CurrentMix.Terrain.OilDiffuseTexture.SetCustomValue(value); break;
                 case TextureID.OreDiffuseTexture: CurrentMix.Terrain.OreDiffuseTexture.SetCustomValue(value); break;
                 case TextureID.CliffSandNormalTexture: CurrentMix.Terrain.CliffSandNormalTexture.SetCustomValue(value); break;
-                default: break;
             }
             SaveLocalMix();
         }
@@ -278,7 +273,7 @@ namespace ThemeMixer.Themes
                 case ValueID.SunSize: CurrentMix.Atmosphere.SunSize.SetCustomValue(value); break;
                 case ValueID.SunAnisotropy: CurrentMix.Atmosphere.SunAnisotropy.SetCustomValue(value); break;
                 case ValueID.MoonSize: CurrentMix.Atmosphere.MoonSize.SetCustomValue(value); break;
-                case ValueID.Rayleigh: CurrentMix.Atmosphere.Rayleight.SetCustomValue(value); break;
+                case ValueID.Rayleigh: CurrentMix.Atmosphere.Rayleigh.SetCustomValue(value); break;
                 case ValueID.Mie: CurrentMix.Atmosphere.Mie.SetCustomValue(value); break;
                 case ValueID.Exposure: CurrentMix.Atmosphere.Exposure.SetCustomValue(value); break;
                 case ValueID.StarsIntensity: CurrentMix.Atmosphere.StarsIntensity.SetCustomValue(value); break;
@@ -299,7 +294,6 @@ namespace ThemeMixer.Themes
                 case ValueID.FogProbabilityDay: CurrentMix.Weather.FogProbabilityDay.SetCustomValue(value); break;
                 case ValueID.FogProbabilityNight: CurrentMix.Weather.FogProbabilityNight.SetCustomValue(value); break;
                 case ValueID.NorthernLightsProbability: CurrentMix.Weather.NorthernLightsProbability.SetCustomValue(value); break;
-                default: break;
             }
             SaveLocalMix();
         }
@@ -310,7 +304,6 @@ namespace ThemeMixer.Themes
                 case OffsetID.GrassFieldColorOffset: CurrentMix.Terrain.GrassFieldColorOffset.SetCustomValue(value); break;
                 case OffsetID.GrassFertilityColorOffset: CurrentMix.Terrain.GrassFertilityColorOffset.SetCustomValue(value); break;
                 case OffsetID.GrassForestColorOffset: CurrentMix.Terrain.GrassForestColorOffset.SetCustomValue(value); break;
-                default: break;
             }
             SaveLocalMix();
         }
@@ -326,7 +319,6 @@ namespace ThemeMixer.Themes
                 case ColorID.WaterClean: CurrentMix.Water.WaterClean.Load(themeID); break;
                 case ColorID.WaterDirty: CurrentMix.Water.WaterDirty.Load(themeID); break;
                 case ColorID.WaterUnder: CurrentMix.Water.WaterUnder.Load(themeID); break;
-                default: break;
             }
             SaveLocalMix();
             EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
@@ -342,7 +334,6 @@ namespace ThemeMixer.Themes
                 case OffsetID.GrassFieldColorOffset: CurrentMix.Terrain.GrassFieldColorOffset.Load(themeID); break;
                 case OffsetID.GrassFertilityColorOffset: CurrentMix.Terrain.GrassFertilityColorOffset.Load(themeID); break;
                 case OffsetID.GrassForestColorOffset: CurrentMix.Terrain.GrassForestColorOffset.Load(themeID); break;
-                default: break;
             }
             SaveLocalMix();
             EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
@@ -355,7 +346,7 @@ namespace ThemeMixer.Themes
                 case ValueID.SunSize: CurrentMix.Atmosphere.SunSize.Load(themeID); break;
                 case ValueID.SunAnisotropy: CurrentMix.Atmosphere.SunAnisotropy.Load(themeID); break;
                 case ValueID.MoonSize: CurrentMix.Atmosphere.MoonSize.Load(themeID); break;
-                case ValueID.Rayleigh: CurrentMix.Atmosphere.Rayleight.Load(themeID); break;
+                case ValueID.Rayleigh: CurrentMix.Atmosphere.Rayleigh.Load(themeID); break;
                 case ValueID.Mie: CurrentMix.Atmosphere.Mie.Load(themeID); break;
                 case ValueID.Exposure: CurrentMix.Atmosphere.Exposure.Load(themeID); break;
                 case ValueID.StarsIntensity: CurrentMix.Atmosphere.StarsIntensity.Load(themeID); break;
@@ -376,14 +367,12 @@ namespace ThemeMixer.Themes
                 case ValueID.FogProbabilityDay: CurrentMix.Weather.FogProbabilityDay.Load(themeID); break;
                 case ValueID.FogProbabilityNight: CurrentMix.Weather.FogProbabilityNight.Load(themeID); break;
                 case ValueID.NorthernLightsProbability: CurrentMix.Weather.NorthernLightsProbability.Load(themeID); break;
-                default: break;
             }
             SaveLocalMix();
             EventUIDirty?.Invoke(this, new UIDirtyEventArgs(CurrentMix));
         }
 
         public float GetTilingValue(TextureID textureID) {
-            TerrainProperties properties = TerrainManager.instance.m_properties;
             switch (textureID) {
                 case TextureID.GrassDiffuseTexture: return (float)(CurrentMix.Terrain.GrassDiffuseTexture.CustomValue ?? CurrentMix.Terrain.GrassDiffuseTexture.Value);
                 case TextureID.RuinedDiffuseTexture: return (float)(CurrentMix.Terrain.RuinedDiffuseTexture.CustomValue ?? CurrentMix.Terrain.RuinedDiffuseTexture.Value);
@@ -399,7 +388,6 @@ namespace ThemeMixer.Themes
         }
 
         public Vector3 GetOffsetValue(OffsetID offsetID) {
-            TerrainProperties properties = TerrainManager.instance.m_properties;
             switch (offsetID) {
                 case OffsetID.GrassPollutionColorOffset: return (Vector3)(CurrentMix.Terrain.GrassPollutionColorOffset.CustomValue ?? CurrentMix.Terrain.GrassPollutionColorOffset.Value);
                 case OffsetID.GrassFieldColorOffset: return (Vector3)(CurrentMix.Terrain.GrassFieldColorOffset.CustomValue ?? CurrentMix.Terrain.GrassFieldColorOffset.Value);
@@ -410,16 +398,13 @@ namespace ThemeMixer.Themes
         }
 
         public T GetValue<T>(ValueID valueID) {
-            TerrainProperties terrain = TerrainManager.instance.m_properties;
-            DayNightProperties atmosphere = DayNightProperties.instance;
-            WeatherProperties weather = WeatherManager.instance.m_properties;
             switch (valueID) {
                 case ValueID.Longitude: return (T)(CurrentMix.Atmosphere.Longitude.CustomValue ?? CurrentMix.Atmosphere.Longitude.Value);
                 case ValueID.Latitude: return (T)(CurrentMix.Atmosphere.Latitude.CustomValue ?? CurrentMix.Atmosphere.Latitude.Value);
                 case ValueID.SunSize: return (T)(CurrentMix.Atmosphere.SunSize.CustomValue ?? CurrentMix.Atmosphere.SunSize.Value);
                 case ValueID.SunAnisotropy: return (T)(CurrentMix.Atmosphere.SunAnisotropy.CustomValue ?? CurrentMix.Atmosphere.SunAnisotropy.Value);
                 case ValueID.MoonSize: return (T)(CurrentMix.Atmosphere.MoonSize.CustomValue ?? CurrentMix.Atmosphere.MoonSize.Value);
-                case ValueID.Rayleigh: return (T)(CurrentMix.Atmosphere.Rayleight.CustomValue ?? CurrentMix.Atmosphere.Rayleight.Value);
+                case ValueID.Rayleigh: return (T)(CurrentMix.Atmosphere.Rayleigh.CustomValue ?? CurrentMix.Atmosphere.Rayleigh.Value);
                 case ValueID.Mie: return (T)(CurrentMix.Atmosphere.Mie.CustomValue ?? CurrentMix.Atmosphere.Mie.Value);
                 case ValueID.Exposure: return (T)(CurrentMix.Atmosphere.Exposure.CustomValue ?? CurrentMix.Atmosphere.Exposure.Value);
                 case ValueID.StarsIntensity: return (T)(CurrentMix.Atmosphere.StarsIntensity.CustomValue ?? CurrentMix.Atmosphere.StarsIntensity.Value);

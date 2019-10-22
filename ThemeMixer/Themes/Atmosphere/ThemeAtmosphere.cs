@@ -8,7 +8,7 @@ namespace ThemeMixer.Themes.Atmosphere
         public AtmosphereFloat Latitude;
         public AtmosphereFloat SunSize;
         public AtmosphereFloat SunAnisotropy;
-        public AtmosphereFloat Rayleight;
+        public AtmosphereFloat Rayleigh;
         public AtmosphereFloat Mie;
         public AtmosphereFloat Exposure;
         public AtmosphereColor SkyTint;
@@ -32,7 +32,7 @@ namespace ThemeMixer.Themes.Atmosphere
             Latitude = new AtmosphereFloat(AtmosphereFloat.FloatName.Latitude);
             SunSize = new AtmosphereFloat(AtmosphereFloat.FloatName.SunSize);
             SunAnisotropy = new AtmosphereFloat(AtmosphereFloat.FloatName.SunAnisotropy);
-            Rayleight = new AtmosphereFloat(AtmosphereFloat.FloatName.Rayleight);
+            Rayleigh = new AtmosphereFloat(AtmosphereFloat.FloatName.Rayleigh);
             Mie = new AtmosphereFloat(AtmosphereFloat.FloatName.Mie);
             Exposure = new AtmosphereFloat(AtmosphereFloat.FloatName.Exposure);
             StarsIntensity = new AtmosphereFloat(AtmosphereFloat.FloatName.StarsIntensity);
@@ -97,8 +97,8 @@ namespace ThemeMixer.Themes.Atmosphere
                 case AtmosphereFloat.FloatName.MoonSize:
                     MoonSize = new AtmosphereFloat(themeID, name);
                     break;
-                case AtmosphereFloat.FloatName.Rayleight:
-                    Rayleight = new AtmosphereFloat(themeID, name);
+                case AtmosphereFloat.FloatName.Rayleigh:
+                    Rayleigh = new AtmosphereFloat(themeID, name);
                     break;
                 case AtmosphereFloat.FloatName.Mie:
                     Mie = new AtmosphereFloat(themeID, name);
@@ -111,8 +111,6 @@ namespace ThemeMixer.Themes.Atmosphere
                     break;
                 case AtmosphereFloat.FloatName.OuterSpaceIntensity:
                     OuterSpaceIntensity = new AtmosphereFloat(themeID, name);
-                    break;
-                default:
                     break;
             }
         }
@@ -129,8 +127,8 @@ namespace ThemeMixer.Themes.Atmosphere
                     return SunAnisotropy.Load();
                 case AtmosphereFloat.FloatName.MoonSize:
                     return MoonSize.Load();
-                case AtmosphereFloat.FloatName.Rayleight:
-                    return Rayleight.Load();
+                case AtmosphereFloat.FloatName.Rayleigh:
+                    return Rayleigh.Load();
                 case AtmosphereFloat.FloatName.Mie:
                     return Mie.Load();
                 case AtmosphereFloat.FloatName.Exposure:
@@ -162,8 +160,6 @@ namespace ThemeMixer.Themes.Atmosphere
                     break;
                 case AtmosphereColor.ColorName.LateNightZenithColor:
                     LateNightZenithColor = new AtmosphereColor(themeID, name);
-                    break;
-                default:
                     break;
             }
         }

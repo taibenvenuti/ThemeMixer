@@ -31,8 +31,7 @@ namespace ThemeMixer.Themes
         public void OnPostDeserialize() { }
 
         public bool Load(string themeID = null) {
-            bool success = true;
-            if (!Terrain.Load(themeID)) success = false;
+            bool success = Terrain.Load(themeID);
             if (!Water.Load(themeID)) success = false;
             if (!Atmosphere.Load(themeID)) success = false;
             if (!Structures.Load(themeID)) success = false;

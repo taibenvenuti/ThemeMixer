@@ -1,5 +1,4 @@
-﻿using System;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using ThemeMixer.Resources;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.UI.Abstraction;
@@ -11,69 +10,69 @@ namespace ThemeMixer.UI
     {
         public event PropertyChangedEventHandler<bool> EventCheckboxStateChanged;
 
-        private UIPanel checkboxPanel;
-        private UICheckBox checkbox;
-        private UILabel label;
+        private UIPanel _checkboxPanel;
+        private UICheckBox _checkbox;
+        private UILabel _label;
 
         public override void OnDestroy() {
-            checkbox.eventCheckChanged -= OnCheckboxStateChanged;
+            _checkbox.eventCheckChanged -= OnCheckboxStateChanged;
             base.OnDestroy();
         }
 
         public override void Awake() {
             base.Awake();
             Category = ThemeCategory.Terrain;
-            Setup("Checkbox Panel", 0.0f, 22.0f, 0, true, LayoutDirection.Horizontal, LayoutStart.TopLeft);
+            Setup("Checkbox Panel", 0.0f, 22.0f, 0, true);
             CreateCheckbox();
             CreateLabel();
         }
 
         private void CreateCheckbox() {
-            checkboxPanel = AddUIComponent<UIPanel>();
-            checkboxPanel.size = new Vector2(25.0f, 22.0f);
-            checkbox = checkboxPanel.AddUIComponent<UICheckBox>();
-            checkbox.size = new Vector2(15.0f, 15.0f);
-            checkbox.relativePosition = new Vector2(5.0f, 3.5f);
-            var sprite = checkbox.AddUIComponent<UISprite>();
+            _checkboxPanel = AddUIComponent<UIPanel>();
+            _checkboxPanel.size = new Vector2(25.0f, 22.0f);
+            _checkbox = _checkboxPanel.AddUIComponent<UICheckBox>();
+            _checkbox.size = new Vector2(15.0f, 15.0f);
+            _checkbox.relativePosition = new Vector2(5.0f, 3.5f);
+            var sprite = _checkbox.AddUIComponent<UISprite>();
             sprite.spriteName = "check-unchecked";
             sprite.atlas = UISprites.DefaultAtlas;
-            sprite.size = checkbox.size;
-            sprite.transform.parent = checkbox.transform;
+            sprite.size = _checkbox.size;
+            sprite.transform.parent = _checkbox.transform;
             sprite.transform.localPosition = Vector3.zero;
             var checkedBoxObj = sprite.AddUIComponent<UISprite>();
             checkedBoxObj.spriteName = "check-checked";
             checkedBoxObj.atlas = UISprites.DefaultAtlas;
-            checkedBoxObj.size = checkbox.size;
+            checkedBoxObj.size = _checkbox.size;
             checkedBoxObj.relativePosition = Vector3.zero;
-            checkbox.checkedBoxObject = checkedBoxObj;
-            checkbox.eventCheckChanged += OnCheckboxStateChanged;
-            checkbox.anchor = UIAnchorStyle.CenterVertical | UIAnchorStyle.Left;
+            _checkbox.checkedBoxObject = checkedBoxObj;
+            _checkbox.eventCheckChanged += OnCheckboxStateChanged;
+            _checkbox.anchor = UIAnchorStyle.CenterVertical | UIAnchorStyle.Left;
         }
 
         private void CreateLabel() {
-            label = AddUIComponent<UILabel>();
-            label.textAlignment = UIHorizontalAlignment.Left;
-            label.verticalAlignment = UIVerticalAlignment.Middle;
-            label.font = UIUtils.Font;
-            label.padding = new RectOffset(4, 0, 4, 0);
-            label.anchor = UIAnchorStyle.CenterVertical | UIAnchorStyle.Left;
-            label.relativePosition = new Vector2(25.0f, 0.0f);
+            _label = AddUIComponent<UILabel>();
+            _label.textAlignment = UIHorizontalAlignment.Left;
+            _label.verticalAlignment = UIVerticalAlignment.Middle;
+            _label.font = UIUtils.Font;
+            _label.padding = new RectOffset(4, 0, 4, 0);
+            _label.anchor = UIAnchorStyle.CenterVertical | UIAnchorStyle.Left;
+            _label.relativePosition = new Vector2(25.0f, 0.0f);
         }
 
-        public void Initialize(bool state, string text, string tooltip) {
+        public void Initialize(bool state, string text, string checkboxTooltip) {
             SetState(state);
-            label.text = text;
-            label.tooltip = checkbox.tooltip = tooltip;
+            _label.text = text;
+            _label.tooltip = _checkbox.tooltip = checkboxTooltip;
             autoFitChildrenHorizontally = true;
         }
 
         public void SetState(bool state) {
-            checkbox.isChecked = state;
+            _checkbox.isChecked = state;
         }
 
         public void MakeSmallVersion () {
-            label.textScale = 0.8f;
-            checkboxPanel.height = 18.0f;
+            _label.textScale = 0.8f;
+            _checkboxPanel.height = 18.0f;
             height = 18.0f;
 
         }

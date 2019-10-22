@@ -1,5 +1,4 @@
-﻿using ColossalFramework.Importers;
-using ColossalFramework.Packaging;
+﻿using ColossalFramework.Packaging;
 using ColossalFramework.UI;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -17,8 +16,8 @@ namespace ThemeMixer.Resources
             }
         }
 
-        private static List<string> _spriteNames { get; } = new List<string>();
-        private static List<Texture2D> _spriteTextures { get; } = new List<Texture2D>();
+        private static List<string> SpriteNames { get; } = new List<string>();
+        private static List<Texture2D> SpriteTextures { get; } = new List<Texture2D>();
 
         public const string SteamPreview = "SteamPreview";
         public const string SnapShot = "Snapshot";
@@ -47,7 +46,7 @@ namespace ThemeMixer.Resources
 
         public const string MoonTexture = "MoonTexture";
 
-        private static string[] _assetNames { get; } = new string[] {
+        private static string[] AssetNames { get; } = {
             SteamPreview,
             SnapShot,
             GrassDiffuseTexture,
@@ -73,29 +72,28 @@ namespace ThemeMixer.Resources
         };
 
         private static UITextureAtlas CreateAtlas() {
-            _spriteNames.Clear();
-            _spriteTextures.Clear();
+            SpriteNames.Clear();
+            SpriteTextures.Clear();
             var themeAssets = PackageManager.FilterAssets(UserAssetType.MapThemeMetaData);
             foreach (Package.Asset themeAsset in themeAssets) {
                 if (themeAsset == null || themeAsset.package == null) continue;
-                MapThemeMetaData meta = themeAsset.Instantiate<MapThemeMetaData>();
+                var meta = themeAsset.Instantiate<MapThemeMetaData>();
                 if (meta == null) continue;
-                for (int i = 0; i < _assetNames.Length; i++) {
-                    string assetName = i < 2 ? string.Concat(meta.name, "_", _assetNames[i]) : _assetNames[i];
+                for (var i = 0; i < AssetNames.Length; i++) {
+                    string assetName = i < 2 ? string.Concat(meta.name, "_", AssetNames[i]) : AssetNames[i];
                     string spriteName = string.Concat(themeAsset.fullName, assetName);
                     spriteName = Regex.Replace(spriteName, @"(\s+|@|&|'|\(|\)|<|>|#|"")", "");
 
-                    Texture2D tex = themeAsset.package.Find(assetName)?.Instantiate<Texture2D>();
-                    if (tex != null) {
-                        Texture2D spriteTex = tex.ScaledCopy(64.0f / tex.height);
-                        Object.Destroy(tex);
-                        spriteTex.Apply();
-                        _spriteNames.Add(spriteName);
-                        _spriteTextures.Add(spriteTex);
-                    }
+                    var tex = themeAsset.package.Find(assetName)?.Instantiate<Texture2D>();
+                    if (tex == null) continue;
+                    Texture2D spriteTex = tex.ScaledCopy(64.0f / tex.height);
+                    Object.Destroy(tex);
+                    spriteTex.Apply();
+                    SpriteNames.Add(spriteName);
+                    SpriteTextures.Add(spriteTex);
                 }
             }
-            return ResourceUtils.CreateAtlas("ThemesAtlas", _spriteNames.ToArray(), _spriteTextures.ToArray());
+            return ResourceUtils.CreateAtlas("ThemesAtlas", SpriteNames.ToArray(), SpriteTextures.ToArray());
         }
     }
 }

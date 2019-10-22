@@ -1,6 +1,7 @@
 ﻿using ThemeMixer.Themes.Enums;
+using ThemeMixer.UI.Abstraction.ColorPanel;
 
-namespace ThemeMixer.UI.Color
+namespace ThemeMixer.UI.Parts.ColorPanels
 {
     public class EarlyNightZenithPanel : ColorPanel
     {

@@ -1,15 +1,14 @@
 ﻿using System;
 using ColossalFramework.Packaging;
 using ColossalFramework.UI;
-using ThemeMixer.Resources;
+using JetBrains.Annotations;
 using ThemeMixer.Themes;
 using ThemeMixer.Themes.Enums;
-using ThemeMixer.UI;
 using ThemeMixer.UI.Abstraction;
-using ThemeMixer.UI.Parts;
+using ThemeMixer.UI.Parts.SelectPanels;
 using UnityEngine;
 
-namespace ThemeMixer
+namespace ThemeMixer.UI
 {
     public class UIController: MonoBehaviour
     {
@@ -18,23 +17,16 @@ namespace ThemeMixer
         private static UIController _instance;
         public static UIController Instance {
             get {
-                if (_instance == null) {
-                    _instance = FindObjectOfType<UIController>();
-                    if (_instance == null) {
-                        GameObject gameObject = GameObject.Find("ThemeMixer");
-                        if (gameObject == null) gameObject = new GameObject("ThemeMixer");
-                        _instance = gameObject.AddComponent<UIController>();
-                        DontDestroyOnLoad(_instance.gameObject);
-                    }
-                }
+                if (_instance != null) return _instance;
+                _instance = FindObjectOfType<UIController>();
+                if (_instance != null) return _instance;
+                GameObject gameObject = GameObject.Find("ThemeMixer");
+                if (gameObject == null) gameObject = new GameObject("ThemeMixer");
+                _instance = gameObject.AddComponent<UIController>();
+                DontDestroyOnLoad(_instance.gameObject);
                 return _instance;
             }
         }
-
-        public ThemeMix Mix { get => ThemeManager.Instance.CurrentMix; set => ThemeManager.Instance.CurrentMix = value; }
-
-        public UITextureAtlas ThemeAtlas => ThemeSprites.Atlas;
-
 
         public ThemePart Part { get; set; } = ThemePart.None;
         public TextureID TextureID { get; private set; }
@@ -42,21 +34,19 @@ namespace ThemeMixer
         public OffsetID OffsetID { get; private set; }
         public ValueID ValueID { get; private set; }
 
-        public string ThemeID { get; private set; }
-
-        private bool InGame => ToolManager.instance?.m_properties != null && (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
+        private static bool InGame => ToolManager.instance?.m_properties != null && (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
 
         internal Color GetCurrentColor(ColorID colorID) {
             return ThemeManager.Instance.GetCurrentColor(colorID);
         }
 
-        private ThemeMixerUI _ui;
-        private ThemeMixerUI ThemeMixerUI {
+        private UIRoot _ui;
+        private UIRoot ThemeMixerUI {
             get {
-                if (_ui == null) _ui = FindObjectOfType<ThemeMixerUI>();
+                if (_ui == null) _ui = FindObjectOfType<UIRoot>();
                 return _ui;
             }
-            set { _ui = value; }
+            set => _ui = value;
         }
         private SelectPanel ThemeSelector { get; set; }
 
@@ -66,11 +56,7 @@ namespace ThemeMixer
                 if (_toggle == null) _toggle = FindObjectOfType<UIToggle>();
                 return _toggle;
             }
-            set { _toggle = value; }
-        }
-
-        internal string GetTextureThemeID(TextureID textureID) {
-            return ThemeManager.Instance.GetTextureThemeID(textureID);
+            set => _toggle = value;
         }
 
         public static UIController Ensure() => Instance;
@@ -86,7 +72,7 @@ namespace ThemeMixer
                 UIToggle = null;
             }
             UIToggle = UIView.GetAView().AddUIComponent(typeof(UIToggle)) as UIToggle;
-            UIToggle.EventUIToggleClicked += OnUIToggleClicked;
+            if (UIToggle != null) UIToggle.EventUIToggleClicked += OnUIToggleClicked;
         }
 
         public void OnLevelUnloaded() {
@@ -108,21 +94,21 @@ namespace ThemeMixer
             return ThemeManager.Instance.GetTilingValue(textureID);
         }
 
-        public void OnLoadFromTheme<T>(ThemeCategory category, T ID) {
-            ThemePart part = ThemePart.None;
-            if (ID is TextureID textureID) {
+        public void OnLoadFromTheme<T>(ThemeCategory category, T id) {
+            var part = ThemePart.None;
+            if (id is TextureID textureID) {
                 part = ThemePart.Texture;
                 TextureID = textureID;
-            } else if (ID is ColorID colorID) {
+            } else if (id is ColorID colorID) {
                 part = ThemePart.Color;
                 ColorID = colorID;
-            } else if (ID is OffsetID offsetID) {
+            } else if (id is OffsetID offsetID) {
                 part = ThemePart.Offset;
                 OffsetID = offsetID;
-            } else if (ID is ValueID valueID) {
+            } else if (id is ValueID valueID) {
                 part = ThemePart.Value;
                 ValueID = valueID;
-            } else if (ID is ThemeCategory themeCategory) {
+            } else if (id is ThemeCategory) {
                 part = ThemePart.Category;
             }
             if (part != ThemePart.None) ShowThemeSelectorPanel(category, part);
@@ -132,6 +118,7 @@ namespace ThemeMixer
             return ThemeManager.Instance.GetOffsetValue(offsetID);
         }
 
+        [UsedImplicitly]
         private void Awake() {
             PanelBase.EventThemeDirty += OnThemeDirty;
             ThemeManager.Instance.EventUIDirty += OnUIDirty;
@@ -141,6 +128,8 @@ namespace ThemeMixer
             EventUIDirty?.Invoke(sender, e);
         }
 
+
+        [UsedImplicitly]
         private void OnDestroy() {
             PanelBase.EventThemeDirty -= OnThemeDirty;
             ThemeManager.Instance.EventUIDirty -= OnUIDirty;
@@ -151,10 +140,10 @@ namespace ThemeMixer
                 Destroy(UIToggle.gameObject);
                 UIToggle = null;
             }
-            if (ThemeMixerUI != null) {
-                Destroy(ThemeMixerUI.gameObject);
-                ThemeMixerUI = null;
-            }
+
+            if (ThemeMixerUI == null) return;
+            Destroy(ThemeMixerUI.gameObject);
+            ThemeMixerUI = null;
         }
 
         private void OnUIToggleClicked() {
@@ -163,7 +152,8 @@ namespace ThemeMixer
                 ThemeMixerUI = null;
                 return;
             }
-            ThemeMixerUI = UIView.GetAView().AddUIComponent(typeof(ThemeMixerUI)) as ThemeMixerUI;
+            ThemeMixerUI = UIView.GetAView().AddUIComponent(typeof(UIRoot)) as UIRoot;
+            ThemeMixerUI?.AddUIComponent<ThemeMixerUI>();
         }
 
         public void OnTilingChanged(TextureID textureID, float value) {
@@ -190,8 +180,6 @@ namespace ThemeMixer
                 case ThemeCategory.Weather:
                     ThemeSelector = UIView.GetAView().AddUIComponent(typeof(SelectWeatherPanel)) as SelectWeatherPanel;
                     break;
-                default:
-                    break;
             }
         }
 
@@ -207,23 +195,21 @@ namespace ThemeMixer
         }
 
         public void OnThemeSelected(object sender, ThemeSelectedEventArgs e) {
-            switch (e.part) {
+            switch (e.Part) {
                 case ThemePart.Category:
-                    ThemeManager.Instance.LoadCategory(e.category, e.themeID);
+                    ThemeManager.Instance.LoadCategory(e.Category, e.ThemeID);
                     break;
                 case ThemePart.Texture:
-                    ThemeManager.Instance.LoadTexture(TextureID, e.themeID);
+                    ThemeManager.Instance.LoadTexture(TextureID, e.ThemeID);
                     break;
                 case ThemePart.Color:
-                    ThemeManager.Instance.LoadColor(ColorID, e.themeID);
+                    ThemeManager.Instance.LoadColor(ColorID, e.ThemeID);
                     break;
                 case ThemePart.Offset:
-                    ThemeManager.Instance.LoadOffset(OffsetID, e.themeID);
+                    ThemeManager.Instance.LoadOffset(OffsetID, e.ThemeID);
                     break;
                 case ThemePart.Value:
-                    ThemeManager.Instance.LoadValue(ValueID, e.themeID);
-                    break;
-                default:
+                    ThemeManager.Instance.LoadValue(ValueID, e.ThemeID);
                     break;
             }
         }

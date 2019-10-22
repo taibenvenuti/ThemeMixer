@@ -1,37 +1,24 @@
-﻿using System;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using ThemeMixer.Locale;
 using ThemeMixer.Resources;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.TranslationFramework;
 using ThemeMixer.UI.Abstraction;
+using ThemeMixer.UI.Parts.ValuePanels;
 using UnityEngine;
-namespace ThemeMixer.UI.Parts
+
+namespace ThemeMixer.UI.CategoryPanels
 {
     public class WeatherPanel : PanelBase
     {
-        protected UIPanel labelPanel;
-        protected UILabel label;
-        protected UIButton loadButton;
+        private UIPanel _labelPanel;
+        private UILabel _label;
+        private UIButton _loadButton;
 
-        protected PanelBase container;
-        protected PanelBase panelLeft;
-        protected PanelBase panelCenter;
-        protected PanelBase panelRight;
-
-        protected MinTemperatureDayPanel minTemperatureDay;
-        protected MaxTemperatureDayPanel maxTemperatureDay;
-        protected MinTemperatureNightPanel minTemperatureNight;
-        protected MaxTemperatureNightPanel maxTemperatureNight;
-        protected MinTemperatureRainPanel minTemperatureRain;
-        protected MaxTemperatureRainPanel maxTemperatureRain;
-        protected MinTemperatureFogPanel minTemperatureFog;
-        protected MaxTemperatureFogPanel maxTemperatureFog;
-        protected RainProbabilityDayPanel rainProbabilityDay;
-        protected RainProbabilityNightPanel rainProbabilityNight;
-        protected FogProbabilityDayPanel fogProbabilityDay;
-        protected FogProbabilityNightPanel fogProbabilityNight;
-        protected NorthernLightsProbabilityPanel northernLightsProbability;
+        private PanelBase _container;
+        private PanelBase _panelLeft;
+        private PanelBase _panelCenter;
+        private PanelBase _panelRight;
 
         public override void Awake() {
             base.Awake();
@@ -45,20 +32,20 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void CreateLabel() {
-            labelPanel = AddUIComponent<UIPanel>();
-            labelPanel.size = new Vector2(width, 22.0f);
-            label = labelPanel.AddUIComponent<UILabel>();
-            label.font = UIUtils.BoldFont;
-            label.textScale = 1.0f;
-            label.textAlignment = UIHorizontalAlignment.Center;
-            label.verticalAlignment = UIVerticalAlignment.Middle;
-            label.padding = new RectOffset(0, 0, 4, 0);
-            label.text = Translation.Instance.GetTranslation(TranslationID.LABEL_WEATHER);
-            label.anchor = UIAnchorStyle.CenterHorizontal | UIAnchorStyle.CenterVertical;
+            _labelPanel = AddUIComponent<UIPanel>();
+            _labelPanel.size = new Vector2(width, 22.0f);
+            _label = _labelPanel.AddUIComponent<UILabel>();
+            _label.font = UIUtils.BoldFont;
+            _label.textScale = 1.0f;
+            _label.textAlignment = UIHorizontalAlignment.Center;
+            _label.verticalAlignment = UIVerticalAlignment.Middle;
+            _label.padding = new RectOffset(0, 0, 4, 0);
+            _label.text = Translation.Instance.GetTranslation(TranslationID.LABEL_WEATHER);
+            _label.anchor = UIAnchorStyle.CenterHorizontal | UIAnchorStyle.CenterVertical;
             string loadTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_LOADFROMTHEME);
-            loadButton = UIUtils.CreateButton(label, new Vector2(22.0f, 22.0f), tooltip: loadTooltip, backgroundSprite: "ThemesIcon", atlas: UISprites.Atlas);
-            loadButton.relativePosition = new Vector2(label.width + 5.0f, 0.0f);
-            loadButton.eventClicked += OnLoadWeatherFromTheme;
+            _loadButton = UIUtils.CreateButton(_label, new Vector2(22.0f, 22.0f), tooltip: loadTooltip, backgroundSprite: "ThemesIcon", atlas: UISprites.Atlas);
+            _loadButton.relativePosition = new Vector2(_label.width + 5.0f, 0.0f);
+            _loadButton.eventClicked += OnLoadWeatherFromTheme;
         }
 
         private void OnLoadWeatherFromTheme(UIComponent component, UIMouseEventParameter eventParam) {
@@ -66,46 +53,46 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void CreateContainers() {
-            container = AddUIComponent<PanelBase>();
-            container.Setup("Weather Container", 0.0f, 460.0f, 5, true, LayoutDirection.Horizontal, LayoutStart.TopLeft);
-            container.autoFitChildrenVertically = true;
-            panelLeft = container.AddUIComponent<PanelBase>();
-            panelLeft.Setup("Weather Panel Left", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
-            panelCenter = container.AddUIComponent<PanelBase>();
-            panelCenter.Setup("Weather Panel Center", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
-            panelRight = container.AddUIComponent<PanelBase>();
-            panelRight.Setup("Weather Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
+            _container = AddUIComponent<PanelBase>();
+            _container.Setup("Weather Container", 0.0f, 460.0f, 5, true);
+            _container.autoFitChildrenVertically = true;
+            _panelLeft = _container.AddUIComponent<PanelBase>();
+            _panelLeft.Setup("Weather Panel Left", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical);
+            _panelCenter = _container.AddUIComponent<PanelBase>();
+            _panelCenter.Setup("Weather Panel Center", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical);
+            _panelRight = _container.AddUIComponent<PanelBase>();
+            _panelRight.Setup("Weather Panel Right", 350.0f, 0.0f, 0, true, LayoutDirection.Vertical);
         }
 
         private void CreatePanels() {
-            rainProbabilityDay = panelLeft.AddUIComponent<RainProbabilityDayPanel>();
-            panelLeft.CreateSpace(1.0f, 5.0f);
-            rainProbabilityNight = panelLeft.AddUIComponent<RainProbabilityNightPanel>();
-            panelLeft.CreateSpace(1.0f, 5.0f);
-            fogProbabilityDay = panelLeft.AddUIComponent<FogProbabilityDayPanel>();
-            panelLeft.CreateSpace(1.0f, 5.0f);
-            fogProbabilityNight = panelLeft.AddUIComponent<FogProbabilityNightPanel>();
-            panelLeft.CreateSpace(1.0f, 5.0f);
-            northernLightsProbability = panelLeft.AddUIComponent<NorthernLightsProbabilityPanel>();
-            panelLeft.CreateSpace(1.0f, 5.0f);
+            _panelLeft.AddUIComponent<RainProbabilityDayPanel>();
+            _panelLeft.CreateSpace(1.0f, 5.0f);
+            _panelLeft.AddUIComponent<RainProbabilityNightPanel>();
+            _panelLeft.CreateSpace(1.0f, 5.0f);
+            _panelLeft.AddUIComponent<FogProbabilityDayPanel>();
+            _panelLeft.CreateSpace(1.0f, 5.0f);
+            _panelLeft.AddUIComponent<FogProbabilityNightPanel>();
+            _panelLeft.CreateSpace(1.0f, 5.0f);
+            _panelLeft.AddUIComponent<NorthernLightsProbabilityPanel>();
+            _panelLeft.CreateSpace(1.0f, 5.0f);
 
-            minTemperatureDay = panelCenter.AddUIComponent<MinTemperatureDayPanel>();
-            panelCenter.CreateSpace(1.0f, 5.0f);
-            maxTemperatureDay = panelCenter.AddUIComponent<MaxTemperatureDayPanel>();
-            panelCenter.CreateSpace(1.0f, 5.0f);
-            minTemperatureNight = panelCenter.AddUIComponent<MinTemperatureNightPanel>();
-            panelCenter.CreateSpace(1.0f, 5.0f);
-            maxTemperatureNight = panelCenter.AddUIComponent<MaxTemperatureNightPanel>();
-            panelCenter.CreateSpace(1.0f, 5.0f);
+            _panelCenter.AddUIComponent<MinTemperatureDayPanel>();
+            _panelCenter.CreateSpace(1.0f, 5.0f);
+            _panelCenter.AddUIComponent<MaxTemperatureDayPanel>();
+            _panelCenter.CreateSpace(1.0f, 5.0f);
+            _panelCenter.AddUIComponent<MinTemperatureNightPanel>();
+            _panelCenter.CreateSpace(1.0f, 5.0f);
+            _panelCenter.AddUIComponent<MaxTemperatureNightPanel>();
+            _panelCenter.CreateSpace(1.0f, 5.0f);
 
-            minTemperatureRain = panelRight.AddUIComponent<MinTemperatureRainPanel>();
-            panelRight.CreateSpace(1.0f, 5.0f);
-            maxTemperatureRain = panelRight.AddUIComponent<MaxTemperatureRainPanel>();
-            panelRight.CreateSpace(1.0f, 5.0f);
-            minTemperatureFog = panelRight.AddUIComponent<MinTemperatureFogPanel>();
-            panelRight.CreateSpace(1.0f, 5.0f);
-            maxTemperatureFog = panelRight.AddUIComponent<MaxTemperatureFogPanel>();
-            panelRight.CreateSpace(1.0f, 5.0f);
+            _panelRight.AddUIComponent<MinTemperatureRainPanel>();
+            _panelRight.CreateSpace(1.0f, 5.0f);
+            _panelRight.AddUIComponent<MaxTemperatureRainPanel>();
+            _panelRight.CreateSpace(1.0f, 5.0f);
+            _panelRight.AddUIComponent<MinTemperatureFogPanel>();
+            _panelRight.CreateSpace(1.0f, 5.0f);
+            _panelRight.AddUIComponent<MaxTemperatureFogPanel>();
+            _panelRight.CreateSpace(1.0f, 5.0f);
         }
     }
 }

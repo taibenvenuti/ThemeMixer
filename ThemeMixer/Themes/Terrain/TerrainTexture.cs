@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using ThemeMixer.Themes.Abstraction;
+using UnityEngine;
 
 namespace ThemeMixer.Themes.Terrain
 {
@@ -6,6 +8,7 @@ namespace ThemeMixer.Themes.Terrain
     {
         public TextureName Name;
 
+        [UsedImplicitly]
         public TerrainTexture() { }
 
         public TerrainTexture(TextureName textureName) {
@@ -24,7 +27,7 @@ namespace ThemeMixer.Themes.Terrain
         protected override bool SetFromTheme() {
             MapThemeMetaData metaData = ThemeManager.GetTheme(ThemeID);
             if (metaData == null) return false;
-            bool success = false;
+            bool success;
             switch (Name) {
                 case TextureName.GrassDiffuseTexture:
                     success = SetTexture(metaData.grassDiffuseAsset);
@@ -116,8 +119,6 @@ namespace ThemeMixer.Themes.Terrain
                     properties.m_cliffSandNormal = Texture;
                     Shader.SetGlobalTexture("_TerrainCliffSandNormal", properties.m_cliffSandNormal);
                     break;
-                default:
-                    break;
             }
             if (oldTexture != null && !ReferenceEquals(oldTexture, Texture)) Object.Destroy(oldTexture);
         }
@@ -151,8 +152,6 @@ namespace ThemeMixer.Themes.Terrain
                     break;
                 case TextureName.CliffSandNormalTexture:
                     properties.m_cliffSandNormalTiling = (float)(CustomValue ?? Value);
-                    break;
-                default:
                     break;
             }
 

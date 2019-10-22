@@ -1,6 +1,4 @@
-﻿using System;
-using ThemeMixer.Themes.Enums;
-using ThemeMixer.UI.Parts;
+﻿using ThemeMixer.Themes.Enums;
 
 namespace ThemeMixer.Locale
 {

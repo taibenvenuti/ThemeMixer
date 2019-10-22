@@ -1,17 +1,19 @@
-﻿using ColossalFramework.Packaging;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
+using ColossalFramework.Packaging;
+using JetBrains.Annotations;
 using UnityEngine;
 
-namespace ThemeMixer.Themes
+namespace ThemeMixer.Themes.Abstraction
 {
     public abstract class TexturePartBase : ThemePartBase
     {
         [XmlIgnore]
         public Texture2D Texture { get; set; }
 
-        public TexturePartBase() { }
+        [UsedImplicitly]
+        protected TexturePartBase() { }
 
-        public TexturePartBase(string themeID) : base(themeID) { }
+        protected TexturePartBase(string themeID) : base(themeID) { }
 
         public bool SetTexture(Package.Asset asset) {
             if (asset == null) return false;

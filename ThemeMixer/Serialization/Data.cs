@@ -9,20 +9,21 @@ namespace ThemeMixer.Serialization
     [XmlRoot("ThemeMixerSettings")]
     public class Data
     {
-        public ThemeMix LocalMix { get; set; } = null;
-        public bool HideBlacklisted { get; set; } = false;
-        public Vector2? ToolbarPosition { get; set; } = null;
-        public Vector2? UITogglePosition { get; set; } = null;
+        public string DefaultMix { get; set; }
+        public ThemeMix LocalMix { get; set; }
+        public bool HideBlacklisted { get; set; }
+        public Vector2? ToolbarPosition { get; set; }
+        public Vector2? UITogglePosition { get; set; }
         public List<string>[] Favourites { get; set; } = new List<string>[(int)ThemeCategory.Count];
         public List<string>[] Blacklisted { get; set; } = new List<string>[(int)ThemeCategory.Count];
         public List<SavedSwatch>[] SavedSwatches { get; set; } = new List<SavedSwatch>[(int)ColorID.Count];
 
         public Data() {
-            for (int i = 0; i < (int)ThemeCategory.Count; i++) {
+            for (var i = 0; i < (int)ThemeCategory.Count; i++) {
                 Favourites[i] = new List<string>();
                 Blacklisted[i] = new List<string>();
             }
-            for (int i = 0; i < (int)ColorID.Count; i++) {
+            for (var i = 0; i < (int)ColorID.Count; i++) {
                 SavedSwatches[i] = new List<SavedSwatch>();
             }
         }

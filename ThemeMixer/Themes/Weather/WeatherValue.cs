@@ -1,9 +1,13 @@
-﻿namespace ThemeMixer.Themes.Weather
+﻿using JetBrains.Annotations;
+using ThemeMixer.Themes.Abstraction;
+
+namespace ThemeMixer.Themes.Weather
 {
     public class WeatherValue : ThemePartBase
     {
         public ValueName Name;
 
+        [UsedImplicitly]
         public WeatherValue() { }
 
         public WeatherValue(ValueName valueName) {
@@ -57,8 +61,6 @@
                 case ValueName.NorthernLightsProbability:
                     SetValue(metaData.northernLightsProbability);
                     break;
-                default:
-                    break;
             }
             return true;
         }
@@ -104,8 +106,6 @@
                     break;
                 case ValueName.NorthernLightsProbability:
                     properties.m_northernLightsProbability = (int)(CustomValue ?? Value);
-                    break;
-                default:
                     break;
             }
         }

@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using ThemeMixer.Themes.Abstraction;
+using UnityEngine;
 
 namespace ThemeMixer.Themes.Atmosphere
 {
-    public class MoonTexture : TexturePartBase
+    public sealed class MoonTexture : TexturePartBase
     {
         public MoonTexture() { }
 

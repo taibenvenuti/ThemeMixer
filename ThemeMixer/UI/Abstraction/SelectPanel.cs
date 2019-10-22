@@ -1,17 +1,16 @@
-﻿using ColossalFramework.UI;
+﻿using System;
+using System.Collections.Generic;
 using ColossalFramework.Packaging;
 using ColossalFramework.PlatformServices;
-using System;
-using System.Collections.Generic;
-using ThemeMixer.Themes;
-using ThemeMixer.UI.Abstraction;
-using ThemeMixer.UI.FastList;
-using ThemeMixer.TranslationFramework;
+using ColossalFramework.UI;
 using ThemeMixer.Locale;
+using ThemeMixer.Themes;
 using ThemeMixer.Themes.Enums;
+using ThemeMixer.TranslationFramework;
+using ThemeMixer.UI.FastList;
 using UnityEngine;
 
-namespace ThemeMixer.UI.Parts
+namespace ThemeMixer.UI.Abstraction
 {
     public abstract class SelectPanel : PanelBase
     {
@@ -19,23 +18,23 @@ namespace ThemeMixer.UI.Parts
         public event EventHandler<ThemeSelectedEventArgs> EventThemeSelected;
         public ThemePart Part { get; set; } = ThemePart.None;
 
-        protected UILabel label;
-        protected UIFastList fastList;
-        protected PanelBase buttonPanel;
-        protected UIButton button;
-        protected static Dictionary<string, MapThemeMetaData> Favourites = new Dictionary<string, MapThemeMetaData>();
-        protected static Dictionary<string, MapThemeMetaData> Blacklisted = new Dictionary<string, MapThemeMetaData>();
-        protected static Dictionary<string, MapThemeMetaData> Normal = new Dictionary<string, MapThemeMetaData>();
+        private UILabel _label;
+        private UIFastList _fastList;
+        protected PanelBase _buttonPanel;
+        private UIButton _button;
+        private static readonly Dictionary<string, MapThemeMetaData> Favourites = new Dictionary<string, MapThemeMetaData>();
+        private static readonly Dictionary<string, MapThemeMetaData> Blacklisted = new Dictionary<string, MapThemeMetaData>();
+        private static readonly Dictionary<string, MapThemeMetaData> Normal = new Dictionary<string, MapThemeMetaData>();
 
         public override void Awake() {
             base.Awake();
-            Setup("Select Theme Panel", 478.0f, 0.0f, UIUtils.DEFAULT_SPACING, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel");
+            Setup("Select Theme Panel", 478.0f, 0.0f, UIUtils.DefaultSpacing, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel");
             Part = Controller.Part;
-            float width = ThemeManager.Instance.Themes.Count > 7 ? 468.0f : 456.0f;
+            float panelWidth = ThemeManager.Instance.Themes.Count > 7 ? 468.0f : 456.0f;
             CreateLabel();
-            CreateFastList(new Vector2(width, 720.0f), 76.0f);
+            CreateFastList(new Vector2(panelWidth, 720.0f), 76.0f);
             CreateButton();
-            this.CreateSpace(width, 0.0f);
+            this.CreateSpace(panelWidth, 0.0f);
             SetupRowsData();
             BindEvents();
         }
@@ -54,44 +53,42 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void CreateButton() {
-            buttonPanel = AddUIComponent<PanelBase>();
-            button = UIUtils.CreateButton(buttonPanel, new Vector2(100.0f, 30.0f), Translation.Instance.GetTranslation(TranslationID.BUTTON_OK));
-            button.eventClicked += OnOKButtonClicked;
-            buttonPanel.size = new Vector2(width - 10.0f, button.height);
-            button.relativePosition = new Vector2(buttonPanel.width - button.width, 0.0f);
+            _buttonPanel = AddUIComponent<PanelBase>();
+            _button = UIUtils.CreateButton(_buttonPanel, new Vector2(100.0f, 30.0f), Translation.Instance.GetTranslation(TranslationID.BUTTON_OK));
+            _button.eventClicked += OnOkButtonClicked;
+            _buttonPanel.size = new Vector2(width - 10.0f, _button.height);
+            _button.relativePosition = new Vector2(_buttonPanel.width - _button.width, 0.0f);
         }
 
-        private void OnOKButtonClicked(UIComponent component, UIMouseEventParameter eventParam) {
+        private void OnOkButtonClicked(UIComponent component, UIMouseEventParameter eventParam) {
             EventPanelClosing?.Invoke(this, new ThemesPanelClosingEventArgs(Category, Part));
         }
 
         private void CreateLabel() {
-            label = AddUIComponent<UILabel>();
-            label.text = "";
-            label.autoSize = false;
-            label.size = new Vector2(width, 32.0f);
-            label.font = UIUtils.BoldFont;
-            label.textScale = 1.0f;
-            label.textAlignment = UIHorizontalAlignment.Center;
-            label.verticalAlignment = UIVerticalAlignment.Middle;
-            label.padding = new RectOffset(0, 0, 4, 0);
+            _label = AddUIComponent<UILabel>();
+            _label.text = "";
+            _label.autoSize = false;
+            _label.size = new Vector2(width, 32.0f);
+            _label.font = UIUtils.BoldFont;
+            _label.textScale = 1.0f;
+            _label.textAlignment = UIHorizontalAlignment.Center;
+            _label.verticalAlignment = UIVerticalAlignment.Middle;
+            _label.padding = new RectOffset(0, 0, 4, 0);
             switch (Part) {
                 case ThemePart.Category:
-                    label.text = UIUtils.GetCategoryAndPartLabel(Category, Part);
+                    _label.text = UIUtils.GetCategoryAndPartLabel(Category, Part);
                     break;
                 case ThemePart.Texture:
-                    label.text = UIUtils.GetPartAndIDLabel(Controller.TextureID);
+                    _label.text = UIUtils.GetPartAndIDLabel(Controller.TextureID);
                     break;
                 case ThemePart.Color:
-                    label.text = UIUtils.GetPartAndIDLabel(Controller.ColorID);
+                    _label.text = UIUtils.GetPartAndIDLabel(Controller.ColorID);
                     break;
                 case ThemePart.Offset:
-                    label.text = UIUtils.GetPartAndIDLabel(Controller.OffsetID);
+                    _label.text = UIUtils.GetPartAndIDLabel(Controller.OffsetID);
                     break;
                 case ThemePart.Value:
-                    label.text = UIUtils.GetPartAndIDLabel(Controller.ValueID);
-                    break;
-                default:
+                    _label.text = UIUtils.GetPartAndIDLabel(Controller.ValueID);
                     break;
             }
         }
@@ -105,8 +102,7 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void OnThemeSelected(UIComponent component, int itemIndex) {
-            ListItem item = fastList.RowsData[itemIndex] as ListItem;
-            if (item != null) {
+            if (_fastList.RowsData[itemIndex] is ListItem item) {
                 EventThemeSelected?.Invoke(this, new ThemeSelectedEventArgs(item.ID, Category, Part));
             }
         }
@@ -123,22 +119,21 @@ namespace ThemeMixer.UI.Parts
             } else Data.RemoveFromBlacklist(itemID, Category);
         }
 
-        private void CreateFastList(Vector2 size, float rowHeight) {
-            fastList = UIFastList.Create<ListRow>(this);
-            fastList.BackgroundSprite = "UnlockingPanel";
-            fastList.size = size;
-            fastList.RowHeight = rowHeight;
-            fastList.CanSelect = true;
-            fastList.AutoHideScrollbar = true;
+        private void CreateFastList(Vector2 listSize, float rowHeight) {
+            _fastList = UIFastList.Create<ListRow>(this);
+            _fastList.BackgroundSprite = "UnlockingPanel";
+            _fastList.size = listSize;
+            _fastList.RowHeight = rowHeight;
+            _fastList.CanSelect = true;
+            _fastList.AutoHideScrollbar = true;
         }
 
         private void BindEvents() {
-            fastList.EventItemClick += OnThemeSelected;
-            for (int rowIndex = 0; rowIndex < fastList.Rows.m_size; rowIndex++) {
-                if (fastList.Rows[rowIndex] is ListRow row) {
-                    row.EventFavouriteChanged += OnFavouriteChanged;
-                    row.EventBlacklistedChanged += OnBlacklistedChanged;
-                }
+            _fastList.EventItemClick += OnThemeSelected;
+            for (var rowIndex = 0; rowIndex < _fastList.Rows.m_size; rowIndex++) {
+                if (!(_fastList.Rows[rowIndex] is ListRow row)) continue;
+                row.EventFavouriteChanged += OnFavouriteChanged;
+                row.EventBlacklistedChanged += OnBlacklistedChanged;
             }
 
             EventPanelClosing += Controller.OnThemeSelectorPanelClosing;
@@ -146,31 +141,30 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void UnbindEvents() {
-            fastList.EventItemClick -= OnThemeSelected;
-            for (int rowIndex = 0; rowIndex < fastList.Rows.m_size; rowIndex++) {
-                if (fastList.Rows[rowIndex] is ListRow row) {
-                    row.EventFavouriteChanged -= OnFavouriteChanged;
-                    row.EventBlacklistedChanged -= OnBlacklistedChanged;
-                }
+            _fastList.EventItemClick -= OnThemeSelected;
+            for (var rowIndex = 0; rowIndex < _fastList.Rows.m_size; rowIndex++) {
+                if (!(_fastList.Rows[rowIndex] is ListRow row)) continue;
+                row.EventFavouriteChanged -= OnFavouriteChanged;
+                row.EventBlacklistedChanged -= OnBlacklistedChanged;
             }
 
             EventPanelClosing -= Controller.OnThemeSelectorPanelClosing;
             EventThemeSelected -= Controller.OnThemeSelected;
         }
         protected void SetupRowsData() {
-            if (fastList.RowsData == null) {
-                fastList.RowsData = new FastList<object>();
+            if (_fastList.RowsData == null) {
+                _fastList.RowsData = new FastList<object>();
             }
-            fastList.RowsData.Clear();
+            _fastList.RowsData.Clear();
             Favourites.Clear();
             Blacklisted.Clear();
             Normal.Clear();
-            int index = 0;
-            int count = 0;
-            int selectedIndex = 0;
-            List<string> favList = Data.GetFavourites(Category);
-            List<string> blacklist = Data.GetBlacklisted(Category);
-            foreach (KeyValuePair<string, MapThemeMetaData> kvp in ThemeManager.Instance.Themes) {
+            var index = 0;
+            var count = 0;
+            var selectedIndex = 0;
+            var favList = Data.GetFavourites(Category);
+            var blacklist = Data.GetBlacklisted(Category);
+            foreach (var kvp in ThemeManager.Instance.Themes) {
                 if (favList.Contains(kvp.Key)) {
                     Favourites[kvp.Key] = kvp.Value;
                 } else if (blacklist.Contains(kvp.Key)) {
@@ -188,17 +182,17 @@ namespace ThemeMixer.UI.Parts
                     CreateAndAddItemToFastList(black.Value, ref count, ref index, ref selectedIndex);
                 }
             }
-            fastList.RowsData.SetCapacity(count);
+            _fastList.RowsData.SetCapacity(count);
             count = Mathf.Clamp(count, 0, 7);
-            fastList.height = count * 76.0f;
-            fastList.DisplayAt(selectedIndex);
-            fastList.SelectedIndex = selectedIndex;
+            _fastList.height = count * 76.0f;
+            _fastList.DisplayAt(selectedIndex);
+            _fastList.SelectedIndex = selectedIndex;
         }
 
         private void CreateAndAddItemToFastList(MapThemeMetaData metaData, ref int count, ref int index, ref int selectedIndex) {
             ListItem listItem = CreateListItem(metaData);
             if (Controller.IsSelected(metaData.assetRef)) selectedIndex = index;
-            fastList.RowsData.Add(listItem);
+            _fastList.RowsData.Add(listItem);
             count++;
             index++;
         }
@@ -213,11 +207,10 @@ namespace ThemeMixer.UI.Parts
         }
 
         private static string GetAuthorName(Package.Asset asset) {
-            if (ulong.TryParse(asset.package.packageAuthor.Substring("steamid:".Length), out ulong authorID)) {
-                string author = new Friend(new UserID(authorID)).personaName;
-                return author;
-            }
-            return "N/A";
+            if (!ulong.TryParse(asset.package.packageAuthor.Substring("steamid:".Length), out ulong authorID))
+                return "N/A";
+            string author = new Friend(new UserID(authorID)).personaName;
+            return author;
         }
     }
 }

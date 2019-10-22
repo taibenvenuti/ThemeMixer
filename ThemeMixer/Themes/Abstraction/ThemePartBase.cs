@@ -2,23 +2,24 @@
 using System.Xml.Serialization;
 using UnityEngine;
 
-namespace ThemeMixer.Themes
+namespace ThemeMixer.Themes.Abstraction
 {
     [Serializable]
     public abstract class ThemePartBase : IMixable
     {
         public string ThemeID;
         [XmlIgnore]
-        public object Value = null;
+        public object Value;
+        [XmlElement("Bool", typeof(bool))]
         [XmlElement("Float", typeof(float))]
         [XmlElement("Int", typeof(int))]
         [XmlElement("Vector3", typeof(Vector3))]
         [XmlElement("Color", typeof(Color))]
         public object CustomValue;
 
-        public ThemePartBase() { }
+        protected ThemePartBase() { }
 
-        public ThemePartBase(string themeID) {
+        protected ThemePartBase(string themeID) {
             ThemeID = themeID;
         }
 

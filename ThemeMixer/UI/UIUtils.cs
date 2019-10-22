@@ -13,13 +13,12 @@ namespace ThemeMixer.UI
 {
     public static class UIUtils
     {
-        public const int DEFAULT_SPACING = 5;
+        public const int DefaultSpacing = 5;
         public static UIFont Font {
             get {
-                if (_font == null) {
-                    UIFont[] fonts = UnityEngine.Resources.FindObjectsOfTypeAll<UIFont>();
-                    _font = fonts.FirstOrDefault(f => f.name == "OpenSans-Regular");
-                }
+                if (_font != null) return _font;
+                var fonts = UnityEngine.Resources.FindObjectsOfTypeAll<UIFont>();
+                _font = fonts.FirstOrDefault(f => f.name == "OpenSans-Regular");
                 return _font;
             }
         }
@@ -27,10 +26,9 @@ namespace ThemeMixer.UI
 
         public static UIFont BoldFont {
             get {
-                if (_boldFont == null) {
-                    UIFont[] fonts = UnityEngine.Resources.FindObjectsOfTypeAll<UIFont>();
-                    _boldFont = fonts.FirstOrDefault(f => f.name == "OpenSans-Bold");
-                }
+                if (_boldFont != null) return _boldFont;
+                var fonts = UnityEngine.Resources.FindObjectsOfTypeAll<UIFont>();
+                _boldFont = fonts.FirstOrDefault(f => f.name == "OpenSans-Bold");
                 return _boldFont;
             }
         }
@@ -47,7 +45,7 @@ namespace ThemeMixer.UI
                 string text = "", string tooltip = "", string foregroundSprite = "", 
                 string backgroundSprite = "ButtonSmall", bool isFocusable = false, 
                 UITextureAtlas atlas = null, RectOffset padding = null, float textScale = 1.0f) {
-            UIButton button = parent.AddUIComponent<UIButton>();
+            var button = parent.AddUIComponent<UIButton>();
             button.size = size;
             button.text = text;
             button.tooltip = tooltip;
@@ -70,7 +68,7 @@ namespace ThemeMixer.UI
         }
 
         public static UISlider CreateSlider(UIComponent parent, float width, float minValue, float maxValue, float step) {
-            UISlider slider = parent.AddUIComponent<UISlider>();
+            var slider = parent.AddUIComponent<UISlider>();
             slider.size = new Vector2(width, 10.0f);
             slider.backgroundSprite = "WhiteRect";
             slider.color = new Color32(40, 40, 40, 255);
@@ -80,7 +78,7 @@ namespace ThemeMixer.UI
             slider.stepSize = step;
             slider.atlas = UISprites.DefaultAtlas;
 
-            UISprite thumb = slider.AddUIComponent<UISprite>();
+            var thumb = slider.AddUIComponent<UISprite>();
             thumb.size = new Vector2(8.0f, 14.0f);
             thumb.spriteName = "WhiteRect";
             thumb.atlas = UISprites.DefaultAtlas;
@@ -154,8 +152,6 @@ namespace ThemeMixer.UI
                     case TextureID.WaterNormal:
                         themeID = mix.Water.WaterNormal.ThemeID;
                         break;
-                    default:
-                        break;
                 }
             }
             themeID = Regex.Replace(themeID, @"(\s+|@|&|'|\(|\)|<|>|#|"")", "");
@@ -199,8 +195,6 @@ namespace ThemeMixer.UI
                 case ThemeCategory.Weather:
                     text = Translation.Instance.GetTranslation(TranslationID.LABEL_WEATHER);
                     break;
-                default:
-                    break;
             }
             string postFix = string.Empty;
             switch (part) {
@@ -216,21 +210,19 @@ namespace ThemeMixer.UI
                 case ThemePart.Value:
                     postFix = string.Concat(" ", Translation.Instance.GetTranslation(TranslationID.LABEL_VALUE));
                     break;
-                default:
-                    break;
             }
             return string.Concat(prefix, text, postFix);
         }
 
-        public static string GetPartAndIDLabel<T>(T ID) {
+        public static string GetPartAndIDLabel<T>(T id) {
             string labelID = string.Empty;
-            if (ID is TextureID textureID) {
+            if (id is TextureID textureID) {
                 labelID = TranslationID.TextureToTranslationID(textureID);
-            } else if (ID is ColorID colorID) {
+            } else if (id is ColorID colorID) {
                 labelID = TranslationID.ColorToTranslationID(colorID);
-            } else if (ID is OffsetID offsetID) {
+            } else if (id is OffsetID offsetID) {
                 labelID = TranslationID.OffsetToTranslationID(offsetID);
-            } else if (ID is ValueID valueID) {
+            } else if (id is ValueID valueID) {
                 labelID = TranslationID.ValueToTranslationID(valueID);
             }
             return string.Concat(Translation.Instance.GetTranslation(TranslationID.LABEL_SELECT), " ", Translation.Instance.GetTranslation(labelID));

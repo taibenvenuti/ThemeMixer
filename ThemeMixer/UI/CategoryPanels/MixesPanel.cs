@@ -1,5 +1,4 @@
 ﻿using ColossalFramework.UI;
-using System;
 using ThemeMixer.Locale;
 using ThemeMixer.Resources;
 using ThemeMixer.Themes;
@@ -12,22 +11,20 @@ namespace ThemeMixer.UI.CategoryPanels
 {
     public class MixesPanel : PanelBase
     {
-        protected UIPanel labelPanel;
-        protected UILabel label;
+        private UIPanel _labelPanel;
+        private UILabel _label;
 
-        protected PanelBase selectMixPanel;
-        protected UILabel selectMixLabel;
-        protected UIDropDown selectMixDropDown;
-        protected CheckboxPanel useAsDefaultCheckbox;
-        protected ButtonPanel loadButtonPanel;
+        private PanelBase _selectMixPanel;
+        private UIDropDown _selectMixDropDown;
+        private CheckboxPanel _useAsDefaultCheckbox;
+        private ButtonPanel _loadButtonPanel;
 
-        protected PanelBase saveMixPanel;
-        protected UILabel saveMixLabel;
-        protected PanelBase textFieldPanel;
-        protected UITextField saveMixTextField;
-        protected ButtonPanel saveButtonPanel;
+        private PanelBase _saveMixPanel;
+        private PanelBase _textFieldPanel;
+        private UITextField _saveMixTextField;
+        private ButtonPanel _saveButtonPanel;
 
-        private string saveName;
+        private string _saveName;
 
         public override void Awake() {
             base.Awake();
@@ -39,16 +36,16 @@ namespace ThemeMixer.UI.CategoryPanels
         }
 
         private void CreateTitleLabel() {
-            labelPanel = AddUIComponent<UIPanel>();
-            labelPanel.size = new Vector2(width, 22.0f);
-            label = labelPanel.AddUIComponent<UILabel>();
-            label.font = UIUtils.BoldFont;
-            label.textScale = 1.0f;
-            label.textAlignment = UIHorizontalAlignment.Center;
-            label.verticalAlignment = UIVerticalAlignment.Middle;
-            label.padding = new RectOffset(0, 0, 4, 0);
-            label.text = Translation.Instance.GetTranslation(TranslationID.LABEL_MIXES);
-            label.anchor = UIAnchorStyle.CenterHorizontal | UIAnchorStyle.CenterVertical;
+            _labelPanel = AddUIComponent<UIPanel>();
+            _labelPanel.size = new Vector2(width, 22.0f);
+            _label = _labelPanel.AddUIComponent<UILabel>();
+            _label.font = UIUtils.BoldFont;
+            _label.textScale = 1.0f;
+            _label.textAlignment = UIHorizontalAlignment.Center;
+            _label.verticalAlignment = UIVerticalAlignment.Middle;
+            _label.padding = new RectOffset(0, 0, 4, 0);
+            _label.text = Translation.Instance.GetTranslation(TranslationID.LABEL_MIXES);
+            _label.anchor = UIAnchorStyle.CenterHorizontal | UIAnchorStyle.CenterVertical;
         }
 
         private void CreatePanels() {
@@ -56,138 +53,23 @@ namespace ThemeMixer.UI.CategoryPanels
             CreateSaveMixPanel();
         }
 
-        private void CreateSaveMixPanel() {
-            saveMixPanel = AddUIComponent<PanelBase>();
-            saveMixPanel.Setup("Save Mix Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect");
-            saveMixPanel.color = UIColorGrey;
-
-            saveMixPanel.CreateSpace(0.0f, 0.01f);
-            CreateLabel(saveMixPanel, Translation.Instance.GetTranslation(TranslationID.LABEL_SAVEMIX));
-            saveMixPanel.CreateSpace(0.0f, 0.01f);
-            CreateTextField();
-            saveMixPanel.CreateSpace(0.0f, 0.01f);
-            CreateSaveButton();
-            saveMixPanel.CreateSpace(0.0f, 5.0f);
-        }
-
-        private void CreateTextField() {
-            textFieldPanel = saveMixPanel.AddUIComponent<PanelBase>();
-            textFieldPanel.Setup("Name Text Field", 340.0f, 30.0f);
-            UILabel nameLabel = textFieldPanel.AddUIComponent<UILabel>();
-            nameLabel.pivot = UIPivotPoint.MiddleRight;
-            nameLabel.font = UIUtils.Font;
-            nameLabel.padding = new RectOffset(0, 0, 8, 4);
-            nameLabel.text = Translation.Instance.GetTranslation(TranslationID.LABEL_NAME);
-            nameLabel.relativePosition = new Vector3(110.0f - nameLabel.width, 0.0f);
-            saveMixTextField = textFieldPanel.AddUIComponent<UITextField>();
-            saveMixTextField.atlas = UISprites.DefaultAtlas;
-            saveMixTextField.size = new Vector2(220.0f, 30.0f);
-            saveMixTextField.padding = new RectOffset(4, 4, 6, 6);
-            saveMixTextField.builtinKeyNavigation = true;
-            saveMixTextField.isInteractive = true;
-            saveMixTextField.readOnly = false;
-            saveMixTextField.selectOnFocus = true;
-            saveMixTextField.horizontalAlignment = UIHorizontalAlignment.Center;
-            saveMixTextField.selectionSprite = "EmptySprite";
-            saveMixTextField.selectionBackgroundColor = new Color32(0, 172, 234, 255);
-            saveMixTextField.normalBgSprite = "TextFieldPanelHovered";
-            saveMixTextField.textColor = new Color32(0, 0, 0, 255);
-            saveMixTextField.textScale = 0.85f;
-            saveMixTextField.color = new Color32(255, 255, 255, 255);
-            saveMixTextField.relativePosition = new Vector3(120.0f, 0.0f);
-            saveMixTextField.eventTextSubmitted += OnTextfieldTextSubmitted;
-            saveMixTextField.eventKeyPress += OnTextfieldKeyPress; ;
-            saveMixTextField.eventLostFocus += OnTextfieldLostFocus;
-            saveMixTextField.eventTextChanged += OnTextFieldTextChanged;
-        }
-
-        private void OnTextFieldTextChanged(UIComponent component, string value) {
-            UITextField textfield = component as UITextField;
-            if (textfield.text.Length > 0) saveButtonPanel.EnableButton(Translation.Instance.GetTranslation(TranslationID.BUTTON_SAVE));
-            else saveButtonPanel.DisableButton();
-        }
-
-        private void OnTextfieldTextSubmitted(UIComponent component, string value) {
-            saveName = value;
-        }
-
-        private void OnTextfieldLostFocus(UIComponent component, UIFocusEventParameter eventParam) {
-            UITextField textfield = component as UITextField;
-            OnTextfieldTextSubmitted(component, textfield.text);
-        }
-
-        private void OnTextfieldKeyPress(UIComponent component, UIKeyEventParameter eventParam) {
-            UITextField textfield = component as UITextField;
-            char ch = eventParam.character;
-            if (!char.IsControl(ch) && !char.IsLetterOrDigit(ch) && !char.IsWhiteSpace(ch)) {
-                eventParam.Use();
-            }
-            if (eventParam.keycode == KeyCode.Escape) {
-                textfield.Unfocus();
-                eventParam.Use();
-            }
-        }
-
-        private void CreateSaveButton() {
-            saveButtonPanel = saveMixPanel.AddUIComponent<ButtonPanel>();
-            saveButtonPanel.Setup("Save Button", 340.0f, 30.0f);
-            saveButtonPanel.SetAnchor(UIAnchorStyle.Left | UIAnchorStyle.CenterVertical);
-            saveButtonPanel.SetText(Translation.Instance.GetTranslation(TranslationID.BUTTON_SAVE));
-            saveButtonPanel.AlignRight();
-            saveButtonPanel.DisableButton();
-            saveButtonPanel.EventButtonClicked += OnSaveClicked;
-        }
-
-        private void OnSaveClicked() {
-            Controller.SaveMix(saveName);
-            saveButtonPanel.SetText(Translation.Instance.GetTranslation(TranslationID.BUTTON_SAVED));
-            saveButtonPanel.DisableButton();
-        }
-
         private void CreateSelectMixPanel() {
-            selectMixPanel = AddUIComponent<PanelBase>();
-            selectMixPanel.Setup("Select Mix Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect");
-            selectMixPanel.color = UIColorGrey;
-            selectMixPanel.CreateSpace(0.0f, 0.01f);
-            CreateLabel(selectMixPanel, Translation.Instance.GetTranslation(TranslationID.LABEL_SELECTMIX));
-            selectMixPanel.CreateSpace(0.0f, 0.01f);
+            _selectMixPanel = AddUIComponent<PanelBase>();
+            _selectMixPanel.Setup("Select Mix Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect");
+            _selectMixPanel.color = UIColorGrey;
+            _selectMixPanel.CreateSpace(0.0f, 0.01f);
+            CreateLabel(_selectMixPanel, Translation.Instance.GetTranslation(TranslationID.LABEL_SELECTMIX));
+            _selectMixPanel.CreateSpace(0.0f, 0.01f);
             CreateDropDown();
-            selectMixPanel.CreateSpace(0.0f, 0.01f);
+            _selectMixPanel.CreateSpace(0.0f, 0.01f);
             CreateCheckBox();
-            selectMixPanel.CreateSpace(0.0f, 0.01f);
+            _selectMixPanel.CreateSpace(0.0f, 0.01f);
             CreateLoadButton();
-            selectMixPanel.CreateSpace(0.0f, 5.0f);
-        }
-        private void CreateLoadButton() {
-            loadButtonPanel = selectMixPanel.AddUIComponent<ButtonPanel>();
-            loadButtonPanel.Setup("Load Button", 340.0f, 30.0f);
-            loadButtonPanel.SetAnchor(UIAnchorStyle.Left | UIAnchorStyle.CenterVertical);
-            loadButtonPanel.SetText(Translation.Instance.GetTranslation(TranslationID.BUTTON_LOAD));
-            loadButtonPanel.AlignRight();
-            loadButtonPanel.EventButtonClicked += OnLoadClicked;
+            _selectMixPanel.CreateSpace(0.0f, 5.0f);
         }
 
-        private void OnLoadClicked() {
-            ThemeMix mix = Data.GetMixByIndex(selectMixDropDown.selectedIndex);
-            if (mix != null) Controller.LoadMix(mix);
-        }
-
-        private void CreateCheckBox() {
-            useAsDefaultCheckbox = selectMixPanel.AddUIComponent<CheckboxPanel>();
-            bool state = false;//Controller.GetDefaultMix();
-            string label = Translation.Instance.GetTranslation(TranslationID.LABEL_USEASDEFAULT);
-            string tooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_USEASDEFAULT);
-            useAsDefaultCheckbox.Initialize(state, label, tooltip);
-            useAsDefaultCheckbox.MakeSmallVersion();
-            useAsDefaultCheckbox.EventCheckboxStateChanged += OnUseAsDefaultCheckChanged;
-        }
-
-        private void OnUseAsDefaultCheckChanged(UIComponent component, bool value) {
-            //Controller.SetDefaultMix();
-        }
-            
-        private void CreateLabel(UIComponent parent, string text) {
-            UILabel label = parent.AddUIComponent<UILabel>();
+        private static void CreateLabel(UIComponent parent, string text) {
+            var label = parent.AddUIComponent<UILabel>();
             label.autoSize = false;
             label.autoHeight = true;
             label.width = 340.0f;
@@ -200,47 +82,172 @@ namespace ThemeMixer.UI.CategoryPanels
         }
 
         private void CreateDropDown() {
-            UIPanel panel = selectMixPanel.AddUIComponent<UIPanel>();
+            var panel = _selectMixPanel.AddUIComponent<UIPanel>();
             panel.size = new Vector2(340.0f, 30.0f);
-            selectMixDropDown = panel.AddUIComponent<UIDropDown>();
-            selectMixDropDown.relativePosition = Vector3.zero;
-            selectMixDropDown.atlas = UISprites.DefaultAtlas;
-            selectMixDropDown.size = new Vector2(340f, 30f);
-            selectMixDropDown.listBackground = "StylesDropboxListbox";
-            selectMixDropDown.itemHeight = 30;
-            selectMixDropDown.itemHover = "ListItemHover";
-            selectMixDropDown.itemHighlight = "ListItemHighlight";
-            selectMixDropDown.normalBgSprite = "CMStylesDropbox";
-            selectMixDropDown.hoveredBgSprite = "CMStylesDropboxHovered";
-            selectMixDropDown.listWidth = 300;
-            selectMixDropDown.listHeight = 500;
-            selectMixDropDown.listPosition = UIDropDown.PopupListPosition.Automatic;
-            selectMixDropDown.foregroundSpriteMode = UIForegroundSpriteMode.Stretch;
-            selectMixDropDown.popupColor = UnityEngine.Color.white;
-            selectMixDropDown.popupTextColor = new Color32(170, 170, 170, 255);
-            selectMixDropDown.textScale = 0.8f;
-            selectMixDropDown.verticalAlignment = UIVerticalAlignment.Middle;
-            selectMixDropDown.horizontalAlignment = UIHorizontalAlignment.Left;
-            selectMixDropDown.textFieldPadding = new RectOffset(8, 0, 8, 0);
-            selectMixDropDown.itemPadding = new RectOffset(10, 0, 8, 0);
-            selectMixDropDown.triggerButton = selectMixDropDown;
-            selectMixDropDown.eventDropdownOpen += OnDropDownOpen;
-            selectMixDropDown.eventDropdownClose += OnDropDownClose;
-            selectMixDropDown.items = Data.MixNames;
-            if (selectMixDropDown.items.Length > 0)
-                selectMixDropDown.selectedIndex = 0;
-        }
-
-        private void OnSelectIndexChanged(UIComponent component, int value) {
-
-        }
-
-        private void OnDropDownClose(UIDropDown dropdown, UIListBox popup, ref bool overridden) {
-            selectMixDropDown.triggerButton.isInteractive = true;
+            _selectMixDropDown = panel.AddUIComponent<UIDropDown>();
+            _selectMixDropDown.relativePosition = Vector3.zero;
+            _selectMixDropDown.atlas = UISprites.DefaultAtlas;
+            _selectMixDropDown.size = new Vector2(340f, 30f);
+            _selectMixDropDown.listBackground = "StylesDropboxListbox";
+            _selectMixDropDown.itemHeight = 30;
+            _selectMixDropDown.itemHover = "ListItemHover";
+            _selectMixDropDown.itemHighlight = "ListItemHighlight";
+            _selectMixDropDown.normalBgSprite = "CMStylesDropbox";
+            _selectMixDropDown.hoveredBgSprite = "CMStylesDropboxHovered";
+            _selectMixDropDown.listWidth = 340;
+            _selectMixDropDown.listHeight = 500;
+            _selectMixDropDown.listPosition = UIDropDown.PopupListPosition.Below;
+            _selectMixDropDown.foregroundSpriteMode = UIForegroundSpriteMode.Stretch;
+            _selectMixDropDown.popupColor = Color.white;
+            _selectMixDropDown.popupTextColor = new Color32(170, 170, 170, 255);
+            _selectMixDropDown.textScale = 0.8f;
+            _selectMixDropDown.verticalAlignment = UIVerticalAlignment.Middle;
+            _selectMixDropDown.horizontalAlignment = UIHorizontalAlignment.Left;
+            _selectMixDropDown.textFieldPadding = new RectOffset(12, 0, 10, 0);
+            _selectMixDropDown.itemPadding = new RectOffset(12, 0, 10, 0);
+            _selectMixDropDown.triggerButton = _selectMixDropDown;
+            _selectMixDropDown.eventDropdownOpen += OnDropDownOpen;
+            _selectMixDropDown.eventDropdownClose += OnDropDownClose;
+            RefreshDropdown();
         }
 
         private void OnDropDownOpen(UIDropDown dropdown, UIListBox popup, ref bool overridden) {
-            selectMixDropDown.triggerButton.isInteractive = false;
+            _selectMixDropDown.triggerButton.isInteractive = false;
+        }
+
+        private void OnDropDownClose(UIDropDown dropdown, UIListBox popup, ref bool overridden) {
+            _selectMixDropDown.triggerButton.isInteractive = true;
+        }
+
+        private void RefreshDropdown() {
+            _selectMixDropDown.items = Data.MixNames;
+            if (_selectMixDropDown.items.Length > 0)
+                _selectMixDropDown.selectedIndex = 0;
+        }
+
+        private void CreateCheckBox() {
+            _useAsDefaultCheckbox = _selectMixPanel.AddUIComponent<CheckboxPanel>();
+            var state = false;
+            if (_selectMixDropDown.items.Length > 0 &&
+                _selectMixDropDown.selectedIndex >= 0 &&
+                _selectMixDropDown.selectedIndex < _selectMixDropDown.items.Length) {
+                state = Data.IsDefaultMix(_selectMixDropDown.items[_selectMixDropDown.selectedIndex]);
+            }
+            string label = Translation.Instance.GetTranslation(TranslationID.LABEL_USEASDEFAULT);
+            string checkboxTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_USEASDEFAULT);
+            _useAsDefaultCheckbox.Initialize(state, label, checkboxTooltip);
+            _useAsDefaultCheckbox.MakeSmallVersion();
+            _useAsDefaultCheckbox.EventCheckboxStateChanged += OnUseAsDefaultCheckChanged;
+        }
+
+        private void OnUseAsDefaultCheckChanged(UIComponent component, bool value) {
+            if (_selectMixDropDown.items.Length == 0 ||
+                _selectMixDropDown.selectedIndex < 0 ||
+                _selectMixDropDown.selectedIndex >= _selectMixDropDown.items.Length) return;
+            if (value) Data.SetDefaultMix(_selectMixDropDown.items[_selectMixDropDown.selectedIndex]);
+            if (!value && Data.IsDefaultMix(_selectMixDropDown.items[_selectMixDropDown.selectedIndex]))
+                Data.SetDefaultMix(string.Empty);
+        }
+        private void CreateLoadButton() {
+            _loadButtonPanel = _selectMixPanel.AddUIComponent<ButtonPanel>();
+            _loadButtonPanel.Setup("Load Button", 340.0f, 30.0f);
+            _loadButtonPanel.SetAnchor(UIAnchorStyle.Left | UIAnchorStyle.CenterVertical);
+            _loadButtonPanel.SetText(Translation.Instance.GetTranslation(TranslationID.BUTTON_LOAD));
+            _loadButtonPanel.AlignRight();
+            _loadButtonPanel.EventButtonClicked += OnLoadClicked;
+        }
+
+        private void OnLoadClicked() {
+            ThemeMix mix = Data.GetMixByIndex(_selectMixDropDown.selectedIndex);
+            if (mix != null) Controller.LoadMix(mix);
+        }
+
+        private void CreateSaveMixPanel() {
+            _saveMixPanel = AddUIComponent<PanelBase>();
+            _saveMixPanel.Setup("Save Mix Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect");
+            _saveMixPanel.color = UIColorGrey;
+
+            _saveMixPanel.CreateSpace(0.0f, 0.01f);
+            CreateLabel(_saveMixPanel, Translation.Instance.GetTranslation(TranslationID.LABEL_SAVEMIX));
+            _saveMixPanel.CreateSpace(0.0f, 0.01f);
+            CreateTextField();
+            _saveMixPanel.CreateSpace(0.0f, 0.01f);
+            CreateSaveButton();
+            _saveMixPanel.CreateSpace(0.0f, 5.0f);
+        }
+
+        private void CreateTextField() {
+            _textFieldPanel = _saveMixPanel.AddUIComponent<PanelBase>();
+            _textFieldPanel.Setup("Name Text Field", 340.0f, 30.0f);
+            var nameLabel = _textFieldPanel.AddUIComponent<UILabel>();
+            nameLabel.pivot = UIPivotPoint.MiddleRight;
+            nameLabel.font = UIUtils.Font;
+            nameLabel.padding = new RectOffset(0, 0, 8, 4);
+            nameLabel.text = Translation.Instance.GetTranslation(TranslationID.LABEL_NAME);
+            nameLabel.relativePosition = new Vector3(110.0f - nameLabel.width, 0.0f);
+            _saveMixTextField = _textFieldPanel.AddUIComponent<UITextField>();
+            _saveMixTextField.atlas = UISprites.DefaultAtlas;
+            _saveMixTextField.size = new Vector2(220.0f, 30.0f);
+            _saveMixTextField.padding = new RectOffset(4, 4, 6, 6);
+            _saveMixTextField.builtinKeyNavigation = true;
+            _saveMixTextField.isInteractive = true;
+            _saveMixTextField.readOnly = false;
+            _saveMixTextField.selectOnFocus = true;
+            _saveMixTextField.horizontalAlignment = UIHorizontalAlignment.Center;
+            _saveMixTextField.selectionSprite = "EmptySprite";
+            _saveMixTextField.selectionBackgroundColor = new Color32(0, 172, 234, 255);
+            _saveMixTextField.normalBgSprite = "TextFieldPanelHovered";
+            _saveMixTextField.textColor = new Color32(0, 0, 0, 255);
+            _saveMixTextField.textScale = 1.0f;
+            _saveMixTextField.color = new Color32(255, 255, 255, 255);
+            _saveMixTextField.relativePosition = new Vector3(120.0f, 0.0f);
+            _saveMixTextField.eventTextSubmitted += OnTextfieldTextSubmitted;
+            _saveMixTextField.eventKeyPress += OnTextfieldKeyPress;
+            _saveMixTextField.eventLostFocus += OnTextfieldLostFocus;
+            _saveMixTextField.eventTextChanged += OnTextFieldTextChanged;
+        }
+
+        private void OnTextFieldTextChanged(UIComponent component, string value) {
+            var textfield = component as UITextField;
+            if (textfield != null && textfield.text.Length > 0) _saveButtonPanel.EnableButton(Translation.Instance.GetTranslation(TranslationID.BUTTON_SAVE));
+            else _saveButtonPanel.DisableButton();
+        }
+
+        private void OnTextfieldTextSubmitted(UIComponent component, string value) {
+            _saveName = value;
+        }
+
+        private void OnTextfieldLostFocus(UIComponent component, UIFocusEventParameter eventParam) {
+            var textfield = component as UITextField;
+            if (textfield != null) OnTextfieldTextSubmitted(component, textfield.text);
+        }
+
+        private static void OnTextfieldKeyPress(UIComponent component, UIKeyEventParameter eventParam) {
+            var textfield = component as UITextField;
+            char ch = eventParam.character;
+            if (!char.IsControl(ch) && !char.IsLetterOrDigit(ch) && !char.IsWhiteSpace(ch)) {
+                eventParam.Use();
+            }
+            if (eventParam.keycode != KeyCode.Escape) return;
+            if (textfield != null) textfield.Unfocus();
+            eventParam.Use();
+        }
+
+        private void CreateSaveButton() {
+            _saveButtonPanel = _saveMixPanel.AddUIComponent<ButtonPanel>();
+            _saveButtonPanel.Setup("Save Button", 340.0f, 30.0f);
+            _saveButtonPanel.SetAnchor(UIAnchorStyle.Left | UIAnchorStyle.CenterVertical);
+            _saveButtonPanel.SetText(Translation.Instance.GetTranslation(TranslationID.BUTTON_SAVE));
+            _saveButtonPanel.AlignRight();
+            _saveButtonPanel.DisableButton();
+            _saveButtonPanel.EventButtonClicked += OnSaveClicked;
+        }
+
+        private void OnSaveClicked() {
+            Controller.SaveMix(_saveName);
+            _saveButtonPanel.SetText(Translation.Instance.GetTranslation(TranslationID.BUTTON_SAVED));
+            _saveButtonPanel.DisableButton();
+            RefreshDropdown();
         }
     }
 }

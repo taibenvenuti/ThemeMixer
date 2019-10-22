@@ -1,49 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
 using ColossalFramework.Globalization;
-using ThemeMixer.UI;
 
 namespace ThemeMixer.TranslationFramework
 {
     public delegate void LanguageChangedEventHandler(string languageIdentifier);
 
     /// <summary>
-    /// Handles localisation for a mod.
+    /// Handles localization for a mod.
     /// </summary>
     public class Translation
     {
 
-        protected List<Language> _languages = new List<Language>();
-        protected Language _currentLanguage = null;
-        protected bool _languagesLoaded = false;
-        protected bool _loadLanguageAutomatically = true;
-        private const string fallbackLanguage = "en";
+        protected List<Language> Languages = new List<Language>();
+        protected Language CurrentLanguage;
+        protected bool LanguagesLoaded;
+        protected bool LoadLanguageAutomatically;
+        private const string FallbackLanguage = "en";
 
-        private static Translation instance;
+        private static Translation _instance;
 
-        public static Translation Instance
-        {
-            get
-            {
-                if (instance == null) instance = new Translation();
-                return instance;
-            }
-        }
+        public static Translation Instance => _instance ?? (_instance = new Translation());
 
         private Translation(bool loadLanguageAutomatically = true)
         {
-            _loadLanguageAutomatically = loadLanguageAutomatically;
+            LoadLanguageAutomatically = loadLanguageAutomatically;
             LocaleManager.eventLocaleChanged += SetCurrentLanguage;
         }
 
         private void SetCurrentLanguage()
         {
-            if (_languages == null || _languages.Count == 0 || !LocaleManager.exists)
+            if (Languages == null || Languages.Count == 0 || !LocaleManager.exists)
                 return;
-            _currentLanguage = _languages.Find(lang => lang._uniqueName == LocaleManager.instance.language) ??
-                               _languages.Find(lang => lang._uniqueName == fallbackLanguage);
+            CurrentLanguage = Languages.Find(lang => lang._uniqueName == LocaleManager.instance.language) ??
+                               Languages.Find(lang => lang._uniqueName == FallbackLanguage);
         }
 
 
@@ -52,12 +45,10 @@ namespace ThemeMixer.TranslationFramework
         /// </summary>
         public void LoadLanguages()
         {
-            if (!_languagesLoaded && _loadLanguageAutomatically)
-            {
-                RefreshLanguages();
-                SetCurrentLanguage();
-                _languagesLoaded = true;
-            }
+            if (LanguagesLoaded || !LoadLanguageAutomatically) return;
+            RefreshLanguages();
+            SetCurrentLanguage();
+            LanguagesLoaded = true;
         }
 
         /// <summary>
@@ -65,7 +56,7 @@ namespace ThemeMixer.TranslationFramework
         /// </summary>
         public void RefreshLanguages()
         {
-            _languages.Clear();
+            Languages.Clear();
             string basePath = TranslationUtil.AssemblyPath;
 
             if (basePath != "")
@@ -80,9 +71,9 @@ namespace ThemeMixer.TranslationFramework
                     {
                         using (StreamReader reader = new StreamReader(languageFile))
                         {
-                            XmlSerializer xmlSerialiser = new XmlSerializer(typeof(Language));
-                            if (xmlSerialiser.Deserialize(reader) is Language loadedLanguage)
-                                _languages.Add(loadedLanguage);
+                            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Language));
+                            if (xmlSerializer.Deserialize(reader) is Language loadedLanguage)
+                                Languages.Add(loadedLanguage);
 
                             else UnityEngine.Debug.LogWarning($"Failed to Deserialize {languageFile}!");
                         }
@@ -96,10 +87,6 @@ namespace ThemeMixer.TranslationFramework
             else UnityEngine.Debug.LogWarning("Mod Path was empty!");
         }
 
-        internal string GetTranslation(object tOOLTIP_BUTTON_SAVE_COLOREXISTS) {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Returns a list of languages which are available to the mod. This will return readable languages for use on the UI
         /// </summary>
@@ -107,12 +94,8 @@ namespace ThemeMixer.TranslationFramework
         public List<string> AvailableLanguagesReadable()
         {
             LoadLanguages();
-            List<string> languageNames = new List<string>();
 
-            foreach (Language availableLanguage in _languages)
-                languageNames.Add(availableLanguage._readableName);
-
-            return languageNames;
+            return Languages.Select(availableLanguage => availableLanguage._readableName).ToList();
         }
 
         /// <summary>
@@ -122,12 +105,8 @@ namespace ThemeMixer.TranslationFramework
         public List<string> AvailableLanguages()
         {
             LoadLanguages();
-            List<string> languageNames = new List<string>();
 
-            foreach (Language availableLanguage in _languages)
-                languageNames.Add(availableLanguage._uniqueName);
-
-            return languageNames;
+            return Languages.Select(availableLanguage => availableLanguage._uniqueName).ToList();
         }
 
         /// <summary>
@@ -137,13 +116,7 @@ namespace ThemeMixer.TranslationFramework
         /// <returns>A list of IDs that match</returns>
         public List<string> GetLanguageIDsFromName(string name)
         {
-            List<string> returnLanguages = new List<string>();
-
-            foreach (Language availableLanguage in _languages)
-                if (availableLanguage._readableName == name)
-                    returnLanguages.Add(availableLanguage._uniqueName);
-
-            return returnLanguages;
+            return (from availableLanguage in Languages where availableLanguage._readableName == name select availableLanguage._uniqueName).ToList();
         }
 
         /// <summary>
@@ -154,7 +127,7 @@ namespace ThemeMixer.TranslationFramework
         public bool HasTranslation(string translationId)
         {
             LoadLanguages();
-            return _currentLanguage != null && _currentLanguage._conversionDictionary.ContainsKey(translationId);
+            return CurrentLanguage != null && CurrentLanguage._conversionDictionary.ContainsKey(translationId);
         }
 
         /// <summary>
@@ -167,11 +140,11 @@ namespace ThemeMixer.TranslationFramework
             LoadLanguages();
             string translatedText = translationId;
 
-            if (_currentLanguage != null)
+            if (CurrentLanguage != null)
             {
                 if (HasTranslation(translationId))
-                    translatedText = _currentLanguage._conversionDictionary[translationId];
-                else UnityEngine.Debug.LogWarning("Returned translation for language \"" + _currentLanguage._uniqueName + "\" doesn't contain a suitable translation for \"" + translationId + "\"");
+                    translatedText = CurrentLanguage._conversionDictionary[translationId];
+                else UnityEngine.Debug.LogWarning("Returned translation for language \"" + CurrentLanguage._uniqueName + "\" doesn't contain a suitable translation for \"" + translationId + "\"");
             }
             else UnityEngine.Debug.LogWarning("Can't get a translation for \"" + translationId + "\" as there is not a language defined");
 

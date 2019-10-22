@@ -88,27 +88,24 @@ namespace ThemeMixer.Serialization
             return null;
         }
 
-        private void Add(List<string>[] listArray, string packageName, ThemeCategory themePart) {
-            if (!listArray[(int)themePart].Contains(packageName)) {
-                listArray[(int)themePart].Add(packageName);
-                SaveData();
-            }
+        private void Add(IList<List<string>> listArray, string packageName, ThemeCategory themePart) {
+            if (listArray[(int)themePart].Contains(packageName)) return;
+            listArray[(int)themePart].Add(packageName);
+            SaveData();
         }
 
-        private void Remove(List<string>[] listArray, string packageName, ThemeCategory themePart) {
-            if (listArray[(int)themePart].Contains(packageName)) {
-                listArray[(int)themePart].Remove(packageName);
-                SaveData();
-            }
+        private void Remove(IList<List<string>> listArray, string packageName, ThemeCategory themePart) {
+            if (!listArray[(int)themePart].Contains(packageName)) return;
+            listArray[(int)themePart].Remove(packageName);
+            SaveData();
         }
 
         public static SerializationService Ensure() => Instance;
 
         public static void Release() {
-            if (_instance != null) {
-                Destroy(_instance.gameObject);
-                _instance = null;
-            }
+            if (_instance == null) return;
+            Destroy(_instance.gameObject);
+            _instance = null;
         }
 
         public void OnEnabled() {
@@ -126,18 +123,11 @@ namespace ThemeMixer.Serialization
             PluginManager.instance.eventPluginsChanged -= OnPluginsChanged;
         }
 
-        private const string FILE_NAME = "ThemeMixerSettings.xml";
-        private string FilePath => Path.Combine(DataLocation.localApplicationData, FILE_NAME);
+        private const string FileName = "ThemeMixerSettings.xml";
+        private static string FilePath => Path.Combine(DataLocation.localApplicationData, FileName);
 
         private Data _data;
-        private Data Data {
-            get {
-                if (_data == null) {
-                    _data = LoadData() ?? new Data();
-                }
-                return _data;
-            }
-        }
+        private Data Data => _data ?? (_data = LoadData() ?? new Data());
 
         public Vector2? GetToolBarPosition() {
             return Data.ToolbarPosition;
@@ -156,37 +146,35 @@ namespace ThemeMixer.Serialization
             Data.UITogglePosition = position;
         }
 
-        public Dictionary<string, ThemeMix> Mixes { get; private set; } = new Dictionary<string, ThemeMix>();
-        private List<string> mixIds = new List<string>();
-        private List<string> mixNames = new List<string>();
+        public Dictionary<string, ThemeMix> Mixes { get; } = new Dictionary<string, ThemeMix>();
+        private readonly List<string> _mixIds = new List<string>();
+        private readonly List<string> _mixNamesList = new List<string>();
         private string[] _mixNames;
-        public string[] MixNames { 
+        public string[] MixNames {
             get {
-                if (mixIds.Count != Mixes.Count || _mixNames == null) {
+                if (_mixIds.Count != Mixes.Count || _mixNames == null) {
                     _mixNames = GetMixNames();
                 }
                 return _mixNames;
-            } 
+            }
         }
 
         private string[] GetMixNames() {
-            mixIds.Clear();
+            _mixIds.Clear();
             foreach (var mix in Mixes) {
-                mixIds.Add(mix.Key);
+                _mixIds.Add(mix.Key);
             }
-            mixIds.Sort();
-            mixNames.Clear();
-            foreach (var mixID in mixIds) {
-                mixNames.Add(Mixes[mixID].Name);
+            _mixIds.Sort();
+            _mixNamesList.Clear();
+            foreach (string mixID in _mixIds) {
+                _mixNamesList.Add(Mixes[mixID].Name);
             }
-            return mixNames.ToArray();
+            return _mixNamesList.ToArray();
         }
 
         public ThemeMix GetMixByIndex(int index) {
-            if (Mixes.TryGetValue(mixIds[index], out ThemeMix mix)) {
-                return mix;
-            }
-            return null;
+            if (_mixIds.Count == 0 || index < 0 || index >= _mixIds.Count) return null;
+            return Mixes.TryGetValue(_mixIds[index], out ThemeMix mix) ? mix : null;
         }
         private void OnPluginsChanged() {
             LoadAvailableMixes();
@@ -254,9 +242,9 @@ namespace ThemeMixer.Serialization
             }
 
             string xml = Path.Combine(mixDir, "ThemeMix.xml");
-            XmlSerializer serializer = new XmlSerializer(typeof(ThemeMix));
+            var serializer = new XmlSerializer(typeof(ThemeMix));
             try {
-                using (StreamWriter writer = new StreamWriter(xml)) {
+                using (var writer = new StreamWriter(xml)) {
                     mix.OnPreSerialize();
                     serializer.Serialize(writer, mix);
                 }
@@ -269,11 +257,11 @@ namespace ThemeMixer.Serialization
 
         public ThemeMix LoadMix(PluginManager.PluginInfo plugin) {
             string filePath = Path.Combine(plugin.modPath, "ThemeMix.xml");
-            XmlSerializer serializer = new XmlSerializer(typeof(ThemeMix));
+            var serializer = new XmlSerializer(typeof(ThemeMix));
             try {
-                using (StreamReader reader = new StreamReader(filePath)) {
+                using (var reader = new StreamReader(filePath)) {
                     var data = serializer.Deserialize(reader) as ThemeMix;
-                    data.OnPostDeserialize();
+                    data?.OnPostDeserialize();
                     return data;
                 }
             } catch (Exception) {
@@ -284,8 +272,8 @@ namespace ThemeMixer.Serialization
         public void SaveData() {
             string fileName = FilePath;
             Data data = Data;
-            XmlSerializer serializer = new XmlSerializer(typeof(Data));
-            using (StreamWriter writer = new StreamWriter(fileName)) {
+            var serializer = new XmlSerializer(typeof(Data));
+            using (var writer = new StreamWriter(fileName)) {
                 data.OnPreSerialize();
                 serializer.Serialize(writer, data);
             }
@@ -293,16 +281,30 @@ namespace ThemeMixer.Serialization
 
         public Data LoadData() {
             string fileName = FilePath;
-            XmlSerializer serializer = new XmlSerializer(typeof(Data));
+            var serializer = new XmlSerializer(typeof(Data));
             try {
-                using (StreamReader reader = new StreamReader(fileName)) {
+                using (var reader = new StreamReader(fileName)) {
                     var data = serializer.Deserialize(reader) as Data;
-                    data.OnPostDeserialize();
+                    data?.OnPostDeserialize();
                     return data;
                 }
             } catch (Exception) {
                 return null;
             }
+        }
+
+        public bool IsDefaultMix(string mixID) {
+            return Data.DefaultMix == mixID;
+        }
+
+        public void SetDefaultMix(string mixID) {
+            Data.DefaultMix = mixID;
+            SaveData();
+        }
+
+        public ThemeMix GetDefaultMix() {
+            if (string.IsNullOrEmpty(Data.DefaultMix)) return null;
+            return Mixes.TryGetValue(Data.DefaultMix, out ThemeMix defaultMix) ? defaultMix : null;
         }
     }
 }

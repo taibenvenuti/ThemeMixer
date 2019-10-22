@@ -20,34 +20,34 @@ namespace ThemeMixer.UI.FastList
         public delegate void ValuesButtonClickedEventHandler(string itemID);
         public event ValuesButtonClickedEventHandler EventValuesClicked;
 
-        private UIPanel thumbnailPanel;
-        private UISprite thumbnailSprite;
+        private UIPanel _thumbnailPanel;
+        private UISprite _thumbnailSprite;
 
-        private PanelBase labelsPanel;
+        private PanelBase _labelsPanel;
 
-        private UILabel nameLabel;
-        private UILabel authorLabel;
+        private UILabel _nameLabel;
+        private UILabel _authorLabel;
 
-        private UIPanel checkboxPanel;
-        private UICheckBox favouriteCheckbox;
-        private UISprite checkedSprite;
-        private UISprite uncheckedSprite;
+        private UIPanel _checkboxPanel;
+        private UICheckBox _favouriteCheckbox;
+        private UISprite _checkedSprite;
+        private UISprite _uncheckedSprite;
 
-        private UIButton valuesButton;
-        private UILabel valuesLabel;
-        private UISprite valuesSprite;
+        private UIButton _valuesButton;
+        private UILabel _valuesLabel;
+        private UISprite _valuesSprite;
 
-        private ListItem itemData;
+        private ListItem _itemData;
         private Color32 EvenColor { get; } = new Color32(67, 76, 80, 255); 
         private Color32 OddColor { get; } = new Color32(57, 67, 70, 255);
         private Color32 SelectedColor { get; } = new Color32(20, 155, 215, 255);
 
-        private bool isRowOdd;
+        private bool _isRowOdd;
 
         public override void Awake() {
             base.Awake();
-            Setup("List Row", 456.0f, 76.0f, UIUtils.DEFAULT_SPACING, true, LayoutDirection.Horizontal, LayoutStart.TopLeft, "WhiteRect");
-            color = isRowOdd ? OddColor : EvenColor;
+            Setup("List Row", 456.0f, 76.0f, UIUtils.DefaultSpacing, true, LayoutDirection.Horizontal, LayoutStart.TopLeft, "WhiteRect");
+            color = _isRowOdd ? OddColor : EvenColor;
             CreateThumbnail();
             CreateLabels();
             CreateValuesPanel();
@@ -59,8 +59,8 @@ namespace ThemeMixer.UI.FastList
 
         public override void OnDestroy() {
             base.OnDestroy();
-            if (favouriteCheckbox != null)
-                favouriteCheckbox.eventClicked -= OnFavouriteCheckboxMouseUp;
+            if (_favouriteCheckbox != null)
+                _favouriteCheckbox.eventClicked -= OnFavouriteCheckboxMouseUp;
             eventMouseEnter -= OnMouseEnterEvent;
             eventMouseLeave -= OnMouseLeaveEvent;
             EventFavouriteChanged = null;
@@ -77,169 +77,167 @@ namespace ThemeMixer.UI.FastList
 
         public void Display(object data, bool isRowOdd) {
             if (data is ListItem item) {
-                itemData = item;
-                this.isRowOdd = isRowOdd;
+                _itemData = item;
+                _isRowOdd = isRowOdd;
                 DisplayItem(isRowOdd);
             }
         }
 
         private void CreateThumbnail() {
-            thumbnailPanel = AddUIComponent<UIPanel>();
-            thumbnailPanel.size = new Vector2(115.0f, 66.0f);
-            thumbnailPanel.atlas = UISprites.DefaultAtlas;
-            thumbnailPanel.backgroundSprite = "WhiteRect";
-            thumbnailPanel.color = UIColor;
+            _thumbnailPanel = AddUIComponent<UIPanel>();
+            _thumbnailPanel.size = new Vector2(115.0f, 66.0f);
+            _thumbnailPanel.atlas = UISprites.DefaultAtlas;
+            _thumbnailPanel.backgroundSprite = "WhiteRect";
+            _thumbnailPanel.color = UIColor;
 
-            thumbnailSprite = thumbnailPanel.AddUIComponent<UISprite>();
-            thumbnailSprite.atlas = ThemeSprites.Atlas;
-            thumbnailSprite.size = new Vector2(113.0f, 64.0f);
-            thumbnailSprite.relativePosition = new Vector2(1.0f, 1.0f);
+            _thumbnailSprite = _thumbnailPanel.AddUIComponent<UISprite>();
+            _thumbnailSprite.atlas = ThemeSprites.Atlas;
+            _thumbnailSprite.size = new Vector2(113.0f, 64.0f);
+            _thumbnailSprite.relativePosition = new Vector2(1.0f, 1.0f);
         }
 
         private void CreateLabels() {
-            labelsPanel = AddUIComponent<PanelBase>();
-            labelsPanel.Setup("Labels Panel", 255.0f, 64.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
-            labelsPanel.autoFitChildrenHorizontally = true;
+            _labelsPanel = AddUIComponent<PanelBase>();
+            _labelsPanel.Setup("Labels Panel", 255.0f, 64.0f, 0, true, LayoutDirection.Vertical);
+            _labelsPanel.autoFitChildrenHorizontally = true;
 
-            nameLabel = labelsPanel.AddUIComponent<UILabel>();
-            nameLabel.autoSize = false;
-            nameLabel.size = new Vector2(width, 33.0f);
-            nameLabel.padding = new RectOffset(5, 0, 8, 0);
-            nameLabel.textScale = 1.0f;
-            nameLabel.font = UIUtils.BoldFont;
+            _nameLabel = _labelsPanel.AddUIComponent<UILabel>();
+            _nameLabel.autoSize = false;
+            _nameLabel.size = new Vector2(width, 33.0f);
+            _nameLabel.padding = new RectOffset(5, 0, 8, 0);
+            _nameLabel.textScale = 1.0f;
+            _nameLabel.font = UIUtils.BoldFont;
 
-            authorLabel = labelsPanel.AddUIComponent<UILabel>();
-            authorLabel.autoSize = false;
-            authorLabel.size = new Vector2(width, 33.0f);
-            authorLabel.padding = new RectOffset(5, 0, 2, 0);
-            authorLabel.textScale = 0.8f;
-            authorLabel.font = UIUtils.BoldFont;
+            _authorLabel = _labelsPanel.AddUIComponent<UILabel>();
+            _authorLabel.autoSize = false;
+            _authorLabel.size = new Vector2(width, 33.0f);
+            _authorLabel.padding = new RectOffset(5, 0, 2, 0);
+            _authorLabel.textScale = 0.8f;
+            _authorLabel.font = UIUtils.BoldFont;
         }
 
         private void CreateValuesPanel() {
-            valuesButton = AddUIComponent<UIButton>();
-            valuesButton.size = new Vector2(66.0f, 66.0f);
-            valuesButton.eventClicked += OnValuesButtonClicked;
+            _valuesButton = AddUIComponent<UIButton>();
+            _valuesButton.size = new Vector2(66.0f, 66.0f);
+            _valuesButton.eventClicked += OnValuesButtonClicked;
 
-            valuesLabel = valuesButton.AddUIComponent<UILabel>();
-            valuesLabel.text = " ";
-            valuesLabel.autoSize = false;
-            valuesLabel.size = valuesButton.size;
-            valuesLabel.relativePosition = new Vector2(0.0f, 0.0f);
-            valuesLabel.textAlignment = UIHorizontalAlignment.Center;
-            valuesLabel.verticalAlignment = UIVerticalAlignment.Middle;
+            _valuesLabel = _valuesButton.AddUIComponent<UILabel>();
+            _valuesLabel.text = " ";
+            _valuesLabel.autoSize = false;
+            _valuesLabel.size = _valuesButton.size;
+            _valuesLabel.relativePosition = new Vector2(0.0f, 0.0f);
+            _valuesLabel.textAlignment = UIHorizontalAlignment.Center;
+            _valuesLabel.verticalAlignment = UIVerticalAlignment.Middle;
 
-            valuesSprite = valuesButton.AddUIComponent<UISprite>();
-            valuesSprite.atlas = ThemeSprites.Atlas;
-            valuesSprite.size = new Vector2(64.0f, 64.0f);
-            valuesSprite.relativePosition = new Vector2(1.0f, 1.0f);
+            _valuesSprite = _valuesButton.AddUIComponent<UISprite>();
+            _valuesSprite.atlas = ThemeSprites.Atlas;
+            _valuesSprite.size = new Vector2(64.0f, 64.0f);
+            _valuesSprite.relativePosition = new Vector2(1.0f, 1.0f);
 
-            valuesButton.isVisible = false;
+            _valuesButton.isVisible = false;
         }
 
         private void OnValuesButtonClicked(UIComponent component, UIMouseEventParameter eventParam) {
-            EventValuesClicked?.Invoke(itemData.ID);
+            EventValuesClicked?.Invoke(_itemData.ID);
         }
 
         private void CreateCheckbox() {
-            checkboxPanel = AddUIComponent<UIPanel>();
-            checkboxPanel.size = new Vector2(66.0f, 66.0f);
+            _checkboxPanel = AddUIComponent<UIPanel>();
+            _checkboxPanel.size = new Vector2(66.0f, 66.0f);
 
-            favouriteCheckbox = checkboxPanel.AddUIComponent<UICheckBox>();
-            favouriteCheckbox.size = new Vector2(22f, 22f);
-            favouriteCheckbox.relativePosition = new Vector3(22.0f, 22.0f);
+            _favouriteCheckbox = _checkboxPanel.AddUIComponent<UICheckBox>();
+            _favouriteCheckbox.size = new Vector2(22f, 22f);
+            _favouriteCheckbox.relativePosition = new Vector3(22.0f, 22.0f);
 
-            uncheckedSprite = favouriteCheckbox.AddUIComponent<UISprite>();
-            uncheckedSprite.atlas = UISprites.Atlas;
-            uncheckedSprite.spriteName = UISprites.StarOutline;
-            uncheckedSprite.size = favouriteCheckbox.size;
-            uncheckedSprite.relativePosition = Vector3.zero;
+            _uncheckedSprite = _favouriteCheckbox.AddUIComponent<UISprite>();
+            _uncheckedSprite.atlas = UISprites.Atlas;
+            _uncheckedSprite.spriteName = UISprites.StarOutline;
+            _uncheckedSprite.size = _favouriteCheckbox.size;
+            _uncheckedSprite.relativePosition = Vector3.zero;
 
-            checkedSprite = uncheckedSprite.AddUIComponent<UISprite>();
-            checkedSprite.atlas = UISprites.Atlas;
-            checkedSprite.spriteName = UISprites.Star;
-            checkedSprite.size = favouriteCheckbox.size;
-            checkedSprite.relativePosition = Vector2.zero;
+            _checkedSprite = _uncheckedSprite.AddUIComponent<UISprite>();
+            _checkedSprite.atlas = UISprites.Atlas;
+            _checkedSprite.spriteName = UISprites.Star;
+            _checkedSprite.size = _favouriteCheckbox.size;
+            _checkedSprite.relativePosition = Vector2.zero;
 
-            favouriteCheckbox.checkedBoxObject = checkedSprite;
-            favouriteCheckbox.eventMouseUp += OnFavouriteCheckboxMouseUp;
-            favouriteCheckbox.isChecked = false;
+            _favouriteCheckbox.checkedBoxObject = _checkedSprite;
+            _favouriteCheckbox.eventMouseUp += OnFavouriteCheckboxMouseUp;
+            _favouriteCheckbox.isChecked = false;
         }
 
         private void OnFavouriteCheckboxMouseUp(UIComponent component, UIMouseEventParameter eventParam) {
             if (eventParam.buttons == UIMouseButton.Right) {
-                bool blackListed = !itemData.IsBlacklisted;
-                itemData.IsBlacklisted = blackListed;
+                bool blackListed = !_itemData.IsBlacklisted;
+                _itemData.IsBlacklisted = blackListed;
                 if (blackListed) {
-                    favouriteCheckbox.isChecked = true;
-                    checkedSprite.spriteName = UISprites.Blacklisted;
-                    uncheckedSprite.spriteName = "";
-                    if (itemData.IsFavourite) {
-                        itemData.IsFavourite = false;
-                        EventFavouriteChanged?.Invoke(itemData.ID, false);
+                    _favouriteCheckbox.isChecked = true;
+                    _checkedSprite.spriteName = UISprites.Blacklisted;
+                    _uncheckedSprite.spriteName = "";
+                    if (_itemData.IsFavourite) {
+                        _itemData.IsFavourite = false;
+                        EventFavouriteChanged?.Invoke(_itemData.ID, false);
                     }
                 } else {
-                    if (!itemData.IsFavourite) {
-                        favouriteCheckbox.isChecked = false;
+                    if (!_itemData.IsFavourite) {
+                        _favouriteCheckbox.isChecked = false;
                     }
-                    uncheckedSprite.spriteName = UISprites.StarOutline;
+                    _uncheckedSprite.spriteName = UISprites.StarOutline;
                 }
-                EventBlacklistedChanged?.Invoke(itemData.ID, blackListed);
+                EventBlacklistedChanged?.Invoke(_itemData.ID, blackListed);
             } else if (eventParam.buttons == UIMouseButton.Left) {
-                bool favourite = !itemData.IsFavourite;
-                itemData.IsFavourite = favourite;
+                bool favourite = !_itemData.IsFavourite;
+                _itemData.IsFavourite = favourite;
                 if (favourite) {
-                    favouriteCheckbox.isChecked = true;
-                    checkedSprite.spriteName = UISprites.Star;
-                    uncheckedSprite.spriteName = UISprites.StarOutline;
-                    if (itemData.IsBlacklisted) {
-                        itemData.IsBlacklisted = false;
-                        EventBlacklistedChanged?.Invoke(itemData.ID, false);
+                    _favouriteCheckbox.isChecked = true;
+                    _checkedSprite.spriteName = UISprites.Star;
+                    _uncheckedSprite.spriteName = UISprites.StarOutline;
+                    if (_itemData.IsBlacklisted) {
+                        _itemData.IsBlacklisted = false;
+                        EventBlacklistedChanged?.Invoke(_itemData.ID, false);
                     }
                 } else {
-                    if (!itemData.IsBlacklisted) {
-                        favouriteCheckbox.isChecked = false;
+                    if (!_itemData.IsBlacklisted) {
+                        _favouriteCheckbox.isChecked = false;
                     }
                 }
-                EventFavouriteChanged?.Invoke(itemData.ID, favourite);
+                EventFavouriteChanged?.Invoke(_itemData.ID, favourite);
             }
             UpdateCheckboxTooltip();
         }
 
         private void DisplayItem(bool isRowOdd) {
             color = isRowOdd ? OddColor : EvenColor;
-            string spriteName = string.Concat(itemData.ID, itemData.DisplayName, "_", "Snapshot");
+            string spriteName = string.Concat(_itemData.ID, _itemData.DisplayName, "_", "Snapshot");
             spriteName = Regex.Replace(spriteName, @"(\s+|@|&|'|\(|\)|<|>|#|"")", "");
-            thumbnailSprite.spriteName = spriteName;
-            nameLabel.text = itemData.DisplayName;
-            authorLabel.text = string.Concat(Translation.Instance.GetTranslation(TranslationID.LABEL_BY), " ", itemData.Author);
-            favouriteCheckbox.isChecked = itemData.IsFavourite || itemData.IsBlacklisted;
-            checkedSprite.spriteName = itemData.IsBlacklisted ? UISprites.Blacklisted : UISprites.Star;
-            uncheckedSprite.spriteName = itemData.IsBlacklisted ? "" :  UISprites.StarOutline;
-            float width = itemData.Category == ThemeCategory.Themes || itemData.Category == ThemeCategory.None ? 255.0f : 189.0f;
-            authorLabel.width = nameLabel.width = labelsPanel.width = width;
-            nameLabel.FitString();
-            authorLabel.FitString();
-            valuesButton.isVisible = itemData.Category != ThemeCategory.Themes && itemData.Category != ThemeCategory.None;
+            _thumbnailSprite.spriteName = spriteName;
+            _nameLabel.text = _itemData.DisplayName;
+            _authorLabel.text = string.Concat(Translation.Instance.GetTranslation(TranslationID.LABEL_BY), " ", _itemData.Author);
+            _favouriteCheckbox.isChecked = _itemData.IsFavourite || _itemData.IsBlacklisted;
+            _checkedSprite.spriteName = _itemData.IsBlacklisted ? UISprites.Blacklisted : UISprites.Star;
+            _uncheckedSprite.spriteName = _itemData.IsBlacklisted ? "" :  UISprites.StarOutline;
+            float labelsPanelWidth = _itemData.Category == ThemeCategory.Themes || _itemData.Category == ThemeCategory.None ? 255.0f : 189.0f;
+            _authorLabel.width = _nameLabel.width = _labelsPanel.width = labelsPanelWidth;
+            _nameLabel.FitString();
+            _authorLabel.FitString();
+            _valuesButton.isVisible = _itemData.Category != ThemeCategory.Themes && _itemData.Category != ThemeCategory.None;
             switch (Controller.Part) {
                 case ThemePart.Texture:
-                    valuesButton.normalBgSprite = "WhiteRect";
-                    valuesButton.color = UnityEngine.Color.white;
-                    valuesSprite.spriteName = UIUtils.GetTextureSpriteName(Controller.TextureID, itemData.ID);
+                    _valuesButton.normalBgSprite = "WhiteRect";
+                    _valuesButton.color = Color.white;
+                    _valuesSprite.spriteName = UIUtils.GetTextureSpriteName(Controller.TextureID, _itemData.ID);
                     break;
                 case ThemePart.Color:
-                    valuesButton.normalBgSprite = "WhiteRect";
-                    valuesButton.hoveredBgSprite = "WhiteRect";
-                    valuesButton.pressedBgSprite = "WhiteRect";
-                    valuesButton.focusedBgSprite = "WhiteRect";
-                    Color32 color = Controller.GetColor(Controller.ColorID, itemData.ID);
-                    valuesButton.color = valuesButton.hoveredColor = valuesButton.pressedColor = valuesButton.focusedColor = color;
+                    _valuesButton.normalBgSprite = "WhiteRect";
+                    _valuesButton.hoveredBgSprite = "WhiteRect";
+                    _valuesButton.pressedBgSprite = "WhiteRect";
+                    _valuesButton.focusedBgSprite = "WhiteRect";
+                    Color32 buttonColor = Controller.GetColor(Controller.ColorID, _itemData.ID);
+                    _valuesButton.color = _valuesButton.hoveredColor = _valuesButton.pressedColor = _valuesButton.focusedColor = buttonColor;
                     break;
                 case ThemePart.Offset:
                     break;
                 case ThemePart.Value:
-                    break;
-                default:
                     break;
             }
 
@@ -247,22 +245,22 @@ namespace ThemeMixer.UI.FastList
         }
 
         private void UpdateCheckboxTooltip() {
-            favouriteCheckbox.tooltip = itemData.IsFavourite
+            _favouriteCheckbox.tooltip = _itemData.IsFavourite
                             ? Translation.Instance.GetTranslation(TranslationID.TOOLTIP_REMOVEFAVOURITE)
-                            : itemData.IsBlacklisted
+                            : _itemData.IsBlacklisted
                             ? Translation.Instance.GetTranslation(TranslationID.TOOLTIP_REMOVEBLACKLIST)
                             : Translation.Instance.GetTranslation(TranslationID.TOOLTIP_ADDFAVOURITE_ADDBLACKLIST);
             //favouriteCheckbox.RefreshTooltip();
         }
 
         private void OnMouseLeaveEvent(UIComponent component, UIMouseEventParameter eventParam) {
-            if (itemData != null) {
-                color = isRowOdd ? OddColor : EvenColor;
+            if (_itemData != null) {
+                color = _isRowOdd ? OddColor : EvenColor;
             }
         }
 
         private void OnMouseEnterEvent(UIComponent component, UIMouseEventParameter eventParam) {
-            if (itemData != null) {
+            if (_itemData != null) {
                 color = new Color32((byte)(OddColor.r + 25), (byte)(OddColor.g + 25), (byte)(OddColor.b + 25), 255);
             }
         }

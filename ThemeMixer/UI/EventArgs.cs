@@ -1,63 +1,63 @@
 ﻿using System;
 using ThemeMixer.Themes;
 using ThemeMixer.Themes.Enums;
-using ThemeMixer.UI.Color;
+using ThemeMixer.UI.Abstraction.ColorPanel;
 
 namespace ThemeMixer.UI
 {
     public class ThemeDirtyEventArgs : EventArgs
     {
-        public ThemeCategory category = ThemeCategory.None;
-        public ThemePart part = ThemePart.None;
-        public IMixable loadable = null;
+        public ThemeCategory Category;
+        public ThemePart Part;
+        public IMixable Loadable;
 
         public ThemeDirtyEventArgs(ThemeCategory category, ThemePart part, IMixable loadable = null) {
-            this.loadable = loadable;
-            this.category = category;
-            this.part = part;
+            Loadable = loadable;
+            Category = category;
+            Part = part;
         }
     }
 
     public class UIDirtyEventArgs : EventArgs
     {
-        public ThemeMix mix;
+        public ThemeMix Mix;
 
         public UIDirtyEventArgs(ThemeMix mix) {
-            this.mix = mix;
+            Mix = mix;
         }
     }
 
     public class ThemeSelectedEventArgs : EventArgs
     {
-        public string themeID;
-        public ThemeCategory category = ThemeCategory.None;
-        public ThemePart part = ThemePart.None;
+        public string ThemeID;
+        public ThemeCategory Category;
+        public ThemePart Part;
 
         public ThemeSelectedEventArgs(string themeID, ThemeCategory category, ThemePart part) {
-            this.themeID = themeID;
-            this.category = category;
-            this.part = part;
+            ThemeID = themeID;
+            Category = category;
+            Part = part;
         }
     }
 
     public class ThemesPanelClosingEventArgs : EventArgs
     {
-        public ThemeCategory category = ThemeCategory.None;
-        public ThemePart part = ThemePart.None;
+        public ThemeCategory Category;
+        public ThemePart Part;
         public ThemesPanelClosingEventArgs(ThemeCategory category, ThemePart part) {
-            this.category = category;
-            this.part = part;
+            Category = category;
+            Part = part;
         }
     }
 
     public class ColorPanelVisibilityChangedEventArgs : EventArgs
     {
-        public bool visible;
-        public ColorPanel panel;
+        public bool Visible;
+        public ColorPanel Panel;
 
         public ColorPanelVisibilityChangedEventArgs(ColorPanel panel, bool visible) {
-            this.visible = visible;
-            this.panel = panel;
+            Visible = visible;
+            Panel = panel;
         }
     }
 }

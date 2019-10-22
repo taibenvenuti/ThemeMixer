@@ -1,9 +1,13 @@
-﻿namespace ThemeMixer.Themes.Atmosphere
+﻿using JetBrains.Annotations;
+using ThemeMixer.Themes.Abstraction;
+
+namespace ThemeMixer.Themes.Atmosphere
 {
     public class AtmosphereFloat : ThemePartBase
     {
         public FloatName Name;
 
+        [UsedImplicitly]
         public AtmosphereFloat() { }
 
         public AtmosphereFloat(FloatName floatName) {
@@ -33,7 +37,7 @@
                 case FloatName.MoonSize:
                     SetValue(metaData.moonSize);
                     break;
-                case FloatName.Rayleight:
+                case FloatName.Rayleigh:
                     SetValue(metaData.rayleight);
                     break;
                 case FloatName.Mie:
@@ -47,8 +51,6 @@
                     break;
                 case FloatName.OuterSpaceIntensity:
                     SetValue(metaData.outerSpaceIntensity);
-                    break;
-                default:
                     break;
             }
             return true;
@@ -72,7 +74,7 @@
                 case FloatName.MoonSize:
                     properties.m_MoonSize = (float)(CustomValue ?? Value);
                     break;
-                case FloatName.Rayleight:
+                case FloatName.Rayleigh:
                     properties.m_RayleighScattering = (float)(CustomValue ?? Value);
                     break;
                 case FloatName.Mie:
@@ -87,8 +89,6 @@
                 case FloatName.OuterSpaceIntensity:
                     properties.m_OuterSpaceIntensity = (float)(CustomValue ?? Value);
                     break;
-                default:
-                    break;
             }
         }
 
@@ -101,7 +101,7 @@
             SunAnisotropy,
             MoonSize,
 
-            Rayleight,
+            Rayleigh,
             Mie,
             Exposure,
             StarsIntensity,

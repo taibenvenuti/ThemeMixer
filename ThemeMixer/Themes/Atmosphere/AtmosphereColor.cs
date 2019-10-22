@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using ThemeMixer.Themes.Abstraction;
+using UnityEngine;
 
 namespace ThemeMixer.Themes.Atmosphere
 {
@@ -6,6 +8,7 @@ namespace ThemeMixer.Themes.Atmosphere
     {
         public ColorName Name;
 
+        [UsedImplicitly]
         public AtmosphereColor() { }
 
         public AtmosphereColor(ColorName colorName) {
@@ -37,8 +40,6 @@ namespace ThemeMixer.Themes.Atmosphere
                     break;
                 case ColorName.LateNightZenithColor:
                     SetValue(metaData.lateNightZenithColor);
-                    break;
-                default:
                     break;
             }
             return true;
@@ -74,8 +75,6 @@ namespace ThemeMixer.Themes.Atmosphere
                     c[1].color = c[2].color = properties.m_NightZenithColor.colorKeys[1].color;
                     properties.m_NightZenithColor.SetKeys(c, a);
                 }
-                    break;
-                default:
                     break;
             }
         }

@@ -1,11 +1,14 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using ThemeMixer.Themes.Abstraction;
+using UnityEngine;
 
 namespace ThemeMixer.Themes.Water
 {
-    public class WaterTexture : TexturePartBase
+    public sealed class WaterTexture : TexturePartBase
     {
         public TextureName Name;
 
+        [UsedImplicitly]
         public WaterTexture() { }
 
         public WaterTexture(TextureName textureName) {
@@ -42,9 +45,6 @@ namespace ThemeMixer.Themes.Water
                     oldTexture = properties.m_waterNormal;
                     properties.m_waterNormal = Texture;
                     Shader.SetGlobalTexture("_WaterNormal", properties.m_waterNormal);
-                    break;
-
-                default:
                     break;
             }
             if (oldTexture != null && !ReferenceEquals(oldTexture, Texture)) Object.Destroy(oldTexture);

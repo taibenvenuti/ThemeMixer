@@ -1,6 +1,7 @@
 ﻿using ThemeMixer.Themes.Enums;
+using ThemeMixer.UI.Abstraction;
 
-namespace ThemeMixer.UI.Parts
+namespace ThemeMixer.UI.Parts.OffsetPanels
 {
     public class GrassPollutionPanel : OffsetPanel
     {

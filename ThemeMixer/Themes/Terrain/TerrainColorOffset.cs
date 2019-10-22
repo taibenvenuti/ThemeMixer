@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ThemeMixer.Themes.Abstraction;
+using UnityEngine;
 
 namespace ThemeMixer.Themes.Terrain
 {
@@ -52,7 +53,6 @@ namespace ThemeMixer.Themes.Terrain
                 case OffsetName.GrassPollutionColorOffset:
                     properties.m_grassPollutionColorOffset = (Vector3)(CustomValue ?? Value);
                     break;
-                default: break;
             }
             SetShaderVectors();
         }

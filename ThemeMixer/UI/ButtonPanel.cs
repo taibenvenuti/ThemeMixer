@@ -1,5 +1,4 @@
-﻿using System;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using ThemeMixer.UI.Abstraction;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ namespace ThemeMixer.UI
         public delegate void ButtonClickedEventHandler();
         public event ButtonClickedEventHandler EventButtonClicked;
 
-        private UIButton button;
+        private UIButton _button;
         public override void Awake() {
             base.Awake();
             CreateButton();
@@ -19,25 +18,25 @@ namespace ThemeMixer.UI
 
         public override void OnDestroy() {
             EventButtonClicked = null;
-            button.eventClicked -= OnButtonClicked;
+            _button.eventClicked -= OnButtonClicked;
             base.OnDestroy();
         }
 
         private void CreateButton() {
-            button = UIUtils.CreateButton(this, new Vector2(112.5f, 30.0f));
-            button.eventClicked += OnButtonClicked;
+            _button = UIUtils.CreateButton(this, new Vector2(112.5f, 30.0f));
+            _button.eventClicked += OnButtonClicked;
         }
 
         public void SetAnchor(UIAnchorStyle anchors) {
-            button.anchor = anchors;
+            _button.anchor = anchors;
         }
         public void AlignRight() {
-            button.relativePosition = new Vector3(width - button.width, 0.0f);
+            _button.relativePosition = new Vector3(width - _button.width, 0.0f);
         }
 
-        public void SetText(string text, string tooltip = "") {
-            button.text = text;
-            button.tooltip = tooltip;
+        public void SetText(string text, string buttonTooltip = "") {
+            _button.text = text;
+            _button.tooltip = buttonTooltip;
         }
 
         private void OnButtonClicked(UIComponent component, UIMouseEventParameter eventParam) {
@@ -45,10 +44,10 @@ namespace ThemeMixer.UI
         }
 
         internal void DisableButton() {
-            button.Disable();
+            _button.Disable();
         }
         internal void EnableButton(string text = null) {
-            button.Enable();
+            _button.Enable();
             if (text != null)
                 SetText(text);
         }

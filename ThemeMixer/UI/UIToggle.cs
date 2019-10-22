@@ -10,8 +10,8 @@ namespace ThemeMixer.UI
         public delegate void UIToggleClickedEventHandler();
         public event UIToggleClickedEventHandler EventUIToggleClicked;
 
-        private bool toggled;
-        private Vector3 deltaPos { get; set; }
+        private bool _toggled;
+        private Vector3 DeltaPos { get; set; }
 
         public override void Start() {
             base.Start();
@@ -24,16 +24,16 @@ namespace ThemeMixer.UI
         }
 
         private Vector2 GetDefaultPosition() {
-            UIComponent referenceComponent = GetUIView().FindUIComponent<UIComponent>("Esc");
-            Vector2 pos = new Vector2(referenceComponent.absolutePosition.x + referenceComponent.width - width, referenceComponent.absolutePosition.y + referenceComponent.height + 5.0f);
+            UIComponent referenceComponent = GetUIView().FindUIComponent<UIComponent>("UnlockButton");
+            Vector2 pos = new Vector2(referenceComponent.absolutePosition.x + 80.0f, referenceComponent.absolutePosition.y + (referenceComponent.height - height) / 2);
             return pos;
         }
 
         protected override void OnClick(UIMouseEventParameter p) {
             if (!p.buttons.IsFlagSet(UIMouseButton.Left)) return;
-            toggled = !toggled;
+            _toggled = !_toggled;
             EventUIToggleClicked?.Invoke();
-            normalBgSprite = toggled ? UISprites.UIToggleIconFocused : UISprites.UIToggleIcon;
+            normalBgSprite = _toggled ? UISprites.UIToggleIconFocused : UISprites.UIToggleIcon;
         }
 
         protected override void OnMouseDown(UIMouseEventParameter p) {
@@ -41,7 +41,7 @@ namespace ThemeMixer.UI
                 Vector3 mousePos = Input.mousePosition;
                 mousePos.y = m_OwnerView.fixedHeight - mousePos.y;
 
-                deltaPos = absolutePosition - mousePos;
+                DeltaPos = absolutePosition - mousePos;
                 BringToFront();
             }
         }
@@ -50,7 +50,7 @@ namespace ThemeMixer.UI
             if (p.buttons.IsFlagSet(UIMouseButton.Right)) {
                 Vector3 mousePos = Input.mousePosition;
                 mousePos.y = m_OwnerView.fixedHeight - mousePos.y;
-                absolutePosition = mousePos + deltaPos;
+                absolutePosition = mousePos + DeltaPos;
                 SerializationService.Instance.SetUITogglePosition(new Vector2(absolutePosition.x, absolutePosition.y));
             }
         }

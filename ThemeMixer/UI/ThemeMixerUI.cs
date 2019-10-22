@@ -1,18 +1,19 @@
-﻿using ColossalFramework.UI;
+﻿using System.Collections.Generic;
+using ColossalFramework.UI;
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.UI.Abstraction;
 using ThemeMixer.UI.CategoryPanels;
-using ThemeMixer.UI.Parts;
+using ThemeMixer.UI.Parts.SelectPanels;
 using UnityEngine;
 
 namespace ThemeMixer.UI
 {
     public class ThemeMixerUI : PanelBase
     {
-        private PanelBase currentPanel;
-        private ToolBar toolBar;
-        private UIPanel space;
+        private PanelBase _currentPanel;
+        private ToolBar _toolBar;
+        private UIPanel _space;
 
         public override void Start() {
             base.Start();
@@ -27,11 +28,11 @@ namespace ThemeMixer.UI
         }
 
         private void CreateToolBar() {
-            toolBar = AddUIComponent<ToolBar>();
-            toolBar.EventButtonClicked += OnButtonClicked;
-            toolBar.EventDragEnd += OnDragEnd;
-            space = AddUIComponent<UIPanel>();
-            space.size = new Vector2(5.0f, 0.0f);
+            _toolBar = AddUIComponent<ToolBar>();
+            _toolBar.EventButtonClicked += OnButtonClicked;
+            _toolBar.EventDragEnd += OnDragEnd;
+            _space = AddUIComponent<UIPanel>();
+            _space.size = new Vector2(5.0f, 0.0f);
         }
 
         private void OnDragEnd() {
@@ -44,9 +45,9 @@ namespace ThemeMixer.UI
                     Controller.Part = ThemePart.Category;
                     return AddUIComponent<SelectThemePanel>();
                 case ThemeCategory.Terrain:
-                    return AddUIComponent<Parts.TerrainPanel>();
+                    return AddUIComponent<CategoryPanels.TerrainPanel>();
                 case ThemeCategory.Water:
-                    return AddUIComponent<Parts.WaterPanel>();
+                    return AddUIComponent<CategoryPanels.WaterPanel>();
                 case ThemeCategory.Structures:
                     return AddUIComponent<StructuresPanel>();
                 case ThemeCategory.Weather:
@@ -59,45 +60,43 @@ namespace ThemeMixer.UI
             }
         }
 
-        private void OnButtonClicked(Button button, Button[] buttons) {
+        private void OnButtonClicked(ToolbarButton button, ToolbarButton[] buttons) {
             UnfocusButtons(buttons);
-            if (currentPanel != null) {
-                bool same = button.category == currentPanel.Category;
-                Destroy(currentPanel.gameObject);
-                currentPanel = null;
+            if (_currentPanel != null) {
+                bool same = button.Category == _currentPanel.Category;
+                Destroy(_currentPanel.gameObject);
+                _currentPanel = null;
                 if (same) return;
             }
-            currentPanel = CreatePanel(button.category);
+            _currentPanel = CreatePanel(button.Category);
             SetButtonFocused(button);
             RefreshZOrder();
         }
 
-        private void UnfocusButtons(Button[] buttons) {
-            for (int i = 0; i < buttons.Length; i++) {
-                SetButtonUnfocused(buttons[i]);
+        private void UnfocusButtons(IEnumerable<ToolbarButton> buttons) {
+            foreach (ToolbarButton t in buttons) {
+                SetButtonUnfocused(t);
             }
         }
 
-        private void SetButtonFocused(Button button) {
-            if (button != null) {
-                button.button.normalBgSprite = button.button.focusedBgSprite = button.button.hoveredBgSprite = string.Concat(button.button.normalBgSprite.Replace("Focused", ""), "Focused");
-                button.button.normalFgSprite = button.button.focusedFgSprite = button.button.hoveredFgSprite = string.Concat(button.button.normalFgSprite.Replace("Focused", ""), "Focused");
-            }
+        private static void SetButtonFocused(ToolbarButton button) {
+            if (button == null) return;
+            button.Button.normalBgSprite = button.Button.focusedBgSprite = button.Button.hoveredBgSprite = string.Concat(button.Button.normalBgSprite.Replace("Focused", ""), "Focused");
+            button.Button.normalFgSprite = button.Button.focusedFgSprite = button.Button.hoveredFgSprite = string.Concat(button.Button.normalFgSprite.Replace("Focused", ""), "Focused");
         }
 
-        private void SetButtonUnfocused(Button button) {
-            if (button != null) {
-                button.button.normalBgSprite = button.button.focusedBgSprite = button.button.normalBgSprite.Replace("Focused", "");
-                button.button.hoveredBgSprite = button.button.hoveredBgSprite.Replace("Focused", "Hovered");
-                button.button.normalFgSprite = button.button.focusedFgSprite = button.button.normalFgSprite.Replace("Focused", "");
-                button.button.hoveredFgSprite = button.button.hoveredFgSprite.Replace("Focused", "Hovered");
-            }
+        private void SetButtonUnfocused(ToolbarButton button) {
+            if (button == null) return;
+            button.Button.normalBgSprite = button.Button.focusedBgSprite = button.Button.normalBgSprite.Replace("Focused", "");
+            button.Button.hoveredBgSprite = button.Button.hoveredBgSprite.Replace("Focused", "Hovered");
+            button.Button.normalFgSprite = button.Button.focusedFgSprite = button.Button.normalFgSprite.Replace("Focused", "");
+            button.Button.hoveredFgSprite = button.Button.hoveredFgSprite.Replace("Focused", "Hovered");
         }
 
         #region Position
         private static Vector2 CalculateDefaultToolBarPosition() {
             Vector2 screenRes = UIView.GetAView().GetScreenResolution();
-            return screenRes - new Vector2(10.0f, 830.0f);
+            return new Vector2(10.0f, screenRes.y - 403.0f);
         }
 
         private void EnsureToolbarOnScreen() {
@@ -119,29 +118,41 @@ namespace ThemeMixer.UI
                 autoLayoutStart = autoLayoutStart == LayoutStart.TopRight ? LayoutStart.TopLeft : LayoutStart.BottomLeft;
                 RefreshZOrder();
             }
-            if (currentPanel == null) return;
-            if ((autoLayoutStart == LayoutStart.TopLeft || autoLayoutStart == LayoutStart.TopRight) && relativePosition.y > screenRes.y / 2.0f || currentPanel.absolutePosition.y + currentPanel.height > screenRes.y) {
+            if (_currentPanel == null) return;
+            if ((autoLayoutStart == LayoutStart.TopLeft || autoLayoutStart == LayoutStart.TopRight) && relativePosition.y > screenRes.y / 2.0f || _currentPanel.absolutePosition.y + _currentPanel.height > screenRes.y) {
                 autoLayoutStart = autoLayoutStart == LayoutStart.TopLeft ? LayoutStart.BottomLeft : LayoutStart.BottomRight;
                 RefreshZOrder();
-            } else if ((autoLayoutStart == LayoutStart.BottomLeft || autoLayoutStart == LayoutStart.BottomRight) && relativePosition.y + height < screenRes.y / 2.0f || currentPanel.absolutePosition.y < 0.0f) {
+            } else if ((autoLayoutStart == LayoutStart.BottomLeft || autoLayoutStart == LayoutStart.BottomRight) && relativePosition.y + height < screenRes.y / 2.0f || _currentPanel.absolutePosition.y < 0.0f) {
                 autoLayoutStart = autoLayoutStart == LayoutStart.BottomLeft ? LayoutStart.TopLeft : LayoutStart.TopRight;
                 RefreshZOrder();
             }
         }
 
-        private void RefreshZOrder() {
-            if (autoLayoutStart == LayoutStart.TopLeft || autoLayoutStart == LayoutStart.BottomLeft) {
-                toolBar.zOrder = 0;
-                space.zOrder = 1;
-                if (currentPanel != null) currentPanel.zOrder = 2;
-            } else if (autoLayoutStart == LayoutStart.TopRight || autoLayoutStart == LayoutStart.BottomRight) {
-                if (currentPanel != null) {
-                    currentPanel.zOrder = 0;
-                    space.zOrder = 1;
-                    toolBar.zOrder = 2;
-                } else {
-                    space.zOrder = 0;
-                    toolBar.zOrder = 1;
+        private void RefreshZOrder()
+        {
+            switch (autoLayoutStart)
+            {
+                case LayoutStart.TopLeft:
+                case LayoutStart.BottomLeft:
+                {
+                    _toolBar.zOrder = 0;
+                    _space.zOrder = 1;
+                    if (_currentPanel != null) _currentPanel.zOrder = 2;
+                    break;
+                }
+                case LayoutStart.TopRight:
+                case LayoutStart.BottomRight:
+                {
+                    if (_currentPanel != null) {
+                        _currentPanel.zOrder = 0;
+                        _space.zOrder = 1;
+                        _toolBar.zOrder = 2;
+                    } else {
+                        _space.zOrder = 0;
+                        _toolBar.zOrder = 1;
+                    }
+
+                    break;
                 }
             }
         }

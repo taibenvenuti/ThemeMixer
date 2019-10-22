@@ -1,4 +1,5 @@
-﻿using ThemeMixer.Themes.Enums;
+﻿using JetBrains.Annotations;
+using ThemeMixer.Themes.Abstraction;
 using UnityEngine;
 
 namespace ThemeMixer.Themes.Structures
@@ -7,6 +8,7 @@ namespace ThemeMixer.Themes.Structures
     {
         public TextureName Name;
 
+        [UsedImplicitly]
         public StructureTexture() { }
 
         public StructureTexture(TextureName textureName) {
@@ -85,8 +87,6 @@ namespace ThemeMixer.Themes.Structures
                     oldTexture = buildingProperties.m_lightColorPalette;
                     buildingProperties.m_lightColorPalette = Texture;
                     Shader.SetGlobalTexture("_BuildingLightColorPalette", buildingProperties.m_lightColorPalette);
-                    break;
-                default:
                     break;
             }
             if (oldTexture != null && !ReferenceEquals(oldTexture, Texture)) Object.Destroy(oldTexture);

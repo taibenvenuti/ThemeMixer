@@ -64,8 +64,6 @@ namespace ThemeMixer.Themes.Water
                 case WaterTexture.TextureName.WaterNormal:
                     WaterNormal = new WaterTexture(textureName, themeID);
                     break;
-                default:
-                    break;
             }
         }
 
@@ -89,8 +87,6 @@ namespace ThemeMixer.Themes.Water
                     break;
                 case WaterColor.ColorName.WaterUnder:
                     WaterUnder = new WaterColor(themeID, name);
-                    break;
-                default:
                     break;
             }
         }

@@ -106,8 +106,6 @@ namespace ThemeMixer.Themes.Weather
                 case WeatherValue.ValueName.NorthernLightsProbability:
                     NorthernLightsProbability = new WeatherValue(themeID, name);
                     break;
-                default:
-                    break;
             }
         }
 

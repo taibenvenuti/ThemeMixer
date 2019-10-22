@@ -2,23 +2,23 @@
 using ThemeMixer.Resources;
 using UnityEngine;
 
-namespace ThemeMixer.UI.Color
+namespace ThemeMixer.UI.Abstraction.ColorPanel
 {
     public class SwatchButton : UIButton
     {
-        public UnityEngine.Color swatch;
-        public delegate void SwatchClickedEventHandler(UnityEngine.Color color, UIMouseEventParameter eventParam, UIComponent component);
+        public Color Swatch;
+        public delegate void SwatchClickedEventHandler(Color color, UIMouseEventParameter eventParam, UIComponent component);
         public event SwatchClickedEventHandler EventSwatchClicked;
 
-        public void Build(UnityEngine.Color color) {
+        public void Build(Color swatchButtonColor) {
             size = new Vector2(19.0f, 19.0f);
             atlas = UISprites.Atlas;
             normalBgSprite = UISprites.Swatch;
-            hoveredColor = new Color32((byte)Mathf.Min((color.r + 32), 255), (byte)Mathf.Min((color.g + 32), 255), (byte)Mathf.Min((color.b + 32), 255), 255);
-            pressedColor = new Color32((byte)Mathf.Min((color.r + 64), 255), (byte)Mathf.Min((color.g + 64), 255), (byte)Mathf.Min((color.b + 64), 255), 255);
-            focusedColor = color;
-            this.color = color;
-            swatch = color;
+            hoveredColor = new Color32((byte)Mathf.Min((swatchButtonColor.r + 32), 255), (byte)Mathf.Min((swatchButtonColor.g + 32), 255), (byte)Mathf.Min((swatchButtonColor.b + 32), 255), 255);
+            pressedColor = new Color32((byte)Mathf.Min((swatchButtonColor.r + 64), 255), (byte)Mathf.Min((swatchButtonColor.g + 64), 255), (byte)Mathf.Min((swatchButtonColor.b + 64), 255), 255);
+            focusedColor = swatchButtonColor;
+            color = swatchButtonColor;
+            Swatch = swatchButtonColor;
         }
 
         public override void OnDestroy() {
@@ -32,7 +32,7 @@ namespace ThemeMixer.UI.Color
         }
 
         private void OnSwatchClicked(UIComponent component, UIMouseEventParameter eventParam) {
-            EventSwatchClicked?.Invoke(swatch, eventParam, component);
+            EventSwatchClicked?.Invoke(Swatch, eventParam, component);
         }
     }
 }

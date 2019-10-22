@@ -10,58 +10,58 @@ namespace ThemeMixer.UI
 {
     public class ButtonBar : PanelBase
     {
-        public delegate void ButtonClickedEventHandler(Button button, Button[] buttons);
+        public delegate void ButtonClickedEventHandler(ToolbarButton button, ToolbarButton[] buttons);
         public event ButtonClickedEventHandler EventButtonClicked;
 
-        private Button themesButton;
-        private Button terrainButton;
-        private Button waterButton;
-        private Button atmosphereButton;
-        private Button structuresButton;
-        private Button weatherButton;
-        private Button settingsButton;
+        private ToolbarButton _themesButton;
+        private ToolbarButton _terrainButton;
+        private ToolbarButton _waterButton;
+        private ToolbarButton _atmosphereButton;
+        private ToolbarButton _structuresButton;
+        private ToolbarButton _weatherButton;
+        private ToolbarButton _settingsButton;
 
-        private Button[] buttons;
+        private ToolbarButton[] _buttons;
 
         public override void Awake() {
             base.Awake();
-            Setup("Button Bar", 40.0f, 0.0f, UIUtils.DEFAULT_SPACING, true, LayoutDirection.Vertical, LayoutStart.TopLeft);
+            Setup("Button Bar", 40.0f, 0.0f, UIUtils.DefaultSpacing, true, LayoutDirection.Vertical);
             CreateButtons();
-            UIPanel space = AddUIComponent<UIPanel>();
+            var space = AddUIComponent<UIPanel>();
             space.size = new Vector2(width, 0.1f);
         }
 
         public override void OnDestroy() {
-            themesButton.EventClicked -= OnButtonClicked;
-            terrainButton.EventClicked -= OnButtonClicked;
-            waterButton.EventClicked -= OnButtonClicked;
-            atmosphereButton.EventClicked -= OnButtonClicked;
-            structuresButton.EventClicked -= OnButtonClicked;
-            weatherButton.EventClicked -= OnButtonClicked;
-            settingsButton.EventClicked -= OnButtonClicked;
+            _themesButton.EventClicked -= OnButtonClicked;
+            _terrainButton.EventClicked -= OnButtonClicked;
+            _waterButton.EventClicked -= OnButtonClicked;
+            _atmosphereButton.EventClicked -= OnButtonClicked;
+            _structuresButton.EventClicked -= OnButtonClicked;
+            _weatherButton.EventClicked -= OnButtonClicked;
+            _settingsButton.EventClicked -= OnButtonClicked;
             base.OnDestroy();
         }
 
         private void CreateButtons() {
 
-            themesButton = new Button(ThemeCategory.Themes, this);
-            themesButton.EventClicked += OnButtonClicked; ;
+            _themesButton = new ToolbarButton(ThemeCategory.Themes, this);
+            _themesButton.EventClicked += OnButtonClicked;
 
 
-            terrainButton = new Button(ThemeCategory.Terrain, this);
-            terrainButton.EventClicked += OnButtonClicked;;
+            _terrainButton = new ToolbarButton(ThemeCategory.Terrain, this);
+            _terrainButton.EventClicked += OnButtonClicked;
 
-            waterButton = new Button(ThemeCategory.Water, this);
-            waterButton.EventClicked += OnButtonClicked;
+            _waterButton = new ToolbarButton(ThemeCategory.Water, this);
+            _waterButton.EventClicked += OnButtonClicked;
 
-            atmosphereButton = new Button(ThemeCategory.Atmosphere, this);
-            atmosphereButton.EventClicked += OnButtonClicked;
+            _atmosphereButton = new ToolbarButton(ThemeCategory.Atmosphere, this);
+            _atmosphereButton.EventClicked += OnButtonClicked;
 
-            structuresButton = new Button(ThemeCategory.Structures, this);
-            structuresButton.EventClicked += OnButtonClicked;
+            _structuresButton = new ToolbarButton(ThemeCategory.Structures, this);
+            _structuresButton.EventClicked += OnButtonClicked;
 
-            weatherButton = new Button(ThemeCategory.Weather, this);
-            weatherButton.EventClicked += OnButtonClicked;
+            _weatherButton = new ToolbarButton(ThemeCategory.Weather, this);
+            _weatherButton.EventClicked += OnButtonClicked;
 
             UIPanel panel = AddUIComponent<UIPanel>();
             panel.size = new Vector2(30.0f, 2.0f);
@@ -69,43 +69,43 @@ namespace ThemeMixer.UI
             panel.backgroundSprite = "WhiteRect";
             panel.color = UIColorDark;
 
-            settingsButton = new Button(ThemeCategory.Mixes, this);
-            settingsButton.EventClicked += OnButtonClicked; ;
+            _settingsButton = new ToolbarButton(ThemeCategory.Mixes, this);
+            _settingsButton.EventClicked += OnButtonClicked;
 
             CreateButtonArray();
         }
 
-        private void OnButtonClicked(Button button) {
-            EventButtonClicked?.Invoke(button, buttons);
+        private void OnButtonClicked(ToolbarButton button) {
+            EventButtonClicked?.Invoke(button, _buttons);
         }
 
         private void CreateButtonArray() {
-            buttons = new Button[] {
-                themesButton,
-                terrainButton,
-                waterButton,
-                atmosphereButton,
-                structuresButton,
-                weatherButton,
-                settingsButton
+            _buttons = new[] {
+                _themesButton,
+                _terrainButton,
+                _waterButton,
+                _atmosphereButton,
+                _structuresButton,
+                _weatherButton,
+                _settingsButton
             };
         }
     }
 
-    public class Button
+    public class ToolbarButton
     {
-        public delegate void ButtonClickedEventHandler(Button button);
+        public delegate void ButtonClickedEventHandler(ToolbarButton button);
         public event ButtonClickedEventHandler EventClicked;
 
-        public ThemeCategory category;
-        public UIButton button;
+        public ThemeCategory Category;
+        public UIButton Button;
 
-        private static Vector2 buttonSize = new Vector2(30.0f, 30.0f);
+        private static readonly Vector2 ButtonSize = new Vector2(30.0f, 30.0f);
 
-        public Button(ThemeCategory part, PanelBase parent) {
-            this.category = part;
-            string icon = string.Empty;
-            string locale = string.Empty;
+        public ToolbarButton(ThemeCategory part, UIComponent parent) {
+            Category = part;
+            string icon;
+            string locale;
             switch (part) {
                 case ThemeCategory.Themes:
                     icon = UISprites.ThemesIcon;
@@ -136,8 +136,8 @@ namespace ThemeMixer.UI
                     locale = TranslationID.TOOLTIP_SETTINGS;
                     break;
             }
-            button = UIUtils.CreateButton(parent, buttonSize, foregroundSprite: UISprites.IconBorder, backgroundSprite: icon, atlas: UISprites.Atlas, isFocusable: true, tooltip: Translation.Instance.GetTranslation(locale));
-            button.eventClicked += OnButtonClicked;
+            Button = UIUtils.CreateButton(parent, ButtonSize, foregroundSprite: UISprites.IconBorder, backgroundSprite: icon, atlas: UISprites.Atlas, isFocusable: true, tooltip: Translation.Instance.GetTranslation(locale));
+            Button.eventClicked += OnButtonClicked;
         }
 
         private void OnButtonClicked(UIComponent component, UIMouseEventParameter eventParam) {

@@ -8,29 +8,29 @@ namespace ThemeMixer.UI
         public event DragHandle.DragEndEventHandler EventDragEnd;
         public event ButtonBar.ButtonClickedEventHandler EventButtonClicked;
 
-        private DragHandle dragBar;
-        private ButtonBar buttonBar;
+        private DragHandle _dragBar;
+        private ButtonBar _buttonBar;
 
         public override void Awake() {
             base.Awake();
             Setup("Tool Bar", 40.0f, 0.0f, 0, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "GenericPanel");
             color = UIColor;
 
-            dragBar = AddUIComponent<DragHandle>();
-            dragBar.EventDragEnd += OnDragBarDragEnd;
+            _dragBar = AddUIComponent<DragHandle>();
+            _dragBar.EventDragEnd += OnDragBarDragEnd;
 
-            buttonBar = AddUIComponent<ButtonBar>();
-            buttonBar.EventButtonClicked += OnButtonClicked;
+            _buttonBar = AddUIComponent<ButtonBar>();
+            _buttonBar.EventButtonClicked += OnButtonClicked;
         }
 
         public override void OnDestroy() {
-            dragBar.EventDragEnd -= OnDragBarDragEnd;
-            buttonBar.EventButtonClicked -= OnButtonClicked;
+            _dragBar.EventDragEnd -= OnDragBarDragEnd;
+            _buttonBar.EventButtonClicked -= OnButtonClicked;
 
             base.OnDestroy();
         }
 
-        private void OnButtonClicked(Button button, Button[] buttons) {
+        private void OnButtonClicked(ToolbarButton button, ToolbarButton[] buttons) {
             EventButtonClicked?.Invoke(button, buttons);
         }
 

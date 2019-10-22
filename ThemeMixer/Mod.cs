@@ -1,9 +1,12 @@
-﻿using ICities;
+﻿using ColossalFramework.UI;
+using ICities;
+using JetBrains.Annotations;
 using ThemeMixer.Locale;
 using ThemeMixer.Resources;
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes;
 using ThemeMixer.TranslationFramework;
+using ThemeMixer.UI;
 
 namespace ThemeMixer
 {
@@ -15,17 +18,19 @@ namespace ThemeMixer
 
         public static bool InGame => (ToolManager.instance.m_properties.m_mode == ItemClass.Availability.Game);
 
+        [UsedImplicitly]
         public void OnEnabled() {
             EnsureManagers();
             ManagersOnEnabled();
         }
 
+        [UsedImplicitly]
         public void OnDisabled() {
             ReleaseManagers();
         }
 
         public void OnCreated(ILoading loading) {
-            var atlas = ThemeSprites.Atlas;
+            UITextureAtlas atlas = ThemeSprites.Atlas;
         }
 
         public void OnReleased() { }
@@ -38,32 +43,32 @@ namespace ThemeMixer
             ManagersOnLevelUnloaded();
         }
 
-        private void EnsureManagers() {
+        private static void EnsureManagers() {
             SerializationService.Ensure();
             ThemeManager.Ensure();
             UIController.Ensure();
         }
 
-        private void ManagersOnEnabled() {
+        private static void ManagersOnEnabled() {
             SerializationService.Instance.OnEnabled();
             ThemeManager.Instance.OnEnabled();
             UIController.Instance.OnEnabled();
 
         }
 
-        private void ReleaseManagers() {
+        private static void ReleaseManagers() {
             UIController.Release();
             ThemeManager.Release();
             SerializationService.Release();
         }
 
-        private void ManagersOnLevelLoaded(LoadMode mode) {
+        private static void ManagersOnLevelLoaded(LoadMode mode) {
             SerializationService.Instance.OnLevelLoaded();
             ThemeManager.Instance.OnLevelLoaded();
             UIController.Instance.OnLevelLoaded();
         }
 
-        private void ManagersOnLevelUnloaded() {
+        private static void ManagersOnLevelUnloaded() {
             ThemeManager.Instance.OnLevelUnloaded();
             UIController.Instance.OnLevelUnloaded();
             SerializationService.Instance.OnLevelUnloaded();

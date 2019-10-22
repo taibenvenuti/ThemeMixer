@@ -1,13 +1,14 @@
 ﻿using ThemeMixer.Themes.Enums;
+using ThemeMixer.UI.Abstraction;
 
-namespace ThemeMixer.UI.Parts
+namespace ThemeMixer.UI.Parts.SelectPanels
 {
     public class SelectTerrainPanel : SelectPanel
     {
         public override void Awake() {
             Category = ThemeCategory.Terrain;
             base.Awake();
-            buttonPanel.isVisible = true;
+            _buttonPanel.isVisible = true;
         }
 
         public override void Start() {

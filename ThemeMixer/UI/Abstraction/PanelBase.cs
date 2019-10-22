@@ -28,21 +28,20 @@ namespace ThemeMixer.UI.Abstraction
             base.OnDestroy();
         }
 
-        public virtual void Setup(string name, float width, float height, int spacing = UIUtils.DEFAULT_SPACING, bool autoLayout = false, LayoutDirection autoLayoutDirection = LayoutDirection.Horizontal, LayoutStart autoLayoutStart = LayoutStart.TopLeft, string backgroundSprite = "") {
-            this.name = name;
-            this.width = width;
-            this.height = height;
-            this.autoLayout = autoLayout;
-            this.autoLayoutDirection = autoLayoutDirection;
-            switch (autoLayoutDirection) {
+        public virtual void Setup(string panelName, float panelWidth, float panelHeight, int spacing = UIUtils.DefaultSpacing, bool panelAutoLayout = false, LayoutDirection layoutDirection = LayoutDirection.Horizontal, LayoutStart layoutStart = LayoutStart.TopLeft, string bgSprite = "") {
+            name = panelName;
+            width = panelWidth;
+            height = panelHeight;
+            autoLayout = panelAutoLayout;
+            autoLayoutDirection = layoutDirection;
+            switch (layoutDirection) {
                 case LayoutDirection.Horizontal: autoFitChildrenHorizontally = true; break;
                 case LayoutDirection.Vertical: autoFitChildrenVertically = true; break;
-                default: break;
             }
-            this.autoLayoutStart = autoLayoutStart;
+            autoLayoutStart = layoutStart;
             atlas = UISprites.DefaultAtlas;
-            this.backgroundSprite = backgroundSprite;
-            switch (autoLayoutStart) {
+            backgroundSprite = bgSprite;
+            switch (layoutStart) {
                 case LayoutStart.TopLeft:
                     padding = new RectOffset(spacing, 0, spacing, 0);
                     autoLayoutPadding = new RectOffset(0, spacing, 0, spacing);

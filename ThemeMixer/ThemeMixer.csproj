@@ -180,6 +180,7 @@
     <Compile Include="UI\UIController.cs" />
     <Compile Include="UI\Abstraction\PanelBase.cs" />
     <Compile Include="UI\UIExtensions.cs" />
+    <Compile Include="UI\UIRoot.cs" />
     <Compile Include="UI\UIToggle.cs" />
     <Compile Include="UI\UIUtils.cs" />
     <Compile Include="Locale\TranslationID.cs" />

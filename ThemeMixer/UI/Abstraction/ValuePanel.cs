@@ -1,25 +1,24 @@
-﻿using ColossalFramework.UI;
-using System;
+﻿using System;
+using ColossalFramework.UI;
 using ThemeMixer.Locale;
 using ThemeMixer.Resources;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.TranslationFramework;
-using ThemeMixer.UI.Abstraction;
 using UnityEngine;
 
-namespace ThemeMixer.UI.Parts
+namespace ThemeMixer.UI.Abstraction
 {
     public abstract class ValuePanel : PanelBase
     {
         public ValueID ValueID;
-        protected PanelBase containerTitle;
-        protected PanelBase containerSlider;
-        protected UILabel labelTitle;
-        protected UISlider slider;
-        protected UITextField textfield;
-        protected UIButton resetButton;
-        protected float defaultValue;
-        private bool ignoreEvents = false;
+        private PanelBase _containerTitle;
+        private PanelBase _containerSlider;
+        private UILabel _labelTitle;
+        private UISlider _slider;
+        private UITextField _textfield;
+        private UIButton _resetButton;
+        private float _defaultValue;
+        private bool _ignoreEvents;
 
         public override void Awake() {
             base.Awake();
@@ -33,19 +32,19 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void CreateUIElements() {
-            containerTitle = AddUIComponent<PanelBase>();
-            containerTitle.size = new Vector2(340.0f, 22.0f);
-            containerTitle.padding = new RectOffset(5, 0, 5, 0);
-            containerSlider = AddUIComponent<PanelBase>();
-            containerSlider.size = new Vector2(340.0f, 22.0f);
-            containerSlider.padding = new RectOffset(5, 0, 5, 0);
+            _containerTitle = AddUIComponent<PanelBase>();
+            _containerTitle.size = new Vector2(340.0f, 22.0f);
+            _containerTitle.padding = new RectOffset(5, 0, 5, 0);
+            _containerSlider = AddUIComponent<PanelBase>();
+            _containerSlider.size = new Vector2(340.0f, 22.0f);
+            _containerSlider.padding = new RectOffset(5, 0, 5, 0);
 
-            labelTitle = containerTitle.AddUIComponent<UILabel>();
+            _labelTitle = _containerTitle.AddUIComponent<UILabel>();
             string resetTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_RESET);
-            resetButton = UIUtils.CreateButton(containerTitle, new Vector2(22.0f, 22.0f), tooltip: resetTooltip, backgroundSprite: "", foregroundSprite: "UndoIcon", atlas: UISprites.Atlas);
+            _resetButton = UIUtils.CreateButton(_containerTitle, new Vector2(22.0f, 22.0f), tooltip: resetTooltip, backgroundSprite: "", foregroundSprite: "UndoIcon", atlas: UISprites.Atlas);
 
-            slider = UIUtils.CreateSlider(containerSlider, 240.0f, 0.0f, 1.0f, 1.0f);
-            textfield = containerSlider.AddUIComponent<UITextField>();
+            _slider = UIUtils.CreateSlider(_containerSlider, 240.0f, 0.0f, 1.0f, 1.0f);
+            _textfield = _containerSlider.AddUIComponent<UITextField>();
 
             this.CreateSpace(0.0f, 0.01f);
 
@@ -53,120 +52,115 @@ namespace ThemeMixer.UI.Parts
         }
 
         private void OnResetClicked(UIComponent component, UIMouseEventParameter eventParam) {
-            ignoreEvents = true;
-            slider.value = defaultValue;
-            textfield.text = defaultValue.ToString("0.####");
-            ignoreEvents = false;
-            SetValue(defaultValue);
-        }
-
-        private void OnLoadClicked(UIComponent component, UIMouseEventParameter eventParam) {
-            Controller.OnLoadFromTheme(Category, ValueID);
+            _ignoreEvents = true;
+            _slider.value = _defaultValue;
+            _textfield.text = _defaultValue.ToString("0.####");
+            _ignoreEvents = false;
+            SetValue(_defaultValue);
         }
 
         private void SetupLabels() {
             string title = Translation.Instance.GetTranslation(TranslationID.ValueToTranslationID(ValueID));
-            SetupLabel(labelTitle, title, new Vector2(0.0f, 0.0f), new Vector2(340.0f, 22.0f));
+            SetupLabel(_labelTitle, title, new Vector2(0.0f, 0.0f), new Vector2(340.0f, 22.0f));
         }
 
-        private void SetupLabel(UILabel label, string text, Vector2 position, Vector2 size) {
+        private static void SetupLabel(UILabel label, string text, Vector2 labelPosition, Vector2 labelSize) {
             label.autoSize = false;
             label.autoHeight = true;
-            label.size = size;
+            label.size = labelSize;
             label.font = UIUtils.Font;
             label.textScale = 1.0f;
             label.padding = new RectOffset(4, 0, 4, 0);
             label.text = text;
-            label.relativePosition = position;
+            label.relativePosition = labelPosition;
         }
 
         private void SetupButtons() {
-            resetButton.eventClicked += OnResetClicked;
-            resetButton.relativePosition = new Vector2(308.0f, 0.0f);
+            _resetButton.eventClicked += OnResetClicked;
+            _resetButton.relativePosition = new Vector2(308.0f, 0.0f);
         }
 
         private void SetupSlider() {
-            slider.eventValueChanged += OnSliderValueChanged;
-            slider.relativePosition = new Vector2(5.0f, 6.0f);
-            slider.tooltip = Translation.Instance.GetTranslation(TranslationID.GetValueTooltipID(ValueID));
+            _slider.eventValueChanged += OnSliderValueChanged;
+            _slider.relativePosition = new Vector2(5.0f, 6.0f);
+            _slider.tooltip = Translation.Instance.GetTranslation(TranslationID.GetValueTooltipID(ValueID));
             GetSliderMinMaxAndStep(out float min, out float max, out float step);
-            slider.minValue = min;
-            slider.maxValue = max;
-            slider.stepSize = step;
-            slider.scrollWheelAmount = step;
-            slider.value = defaultValue;
+            _slider.minValue = min;
+            _slider.maxValue = max;
+            _slider.stepSize = step;
+            _slider.scrollWheelAmount = step;
+            _slider.value = _defaultValue;
         }
 
         private void SetupTextfield() {
-            textfield.atlas = UISprites.DefaultAtlas;
-            textfield.size = new Vector2(70.0f, 21.0f);
-            textfield.padding = new RectOffset(2, 2, 4, 4);
-            textfield.builtinKeyNavigation = true;
-            textfield.isInteractive = true;
-            textfield.readOnly = false;
-            textfield.selectOnFocus = true;
-            textfield.horizontalAlignment = UIHorizontalAlignment.Center;
-            textfield.selectionSprite = "EmptySprite";
-            textfield.selectionBackgroundColor = new Color32(0, 172, 234, 255);
-            textfield.normalBgSprite = "TextFieldPanelHovered";
-            textfield.textColor = new Color32(0, 0, 0, 255);
-            textfield.textScale = 0.85f;
-            textfield.color = new Color32(255, 255, 255, 255);
-            textfield.text = defaultValue.ToString("0.####");
-            textfield.tooltip = Translation.Instance.GetTranslation(TranslationID.GetValueTooltipID(ValueID));
-            textfield.eventTextSubmitted += OnTextfieldTextSubmitted;
-            textfield.eventKeyPress += OnTextfieldKeyPress;
-            textfield.eventLostFocus += OnTextfieldLostFocus;
-            textfield.relativePosition = new Vector2(261.0f, 0.0f);
+            _textfield.atlas = UISprites.DefaultAtlas;
+            _textfield.size = new Vector2(70.0f, 21.0f);
+            _textfield.padding = new RectOffset(2, 2, 4, 4);
+            _textfield.builtinKeyNavigation = true;
+            _textfield.isInteractive = true;
+            _textfield.readOnly = false;
+            _textfield.selectOnFocus = true;
+            _textfield.horizontalAlignment = UIHorizontalAlignment.Center;
+            _textfield.selectionSprite = "EmptySprite";
+            _textfield.selectionBackgroundColor = new Color32(0, 172, 234, 255);
+            _textfield.normalBgSprite = "TextFieldPanelHovered";
+            _textfield.textColor = new Color32(0, 0, 0, 255);
+            _textfield.textScale = 0.85f;
+            _textfield.color = new Color32(255, 255, 255, 255);
+            _textfield.text = _defaultValue.ToString("0.####");
+            _textfield.tooltip = Translation.Instance.GetTranslation(TranslationID.GetValueTooltipID(ValueID));
+            _textfield.eventTextSubmitted += OnTextfieldTextSubmitted;
+            _textfield.eventKeyPress += OnTextfieldKeyPress;
+            _textfield.eventLostFocus += OnTextfieldLostFocus;
+            _textfield.relativePosition = new Vector2(261.0f, 0.0f);
         }
 
         private void OnTextfieldTextSubmitted(UIComponent component, string value) {
-            if (ignoreEvents) return;
-            UITextField textfield = component as UITextField;
-            if (float.TryParse(textfield.text.Replace(',', '.'), out float f)) {
-                textfield.text = f.ToString("0.####");
-                slider.value = f;
-            }
+            if (_ignoreEvents) return;
+            var textfield = component as UITextField;
+            if (!float.TryParse(textfield?.text.Replace(',', '.'), out float f)) return;
+            if (textfield != null) textfield.text = f.ToString("0.####");
+            _slider.value = f;
         }
 
         private void OnTextfieldLostFocus(UIComponent component, UIFocusEventParameter eventParam) {
-            if (ignoreEvents) return;
-            UITextField textfield = component as UITextField;
-            OnTextfieldTextSubmitted(component, textfield.text);
+            if (_ignoreEvents) return;
+            var textfield = component as UITextField;
+            OnTextfieldTextSubmitted(component, textfield?.text);
         }
 
         private void OnTextfieldKeyPress(UIComponent component, UIKeyEventParameter eventParam) {
-            if (ignoreEvents) return;
-            UITextField textfield = component as UITextField;
+            if (_ignoreEvents) return;
+            var textfield = component as UITextField;
             char ch = eventParam.character;
-            if (!char.IsControl(ch) && !char.IsDigit(ch) &&
-                (ch != '.' || (ch == '.' && textfield.text.Contains(".") || !CanHaveDecimals())) &&
-                (ch != ',' || (ch == ',' && textfield.text.Contains(",") || !CanHaveDecimals())) &&
-                (ch != '-' || (ch == '-' && textfield.text.Contains("-") || !CanBeNegative()))) {
+            if (textfield != null && (!char.IsControl(ch) && !char.IsDigit(ch) &&
+                  (ch != '.' || (ch == '.' && textfield.text.Contains(".") || !CanHaveDecimals())) &&
+                  (ch != ',' || (ch == ',' && textfield.text.Contains(",") || !CanHaveDecimals())) &&
+                  (ch != '-' || (ch == '-' && textfield.text.Contains("-") || !CanBeNegative())))) {
                 eventParam.Use();
             }
-            if (eventParam.keycode == KeyCode.Escape) {
-                textfield.Unfocus();
-                eventParam.Use();
-            }
+
+            if (eventParam.keycode != KeyCode.Escape) return;
+            textfield?.Unfocus();
+            eventParam.Use();
         }
 
         private void OnSliderValueChanged(UIComponent component, float value) {
-            if (ignoreEvents) return;
+            if (_ignoreEvents) return;
             string valueString = value.ToString("0.####");
-            textfield.text = valueString;
+            _textfield.text = valueString;
             SetValue(value);
         }
 
         protected override void OnRefreshUI(object sender, UIDirtyEventArgs eventArgs) {
             base.OnRefreshUI(sender, eventArgs);
             try {
-                labelTitle.text = Translation.Instance.GetTranslation(TranslationID.ValueToTranslationID(ValueID));
+                _labelTitle.text = Translation.Instance.GetTranslation(TranslationID.ValueToTranslationID(ValueID));
                 CacheDefaultValue();
-                ignoreEvents = true;
-                slider.value = (float)defaultValue;
-                textfield.text = ((float)defaultValue).ToString("0.####");
-                ignoreEvents = false;
+                _ignoreEvents = true;
+                _slider.value = _defaultValue;
+                _textfield.text = _defaultValue.ToString("0.####");
+                _ignoreEvents = false;
             } catch (Exception) {
                 Debug.LogError("Exception caught in TexturePanel.OnRefreshUI");
             }
@@ -191,14 +185,14 @@ namespace ThemeMixer.UI.Parts
                 case ValueID.MaxTemperatureRain:
                 case ValueID.MinTemperatureFog:
                 case ValueID.MaxTemperatureFog:
-                    defaultValue = Controller.GetValue<float>(ValueID);
+                    _defaultValue = Controller.GetValue<float>(ValueID);
                     break;
                 case ValueID.RainProbabilityDay:
                 case ValueID.RainProbabilityNight:
                 case ValueID.FogProbabilityDay:
                 case ValueID.FogProbabilityNight:
                 case ValueID.NorthernLightsProbability:
-                    defaultValue = Controller.GetValue<int>(ValueID);
+                    _defaultValue = Controller.GetValue<int>(ValueID);
                     break;
             }
         }

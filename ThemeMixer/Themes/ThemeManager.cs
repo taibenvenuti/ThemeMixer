@@ -43,7 +43,7 @@ namespace ThemeMixer.Themes
         private Dictionary<string, MapThemeMetaData> _themes;
         public Dictionary<string, MapThemeMetaData> Themes => _themes ?? CacheThemes();
 
-        private const string DataID = "_THEMEMIXER2_DATA_";
+        private const string DataID = "THEME-MIXER-2";
         public ThemeMix CurrentMix { get; set; }
 
         private string MixID { get; set; }

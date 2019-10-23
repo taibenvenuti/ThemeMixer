@@ -16,8 +16,8 @@ namespace ThemeMixer.UI
         private ToolbarButton _themesButton;
         private ToolbarButton _terrainButton;
         private ToolbarButton _waterButton;
-        private ToolbarButton _atmosphereButton;
         private ToolbarButton _structuresButton;
+        private ToolbarButton _atmosphereButton;
         private ToolbarButton _weatherButton;
         private ToolbarButton _settingsButton;
 
@@ -54,16 +54,16 @@ namespace ThemeMixer.UI
             _waterButton = new ToolbarButton(ThemeCategory.Water, this);
             _waterButton.EventClicked += OnButtonClicked;
 
-            _atmosphereButton = new ToolbarButton(ThemeCategory.Atmosphere, this);
-            _atmosphereButton.EventClicked += OnButtonClicked;
-
             _structuresButton = new ToolbarButton(ThemeCategory.Structures, this);
             _structuresButton.EventClicked += OnButtonClicked;
+
+            _atmosphereButton = new ToolbarButton(ThemeCategory.Atmosphere, this);
+            _atmosphereButton.EventClicked += OnButtonClicked;
 
             _weatherButton = new ToolbarButton(ThemeCategory.Weather, this);
             _weatherButton.EventClicked += OnButtonClicked;
 
-            UIPanel panel = AddUIComponent<UIPanel>();
+            var panel = AddUIComponent<UIPanel>();
             panel.size = new Vector2(30.0f, 2.0f);
             panel.atlas = UISprites.DefaultAtlas;
             panel.backgroundSprite = "WhiteRect";

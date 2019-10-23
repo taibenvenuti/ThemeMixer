@@ -1,4 +1,7 @@
-﻿using ColossalFramework.UI;
+﻿using System;
+using System.Reflection;
+using ColossalFramework.UI;
+using Harmony;
 using ICities;
 using JetBrains.Annotations;
 using ThemeMixer.Locale;
@@ -7,6 +10,7 @@ using ThemeMixer.Serialization;
 using ThemeMixer.Themes;
 using ThemeMixer.TranslationFramework;
 using ThemeMixer.UI;
+using UnityEngine;
 
 namespace ThemeMixer
 {
@@ -18,15 +22,19 @@ namespace ThemeMixer
 
         public static bool InGame => (ToolManager.instance.m_properties.m_mode == ItemClass.Availability.Game);
 
+        private static HarmonyInstance Harmony { get; set; }
+
         [UsedImplicitly]
         public void OnEnabled() {
             EnsureManagers();
             ManagersOnEnabled();
+            InstallHarmony();
         }
 
         [UsedImplicitly]
         public void OnDisabled() {
             ReleaseManagers();
+            UnInstallHarmony();
         }
 
         public void OnCreated(ILoading loading) {
@@ -34,9 +42,9 @@ namespace ThemeMixer
         }
 
         public void OnReleased() { }
-        
+
         public void OnLevelLoaded(LoadMode mode) {
-            ManagersOnLevelLoaded(mode);
+            ManagersOnLevelLoaded();
         }
 
         public void OnLevelUnloading() {
@@ -62,7 +70,7 @@ namespace ThemeMixer
             SerializationService.Release();
         }
 
-        private static void ManagersOnLevelLoaded(LoadMode mode) {
+        private static void ManagersOnLevelLoaded() {
             SerializationService.Instance.OnLevelLoaded();
             ThemeManager.Instance.OnLevelLoaded();
             UIController.Instance.OnLevelLoaded();
@@ -72,6 +80,22 @@ namespace ThemeMixer
             ThemeManager.Instance.OnLevelUnloaded();
             UIController.Instance.OnLevelUnloaded();
             SerializationService.Instance.OnLevelUnloaded();
+        }
+
+        private void InstallHarmony() {
+            Harmony = HarmonyInstance.Create("com.tpb.thememixer2");
+            Harmony.PatchAll(Assembly.GetExecutingAssembly());
+        }
+
+        private void UnInstallHarmony() {
+            if (Harmony != null) {
+                try {
+                    Harmony.UnpatchAll("com.tpb.thememixer2");
+                } catch (Exception e) {
+                    Debug.LogError(e);
+                    Harmony = null;
+                }
+            }
         }
     }
 }

@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Patching\LoadThemePatch.cs" />
+    <Compile Include="Patching\WorkshopPatch.cs" />
     <Compile Include="Resources\ThemeSprites.cs" />
     <Compile Include="Serialization\Data.cs" />
     <Compile Include="Serialization\SerializableDataExtension.cs" />

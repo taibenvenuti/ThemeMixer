@@ -45,6 +45,12 @@ namespace ThemeMixer.Themes.Abstraction
             Load();
         }
 
+        public ulong GetPublishedFileID() {
+            ulong.TryParse(ThemeID, out ulong publishedFileID);
+            return publishedFileID;
+        }
+
+        [XmlIgnore]
         protected ThemeManager ThemeManager => ThemeManager.Instance;
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using ColossalFramework.UI;
 using Harmony;
 using ICities;
 using JetBrains.Annotations;
 using ThemeMixer.Locale;
+using ThemeMixer.Patching;
 using ThemeMixer.Resources;
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes;
@@ -82,19 +84,18 @@ namespace ThemeMixer
             SerializationService.Instance.OnLevelUnloaded();
         }
 
-        private void InstallHarmony() {
+        private static void InstallHarmony() {
             Harmony = HarmonyInstance.Create("com.tpb.thememixer2");
             Harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
 
-        private void UnInstallHarmony() {
-            if (Harmony != null) {
-                try {
-                    Harmony.UnpatchAll("com.tpb.thememixer2");
-                } catch (Exception e) {
-                    Debug.LogError(e);
-                    Harmony = null;
-                }
+        private static void UnInstallHarmony() {
+            if (Harmony == null) return;
+            try {
+                Harmony.UnpatchAll("com.tpb.thememixer2");
+            } catch (Exception e) {
+                Debug.LogError(e);
+                Harmony = null;
             }
         }
     }

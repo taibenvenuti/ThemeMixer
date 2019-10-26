@@ -241,5 +241,10 @@ namespace ThemeMixer.UI
         internal Color GetColor(ColorID colorID, string themeID) {
             return ThemeManager.Instance.GetColor(colorID, themeID);
         }
+
+        public void CloseUI()
+        {
+            OnUIToggleClicked();
+        }
     }
 }

@@ -29,5 +29,15 @@ namespace ThemeMixer.Themes.Abstraction
             if (oldTexture != null) Object.Destroy(oldTexture);
             return true;
         }
+
+        public bool SetTexture(Texture2D texture) {
+            Texture = texture;
+            return Texture != null;
+        }
+
+        public bool SetTexture(Texture texture) {
+            Texture = (Texture2D) texture;
+            return Texture != null;
+        }
     }
 }

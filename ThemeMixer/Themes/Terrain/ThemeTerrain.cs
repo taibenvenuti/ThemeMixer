@@ -28,6 +28,36 @@ namespace ThemeMixer.Themes.Terrain
             Initialize();
         }
 
+        public void Set(string themeID) {
+            SetAll(themeID);
+        }
+
+        public bool Load(string themeID = null) {
+            if (themeID != null) {
+                Set(themeID);
+            }
+            return LoadAll();
+        }
+
+        public string[] GetPackageIDs() {
+            return new[]
+            {
+                GrassDiffuseTexture.ThemeID,
+                RuinedDiffuseTexture.ThemeID,
+                PavementDiffuseTexture.ThemeID,
+                GravelDiffuseTexture.ThemeID,
+                CliffDiffuseTexture.ThemeID,
+                OreDiffuseTexture.ThemeID,
+                OilDiffuseTexture.ThemeID,
+                SandDiffuseTexture.ThemeID,
+                CliffSandNormalTexture.ThemeID,
+                GrassPollutionColorOffset.ThemeID,
+                GrassFieldColorOffset.ThemeID,
+                GrassFertilityColorOffset.ThemeID,
+                GrassForestColorOffset.ThemeID
+            };
+        }
+
         private void Initialize() {
             GrassDiffuseTexture = new TerrainTexture(TerrainTexture.TextureName.GrassDiffuseTexture);
             RuinedDiffuseTexture = new TerrainTexture(TerrainTexture.TextureName.RuinedDiffuseTexture);
@@ -49,38 +79,27 @@ namespace ThemeMixer.Themes.Terrain
             RocksDetailEnabled = new TerrainDetail(TerrainDetail.Name.RocksDetailEnabled);
         }
 
-        public void Set(string themeID) {
-            SetAll(themeID);
-        }
-
-        public bool Load(string themeID = null) {
-            if (themeID != null) {
-                Set(themeID);
-            }
-            return LoadAll();
-        }
-
         private void SetAll(string themeID) {
-            for (int i = 0; i < (int)TerrainTexture.TextureName.Count; i++) {
+            for (var i = 0; i < (int)TerrainTexture.TextureName.Count; i++) {
                 SetTexture(themeID, (TerrainTexture.TextureName)i);
             }
-            for (int j = 0; j < (int)TerrainColorOffset.OffsetName.Count; j++) {
+            for (var j = 0; j < (int)TerrainColorOffset.OffsetName.Count; j++) {
                 SetColorOffset(themeID, (TerrainColorOffset.OffsetName)j);
             }
-            for (int k = 0; k < (int)TerrainDetail.Name.Count; k++) {
+            for (var k = 0; k < (int)TerrainDetail.Name.Count; k++) {
                 SetDetail(themeID, (TerrainDetail.Name)k);
             }
         }
 
         private bool LoadAll() {
-            bool success = true;
-            for (int i = 0; i < (int)TerrainTexture.TextureName.Count; i++) {
+            var success = true;
+            for (var i = 0; i < (int)TerrainTexture.TextureName.Count; i++) {
                 if (!LoadTexture((TerrainTexture.TextureName)i)) success = false;
             }
-            for (int j = 0; j < (int)TerrainColorOffset.OffsetName.Count; j++) {
+            for (var j = 0; j < (int)TerrainColorOffset.OffsetName.Count; j++) {
                 if (!LoadColorOffset((TerrainColorOffset.OffsetName)j)) success = false;
             }
-            for (int k = 0; k < (int)TerrainDetail.Name.Count; k++) {
+            for (var k = 0; k < (int)TerrainDetail.Name.Count; k++) {
                 if (!LoadDetail((TerrainDetail.Name)k)) success = false;
             }
             return success;

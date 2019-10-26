@@ -23,46 +23,66 @@ namespace ThemeMixer.Themes.Weather
             if (metaData == null) return false;
             switch (Name) {
                 case ValueName.MinTemperatureDay:
-                    SetValue(metaData.minTemperatureDay);
-                    break;
+                    return SetValue(metaData.minTemperatureDay);
                 case ValueName.MaxTemperatureDay:
-                    SetValue(metaData.maxTemperatureDay);
-                    break;
+                    return SetValue(metaData.maxTemperatureDay);
                 case ValueName.MinTemperatureNight:
-                    SetValue(metaData.minTemperatureNight);
-                    break;
+                    return SetValue(metaData.minTemperatureNight);
                 case ValueName.MaxTemperatureNight:
-                    SetValue(metaData.maxTemperatureNight);
-                    break;
+                    return SetValue(metaData.maxTemperatureNight);
                 case ValueName.MinTemperatureRain:
-                    SetValue(metaData.minTemperatureRain);
-                    break;
+                    return SetValue(metaData.minTemperatureRain);
                 case ValueName.MaxTemperatureRain:
-                    SetValue(metaData.maxTemperatureRain);
-                    break;
+                    return SetValue(metaData.maxTemperatureRain);
                 case ValueName.MinTemperatureFog:
-                    SetValue(metaData.minTemperatureFog);
-                    break;
+                    return SetValue(metaData.minTemperatureFog);
                 case ValueName.MaxTemperatureFog:
-                    SetValue(metaData.maxTemperatureFog);
-                    break;
+                    return SetValue(metaData.maxTemperatureFog);
                 case ValueName.RainProbabilityDay:
-                    SetValue(metaData.rainProbabilityDay);
-                    break;
+                    return SetValue(metaData.rainProbabilityDay);
                 case ValueName.RainProbabilityNight:
-                    SetValue(metaData.rainProbabilityNight);
-                    break;
+                    return SetValue(metaData.rainProbabilityNight);
                 case ValueName.FogProbabilityDay:
-                    SetValue(metaData.fogProbabilityDay);
-                    break;
+                    return SetValue(metaData.fogProbabilityDay);
                 case ValueName.FogProbabilityNight:
-                    SetValue(metaData.fogProbabilityNight);
-                    break;
+                    return SetValue(metaData.fogProbabilityNight);
                 case ValueName.NorthernLightsProbability:
-                    SetValue(metaData.northernLightsProbability);
-                    break;
+                    return SetValue(metaData.northernLightsProbability);
+                default: return false;
             }
-            return true;
+        }
+
+        protected override bool SetFromProperties() {
+            WeatherProperties properties = WeatherManager.instance.m_properties;
+            switch (Name) {
+                case ValueName.MinTemperatureDay:
+                    return SetValue(properties.m_minTemperatureDay);
+                case ValueName.MaxTemperatureDay:
+                    return SetValue(properties.m_maxTemperatureDay);
+                case ValueName.MinTemperatureNight:
+                    return SetValue(properties.m_minTemperatureNight);
+                case ValueName.MaxTemperatureNight:
+                    return SetValue(properties.m_maxTemperatureNight);
+                case ValueName.MinTemperatureRain:
+                    return SetValue(properties.m_minTemperatureRain);
+                case ValueName.MaxTemperatureRain:
+                    return SetValue(properties.m_maxTemperatureRain);
+                case ValueName.MinTemperatureFog:
+                    return SetValue(properties.m_minTemperatureFog);
+                case ValueName.MaxTemperatureFog:
+                    return SetValue(properties.m_maxTemperatureFog);
+                case ValueName.RainProbabilityDay:
+                    return SetValue(properties.m_rainProbabilityDay);
+                case ValueName.RainProbabilityNight:
+                    return SetValue(properties.m_rainProbabilityNight);
+                case ValueName.FogProbabilityDay:
+                    return SetValue(properties.m_fogProbabilityDay);
+                case ValueName.FogProbabilityNight:
+                    return SetValue(properties.m_fogProbabilityNight);
+                case ValueName.NorthernLightsProbability:
+                    return SetValue(properties.m_northernLightsProbability);
+                default: return false;
+            }
         }
 
         protected override void LoadValue() {

@@ -23,37 +23,54 @@ namespace ThemeMixer.Themes.Atmosphere
             if (metaData == null) return false;
             switch (Name) {
                 case FloatName.Longitude:
-                    SetValue(metaData.longitude);
-                    break;
+                    return SetValue(metaData.longitude);
                 case FloatName.Latitude:
-                    SetValue(metaData.latitude);
-                    break;
+                    return SetValue(metaData.latitude);
                 case FloatName.SunSize:
-                    SetValue(metaData.sunSize);
-                    break;
+                    return SetValue(metaData.sunSize);
                 case FloatName.SunAnisotropy:
-                    SetValue(metaData.sunAnisotropy);
-                    break;
+                    return SetValue(metaData.sunAnisotropy);
                 case FloatName.MoonSize:
-                    SetValue(metaData.moonSize);
-                    break;
+                    return SetValue(metaData.moonSize);
                 case FloatName.Rayleigh:
-                    SetValue(metaData.rayleight);
-                    break;
+                    return SetValue(metaData.rayleight);
                 case FloatName.Mie:
-                    SetValue(metaData.mie);
-                    break;
+                    return SetValue(metaData.mie);
                 case FloatName.Exposure:
-                    SetValue(metaData.exposure);
-                    break;
+                    return SetValue(metaData.exposure);
                 case FloatName.StarsIntensity:
-                    SetValue(metaData.starsIntensity);
-                    break;
+                    return SetValue(metaData.starsIntensity);
                 case FloatName.OuterSpaceIntensity:
-                    SetValue(metaData.outerSpaceIntensity);
-                    break;
+                    return SetValue(metaData.outerSpaceIntensity);
+                default: return false;
             }
-            return true;
+        }
+
+        protected override bool SetFromProperties() {
+            DayNightProperties properties = DayNightProperties.instance;
+            switch (Name) {
+                case FloatName.Longitude:
+                    return SetValue(properties.m_Longitude);
+                case FloatName.Latitude:
+                    return SetValue(properties.m_Latitude);
+                case FloatName.SunSize:
+                    return SetValue(properties.m_SunSize);
+                case FloatName.SunAnisotropy:
+                    return SetValue(properties.m_SunAnisotropyFactor);
+                case FloatName.MoonSize:
+                    return SetValue(properties.m_MoonSize);
+                case FloatName.Rayleigh:
+                    return SetValue(properties.m_RayleighScattering);
+                case FloatName.Mie:
+                    return SetValue(properties.m_MieScattering);
+                case FloatName.Exposure:
+                    return SetValue(properties.m_Exposure);
+                case FloatName.StarsIntensity:
+                    return SetValue(properties.m_StarsIntensity);
+                case FloatName.OuterSpaceIntensity:
+                    return SetValue(properties.m_OuterSpaceIntensity);
+                default: return false;
+            }
         }
 
         protected override void LoadValue() {

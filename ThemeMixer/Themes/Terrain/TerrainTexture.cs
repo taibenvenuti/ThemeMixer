@@ -31,43 +31,68 @@ namespace ThemeMixer.Themes.Terrain
             switch (Name) {
                 case TextureName.GrassDiffuseTexture:
                     success = SetTexture(metaData.grassDiffuseAsset);
-                    if (success) SetValue(metaData.grassTiling);
-                    break;
+                    return success && SetValue(metaData.grassTiling);
                 case TextureName.RuinedDiffuseTexture:
                     success = SetTexture(metaData.ruinedDiffuseAsset);
-                    if (success) SetValue(metaData.ruinedTiling);
-                    break;
+                    return success && SetValue(metaData.ruinedTiling);
                 case TextureName.PavementDiffuseTexture:
                     success = SetTexture(metaData.pavementDiffuseAsset);
-                    if (success) SetValue(metaData.pavementTiling);
-                    break;
+                    return success && SetValue(metaData.pavementTiling);
                 case TextureName.GravelDiffuseTexture:
                     success = SetTexture(metaData.gravelDiffuseAsset);
-                    if (success) SetValue(metaData.gravelTiling);
-                    break;
+                    return success && SetValue(metaData.gravelTiling);
                 case TextureName.CliffDiffuseTexture:
                     success = SetTexture(metaData.cliffDiffuseAsset);
-                    if (success) SetValue(metaData.cliffDiffuseTiling);
-                    break;
+                    return success && SetValue(metaData.cliffDiffuseTiling);
                 case TextureName.OilDiffuseTexture:
                     success = SetTexture(metaData.oilDiffuseAsset);
-                    if (success) SetValue(metaData.oilTiling);
-                    break;
+                    return success && SetValue(metaData.oilTiling);
                 case TextureName.OreDiffuseTexture:
                     success = SetTexture(metaData.oreDiffuseAsset);
-                    if (success) SetValue(metaData.oreTiling);
-                    break;
+                    return success && SetValue(metaData.oreTiling);
                 case TextureName.SandDiffuseTexture:
                     success = SetTexture(metaData.sandDiffuseAsset);
-                    if (success) SetValue(metaData.sandDiffuseTiling);
-                    break;
+                    return success && SetValue(metaData.sandDiffuseTiling);
                 case TextureName.CliffSandNormalTexture:
                     success = SetTexture(metaData.cliffSandNormalAsset);
-                    if (success) SetValue(metaData.cliffSandNormalTiling);
-                    break;
+                    return success && SetValue(metaData.cliffSandNormalTiling);
                 default: return false;
             }
-            return success;
+        }
+
+        protected override bool SetFromProperties() {
+            TerrainProperties properties = TerrainManager.instance.m_properties;
+            bool success;
+            switch (Name) {
+                case TextureName.GrassDiffuseTexture:
+                    success = SetTexture(properties.m_grassDiffuse);
+                    return success && SetValue(properties.m_grassTiling);
+                case TextureName.RuinedDiffuseTexture:
+                    success = SetTexture(properties.m_ruinedDiffuse);
+                    return success && SetValue(properties.m_ruinedTiling);
+                case TextureName.PavementDiffuseTexture:
+                    success = SetTexture(properties.m_pavementDiffuse);
+                    return success && SetValue(properties.m_pavementTiling);
+                case TextureName.GravelDiffuseTexture:
+                    success = SetTexture(properties.m_gravelDiffuse);
+                    return success && SetValue(properties.m_gravelTiling);
+                case TextureName.CliffDiffuseTexture:
+                    success = SetTexture(properties.m_cliffDiffuse);
+                    return success && SetValue(properties.m_cliffTiling);
+                case TextureName.OilDiffuseTexture:
+                    success = SetTexture(properties.m_oilDiffuse);
+                    return success && SetValue(properties.m_oilTiling);
+                case TextureName.OreDiffuseTexture:
+                    success = SetTexture(properties.m_oreDiffuse);
+                    return success && SetValue(properties.m_oreTiling);
+                case TextureName.SandDiffuseTexture:
+                    success = SetTexture(properties.m_sandDiffuse);
+                    return success && SetValue(properties.m_sandTiling);
+                case TextureName.CliffSandNormalTexture:
+                    success = SetTexture(properties.m_cliffSandNormal);
+                    return success && SetValue(properties.m_cliffSandNormalTiling);
+                default: return false;
+            }
         }
 
         protected override void LoadValue() {

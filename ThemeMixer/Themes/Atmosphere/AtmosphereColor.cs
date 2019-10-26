@@ -24,25 +24,38 @@ namespace ThemeMixer.Themes.Atmosphere
             if (metaData == null) return false;
             switch (Name) {
                 case ColorName.MoonInnerCorona:
-                    SetValue(metaData.moonInnerCorona);
-                    break;
+                    return SetValue(metaData.moonInnerCorona);
                 case ColorName.MoonOuterCorona:
-                    SetValue(metaData.moonOuterCorona);
-                    break;
+                    return SetValue(metaData.moonOuterCorona);
                 case ColorName.SkyTint:
-                    SetValue(metaData.skyTint);
-                    break;
+                    return SetValue(metaData.skyTint);
                 case ColorName.NightHorizonColor:
-                    SetValue(metaData.nightHorizonColor);
-                    break;
+                    return SetValue(metaData.nightHorizonColor);
                 case ColorName.EarlyNightZenithColor:
-                    SetValue(metaData.earlyNightZenithColor);
-                    break;
+                    return SetValue(metaData.earlyNightZenithColor);
                 case ColorName.LateNightZenithColor:
-                    SetValue(metaData.lateNightZenithColor);
-                    break;
+                    return SetValue(metaData.lateNightZenithColor);
+                default: return false;
             }
-            return true;
+        }
+
+        protected override bool SetFromProperties() {
+            DayNightProperties properties = DayNightProperties.instance;
+            switch (Name) {
+                case ColorName.MoonInnerCorona:
+                    return SetValue(properties.m_MoonInnerCorona);
+                case ColorName.MoonOuterCorona:
+                    return SetValue(properties.m_MoonOuterCorona);
+                case ColorName.SkyTint:
+                    return SetValue(properties.m_SkyTint);
+                case ColorName.NightHorizonColor:
+                    return SetValue(properties.nightHorizonColor);
+                case ColorName.EarlyNightZenithColor:
+                    return SetValue(properties.m_NightZenithColor.colorKeys[1].color);
+                case ColorName.LateNightZenithColor:
+                    return SetValue(properties.m_NightZenithColor.colorKeys[0].color);
+                default: return false;
+            }
         }
 
         protected override void LoadValue() {
@@ -67,7 +80,7 @@ namespace ThemeMixer.Themes.Atmosphere
                     c[1].color = c[2].color = (Color)(CustomValue ?? Value);
                     properties.m_NightZenithColor.SetKeys(c, a);
                 }
-                    break;
+                break;
                 case ColorName.LateNightZenithColor: {
                     GradientColorKey[] c = properties.m_NightZenithColor.colorKeys;
                     GradientAlphaKey[] a = properties.m_NightZenithColor.alphaKeys;
@@ -75,7 +88,7 @@ namespace ThemeMixer.Themes.Atmosphere
                     c[1].color = c[2].color = properties.m_NightZenithColor.colorKeys[1].color;
                     properties.m_NightZenithColor.SetKeys(c, a);
                 }
-                    break;
+                break;
             }
         }
 

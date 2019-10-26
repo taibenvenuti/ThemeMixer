@@ -51,6 +51,25 @@ namespace ThemeMixer.Themes.Weather
             return LoadAll();
         }
 
+        public string[] GetPackageIDs() {
+            return new[]
+            {
+                MinTemperatureDay.ThemeID,
+                MaxTemperatureDay.ThemeID,
+                MinTemperatureNight.ThemeID,
+                MaxTemperatureNight.ThemeID,
+                MinTemperatureRain.ThemeID,
+                MaxTemperatureRain.ThemeID,
+                MinTemperatureFog.ThemeID,
+                MaxTemperatureFog.ThemeID,
+                RainProbabilityDay.ThemeID,
+                RainProbabilityNight.ThemeID,
+                FogProbabilityDay.ThemeID,
+                FogProbabilityNight.ThemeID,
+                NorthernLightsProbability.ThemeID
+            };
+        }
+
         private void SetAll(string themeID) {
             for (int i = 0; i < (int)WeatherValue.ValueName.Count; i++) {
                 SetValue(themeID, (WeatherValue.ValueName)i);

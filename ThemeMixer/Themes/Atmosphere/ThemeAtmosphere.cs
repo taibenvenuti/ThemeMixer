@@ -27,6 +27,40 @@ namespace ThemeMixer.Themes.Atmosphere
             Initialize();
         }
 
+        public void Set(string themeID) {
+            SetAll(themeID);
+        }
+
+        public bool Load(string themeID = null) {
+            if (themeID != null) {
+                Set(themeID);
+            }
+            return LoadAll();
+        }
+
+        public string[] GetPackageIDs() {
+            return new[]
+            {
+                Longitude.ThemeID,
+                Latitude.ThemeID,
+                SunSize.ThemeID,
+                SunAnisotropy.ThemeID,
+                Rayleigh.ThemeID,
+                Mie.ThemeID,
+                Exposure.ThemeID,
+                SkyTint.ThemeID,
+                MoonTexture.ThemeID,
+                MoonSize.ThemeID,
+                MoonInnerCorona.ThemeID,
+                MoonOuterCorona.ThemeID,
+                NightHorizonColor.ThemeID,
+                EarlyNightZenithColor.ThemeID,
+                LateNightZenithColor.ThemeID,
+                StarsIntensity.ThemeID,
+                OuterSpaceIntensity.ThemeID
+            };
+        }
+
         private void Initialize() {
             Longitude = new AtmosphereFloat(AtmosphereFloat.FloatName.Longitude);
             Latitude = new AtmosphereFloat(AtmosphereFloat.FloatName.Latitude);
@@ -45,17 +79,6 @@ namespace ThemeMixer.Themes.Atmosphere
             NightHorizonColor = new AtmosphereColor(AtmosphereColor.ColorName.NightHorizonColor);
             EarlyNightZenithColor = new AtmosphereColor(AtmosphereColor.ColorName.EarlyNightZenithColor);
             LateNightZenithColor = new AtmosphereColor(AtmosphereColor.ColorName.LateNightZenithColor);
-        }
-
-        public void Set(string themeID) {
-            SetAll(themeID);
-        }
-
-        public bool Load(string themeID = null) {
-            if (themeID != null) {
-                Set(themeID);
-            }
-            return LoadAll();
         }
 
         private void SetAll(string themeID) {

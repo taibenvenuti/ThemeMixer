@@ -1,4 +1,5 @@
-﻿using ThemeMixer.Themes.Abstraction;
+﻿using JetBrains.Annotations;
+using ThemeMixer.Themes.Abstraction;
 using UnityEngine;
 
 namespace ThemeMixer.Themes.Terrain
@@ -7,6 +8,7 @@ namespace ThemeMixer.Themes.Terrain
     {
         public OffsetName Name;
 
+        [UsedImplicitly]
         public TerrainColorOffset() { }
 
         public TerrainColorOffset(OffsetName offsetName) {
@@ -22,20 +24,30 @@ namespace ThemeMixer.Themes.Terrain
             if (metaData == null) return false;
             switch (Name) {
                 case OffsetName.GrassFertilityColorOffset:
-                    SetValue(metaData.grassFertilityColorOffset);
-                    break;
+                    return SetValue(metaData.grassFertilityColorOffset);
                 case OffsetName.GrassFieldColorOffset:
-                    SetValue(metaData.grassFieldColorOffset);
-                    break;
+                    return SetValue(metaData.grassFieldColorOffset);
                 case OffsetName.GrassForestColorOffset:
-                    SetValue(metaData.grassForestColorOffset);
-                    break;
+                    return SetValue(metaData.grassForestColorOffset);
                 case OffsetName.GrassPollutionColorOffset:
-                    SetValue(metaData.grassPollutionColorOffset);
-                    break;
+                    return SetValue(metaData.grassPollutionColorOffset);
                 default: return false;
             }
-            return true;
+        }
+
+        protected override bool SetFromProperties() {
+            TerrainProperties properties = TerrainManager.instance.m_properties;
+            switch (Name) {
+                case OffsetName.GrassFertilityColorOffset:
+                    return SetValue(properties.m_grassFertilityColorOffset);
+                case OffsetName.GrassFieldColorOffset:
+                    return SetValue(properties.m_grassFieldColorOffset);
+                case OffsetName.GrassForestColorOffset:
+                    return SetValue(properties.m_grassForestColorOffset);
+                case OffsetName.GrassPollutionColorOffset:
+                    return SetValue(properties.m_grassPollutionColorOffset);
+                default: return false;
+            }
         }
 
         protected override void LoadValue() {

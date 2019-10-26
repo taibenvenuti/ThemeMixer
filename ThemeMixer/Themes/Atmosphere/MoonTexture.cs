@@ -7,7 +7,7 @@ namespace ThemeMixer.Themes.Atmosphere
     {
         public MoonTexture() { }
 
-        public MoonTexture(string themeID) : base (themeID){
+        public MoonTexture(string themeID) : base(themeID) {
             ThemeID = themeID;
             Load(themeID);
         }
@@ -29,6 +29,11 @@ namespace ThemeMixer.Themes.Atmosphere
             MapThemeMetaData metaData = ThemeManager.GetTheme(ThemeID);
             if (metaData == null) return false;
             return SetTexture(metaData.moonTexture);
+        }
+
+        protected override bool SetFromProperties() {
+            DayNightProperties properties = DayNightProperties.instance;
+            return SetTexture(properties.m_MoonTexture);
         }
 
         protected override void LoadValue() {

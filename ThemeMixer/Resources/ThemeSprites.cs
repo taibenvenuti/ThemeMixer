@@ -14,6 +14,7 @@ namespace ThemeMixer.Resources
                 if (_atlas == null) _atlas = CreateAtlas();
                 return _atlas;
             }
+            private set => _atlas = value;
         }
 
         private static List<string> SpriteNames { get; } = new List<string>();
@@ -94,6 +95,13 @@ namespace ThemeMixer.Resources
                 }
             }
             return ResourceUtils.CreateAtlas("ThemesAtlas", SpriteNames.ToArray(), SpriteTextures.ToArray());
+        }
+
+        public static void RefreshAtlas()
+        {
+            Object.Destroy(_atlas);
+            _atlas = null;
+            Atlas = CreateAtlas();
         }
     }
 }

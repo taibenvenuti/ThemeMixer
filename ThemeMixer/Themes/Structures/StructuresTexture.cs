@@ -43,6 +43,30 @@ namespace ThemeMixer.Themes.Structures
             }
         }
 
+        protected override bool SetFromProperties() {
+            BuildingProperties buildingProperties = BuildingManager.instance.m_properties;
+            NetProperties netProperties = NetManager.instance.m_properties;
+            switch (Name) {
+                case TextureName.UpwardRoadDiffuse:
+                    return SetTexture(netProperties.m_upwardDiffuse);
+                case TextureName.DownwardRoadDiffuse:
+                    return SetTexture(netProperties.m_downwardDiffuse);
+                case TextureName.BuildingFloorDiffuse:
+                    return SetTexture(buildingProperties.m_floorDiffuse);
+                case TextureName.BuildingBaseDiffuse:
+                    return SetTexture(buildingProperties.m_baseDiffuse);
+                case TextureName.BuildingBaseNormal:
+                    return SetTexture(buildingProperties.m_baseNormal);
+                case TextureName.BuildingBurntDiffuse:
+                    return SetTexture(buildingProperties.m_burnedDiffuse);
+                case TextureName.BuildingAbandonedDiffuse:
+                    return SetTexture(buildingProperties.m_abandonedDiffuse);
+                case TextureName.LightColorPalette:
+                    return SetTexture(buildingProperties.m_lightColorPalette);
+                default: return false;
+            }
+        }
+
         protected override void LoadValue() {
             BuildingProperties buildingProperties = BuildingManager.instance.m_properties;
             NetProperties netProperties = NetManager.instance.m_properties;

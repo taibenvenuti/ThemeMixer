@@ -16,15 +16,6 @@ namespace ThemeMixer.Themes.Water
             Initialize();
         }
 
-        private void Initialize() {
-            WaterFoam = new WaterTexture(WaterTexture.TextureName.WaterFoam);
-            WaterNormal = new WaterTexture(WaterTexture.TextureName.WaterNormal);
-
-            WaterClean = new WaterColor(WaterColor.ColorName.WaterClean);
-            WaterDirty = new WaterColor(WaterColor.ColorName.WaterDirty);
-            WaterUnder = new WaterColor(WaterColor.ColorName.WaterUnder);
-        }
-
         public void Set(string themeID) {
             SetAll(themeID);
         }
@@ -34,6 +25,26 @@ namespace ThemeMixer.Themes.Water
                 Set(themeID);
             }
             return LoadAll();
+        }
+
+        public string[] GetPackageIDs() {
+            return new[]
+            {
+                WaterFoam.ThemeID,
+                WaterNormal.ThemeID,
+                WaterClean.ThemeID,
+                WaterDirty.ThemeID,
+                WaterUnder.ThemeID
+            };
+        }
+
+        private void Initialize() {
+            WaterFoam = new WaterTexture(WaterTexture.TextureName.WaterFoam);
+            WaterNormal = new WaterTexture(WaterTexture.TextureName.WaterNormal);
+
+            WaterClean = new WaterColor(WaterColor.ColorName.WaterClean);
+            WaterDirty = new WaterColor(WaterColor.ColorName.WaterDirty);
+            WaterUnder = new WaterColor(WaterColor.ColorName.WaterUnder);
         }
 
         private void SetAll(string themeID) {

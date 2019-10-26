@@ -1,4 +1,5 @@
-﻿using ColossalFramework.UI;
+﻿using ColossalFramework.Plugins;
+using ColossalFramework.UI;
 using ThemeMixer.Locale;
 using ThemeMixer.Resources;
 using ThemeMixer.Themes;
@@ -18,6 +19,7 @@ namespace ThemeMixer.UI.CategoryPanels
         private UIDropDown _selectMixDropDown;
         private CheckboxPanel _useAsDefaultCheckbox;
         private ButtonPanel _loadButtonPanel;
+        private ButtonPanel _subscribeButtonPanel;
 
         private PanelBase _saveMixPanel;
         private PanelBase _textFieldPanel;
@@ -33,6 +35,16 @@ namespace ThemeMixer.UI.CategoryPanels
             CreateTitleLabel();
             CreatePanels();
             this.CreateSpace(0.0f, 0.1f);
+            PluginManager.instance.eventPluginsChanged += OnPluginsChanged;
+        }
+
+        public override void OnDestroy() {
+            base.OnDestroy();
+            PluginManager.instance.eventPluginsChanged -= OnPluginsChanged;
+        }
+
+        private void OnPluginsChanged() {
+            RefreshDropdown();
         }
 
         private void CreateTitleLabel() {
@@ -66,6 +78,9 @@ namespace ThemeMixer.UI.CategoryPanels
             _selectMixPanel.CreateSpace(0.0f, 0.01f);
             CreateLoadButton();
             _selectMixPanel.CreateSpace(0.0f, 5.0f);
+            CreateSubscribeButton();
+            _selectMixPanel.CreateSpace(0.0f, 5.0f);
+            RefreshDropdown();
         }
 
         private static void CreateLabel(UIComponent parent, string text) {
@@ -108,7 +123,13 @@ namespace ThemeMixer.UI.CategoryPanels
             _selectMixDropDown.triggerButton = _selectMixDropDown;
             _selectMixDropDown.eventDropdownOpen += OnDropDownOpen;
             _selectMixDropDown.eventDropdownClose += OnDropDownClose;
-            RefreshDropdown();
+            _selectMixDropDown.eventSelectedIndexChanged += OnSelectedIndexChanged;
+        }
+
+        private void OnSelectedIndexChanged(UIComponent component, int value) {
+            ThemeMix mix = Data.GetMixByIndex(_selectMixDropDown.selectedIndex);
+            if (mix == null) return;
+            _subscribeButtonPanel.isVisible = mix.ThemesMissing();
         }
 
         private void OnDropDownOpen(UIDropDown dropdown, UIListBox popup, ref bool overridden) {
@@ -148,6 +169,7 @@ namespace ThemeMixer.UI.CategoryPanels
             if (!value && Data.IsDefaultMix(_selectMixDropDown.items[_selectMixDropDown.selectedIndex]))
                 Data.SetDefaultMix(string.Empty);
         }
+
         private void CreateLoadButton() {
             _loadButtonPanel = _selectMixPanel.AddUIComponent<ButtonPanel>();
             _loadButtonPanel.Setup("Load Button", 340.0f, 30.0f);
@@ -156,10 +178,27 @@ namespace ThemeMixer.UI.CategoryPanels
             _loadButtonPanel.AlignRight();
             _loadButtonPanel.EventButtonClicked += OnLoadClicked;
         }
+        private void CreateSubscribeButton() {
+            _subscribeButtonPanel = _selectMixPanel.AddUIComponent<ButtonPanel>();
+            _subscribeButtonPanel.Setup("Download Button", 340.0f, 30.0f);
+            _subscribeButtonPanel.SetAnchor(UIAnchorStyle.Left | UIAnchorStyle.CenterVertical);
+            _subscribeButtonPanel.SetText(Translation.Instance.GetTranslation(TranslationID.BUTTON_SUBSCRIBE), Translation.Instance.GetTranslation(TranslationID.TOOLTIP_BUTTON_DOWNLOAD));
+            _subscribeButtonPanel.AlignRight();
+            _subscribeButtonPanel.EventButtonClicked += OnSubscribeClicked;
+            _subscribeButtonPanel.isVisible = false;
+        }
+
+        private void OnSubscribeClicked() {
+            ThemeMix mix = Data.GetMixByIndex(_selectMixDropDown.selectedIndex);
+            if (mix == null) return;
+            mix.SubscribeMissingThemes();
+            Controller.CloseUI();
+        }
 
         private void OnLoadClicked() {
             ThemeMix mix = Data.GetMixByIndex(_selectMixDropDown.selectedIndex);
-            if (mix != null) Controller.LoadMix(mix);
+            if (mix == null) return;
+            Controller.LoadMix(mix);
         }
 
         private void CreateSaveMixPanel() {
@@ -247,7 +286,6 @@ namespace ThemeMixer.UI.CategoryPanels
             Controller.SaveMix(_saveName);
             _saveButtonPanel.SetText(Translation.Instance.GetTranslation(TranslationID.BUTTON_SAVED));
             _saveButtonPanel.DisableButton();
-            RefreshDropdown();
         }
     }
 }

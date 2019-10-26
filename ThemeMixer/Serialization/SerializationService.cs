@@ -257,6 +257,7 @@ namespace ThemeMixer.Serialization
 
         public ThemeMix LoadMix(PluginManager.PluginInfo plugin) {
             string filePath = Path.Combine(plugin.modPath, "ThemeMix.xml");
+            if (!File.Exists(filePath)) return null;
             var serializer = new XmlSerializer(typeof(ThemeMix));
             try {
                 using (var reader = new StreamReader(filePath)) {
@@ -264,9 +265,10 @@ namespace ThemeMixer.Serialization
                     data?.OnPostDeserialize();
                     return data;
                 }
-            } catch (Exception) {
-                return null;
+            } catch (Exception e) {
+                Debug.LogError(string.Concat("Failed Loading Theme Mix: ", e.Message));
             }
+            return null;
         }
 
         public void SaveData() {

@@ -24,16 +24,26 @@ namespace ThemeMixer.Themes.Water
             if (metaData == null) return false;
             switch (Name) {
                 case ColorName.WaterClean:
-                    SetValue(metaData.waterClean);
-                    break;
+                    return SetValue(metaData.waterClean);
                 case ColorName.WaterDirty:
-                    SetValue(metaData.waterDirty);
-                    break;
+                    return SetValue(metaData.waterDirty);
                 case ColorName.WaterUnder:
-                    SetValue(metaData.waterUnder);
-                    break;
+                    return SetValue(metaData.waterUnder);
+                default: return false;
             }
-            return true;
+        }
+
+        protected override bool SetFromProperties() {
+            TerrainProperties properties = TerrainManager.instance.m_properties;
+            switch (Name) {
+                case ColorName.WaterClean:
+                    return SetValue(properties.m_waterColorClean);
+                case ColorName.WaterDirty:
+                    return SetValue(properties.m_waterColorDirty);
+                case ColorName.WaterUnder:
+                    return SetValue(properties.m_waterColorUnder);
+                default: return false;
+            }
         }
 
         protected override void LoadValue() {

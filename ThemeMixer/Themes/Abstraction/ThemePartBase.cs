@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml.Serialization;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace ThemeMixer.Themes.Abstraction
@@ -8,8 +9,10 @@ namespace ThemeMixer.Themes.Abstraction
     public abstract class ThemePartBase : IMixable
     {
         public string ThemeID;
+
         [XmlIgnore]
         public object Value;
+
         [XmlElement("Bool", typeof(bool))]
         [XmlElement("Float", typeof(float))]
         [XmlElement("Int", typeof(int))]
@@ -17,6 +20,7 @@ namespace ThemeMixer.Themes.Abstraction
         [XmlElement("Color", typeof(Color))]
         public object CustomValue;
 
+        [UsedImplicitly]
         protected ThemePartBase() { }
 
         protected ThemePartBase(string themeID) {
@@ -25,11 +29,13 @@ namespace ThemeMixer.Themes.Abstraction
 
         protected abstract bool SetFromTheme();
 
+        protected abstract bool SetFromProperties();
+
         protected abstract void LoadValue();
 
         public virtual bool Load(string themeID = null) {
             if (themeID != null) ThemeID = themeID;
-            if (!SetFromTheme() && Value == null && CustomValue == null) return false;
+            if (!SetFromTheme() && Value == null && CustomValue == null && !SetFromProperties()) return false;
             LoadValue();
             return true;
         }
@@ -45,12 +51,6 @@ namespace ThemeMixer.Themes.Abstraction
             Load();
         }
 
-        public ulong GetPublishedFileID() {
-            ulong.TryParse(ThemeID, out ulong publishedFileID);
-            return publishedFileID;
-        }
-
-        [XmlIgnore]
-        protected ThemeManager ThemeManager => ThemeManager.Instance;
+        [XmlIgnore] protected ThemeManager ThemeManager => ThemeManager.Instance;
     }
 }

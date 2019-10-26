@@ -32,6 +32,17 @@ namespace ThemeMixer.Themes.Water
             }
         }
 
+        protected override bool SetFromProperties() {
+            TerrainProperties properties = TerrainManager.instance.m_properties;
+            switch (Name) {
+                case TextureName.WaterFoam:
+                    return SetTexture(properties.m_waterFoam);
+                case TextureName.WaterNormal:
+                    return SetTexture(properties.m_waterNormal);
+                default: return false;
+            }
+        }
+
         protected override void LoadValue() {
             TerrainProperties properties = TerrainManager.instance.m_properties;
             Texture oldTexture = null;

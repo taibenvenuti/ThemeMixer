@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System.Diagnostics;
+using JetBrains.Annotations;
 using ThemeMixer.Themes.Abstraction;
 
 namespace ThemeMixer.Themes.Terrain
@@ -23,16 +24,26 @@ namespace ThemeMixer.Themes.Terrain
             if (metaData == null) return false;
             switch (DetailName) {
                 case Name.GrassDetailEnabled:
-                    SetValue(metaData.grassDetailEnabled);
-                    break;
+                    return SetValue(metaData.grassDetailEnabled);
                 case Name.FertileDetailEnabled:
-                    SetValue(metaData.fertileDetailEnabled);
-                    break;
+                    return SetValue(metaData.fertileDetailEnabled);
                 case Name.RocksDetailEnabled:
-                    SetValue(metaData.rocksDetailEnabled);
-                    break;
+                    return SetValue(metaData.rocksDetailEnabled);
+                default: return false;
             }
-            return true;
+        }
+
+        protected override bool SetFromProperties() {
+            TerrainProperties properties = TerrainManager.instance.m_properties;
+            switch (DetailName) {
+                case Name.GrassDetailEnabled:
+                    return SetValue(properties.m_useGrassDecorations);
+                case Name.FertileDetailEnabled:
+                    return SetValue(properties.m_useFertileDecorations);
+                case Name.RocksDetailEnabled:
+                    return SetValue(properties.m_useCliffDecorations);
+                default: return false;
+            }
         }
 
         protected override void LoadValue() {

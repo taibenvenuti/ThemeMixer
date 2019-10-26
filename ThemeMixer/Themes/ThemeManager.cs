@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using ThemeMixer.Resources;
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.UI;
@@ -76,7 +77,7 @@ namespace ThemeMixer.Themes
 
             if (MixID == null) return;
             ThemeMix mix = SerializationService.Instance.GetMix(MixID);
-            if (mix != null && mix.Load()) CurrentMix = mix;
+            if (mix != null && !mix.ThemesMissing() && mix.Load()) CurrentMix = mix;
         }
 
         private void RefreshThemes() {
@@ -99,7 +100,7 @@ namespace ThemeMixer.Themes
                 case ColorID.LateNightZenithColor: return (Color)(CurrentMix.Atmosphere.LateNightZenithColor.CustomValue ?? CurrentMix.Atmosphere.LateNightZenithColor.Value);
                 case ColorID.WaterClean: return (Color)(CurrentMix.Water.WaterClean.CustomValue ?? CurrentMix.Water.WaterClean.Value);
                 case ColorID.WaterDirty: return (Color)(CurrentMix.Water.WaterDirty.CustomValue ?? CurrentMix.Water.WaterDirty.Value);
-                case ColorID.WaterUnder: return (Color  )(CurrentMix.Water.WaterUnder.CustomValue ?? CurrentMix.Water.WaterUnder.Value);
+                case ColorID.WaterUnder: return (Color)(CurrentMix.Water.WaterUnder.CustomValue ?? CurrentMix.Water.WaterUnder.Value);
                 default: return default;
             }
         }
@@ -161,6 +162,7 @@ namespace ThemeMixer.Themes
 
         private void OnPackagesChanged() {
             RefreshThemes();
+            ThemeSprites.RefreshAtlas();
         }
 
         internal void OnLevelUnloaded() {

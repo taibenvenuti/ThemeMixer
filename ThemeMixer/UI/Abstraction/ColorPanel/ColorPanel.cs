@@ -44,6 +44,7 @@ namespace ThemeMixer.UI.Abstraction.ColorPanel
 
         public override void Awake() {
             base.Awake();
+            _ignoreEvents = true;
             Setup("Color Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect");
             CreateUIElements();
             _defaultValue = Controller.GetCurrentColor(ColorID);
@@ -54,6 +55,7 @@ namespace ThemeMixer.UI.Abstraction.ColorPanel
             RefreshColors();
             OnCloseClicked();
             color = UIColorGrey;
+            _ignoreEvents = false;
         }
 
         private void CreateUIElements() {
@@ -264,6 +266,7 @@ namespace ThemeMixer.UI.Abstraction.ColorPanel
         }
 
         private void OnSavedSwatchClicked(Color32 swatchColor) {
+            if (_ignoreEvents) return;
             UpdateColor(swatchColor);
         }
 

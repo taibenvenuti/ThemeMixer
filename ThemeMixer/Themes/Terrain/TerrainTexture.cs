@@ -146,6 +146,7 @@ namespace ThemeMixer.Themes.Terrain
                     break;
             }
             if (oldTexture != null && !ReferenceEquals(oldTexture, Texture)) Object.Destroy(oldTexture);
+            ThemeManager.MaybeUpdateThemeDecal(this);
         }
 
         public void LoadTiling() {

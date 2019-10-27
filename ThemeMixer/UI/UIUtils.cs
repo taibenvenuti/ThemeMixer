@@ -89,6 +89,7 @@ namespace ThemeMixer.UI
         }
 
         public static string GetTextureSpriteName(TextureID textureID, string themeID = "") {
+            if (themeID == null) return string.Empty;
             if (themeID == string.Empty) {
                 ThemeMix mix = ThemeManager.Instance.CurrentMix;
                 switch (textureID) {

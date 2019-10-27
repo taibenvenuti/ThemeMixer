@@ -68,7 +68,7 @@ namespace ThemeMixer.UI.FastList
         }
 
         public void Select(bool isRowOdd) {
-            color = SelectedColor;
+            if (IsSelected()) color = SelectedColor;
         }
 
         public void Deselect(bool isRowOdd) {

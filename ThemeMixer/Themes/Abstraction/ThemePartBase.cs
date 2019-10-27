@@ -28,7 +28,7 @@ namespace ThemeMixer.Themes.Abstraction
         }
 
         public bool IsSelected(string themeID) {
-            return ThemeID == themeID;
+            return !string.IsNullOrEmpty(ThemeID) && ThemeID == themeID && (CustomValue == null || CustomValue.Equals(Value));
         }
 
         public virtual bool Load(string themeID = null) {

@@ -7,6 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using ThemeMixer.Resources;
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes.Enums;
+using ThemeMixer.Themes.Terrain;
 using ThemeMixer.UI;
 using UnityEngine;
 
@@ -523,6 +524,40 @@ namespace ThemeMixer.Themes
                 case ValueID.FogProbabilityNight: return CurrentMix.Weather.FogProbabilityNight.IsSelected(themeID);
                 case ValueID.NorthernLightsProbability: return CurrentMix.Weather.NorthernLightsProbability.IsSelected(themeID);
                 default: return false;
+            }
+        }
+
+        public void MaybeUpdateThemeDecal(TerrainTexture terrainTexture) {
+            if (!Mod.ThemeDecalsEnabled) return;
+            if (terrainTexture == null || terrainTexture.Texture == null) return;
+            string meshName = string.Empty;
+            switch (terrainTexture.Name) {
+                case TerrainTexture.TextureName.CliffDiffuseTexture: meshName = "themedecal-cliff";
+                    break;
+                case TerrainTexture.TextureName.GrassDiffuseTexture: meshName = "themedecal-grass";
+                    break;
+                case TerrainTexture.TextureName.GravelDiffuseTexture: meshName = "themedecal-gravel";
+                    break;
+                case TerrainTexture.TextureName.OreDiffuseTexture: meshName = "themedecal-ore";
+                    break;
+                case TerrainTexture.TextureName.OilDiffuseTexture: meshName = "themedecal-oil";
+                    break;
+                case TerrainTexture.TextureName.PavementDiffuseTexture: meshName = "themedecal-pavement";
+                    break;
+                case TerrainTexture.TextureName.RuinedDiffuseTexture: meshName = "themedecal-ruined";
+                    break;
+                case TerrainTexture.TextureName.SandDiffuseTexture: meshName = "themedecal-sand";
+                    break;
+            }
+            for (uint i = 0; i < PrefabCollection<PropInfo>.LoadedCount(); i++) {
+                PropInfo prefab = PrefabCollection<PropInfo>.GetLoaded(i);
+                if (prefab == null) continue;
+                if (prefab.m_mesh == null) continue;
+                if (prefab.m_mesh.name != meshName) continue;
+                prefab.m_material.SetTexture("_MainTex", terrainTexture.Texture);
+                prefab.m_lodMaterialCombined.SetTexture("_MainTex", terrainTexture.Texture); 
+                prefab.m_lodMaterial = prefab.m_material;
+                prefab.m_lodRenderDistance = 18000;
             }
         }
     }

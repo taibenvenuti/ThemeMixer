@@ -15,7 +15,7 @@
     <Translation ID="TOOLTIP_ATMOSPHERE" String="Atmosphere" />
     <Translation ID="TOOLTIP_STRUCTURES" String="Structures" />
     <Translation ID="TOOLTIP_WEATHER" String="Weather" />
-    <Translation ID="TOOLTIP_SETTINGS" String="Settings" />
+    <Translation ID="TOOLTIP_SETTINGS" String="Mixes" />
     <Translation ID="TOOLTIP_TILING" String="Texture Tiling" />
     <Translation ID="TOOLTIP_OFFSET" String="Color Offset" />
     <Translation ID="TOOLTIP_ADDFAVOURITE_ADDBLACKLIST" String="Left-click to add to favorites, right-click to add to blacklist" />

@@ -22,6 +22,7 @@ namespace ThemeMixer.UI.Abstraction
 
         public override void Awake() {
             base.Awake();
+            _ignoreEvents = true;
             Setup("Value Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect");
             CreateUIElements();
             CacheDefaultValue();
@@ -29,6 +30,7 @@ namespace ThemeMixer.UI.Abstraction
             SetupButtons();
             SetupSlider();
             SetupTextfield();
+            _ignoreEvents = false;
         }
 
         private void CreateUIElements() {

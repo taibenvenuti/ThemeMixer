@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using ColossalFramework.Plugins;
 using ColossalFramework.UI;
 using Harmony;
 using ICities;
@@ -21,6 +22,8 @@ namespace ThemeMixer
         public string Description => Translation.Instance.GetTranslation(TranslationID.MOD_DESCRIPTION);
 
         public static bool InGame => (ToolManager.instance.m_properties.m_mode == ItemClass.Availability.Game);
+
+        public static bool ThemeDecalsEnabled => IsModEnabled(895061550UL, "Theme Decals");
 
         private static HarmonyInstance Harmony { get; set; }
 
@@ -95,6 +98,16 @@ namespace ThemeMixer
                 Debug.LogError(e);
                 Harmony = null;
             }
+        }
+
+        private static bool IsModEnabled(ulong publishedFileID, string modName) {
+            foreach (var plugin in PluginManager.instance.GetPluginsInfo()) {
+                if (plugin.publishedFileID.AsUInt64 == publishedFileID
+                    || plugin.name == modName) {
+                    return plugin.isEnabled;
+                }
+            }
+            return false;
         }
     }
 }

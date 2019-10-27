@@ -2,10 +2,9 @@
 {
     public enum OffsetID
     {
-        None,
         GrassPollutionColorOffset,
         GrassFieldColorOffset,
         GrassFertilityColorOffset,
-        GrassForestColorOffset,
+        GrassForestColorOffset
     }
 }

@@ -2,7 +2,7 @@
 namespace ThemeMixer.Themes.Structures
 {
     [Serializable]
-    public class ThemeStructures
+    public class ThemeStructures : ISelectable
     {
         public StructureTexture UpwardRoadDiffuse;
         public StructureTexture DownwardRoadDiffuse;
@@ -15,17 +15,6 @@ namespace ThemeMixer.Themes.Structures
 
         public ThemeStructures() {
             Initialize();
-        }
-
-        private void Initialize() {
-            UpwardRoadDiffuse = new StructureTexture(StructureTexture.TextureName.UpwardRoadDiffuse);
-            DownwardRoadDiffuse = new StructureTexture(StructureTexture.TextureName.DownwardRoadDiffuse);
-            BuildingFloorDiffuse = new StructureTexture(StructureTexture.TextureName.BuildingFloorDiffuse);
-            BuildingBaseDiffuse = new StructureTexture(StructureTexture.TextureName.BuildingBaseDiffuse);
-            BuildingBaseNormal = new StructureTexture(StructureTexture.TextureName.BuildingBaseNormal);
-            BuildingBurntDiffuse = new StructureTexture(StructureTexture.TextureName.BuildingBurntDiffuse);
-            BuildingAbandonedDiffuse = new StructureTexture(StructureTexture.TextureName.BuildingAbandonedDiffuse);
-            LightColorPalette = new StructureTexture(StructureTexture.TextureName.LightColorPalette);
         }
 
         public void Set(string themeID) {
@@ -51,6 +40,28 @@ namespace ThemeMixer.Themes.Structures
                 BuildingAbandonedDiffuse.ThemeID,
                 LightColorPalette.ThemeID
             };
+        }
+
+        public bool IsSelected(string themeID) {
+            return UpwardRoadDiffuse.IsSelected(themeID) &&
+                DownwardRoadDiffuse.IsSelected(themeID) &&
+                BuildingFloorDiffuse.IsSelected(themeID) &&
+                BuildingBaseDiffuse.IsSelected(themeID) &&
+                BuildingBaseNormal.IsSelected(themeID) &&
+                BuildingBurntDiffuse.IsSelected(themeID) &&
+                BuildingAbandonedDiffuse.IsSelected(themeID) &&
+                LightColorPalette.IsSelected(themeID);
+        }
+
+        private void Initialize() {
+            UpwardRoadDiffuse = new StructureTexture(StructureTexture.TextureName.UpwardRoadDiffuse);
+            DownwardRoadDiffuse = new StructureTexture(StructureTexture.TextureName.DownwardRoadDiffuse);
+            BuildingFloorDiffuse = new StructureTexture(StructureTexture.TextureName.BuildingFloorDiffuse);
+            BuildingBaseDiffuse = new StructureTexture(StructureTexture.TextureName.BuildingBaseDiffuse);
+            BuildingBaseNormal = new StructureTexture(StructureTexture.TextureName.BuildingBaseNormal);
+            BuildingBurntDiffuse = new StructureTexture(StructureTexture.TextureName.BuildingBurntDiffuse);
+            BuildingAbandonedDiffuse = new StructureTexture(StructureTexture.TextureName.BuildingAbandonedDiffuse);
+            LightColorPalette = new StructureTexture(StructureTexture.TextureName.LightColorPalette);
         }
 
         private void SetAll(string themeID) {

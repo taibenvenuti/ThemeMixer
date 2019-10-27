@@ -1,4 +1,4 @@
-﻿    using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -41,9 +41,9 @@ namespace ThemeMixer.UI
                  error);
         }
 
-        public static UIButton CreateButton(UIComponent parent, Vector2 size, 
-                string text = "", string tooltip = "", string foregroundSprite = "", 
-                string backgroundSprite = "ButtonSmall", bool isFocusable = false, 
+        public static UIButton CreateButton(UIComponent parent, Vector2 size,
+                string text = "", string tooltip = "", string foregroundSprite = "",
+                string backgroundSprite = "ButtonSmall", bool isFocusable = false,
                 UITextureAtlas atlas = null, RectOffset padding = null, float textScale = 1.0f) {
             var button = parent.AddUIComponent<UIButton>();
             button.size = size;
@@ -89,7 +89,7 @@ namespace ThemeMixer.UI
         }
 
         public static string GetTextureSpriteName(TextureID textureID, string themeID = "") {
-            if(themeID == string.Empty) {
+            if (themeID == string.Empty) {
                 ThemeMix mix = ThemeManager.Instance.CurrentMix;
                 switch (textureID) {
                     case TextureID.GrassDiffuseTexture:

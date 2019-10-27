@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using ColossalFramework.UI;
 using Harmony;
 using ICities;
 using JetBrains.Annotations;
 using ThemeMixer.Locale;
-using ThemeMixer.Patching;
 using ThemeMixer.Resources;
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes;

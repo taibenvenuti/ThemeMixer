@@ -69,6 +69,7 @@
     <Compile Include="Themes\Enums\ColorID.cs" />
     <Compile Include="Themes\Enums\OffsetID.cs" />
     <Compile Include="Themes\Enums\ValueID.cs" />
+    <Compile Include="Themes\ISelectable.cs" />
     <Compile Include="Themes\Structures\StructuresTexture.cs" />
     <Compile Include="Themes\Enums\TextureID.cs" />
     <Compile Include="Themes\Abstraction\TexturePartBase.cs" />
@@ -243,6 +244,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Themes\Packages\CO-Boreal-Theme.crp" />
+    <None Include="Themes\Packages\CO-European-Theme.crp" />
+    <None Include="Themes\Packages\CO-Temperate-Theme.crp" />
+    <None Include="Themes\Packages\CO-Tropical-Theme.crp" />
+    <None Include="Themes\Packages\CO-Winter-Theme.crp" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

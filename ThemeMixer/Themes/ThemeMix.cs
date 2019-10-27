@@ -12,14 +12,14 @@ using ThemeMixer.Themes.Weather;
 
 namespace ThemeMixer.Themes
 {
-    public class ThemeMix
+    public class ThemeMix : ISelectable
     {
         public string ID;
         public string Name;
-        public ThemeTerrain Terrain;
-        public ThemeWater Water;
         public ThemeAtmosphere Atmosphere;
         public ThemeStructures Structures;
+        public ThemeTerrain Terrain;
+        public ThemeWater Water;
         public ThemeWeather Weather;
 
         [UsedImplicitly]
@@ -37,10 +37,10 @@ namespace ThemeMixer.Themes
         public void OnPostDeserialize() { }
 
         public bool Load(string themeID = null) {
-            bool success = Terrain.Load(themeID);
-            if (!Water.Load(themeID)) success = false;
-            if (!Atmosphere.Load(themeID)) success = false;
+            bool success = Atmosphere.Load(themeID);
             if (!Structures.Load(themeID)) success = false;
+            if (!Terrain.Load(themeID)) success = false;
+            if (!Water.Load(themeID)) success = false;
             if (!Weather.Load(themeID)) success = false;
             return success;
         }
@@ -92,6 +92,14 @@ namespace ThemeMixer.Themes
             foreach (string packageID in Weather.GetPackageIDs()) {
                 MaybeSubscribe(packageID);
             }
+        }
+
+        public bool IsSelected(string themeID) {
+            return Atmosphere.IsSelected(themeID) &&
+                   Structures.IsSelected(themeID) &&
+                   Terrain.IsSelected(themeID) &&
+                   Water.IsSelected(themeID) &&
+                   Weather.IsSelected(themeID);
         }
 
         private static void MaybeSubscribe(string packageID) {

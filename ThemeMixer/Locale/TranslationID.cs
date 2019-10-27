@@ -6,11 +6,6 @@ namespace ThemeMixer.Locale
     {
         public const string MOD_DESCRIPTION = "MOD_DESCRIPTION";
 
-        public const string ERROR_MISSING_PACKAGE_TITLE = "ERROR_MISSING_PACKAGE_TITLE";
-        public const string ERROR_MISSING_PACKAGE_MESSAGE = "ERROR_MISSING_PACKAGE_MESSAGE";
-        public const string ERROR_BROKEN_PACKAGE_TITLE = "ERROR_BROKEN_PACKAGE_TITLE";
-        public const string ERROR_BROKEN_PACKAGE_MESSAGE = "ERROR_BROKEN_PACKAGE_MESSAGE";
-
         public const string BUTTON_OK = "BUTTON_OK";
         public const string BUTTON_CLOSE = "BUTTON_CLOSE";
         public const string BUTTON_SAVE = "BUTTON_SAVE";

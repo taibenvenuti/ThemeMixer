@@ -20,7 +20,7 @@ namespace ThemeMixer.UI.Abstraction
 
         private UILabel _label;
         private UIFastList _fastList;
-        protected PanelBase _buttonPanel;
+        protected PanelBase ButtonPanel;
         private UIButton _button;
         private static readonly Dictionary<string, MapThemeMetaData> Favourites = new Dictionary<string, MapThemeMetaData>();
         private static readonly Dictionary<string, MapThemeMetaData> Blacklisted = new Dictionary<string, MapThemeMetaData>();
@@ -53,11 +53,11 @@ namespace ThemeMixer.UI.Abstraction
         }
 
         private void CreateButton() {
-            _buttonPanel = AddUIComponent<PanelBase>();
-            _button = UIUtils.CreateButton(_buttonPanel, new Vector2(100.0f, 30.0f), Translation.Instance.GetTranslation(TranslationID.BUTTON_OK));
+            ButtonPanel = AddUIComponent<PanelBase>();
+            _button = UIUtils.CreateButton(ButtonPanel, new Vector2(100.0f, 30.0f), Translation.Instance.GetTranslation(TranslationID.BUTTON_OK));
             _button.eventClicked += OnOkButtonClicked;
-            _buttonPanel.size = new Vector2(width - 10.0f, _button.height);
-            _button.relativePosition = new Vector2(_buttonPanel.width - _button.width, 0.0f);
+            ButtonPanel.size = new Vector2(width - 10.0f, _button.height);
+            _button.relativePosition = new Vector2(ButtonPanel.width - _button.width, 0.0f);
         }
 
         private void OnOkButtonClicked(UIComponent component, UIMouseEventParameter eventParam) {
@@ -191,8 +191,8 @@ namespace ThemeMixer.UI.Abstraction
 
         private void CreateAndAddItemToFastList(MapThemeMetaData metaData, ref int count, ref int index, ref int selectedIndex) {
             ListItem listItem = CreateListItem(metaData);
-            if (Controller.IsSelected(metaData.assetRef)) selectedIndex = index;
             _fastList.RowsData.Add(listItem);
+            if (Controller.IsSelected(listItem.ID, Category)) selectedIndex = index;
             count++;
             index++;
         }

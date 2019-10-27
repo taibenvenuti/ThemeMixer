@@ -3,7 +3,7 @@
 namespace ThemeMixer.Themes.Weather
 {
     [Serializable]
-    public class ThemeWeather
+    public class ThemeWeather : ISelectable
     {
         public WeatherValue MinTemperatureDay;
         public WeatherValue MaxTemperatureDay;
@@ -22,22 +22,6 @@ namespace ThemeMixer.Themes.Weather
 
         public ThemeWeather() {
             Initialize();
-        }
-
-        private void Initialize() {
-            MinTemperatureDay = new WeatherValue(WeatherValue.ValueName.MinTemperatureDay);
-            MaxTemperatureDay = new WeatherValue(WeatherValue.ValueName.MaxTemperatureDay);
-            MinTemperatureNight = new WeatherValue(WeatherValue.ValueName.MinTemperatureNight);
-            MaxTemperatureNight = new WeatherValue(WeatherValue.ValueName.MaxTemperatureNight);
-            MinTemperatureRain = new WeatherValue(WeatherValue.ValueName.MinTemperatureRain);
-            MaxTemperatureRain = new WeatherValue(WeatherValue.ValueName.MaxTemperatureRain);
-            MinTemperatureFog = new WeatherValue(WeatherValue.ValueName.MinTemperatureFog);
-            MaxTemperatureFog = new WeatherValue(WeatherValue.ValueName.MaxTemperatureFog);
-            RainProbabilityDay = new WeatherValue(WeatherValue.ValueName.RainProbabilityDay);
-            RainProbabilityNight = new WeatherValue(WeatherValue.ValueName.RainProbabilityNight);
-            FogProbabilityDay = new WeatherValue(WeatherValue.ValueName.FogProbabilityDay);
-            FogProbabilityNight = new WeatherValue(WeatherValue.ValueName.FogProbabilityNight);
-            NorthernLightsProbability = new WeatherValue(WeatherValue.ValueName.NorthernLightsProbability);
         }
 
         public void Set(string themeID) {
@@ -68,6 +52,38 @@ namespace ThemeMixer.Themes.Weather
                 FogProbabilityNight.ThemeID,
                 NorthernLightsProbability.ThemeID
             };
+        }
+
+        public bool IsSelected(string themeID) {
+            return MinTemperatureDay.IsSelected(themeID) &&
+                   MaxTemperatureDay.IsSelected(themeID) &&
+                   MinTemperatureNight.IsSelected(themeID) &&
+                   MaxTemperatureNight.IsSelected(themeID) &&
+                   MinTemperatureRain.IsSelected(themeID) &&
+                   MaxTemperatureRain.IsSelected(themeID) &&
+                   MinTemperatureFog.IsSelected(themeID) &&
+                   MaxTemperatureFog.IsSelected(themeID) &&
+                   RainProbabilityDay.IsSelected(themeID) &&
+                   RainProbabilityNight.IsSelected(themeID) &&
+                   FogProbabilityDay.IsSelected(themeID) &&
+                   FogProbabilityNight.IsSelected(themeID) &&
+                   NorthernLightsProbability.IsSelected(themeID);
+        }
+
+        private void Initialize() {
+            MinTemperatureDay = new WeatherValue(WeatherValue.ValueName.MinTemperatureDay);
+            MaxTemperatureDay = new WeatherValue(WeatherValue.ValueName.MaxTemperatureDay);
+            MinTemperatureNight = new WeatherValue(WeatherValue.ValueName.MinTemperatureNight);
+            MaxTemperatureNight = new WeatherValue(WeatherValue.ValueName.MaxTemperatureNight);
+            MinTemperatureRain = new WeatherValue(WeatherValue.ValueName.MinTemperatureRain);
+            MaxTemperatureRain = new WeatherValue(WeatherValue.ValueName.MaxTemperatureRain);
+            MinTemperatureFog = new WeatherValue(WeatherValue.ValueName.MinTemperatureFog);
+            MaxTemperatureFog = new WeatherValue(WeatherValue.ValueName.MaxTemperatureFog);
+            RainProbabilityDay = new WeatherValue(WeatherValue.ValueName.RainProbabilityDay);
+            RainProbabilityNight = new WeatherValue(WeatherValue.ValueName.RainProbabilityNight);
+            FogProbabilityDay = new WeatherValue(WeatherValue.ValueName.FogProbabilityDay);
+            FogProbabilityNight = new WeatherValue(WeatherValue.ValueName.FogProbabilityNight);
+            NorthernLightsProbability = new WeatherValue(WeatherValue.ValueName.NorthernLightsProbability);
         }
 
         private void SetAll(string themeID) {

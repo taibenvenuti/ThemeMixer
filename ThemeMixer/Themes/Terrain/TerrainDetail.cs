@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using ThemeMixer.Themes.Abstraction;
 
 namespace ThemeMixer.Themes.Terrain

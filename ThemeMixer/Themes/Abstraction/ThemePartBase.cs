@@ -6,7 +6,7 @@ using UnityEngine;
 namespace ThemeMixer.Themes.Abstraction
 {
     [Serializable]
-    public abstract class ThemePartBase : IMixable
+    public abstract class ThemePartBase : IMixable, ISelectable
     {
         public string ThemeID;
 
@@ -27,11 +27,9 @@ namespace ThemeMixer.Themes.Abstraction
             ThemeID = themeID;
         }
 
-        protected abstract bool SetFromTheme();
-
-        protected abstract bool SetFromProperties();
-
-        protected abstract void LoadValue();
+        public bool IsSelected(string themeID) {
+            return ThemeID == themeID;
+        }
 
         public virtual bool Load(string themeID = null) {
             if (themeID != null) ThemeID = themeID;
@@ -50,6 +48,12 @@ namespace ThemeMixer.Themes.Abstraction
             CustomValue = value;
             Load();
         }
+
+        protected abstract bool SetFromTheme();
+
+        protected abstract bool SetFromProperties();
+
+        protected abstract void LoadValue();
 
         [XmlIgnore] protected ThemeManager ThemeManager => ThemeManager.Instance;
     }

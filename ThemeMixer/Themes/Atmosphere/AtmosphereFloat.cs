@@ -77,7 +77,7 @@ namespace ThemeMixer.Themes.Atmosphere
             DayNightProperties properties = DayNightProperties.instance;
             switch (Name) {
                 case FloatName.Longitude:
-                    properties.m_Longitude = (float) (CustomValue ?? Value);
+                    properties.m_Longitude = (float)(CustomValue ?? Value);
                     break;
                 case FloatName.Latitude:
                     properties.m_Latitude = (float)(CustomValue ?? Value);

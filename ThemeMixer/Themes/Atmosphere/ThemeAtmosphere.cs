@@ -2,7 +2,7 @@
 namespace ThemeMixer.Themes.Atmosphere
 {
     [Serializable]
-    public class ThemeAtmosphere
+    public class ThemeAtmosphere : ISelectable
     {
         public AtmosphereFloat Longitude;
         public AtmosphereFloat Latitude;
@@ -59,6 +59,25 @@ namespace ThemeMixer.Themes.Atmosphere
                 StarsIntensity.ThemeID,
                 OuterSpaceIntensity.ThemeID
             };
+        }
+        public bool IsSelected(string themeID) {
+            return Longitude.IsSelected(themeID) &&
+                   Latitude.IsSelected(themeID) &&
+                   SunSize.IsSelected(themeID) &&
+                   SunAnisotropy.IsSelected(themeID) &&
+                   Rayleigh.IsSelected(themeID) &&
+                   Mie.IsSelected(themeID) &&
+                   Exposure.IsSelected(themeID) &&
+                   SkyTint.IsSelected(themeID) &&
+                   MoonTexture.IsSelected(themeID) &&
+                   MoonSize.IsSelected(themeID) &&
+                   MoonInnerCorona.IsSelected(themeID) &&
+                   MoonOuterCorona.IsSelected(themeID) &&
+                   NightHorizonColor.IsSelected(themeID) &&
+                   EarlyNightZenithColor.IsSelected(themeID) &&
+                   LateNightZenithColor.IsSelected(themeID) &&
+                   StarsIntensity.IsSelected(themeID) &&
+                   OuterSpaceIntensity.IsSelected(themeID);
         }
 
         private void Initialize() {

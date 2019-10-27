@@ -3,7 +3,7 @@
 namespace ThemeMixer.Themes.Water
 {
     [Serializable]
-    public class ThemeWater
+    public class ThemeWater : ISelectable
     {
         public WaterTexture WaterFoam;
         public WaterTexture WaterNormal;
@@ -36,6 +36,14 @@ namespace ThemeMixer.Themes.Water
                 WaterDirty.ThemeID,
                 WaterUnder.ThemeID
             };
+        }
+
+        public bool IsSelected(string themeID) {
+            return WaterFoam.IsSelected(themeID) &&
+                   WaterNormal.IsSelected(themeID) &&
+                   WaterClean.IsSelected(themeID) &&
+                   WaterDirty.IsSelected(themeID) &&
+                   WaterUnder.IsSelected(themeID);
         }
 
         private void Initialize() {

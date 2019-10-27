@@ -2,10 +2,6 @@
 <Language UniqueName="en" ReadableName="English" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2009/XMLSchema/XMLSchema.xsd">
   <Translations>
     <Translation ID="MOD_DESCRIPTION" String="Lets you load, mix and customize Map Themes" />
-    <Translation ID="ERROR_MISSING_PACKAGE_TITLE" String="Missing Theme Package" />
-    <Translation ID="ERROR_MISSING_PACKAGE_MESSAGE" String="The package could not be found." />
-    <Translation ID="ERROR_BROKEN_PACKAGE_TITLE" String="Broken Theme Package" />
-    <Translation ID="ERROR_BROKEN_PACKAGE_MESSAGE" String="The package is invalid or broken." />
     <Translation ID="BUTTON_OK" String="OK" />
     <Translation ID="BUTTON_CLOSE" String="Close" />
     <Translation ID="BUTTON_SAVE" String="Save" />
@@ -33,8 +29,8 @@
     <Translation ID="TOOLTIP_OPENCOLORPICKER" String="Open color picker" />
     <Translation ID="TOOLTIP_BUTTON_SAVE_MAXREACHED" String="You've reached the maximum amount of saved colors" />
     <Translation ID="TOOLTIP_BUTTON_SAVE_COLOREXISTS" String="The currently selected color is already saved" />
-    <Translation ID="TOOLTIP_BUTTON_SAVE" String="Save current color as favorite" />
-    <Translation ID="TOOLTIP_USEASDEFAULT" String="Use this mix as the default mix used when you start a new city" />
+    <Translation ID="TOOLTIP_BUTTON_SAVE" String="Save this color for later" />
+    <Translation ID="TOOLTIP_USEASDEFAULT" String="Use this mix as the default when you start a new city" />
     <Translation ID="LABEL_SELECTMIX" String="Select mix:" />
     <Translation ID="LABEL_SAVEMIX" String="Save mix" />
     <Translation ID="LABEL_USEASDEFAULT" String="Use as default" />
@@ -52,34 +48,34 @@
     <Translation ID="LABEL_VALUE" String="Value" />
     <Translation ID="LABEL_TEXTURE" String="Texture" />
     <Translation ID="LABEL_SELECT" String="Select" />
-    <Translation ID="LABEL_GRASS_DIFFUSE" String="Grass Texture" />
-    <Translation ID="LABEL_RUINED_DIFFUSE" String="Ruined Texture" />
-    <Translation ID="LABEL_PAVEMENT_DIFFUSE" String="Pavement Texture" />
-    <Translation ID="LABEL_GRAVEL_DIFFUSE" String="Gravel Texture" />
-    <Translation ID="LABEL_CLIFF_DIFFUSE" String="Cliff Texture" />
-    <Translation ID="LABEL_SAND_DIFFUSE" String="Sand Texture" />
-    <Translation ID="LABEL_OIL_DIFFUSE" String="Oil Texture" />
-    <Translation ID="LABEL_ORE_DIFFUSE" String="Ore Texture" />
-    <Translation ID="LABEL_CLIFFSAND_NORMAL" String="Cliff and Sand Normal" />
-    <Translation ID="LABEL_UPWARD_ROAD_DIFFUSE" String="Road Upwards Texture" />
-    <Translation ID="LABEL_DOWNWARD_ROAD_DIFFUSE" String="Road Downwards Texture" />
-    <Translation ID="LABEL_BUILDING_FLOOR_DIFFUSE" String="Building Floor Texture" />
-    <Translation ID="LABEL_BUILDING_BASE_DIFFUSE" String="Building Base Texture" />
-    <Translation ID="LABEL_BUILDING_BASE_NORMAL" String="Building Base Normal" />
-    <Translation ID="LABEL_BUILDING_BURNT_DIFFUSE" String="Building Burnt Texture" />
-    <Translation ID="LABEL_BUILDING_ABANDONED_DIFFUSE" String="Building Abandoned" />
-    <Translation ID="LABEL_LIGHT_COLOR_PALETTE" String="Light Color Palette" />
-    <Translation ID="LABEL_MOON_DIFFUSE" String="Moon Texture" />
-    <Translation ID="LABEL_WATER_FOAM" String="Water Foam" />
-    <Translation ID="LABEL_WATER_NORMAL" String="Water Normal" />
+    <Translation ID="LABEL_GRASS_DIFFUSE" String="Grass texture" />
+    <Translation ID="LABEL_RUINED_DIFFUSE" String="Ruined texture" />
+    <Translation ID="LABEL_PAVEMENT_DIFFUSE" String="Pavement texture" />
+    <Translation ID="LABEL_GRAVEL_DIFFUSE" String="Gravel texture" />
+    <Translation ID="LABEL_CLIFF_DIFFUSE" String="Cliff texture" />
+    <Translation ID="LABEL_SAND_DIFFUSE" String="Sand texture" />
+    <Translation ID="LABEL_OIL_DIFFUSE" String="Oil texture" />
+    <Translation ID="LABEL_ORE_DIFFUSE" String="Ore texture" />
+    <Translation ID="LABEL_CLIFFSAND_NORMAL" String="Cliff and sand normal" />
+    <Translation ID="LABEL_UPWARD_ROAD_DIFFUSE" String="Road upwards texture" />
+    <Translation ID="LABEL_DOWNWARD_ROAD_DIFFUSE" String="Road downwards texture" />
+    <Translation ID="LABEL_BUILDING_FLOOR_DIFFUSE" String="Building floor texture" />
+    <Translation ID="LABEL_BUILDING_BASE_DIFFUSE" String="Building base texture" />
+    <Translation ID="LABEL_BUILDING_BASE_NORMAL" String="Building base normal" />
+    <Translation ID="LABEL_BUILDING_BURNT_DIFFUSE" String="Building Burned texture" />
+    <Translation ID="LABEL_BUILDING_ABANDONED_DIFFUSE" String="Building abandoned" />
+    <Translation ID="LABEL_LIGHT_COLOR_PALETTE" String="Light color palette" />
+    <Translation ID="LABEL_MOON_DIFFUSE" String="Moon texture" />
+    <Translation ID="LABEL_WATER_FOAM" String="Water foam" />
+    <Translation ID="LABEL_WATER_NORMAL" String="Water normal" />
     <Translation ID="LABEL_OFFSET_POLLUTION" String="Pollution" />
     <Translation ID="LABEL_OFFSET_FERTILITY" String="Fertility" />
     <Translation ID="LABEL_OFFSET_FIELD" String="Field" />
     <Translation ID="LABEL_OFFSET_FOREST" String="Forest" />
-    <Translation ID="LABEL_TITLE_DETAIL" String="Decoration Sprites" />
-    <Translation ID="LABEL_VALUE_GRASSDETAIL" String="Show Grass Sprites" />
-    <Translation ID="LABEL_VALUE_CLIFFDETAIL" String="Show Rock Sprites" />
-    <Translation ID="LABEL_VALUE_FERTILEDETAIL" String="Show Fertile Sprites" />
+    <Translation ID="LABEL_TITLE_DETAIL" String="Decoration sprites" />
+    <Translation ID="LABEL_VALUE_GRASSDETAIL" String="Show grass sprites" />
+    <Translation ID="LABEL_VALUE_CLIFFDETAIL" String="Show rock sprites" />
+    <Translation ID="LABEL_VALUE_FERTILEDETAIL" String="Show fertile sprites" />
     <Translation ID="LABEL_RED" String="R" />
     <Translation ID="LABEL_GREEN" String="G" />
     <Translation ID="LABEL_BLUE" String="B" />
@@ -104,7 +100,7 @@
     <Translation ID="LABEL_VALUE_MIE" String="Mie scattering" />
     <Translation ID="LABEL_VALUE_EXPOSURE" String="Exposure" />
     <Translation ID="LABEL_VALUE_STARSINTENSITY" String="Stars intensity" />
-    <Translation ID="LABEL_VALUE_OUTERSPACEINTENSITY" String="Outerspace intensity" />
+    <Translation ID="LABEL_VALUE_OUTERSPACEINTENSITY" String="Outer space intensity" />
     <Translation ID="LABEL_VALUE_MINTEMPERATUREDAY" String="Day min temperature" />
     <Translation ID="LABEL_VALUE_MAXTEMPERATUREDAY" String="Day max temperature" />
     <Translation ID="LABEL_VALUE_MINTEMPERATURENIGHT" String="Night min temperature" />

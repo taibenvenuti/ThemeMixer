@@ -1,5 +1,4 @@
 ﻿using System;
-using ColossalFramework.Packaging;
 using ColossalFramework.UI;
 using JetBrains.Annotations;
 using ThemeMixer.Themes;
@@ -10,7 +9,7 @@ using UnityEngine;
 
 namespace ThemeMixer.UI
 {
-    public class UIController: MonoBehaviour
+    public class UIController : MonoBehaviour
     {
         public event EventHandler<UIDirtyEventArgs> EventUIDirty;
 
@@ -86,11 +85,23 @@ namespace ThemeMixer.UI
             }
         }
 
-        public bool IsSelected(Package.Asset asset) {
-            return SimulationManager.instance.m_metaData.m_MapThemeMetaData?.assetRef == asset;
+        public bool IsSelected(string themeID, ThemeCategory category) {
+            switch (Part) {
+                case ThemePart.Category:
+                    return ThemeManager.Instance.IsSelected(themeID, category);
+                case ThemePart.Color:
+                    return ThemeManager.Instance.IsSelected(themeID, ColorID);
+                case ThemePart.Offset:
+                    return ThemeManager.Instance.IsSelected(themeID, OffsetID);
+                case ThemePart.Texture:
+                    return ThemeManager.Instance.IsSelected(themeID, TextureID);
+                case ThemePart.Value:
+                    return ThemeManager.Instance.IsSelected(themeID, ValueID);
+                default: return false;
+            }
         }
 
-        public float GetTilingValue(TextureID textureID) {
+        public float GetTilingValue(TextureID textureID) {  
             return ThemeManager.Instance.GetTilingValue(textureID);
         }
 
@@ -242,8 +253,7 @@ namespace ThemeMixer.UI
             return ThemeManager.Instance.GetColor(colorID, themeID);
         }
 
-        public void CloseUI()
-        {
+        public void CloseUI() {
             OnUIToggleClicked();
         }
     }

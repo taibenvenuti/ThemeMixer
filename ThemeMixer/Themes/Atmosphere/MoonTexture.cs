@@ -19,16 +19,9 @@ namespace ThemeMixer.Themes.Atmosphere
             return true;
         }
 
-        public override bool SetValue(object asset) {
-            bool result = base.SetValue(asset);
-            if (!result) return false;
-            return true;
-        }
-
         protected override bool SetFromTheme() {
             MapThemeMetaData metaData = ThemeManager.GetTheme(ThemeID);
-            if (metaData == null) return false;
-            return SetTexture(metaData.moonTexture);
+            return metaData != null && SetTexture(metaData.moonTexture);
         }
 
         protected override bool SetFromProperties() {

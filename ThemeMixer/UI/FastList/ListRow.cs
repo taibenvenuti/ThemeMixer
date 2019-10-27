@@ -38,9 +38,9 @@ namespace ThemeMixer.UI.FastList
         private UISprite _valuesSprite;
 
         private ListItem _itemData;
-        private Color32 EvenColor { get; } = new Color32(67, 76, 80, 255); 
+        private Color32 EvenColor { get; } = new Color32(67, 76, 80, 255);
         private Color32 OddColor { get; } = new Color32(57, 67, 70, 255);
-        private Color32 SelectedColor { get; } = new Color32(20, 155, 215, 255);
+        private Color32 SelectedColor { get; } = new Color32(70, 120, 130, 255);
 
         private bool _isRowOdd;
 
@@ -68,19 +68,18 @@ namespace ThemeMixer.UI.FastList
         }
 
         public void Select(bool isRowOdd) {
-            //color = SelectedColor;
+            color = SelectedColor;
         }
 
         public void Deselect(bool isRowOdd) {
-
+            color = _isRowOdd ? OddColor : EvenColor;
         }
 
         public void Display(object data, bool isRowOdd) {
-            if (data is ListItem item) {
-                _itemData = item;
-                _isRowOdd = isRowOdd;
-                DisplayItem(isRowOdd);
-            }
+            if (!(data is ListItem item)) return;
+            _itemData = item;
+            _isRowOdd = isRowOdd;
+            DisplayItem(isRowOdd);
         }
 
         private void CreateThumbnail() {
@@ -167,47 +166,53 @@ namespace ThemeMixer.UI.FastList
         }
 
         private void OnFavouriteCheckboxMouseUp(UIComponent component, UIMouseEventParameter eventParam) {
-            if (eventParam.buttons == UIMouseButton.Right) {
-                bool blackListed = !_itemData.IsBlacklisted;
-                _itemData.IsBlacklisted = blackListed;
-                if (blackListed) {
-                    _favouriteCheckbox.isChecked = true;
-                    _checkedSprite.spriteName = UISprites.Blacklisted;
-                    _uncheckedSprite.spriteName = "";
-                    if (_itemData.IsFavourite) {
-                        _itemData.IsFavourite = false;
-                        EventFavouriteChanged?.Invoke(_itemData.ID, false);
+            switch (eventParam.buttons) {
+                case UIMouseButton.Right: {
+                    bool blackListed = !_itemData.IsBlacklisted;
+                    _itemData.IsBlacklisted = blackListed;
+                    if (blackListed) {
+                        _favouriteCheckbox.isChecked = true;
+                        _checkedSprite.spriteName = UISprites.Blacklisted;
+                        _uncheckedSprite.spriteName = "";
+                        if (_itemData.IsFavourite) {
+                            _itemData.IsFavourite = false;
+                            EventFavouriteChanged?.Invoke(_itemData.ID, false);
+                        }
+                    } else {
+                        if (!_itemData.IsFavourite) {
+                            _favouriteCheckbox.isChecked = false;
+                        }
+                        _uncheckedSprite.spriteName = UISprites.StarOutline;
                     }
-                } else {
-                    if (!_itemData.IsFavourite) {
-                        _favouriteCheckbox.isChecked = false;
-                    }
-                    _uncheckedSprite.spriteName = UISprites.StarOutline;
+                    EventBlacklistedChanged?.Invoke(_itemData.ID, blackListed);
+                    break;
                 }
-                EventBlacklistedChanged?.Invoke(_itemData.ID, blackListed);
-            } else if (eventParam.buttons == UIMouseButton.Left) {
-                bool favourite = !_itemData.IsFavourite;
-                _itemData.IsFavourite = favourite;
-                if (favourite) {
-                    _favouriteCheckbox.isChecked = true;
-                    _checkedSprite.spriteName = UISprites.Star;
-                    _uncheckedSprite.spriteName = UISprites.StarOutline;
-                    if (_itemData.IsBlacklisted) {
-                        _itemData.IsBlacklisted = false;
-                        EventBlacklistedChanged?.Invoke(_itemData.ID, false);
+                case UIMouseButton.Left: {
+                    bool favourite = !_itemData.IsFavourite;
+                    _itemData.IsFavourite = favourite;
+                    if (favourite) {
+                        _favouriteCheckbox.isChecked = true;
+                        _checkedSprite.spriteName = UISprites.Star;
+                        _uncheckedSprite.spriteName = UISprites.StarOutline;
+                        if (_itemData.IsBlacklisted) {
+                            _itemData.IsBlacklisted = false;
+                            EventBlacklistedChanged?.Invoke(_itemData.ID, false);
+                        }
+                    } else {
+                        if (!_itemData.IsBlacklisted) {
+                            _favouriteCheckbox.isChecked = false;
+                        }
                     }
-                } else {
-                    if (!_itemData.IsBlacklisted) {
-                        _favouriteCheckbox.isChecked = false;
-                    }
+                    EventFavouriteChanged?.Invoke(_itemData.ID, favourite);
+                    break;
                 }
-                EventFavouriteChanged?.Invoke(_itemData.ID, favourite);
             }
+
             UpdateCheckboxTooltip();
         }
 
         private void DisplayItem(bool isRowOdd) {
-            color = isRowOdd ? OddColor : EvenColor;
+            color = IsSelected() ? SelectedColor : isRowOdd ? OddColor : EvenColor;
             string spriteName = string.Concat(_itemData.ID, _itemData.DisplayName, "_", "Snapshot");
             spriteName = Regex.Replace(spriteName, @"(\s+|@|&|'|\(|\)|<|>|#|"")", "");
             _thumbnailSprite.spriteName = spriteName;
@@ -215,7 +220,7 @@ namespace ThemeMixer.UI.FastList
             _authorLabel.text = string.Concat(Translation.Instance.GetTranslation(TranslationID.LABEL_BY), " ", _itemData.Author);
             _favouriteCheckbox.isChecked = _itemData.IsFavourite || _itemData.IsBlacklisted;
             _checkedSprite.spriteName = _itemData.IsBlacklisted ? UISprites.Blacklisted : UISprites.Star;
-            _uncheckedSprite.spriteName = _itemData.IsBlacklisted ? "" :  UISprites.StarOutline;
+            _uncheckedSprite.spriteName = _itemData.IsBlacklisted ? "" : UISprites.StarOutline;
             float labelsPanelWidth = _itemData.Category == ThemeCategory.Themes || _itemData.Category == ThemeCategory.None ? 255.0f : 189.0f;
             _authorLabel.width = _nameLabel.width = _labelsPanel.width = labelsPanelWidth;
             _nameLabel.FitString();
@@ -244,23 +249,26 @@ namespace ThemeMixer.UI.FastList
             UpdateCheckboxTooltip();
         }
 
+        private bool IsSelected() {
+            return Controller.IsSelected(_itemData.ID, _itemData.Category);
+        }
+
         private void UpdateCheckboxTooltip() {
             _favouriteCheckbox.tooltip = _itemData.IsFavourite
                             ? Translation.Instance.GetTranslation(TranslationID.TOOLTIP_REMOVEFAVOURITE)
                             : _itemData.IsBlacklisted
                             ? Translation.Instance.GetTranslation(TranslationID.TOOLTIP_REMOVEBLACKLIST)
                             : Translation.Instance.GetTranslation(TranslationID.TOOLTIP_ADDFAVOURITE_ADDBLACKLIST);
-            //favouriteCheckbox.RefreshTooltip();
         }
 
         private void OnMouseLeaveEvent(UIComponent component, UIMouseEventParameter eventParam) {
             if (_itemData != null) {
-                color = _isRowOdd ? OddColor : EvenColor;
+                color = IsSelected() ? SelectedColor : _isRowOdd ? OddColor : EvenColor;
             }
         }
 
         private void OnMouseEnterEvent(UIComponent component, UIMouseEventParameter eventParam) {
-            if (_itemData != null) {
+            if (_itemData != null && !IsSelected()) {
                 color = new Color32((byte)(OddColor.r + 25), (byte)(OddColor.g + 25), (byte)(OddColor.b + 25), 255);
             }
         }

@@ -8,7 +8,7 @@ namespace ThemeMixer.UI.Parts.SelectPanels
         public override void Awake() {
             Category = ThemeCategory.Water;
             base.Awake();
-            _buttonPanel.isVisible = true;
+            ButtonPanel.isVisible = true;
         }
         public override void Start() {
             base.Start();

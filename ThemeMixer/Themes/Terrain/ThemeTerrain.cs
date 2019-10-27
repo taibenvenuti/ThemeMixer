@@ -3,7 +3,7 @@
 namespace ThemeMixer.Themes.Terrain
 {
     [Serializable]
-    public class ThemeTerrain
+    public class ThemeTerrain : ISelectable
     {
         public TerrainTexture GrassDiffuseTexture;
         public TerrainTexture RuinedDiffuseTexture;
@@ -56,6 +56,22 @@ namespace ThemeMixer.Themes.Terrain
                 GrassFertilityColorOffset.ThemeID,
                 GrassForestColorOffset.ThemeID
             };
+        }
+
+        public bool IsSelected(string themeID) {
+            return GrassDiffuseTexture.IsSelected(themeID) &&
+                RuinedDiffuseTexture.IsSelected(themeID) &&
+                PavementDiffuseTexture.IsSelected(themeID) &&
+                GravelDiffuseTexture.IsSelected(themeID) &&
+                CliffDiffuseTexture.IsSelected(themeID) &&
+                OreDiffuseTexture.IsSelected(themeID) &&
+                OilDiffuseTexture.IsSelected(themeID) &&
+                SandDiffuseTexture.IsSelected(themeID) &&
+                CliffSandNormalTexture.IsSelected(themeID) &&
+                GrassPollutionColorOffset.IsSelected(themeID) &&
+                GrassFieldColorOffset.IsSelected(themeID) &&
+                GrassFertilityColorOffset.IsSelected(themeID) &&
+                GrassForestColorOffset.IsSelected(themeID);
         }
 
         private void Initialize() {

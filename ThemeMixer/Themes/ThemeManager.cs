@@ -31,8 +31,7 @@ namespace ThemeMixer.Themes
             }
         }
 
-        internal MapThemeMetaData GetTheme(string themeID)
-        {
+        internal MapThemeMetaData GetTheme(string themeID) {
             return Themes.TryGetValue(themeID, out MapThemeMetaData theme) ? theme : null;
         }
 
@@ -135,19 +134,19 @@ namespace ThemeMixer.Themes
             if (CurrentMix == null) {
                 switch (SimulationManager.instance.m_metaData.m_environment) {
                     case "Sunny":
-                        CurrentMix = new ThemeMix("1888413747.CO-Temperate-Theme");
+                        CurrentMix = new ThemeMix("1899640536.CO-Temperate-Theme");
                         break;
                     case "Europe":
-                        CurrentMix = new ThemeMix("1888413747.CO-European-Theme");
+                        CurrentMix = new ThemeMix("1899640536.CO-European-Theme");
                         break;
                     case "Winter":
-                        CurrentMix = new ThemeMix("1888413747.CO-Winter-Theme");
+                        CurrentMix = new ThemeMix("1899640536.CO-Winter-Theme");
                         break;
                     case "North":
-                        CurrentMix = new ThemeMix("1888413747.CO-Boreal-Theme");
+                        CurrentMix = new ThemeMix("1899640536.CO-Boreal-Theme");
                         break;
                     case "Tropical":
-                        CurrentMix = new ThemeMix("1888413747.CO-Tropical-Theme");
+                        CurrentMix = new ThemeMix("1899640536.CO-Tropical-Theme");
                         break;
                 }
                 SaveLocalMix();
@@ -431,29 +430,99 @@ namespace ThemeMixer.Themes
             }
         }
 
-        public string GetTextureThemeID(TextureID textureID) {
+        public bool IsSelected(string themeID, ThemeCategory category) {
+            switch (category) {
+                case ThemeCategory.Themes: return CurrentMix.IsSelected(themeID);
+                case ThemeCategory.Atmosphere: return CurrentMix.Atmosphere.IsSelected(themeID);
+                case ThemeCategory.Structures: return CurrentMix.Structures.IsSelected(themeID);
+                case ThemeCategory.Terrain: return CurrentMix.Terrain.IsSelected(themeID);
+                case ThemeCategory.Water: return CurrentMix.Water.IsSelected(themeID);
+                case ThemeCategory.Weather: return CurrentMix.Weather.IsSelected(themeID);
+                default: return false;
+            }
+        }
+
+        public bool IsSelected(string themeID, ColorID colorID) {
+            switch (colorID) {
+                case ColorID.EarlyNightZenithColor: return CurrentMix.Atmosphere.EarlyNightZenithColor.IsSelected(themeID);
+                case ColorID.LateNightZenithColor: return CurrentMix.Atmosphere.LateNightZenithColor.IsSelected(themeID);
+                case ColorID.MoonInnerCorona: return CurrentMix.Atmosphere.MoonInnerCorona.IsSelected(themeID);
+                case ColorID.MoonOuterCorona: return CurrentMix.Atmosphere.MoonOuterCorona.IsSelected(themeID);
+                case ColorID.NightHorizonColor: return CurrentMix.Atmosphere.NightHorizonColor.IsSelected(themeID);
+                case ColorID.SkyTint: return CurrentMix.Atmosphere.SkyTint.IsSelected(themeID);
+                case ColorID.WaterClean: return CurrentMix.Water.WaterClean.IsSelected(themeID);
+                case ColorID.WaterDirty: return CurrentMix.Water.WaterDirty.IsSelected(themeID);
+                case ColorID.WaterUnder: return CurrentMix.Water.WaterDirty.IsSelected(themeID);
+                default: return false;
+            }
+        }
+
+        public bool IsSelected(string themeID, OffsetID offsetID) {
+            switch (offsetID) {
+                case OffsetID.GrassFertilityColorOffset: return CurrentMix.Terrain.GrassFertilityColorOffset.IsSelected(themeID);
+                case OffsetID.GrassFieldColorOffset: return CurrentMix.Terrain.GrassFieldColorOffset.IsSelected(themeID);
+                case OffsetID.GrassForestColorOffset: return CurrentMix.Terrain.GrassForestColorOffset.IsSelected(themeID);
+                case OffsetID.GrassPollutionColorOffset: return CurrentMix.Terrain.GrassPollutionColorOffset.IsSelected(themeID);
+                default: return false;
+            }
+        }
+
+        public bool IsSelected(string themeID, TextureID textureID) {
             switch (textureID) {
-                case TextureID.GrassDiffuseTexture: return CurrentMix.Terrain.GrassDiffuseTexture.ThemeID;
-                case TextureID.RuinedDiffuseTexture: return CurrentMix.Terrain.RuinedDiffuseTexture.ThemeID;
-                case TextureID.PavementDiffuseTexture: return CurrentMix.Terrain.PavementDiffuseTexture.ThemeID;
-                case TextureID.GravelDiffuseTexture: return CurrentMix.Terrain.GravelDiffuseTexture.ThemeID;
-                case TextureID.CliffDiffuseTexture: return CurrentMix.Terrain.CliffDiffuseTexture.ThemeID;
-                case TextureID.SandDiffuseTexture: return CurrentMix.Terrain.SandDiffuseTexture.ThemeID;
-                case TextureID.OilDiffuseTexture: return CurrentMix.Terrain.OilDiffuseTexture.ThemeID;
-                case TextureID.OreDiffuseTexture: return CurrentMix.Terrain.OreDiffuseTexture.ThemeID;
-                case TextureID.CliffSandNormalTexture: return CurrentMix.Terrain.CliffSandNormalTexture.ThemeID;
-                case TextureID.UpwardRoadDiffuse: return CurrentMix.Structures.UpwardRoadDiffuse.ThemeID;
-                case TextureID.DownwardRoadDiffuse: return CurrentMix.Structures.DownwardRoadDiffuse.ThemeID;
-                case TextureID.BuildingFloorDiffuse: return CurrentMix.Structures.BuildingFloorDiffuse.ThemeID;
-                case TextureID.BuildingBaseDiffuse: return CurrentMix.Structures.BuildingBaseDiffuse.ThemeID;
-                case TextureID.BuildingBaseNormal: return CurrentMix.Structures.BuildingBaseNormal.ThemeID;
-                case TextureID.BuildingBurntDiffuse: return CurrentMix.Structures.BuildingBurntDiffuse.ThemeID;
-                case TextureID.BuildingAbandonedDiffuse: return CurrentMix.Structures.BuildingAbandonedDiffuse.ThemeID;
-                case TextureID.LightColorPalette: return CurrentMix.Structures.LightColorPalette.ThemeID;
-                case TextureID.MoonTexture: return CurrentMix.Atmosphere.MoonTexture.ThemeID;
-                case TextureID.WaterFoam: return CurrentMix.Water.WaterFoam.ThemeID;
-                case TextureID.WaterNormal: return CurrentMix.Water.WaterNormal.ThemeID;
-                default: return null;
+                case TextureID.GrassDiffuseTexture: return CurrentMix.Terrain.GrassDiffuseTexture.IsSelected(themeID);
+                case TextureID.RuinedDiffuseTexture: return CurrentMix.Terrain.RuinedDiffuseTexture.IsSelected(themeID);
+                case TextureID.PavementDiffuseTexture: return CurrentMix.Terrain.PavementDiffuseTexture.IsSelected(themeID);
+                case TextureID.GravelDiffuseTexture: return CurrentMix.Terrain.GravelDiffuseTexture.IsSelected(themeID);
+                case TextureID.CliffDiffuseTexture: return CurrentMix.Terrain.CliffDiffuseTexture.IsSelected(themeID);
+                case TextureID.SandDiffuseTexture: return CurrentMix.Terrain.SandDiffuseTexture.IsSelected(themeID);
+                case TextureID.OilDiffuseTexture: return CurrentMix.Terrain.OilDiffuseTexture.IsSelected(themeID);
+                case TextureID.OreDiffuseTexture: return CurrentMix.Terrain.OreDiffuseTexture.IsSelected(themeID);
+                case TextureID.CliffSandNormalTexture: return CurrentMix.Terrain.CliffSandNormalTexture.IsSelected(themeID);
+                case TextureID.UpwardRoadDiffuse: return CurrentMix.Structures.UpwardRoadDiffuse.IsSelected(themeID);
+                case TextureID.DownwardRoadDiffuse: return CurrentMix.Structures.DownwardRoadDiffuse.IsSelected(themeID);
+                case TextureID.BuildingFloorDiffuse: return CurrentMix.Structures.BuildingFloorDiffuse.IsSelected(themeID);
+                case TextureID.BuildingBaseDiffuse: return CurrentMix.Structures.BuildingBaseDiffuse.IsSelected(themeID);
+                case TextureID.BuildingBaseNormal: return CurrentMix.Structures.BuildingBaseNormal.IsSelected(themeID);
+                case TextureID.BuildingBurntDiffuse: return CurrentMix.Structures.BuildingBurntDiffuse.IsSelected(themeID);
+                case TextureID.BuildingAbandonedDiffuse: return CurrentMix.Structures.BuildingAbandonedDiffuse.IsSelected(themeID);
+                case TextureID.LightColorPalette: return CurrentMix.Structures.LightColorPalette.IsSelected(themeID);
+                case TextureID.MoonTexture: return CurrentMix.Atmosphere.MoonTexture.IsSelected(themeID);
+                case TextureID.WaterFoam: return CurrentMix.Water.WaterFoam.IsSelected(themeID);
+                case TextureID.WaterNormal: return CurrentMix.Water.WaterNormal.IsSelected(themeID);
+                default: return false;
+            }
+        }
+
+        public bool IsSelected(string themeID, ValueID valueID)
+        {
+            switch (valueID) {
+                case ValueID.Longitude: return CurrentMix.Atmosphere.Longitude.IsSelected(themeID);
+                case ValueID.Latitude: return CurrentMix.Atmosphere.Latitude.IsSelected(themeID);
+                case ValueID.SunSize: return CurrentMix.Atmosphere.SunSize.IsSelected(themeID);
+                case ValueID.SunAnisotropy: return CurrentMix.Atmosphere.SunAnisotropy.IsSelected(themeID);
+                case ValueID.MoonSize: return CurrentMix.Atmosphere.MoonSize.IsSelected(themeID);
+                case ValueID.Rayleigh: return CurrentMix.Atmosphere.Rayleigh.IsSelected(themeID);
+                case ValueID.Mie: return CurrentMix.Atmosphere.Mie.IsSelected(themeID);
+                case ValueID.Exposure: return CurrentMix.Atmosphere.Exposure.IsSelected(themeID);
+                case ValueID.StarsIntensity: return CurrentMix.Atmosphere.StarsIntensity.IsSelected(themeID);
+                case ValueID.OuterSpaceIntensity: return CurrentMix.Atmosphere.OuterSpaceIntensity.IsSelected(themeID);
+                case ValueID.GrassDetailEnabled: return CurrentMix.Terrain.GrassDetailEnabled.IsSelected(themeID);
+                case ValueID.FertileDetailEnabled: return CurrentMix.Terrain.FertileDetailEnabled.IsSelected(themeID);
+                case ValueID.RocksDetailEnabled: return CurrentMix.Terrain.RocksDetailEnabled.IsSelected(themeID);
+                case ValueID.MinTemperatureDay: return CurrentMix.Weather.MinTemperatureDay.IsSelected(themeID);
+                case ValueID.MaxTemperatureDay: return CurrentMix.Weather.MaxTemperatureDay.IsSelected(themeID);
+                case ValueID.MinTemperatureNight: return CurrentMix.Weather.MinTemperatureNight.IsSelected(themeID);
+                case ValueID.MaxTemperatureNight: return CurrentMix.Weather.MaxTemperatureNight.IsSelected(themeID);
+                case ValueID.MinTemperatureRain: return CurrentMix.Weather.MinTemperatureRain.IsSelected(themeID);
+                case ValueID.MaxTemperatureRain: return CurrentMix.Weather.MaxTemperatureRain.IsSelected(themeID);
+                case ValueID.MinTemperatureFog: return CurrentMix.Weather.MinTemperatureFog.IsSelected(themeID);
+                case ValueID.MaxTemperatureFog: return CurrentMix.Weather.MaxTemperatureFog.IsSelected(themeID);
+                case ValueID.RainProbabilityDay: return CurrentMix.Weather.RainProbabilityDay.IsSelected(themeID);
+                case ValueID.RainProbabilityNight: return CurrentMix.Weather.RainProbabilityNight.IsSelected(themeID);
+                case ValueID.FogProbabilityDay: return CurrentMix.Weather.FogProbabilityDay.IsSelected(themeID);
+                case ValueID.FogProbabilityNight: return CurrentMix.Weather.FogProbabilityNight.IsSelected(themeID);
+                case ValueID.NorthernLightsProbability: return CurrentMix.Weather.NorthernLightsProbability.IsSelected(themeID);
+                default: return false;
             }
         }
     }

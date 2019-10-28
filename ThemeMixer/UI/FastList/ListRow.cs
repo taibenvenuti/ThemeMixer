@@ -1,4 +1,5 @@
-﻿using ColossalFramework.UI;
+﻿using System;
+using ColossalFramework.UI;
 using ThemeMixer.UI.Abstraction;
 using ThemeMixer.Locale;
 using ThemeMixer.TranslationFramework;
@@ -223,7 +224,9 @@ namespace ThemeMixer.UI.FastList
             _uncheckedSprite.spriteName = _itemData.IsBlacklisted ? "" : UISprites.StarOutline;
             float labelsPanelWidth = _itemData.Category == ThemeCategory.Themes || _itemData.Category == ThemeCategory.None ? 255.0f : 189.0f;
             _authorLabel.width = _nameLabel.width = _labelsPanel.width = labelsPanelWidth;
+            _nameLabel.tooltip = string.Empty;
             _nameLabel.FitString();
+            _authorLabel.tooltip = string.Empty;
             _authorLabel.FitString();
             _valuesButton.isVisible = _itemData.Category != ThemeCategory.Themes && _itemData.Category != ThemeCategory.None;
             switch (Controller.Part) {

@@ -194,7 +194,13 @@
     <Compile Include="TranslationFramework\TranslationUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Locale\chinese.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Locale\english.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Locale\russian.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="Resources\Files\Swatch.png" />

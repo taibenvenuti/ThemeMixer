@@ -13,7 +13,7 @@ namespace ThemeMixer.Locale
         public const string BUTTON_SUBSCRIBE = "BUTTON_SUBSCRIBE";
         public const string BUTTON_SAVED = "BUTTON_SAVED";
 
-        public const string TOOLTIP_BUTTON_DOWNLOAD = "TOOLTIP_BUTTON_DOWNLOAD";
+        public const string TOOLTIP_BUTTON_SUBSCRIBE = "TOOLTIP_BUTTON_SUBSCRIBE";
         public const string TOOLTIP_THEMES = "TOOLTIP_THEMES";
         public const string TOOLTIP_TERRAIN = "TOOLTIP_TERRAIN";
         public const string TOOLTIP_WATER = "TOOLTIP_WATER";

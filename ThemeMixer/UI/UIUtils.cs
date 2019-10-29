@@ -155,6 +155,7 @@ namespace ThemeMixer.UI
                         break;
                 }
             }
+            if (themeID == null) return string.Empty;
             themeID = Regex.Replace(themeID, @"(\s+|@|&|'|\(|\)|<|>|#|"")", "");
             return string.Concat(themeID, Enum.GetName(typeof(TextureID), textureID));
         }

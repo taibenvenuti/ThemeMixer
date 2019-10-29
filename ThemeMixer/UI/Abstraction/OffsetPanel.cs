@@ -102,10 +102,13 @@ namespace ThemeMixer.UI.Abstraction
 
         private void SetupLabels() {
             string title = Translation.Instance.GetTranslation(TranslationID.OffsetToTranslationID(OffsetID));
+            string red = Translation.Instance.GetTranslation(TranslationID.LABEL_RED);
+            string green = Translation.Instance.GetTranslation(TranslationID.LABEL_GREEN);
+            string blue = Translation.Instance.GetTranslation(TranslationID.LABEL_BLUE);
             SetupLabel(_labelTitle, title, new Vector2(0.0f, 0.0f), new Vector2(340.0f, 22.0f));
-            SetupLabel(_labelR, "R", new Vector2(0.0f, 0.0f), new Vector2(22.0f, 22.0f));
-            SetupLabel(_labelG, "G", new Vector2(0.0f, 0.0f), new Vector2(22.0f, 22.0f));
-            SetupLabel(_labelB, "B", new Vector2(0.0f, 0.0f), new Vector2(22.0f, 22.0f));
+            SetupLabel(_labelR, red, new Vector2(0.0f, 0.0f), new Vector2(22.0f, 22.0f));
+            SetupLabel(_labelG, green, new Vector2(0.0f, 0.0f), new Vector2(22.0f, 22.0f));
+            SetupLabel(_labelB, blue, new Vector2(0.0f, 0.0f), new Vector2(22.0f, 22.0f));
 
         }
 

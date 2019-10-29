@@ -3,6 +3,7 @@ using ColossalFramework.Plugins;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 using ThemeMixer.Themes;
@@ -190,31 +191,29 @@ namespace ThemeMixer.Serialization
 
         public void SaveMix(ThemeMix mix) {
             string newMixModPath = DataLocation.modsPath;
-            string mixName = Regex.Replace(mix.Name, @"(\s+|@|&|'|\(|\)|<|>|#|"")", "");
+            string mixName = Regex.Replace(mix.Name, @"(@|&|'|\(|\)|<|>|#|"")", "");
+            string mixNameTypeSafe = Regex.Replace(mixName, @"(\s+|\d+)", "");
             string mixDir = Path.Combine(newMixModPath, mixName);
             string mixModSourceDir = Path.Combine(mixDir, "Source");
-            string code = string.Concat(
-                "using ICities;",
-                "\nnamespace ", mixName,
-                "\n{",
-                "\n\tpublic class ", mixName, "Mod : IUserMod",
-                "\n\t{",
-                "\n\t\tpublic string Name",
-                "\n\t\t{",
-                "\n\t\t\tget",
-                "\n\t\t\t{",
-                "\n\t\t\t\treturn \"", mixName, "\";",
-                "\n\t\t\t}",
-                "\n\t\t}",
-                "\n\t\tpublic string Description",
-                "\n\t\t{",
-                "\n\t\t\tget",
-                "\n\t\t\t{",
-                "\n\t\t\t\treturn \"", "A theme mix for use with Theme Mixer 2.", "\";",
-                "\n\t\t\t}",
-                "\n\t\t}",
-                "\n\t}",
-                "\n}");
+            var sb = new StringBuilder();
+            sb.AppendLine( "using ICities;");
+            sb.AppendLine($"namespace {mixNameTypeSafe}");
+            sb.AppendLine( "{");
+            sb.AppendLine($"    public class {mixNameTypeSafe}Mod : IUserMod");
+            sb.AppendLine( "    {");
+            sb.AppendLine( "        public string Name {");
+            sb.AppendLine( "            get {");
+            sb.AppendLine($"                return \"{mixName}\";");
+            sb.AppendLine( "            }");
+            sb.AppendLine( "        }");
+            sb.AppendLine( "        public string Description {");
+            sb.AppendLine( "            get {");
+            sb.AppendLine( "                return \"A theme mix for use with Theme Mixer 2\";");
+            sb.AppendLine( "            }");
+            sb.AppendLine( "        }");
+            sb.AppendLine( "    }");
+            sb.AppendLine( "}");
+            string code = sb.ToString();
 
             if (!Directory.Exists(mixDir)) {
                 try {
@@ -235,7 +234,7 @@ namespace ThemeMixer.Serialization
             }
 
             try {
-                File.WriteAllText(Path.Combine(mixModSourceDir, mixName + ".cs"), code);
+                File.WriteAllText(Path.Combine(mixModSourceDir, mixNameTypeSafe + ".cs"), code);
             } catch (Exception e) {
                 Debug.LogError(string.Concat("Failed Creating Theme Mix: ", e.Message));
                 return;

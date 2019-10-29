@@ -5,7 +5,6 @@ namespace ThemeMixer.Serialization
 {
     public class SerializableDataExtension : SerializableDataExtensionBase
     {
-
         public override void OnSaveData() {
             base.OnSaveData();
             ThemeManager.Instance.OnSaveData(serializableDataManager);
@@ -13,7 +12,6 @@ namespace ThemeMixer.Serialization
 
         public override void OnLoadData() {
             base.OnLoadData();
-
             ThemeManager.Instance.OnLoadData(serializableDataManager);
         }
     }

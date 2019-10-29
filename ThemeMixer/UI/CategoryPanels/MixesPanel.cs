@@ -182,7 +182,7 @@ namespace ThemeMixer.UI.CategoryPanels
             _subscribeButtonPanel = _selectMixPanel.AddUIComponent<ButtonPanel>();
             _subscribeButtonPanel.Setup("Download Button", 340.0f, 30.0f);
             _subscribeButtonPanel.SetAnchor(UIAnchorStyle.Left | UIAnchorStyle.CenterVertical);
-            _subscribeButtonPanel.SetText(Translation.Instance.GetTranslation(TranslationID.BUTTON_SUBSCRIBE), Translation.Instance.GetTranslation(TranslationID.TOOLTIP_BUTTON_DOWNLOAD));
+            _subscribeButtonPanel.SetText(Translation.Instance.GetTranslation(TranslationID.BUTTON_SUBSCRIBE), Translation.Instance.GetTranslation(TranslationID.TOOLTIP_BUTTON_SUBSCRIBE));
             _subscribeButtonPanel.AlignRight();
             _subscribeButtonPanel.EventButtonClicked += OnSubscribeClicked;
             _subscribeButtonPanel.isVisible = false;
@@ -236,7 +236,7 @@ namespace ThemeMixer.UI.CategoryPanels
             _saveMixTextField.selectionSprite = "EmptySprite";
             _saveMixTextField.selectionBackgroundColor = new Color32(0, 172, 234, 255);
             _saveMixTextField.normalBgSprite = "TextFieldPanelHovered";
-            _saveMixTextField.textColor = new Color32(0, 0, 0, 255);
+            _saveMixTextField.textColor = Color.black;
             _saveMixTextField.textScale = 1.0f;
             _saveMixTextField.color = new Color32(255, 255, 255, 255);
             _saveMixTextField.relativePosition = new Vector3(120.0f, 0.0f);
@@ -248,8 +248,15 @@ namespace ThemeMixer.UI.CategoryPanels
 
         private void OnTextFieldTextChanged(UIComponent component, string value) {
             var textfield = component as UITextField;
-            if (textfield != null && textfield.text.Length > 0) _saveButtonPanel.EnableButton(Translation.Instance.GetTranslation(TranslationID.BUTTON_SAVE));
-            else _saveButtonPanel.DisableButton();
+            if (textfield == null) return;
+            if (textfield.text.Length > 0 && !int.TryParse(textfield.text[0].ToString(), out int _)) {
+                _saveButtonPanel.EnableButton(Translation.Instance.GetTranslation(TranslationID.BUTTON_SAVE));
+                textfield.textColor = Color.black;
+            }
+            else {
+                textfield.textColor = Color.red;
+                _saveButtonPanel.DisableButton();
+            }
         }
 
         private void OnTextfieldTextSubmitted(UIComponent component, string value) {

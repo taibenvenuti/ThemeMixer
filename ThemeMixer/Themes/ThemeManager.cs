@@ -3,6 +3,7 @@ using ICities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using ThemeMixer.Resources;
 using ThemeMixer.Serialization;
@@ -33,13 +34,16 @@ namespace ThemeMixer.Themes
         }
 
         internal MapThemeMetaData GetTheme(string themeID) {
+            if (themeID == null) return null;
             return Themes.TryGetValue(themeID, out MapThemeMetaData theme) ? theme : null;
         }
 
         public static ThemeManager Ensure() => Instance;
 
-        private static bool InGame => ToolManager.instance?.m_properties != null && (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
+        private static bool InGame => ToolManager.instance?.m_properties != null &&
+                                      (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
 
+        private bool IsGameSaving => (bool) typeof(SavePanel).GetField("m_IsSaving", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
 
         private Dictionary<string, MapThemeMetaData> _themes;
         public Dictionary<string, MapThemeMetaData> Themes => _themes ?? CacheThemes();
@@ -133,22 +137,26 @@ namespace ThemeMixer.Themes
             if (CurrentMix != null) return;
             CurrentMix = SerializationService.Instance.GetDefaultMix() ?? SerializationService.Instance.GetSavedLocalMix();
             if (CurrentMix == null) {
-                switch (SimulationManager.instance.m_metaData.m_environment) {
-                    case "Sunny":
-                        CurrentMix = new ThemeMix("1899640536.CO-Temperate-Theme");
-                        break;
-                    case "Europe":
-                        CurrentMix = new ThemeMix("1899640536.CO-European-Theme");
-                        break;
-                    case "Winter":
-                        CurrentMix = new ThemeMix("1899640536.CO-Winter-Theme");
-                        break;
-                    case "North":
-                        CurrentMix = new ThemeMix("1899640536.CO-Boreal-Theme");
-                        break;
-                    case "Tropical":
-                        CurrentMix = new ThemeMix("1899640536.CO-Tropical-Theme");
-                        break;
+                if (SimulationManager.instance.m_metaData.m_MapThemeMetaData != null)
+                    CurrentMix = new ThemeMix(SimulationManager.instance.m_metaData.m_MapThemeMetaData.mapThemeRef);
+                else {
+                    switch (SimulationManager.instance.m_metaData.m_environment) {
+                        case "Sunny":
+                            CurrentMix = new ThemeMix("1899640536.CO-Temperate-Theme");
+                            break;
+                        case "Europe":
+                            CurrentMix = new ThemeMix("1899640536.CO-European-Theme");
+                            break;
+                        case "Winter":
+                            CurrentMix = new ThemeMix("1899640536.CO-Winter-Theme");
+                            break;
+                        case "North":
+                            CurrentMix = new ThemeMix("1899640536.CO-Boreal-Theme");
+                            break;
+                        case "Tropical":
+                            CurrentMix = new ThemeMix("1899640536.CO-Tropical-Theme");
+                            break;
+                    }
                 }
                 SaveLocalMix();
             } else CurrentMix.Load();
@@ -156,25 +164,25 @@ namespace ThemeMixer.Themes
 
         internal void SaveMix(string saveName) {
             CurrentMix.SetName(saveName);
+            MixID = CurrentMix.ID;
             SaveLocalMix();
             SerializationService.Instance.SaveMix(CurrentMix);
         }
 
         private void OnPackagesChanged() {
+            if (IsGameSaving) return;
             RefreshThemes();
             ThemeSprites.RefreshAtlas();
         }
 
         internal void OnLevelUnloaded() {
-
         }
 
         public static void Release() {
-            if (_instance != null) {
-                PackageManager.eventPackagesChanged -= Instance.OnPackagesChanged;
-                Destroy(_instance.gameObject);
-                _instance = null;
-            }
+            if (_instance == null) return;
+            PackageManager.eventPackagesChanged -= Instance.OnPackagesChanged;
+            Destroy(_instance.gameObject);
+            _instance = null;
         }
 
         public void LoadCategory(ThemeCategory category, string themeID) {

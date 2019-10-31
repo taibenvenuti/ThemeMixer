@@ -35,6 +35,8 @@
     <Translation ID="LABEL_SAVEMIX" String="Сохранить микс" />
     <Translation ID="LABEL_USEASDEFAULT" String="Использовать по умолчанию" />
     <Translation ID="LABEL_NAME" String="Название" />
+    <Translation ID="LABEL_SUBSCRIBE_WARNING_TITLE" String="Game restart required!" />
+    <Translation ID="LABEL_SUBSCRIBE_WARNING_MESSAGE" String="Your themes are downloading, please quit the game, wait for themes to finish downloading, then re-start the game." />
     <Translation ID="LABEL_BY" String="от" />
     <Translation ID="LABEL_MIXES" String="Миксы" />
     <Translation ID="LABEL_THEME" String="Тему" />

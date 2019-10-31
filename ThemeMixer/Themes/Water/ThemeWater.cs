@@ -3,7 +3,7 @@
 namespace ThemeMixer.Themes.Water
 {
     [Serializable]
-    public class ThemeWater : ISelectable
+    public class ThemeWater : ISelectable, IPackageIDListProvider
     {
         public WaterTexture WaterFoam;
         public WaterTexture WaterNormal;

@@ -3,9 +3,7 @@ using ICities;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
-using ThemeMixer.Resources;
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.Themes.Terrain;
@@ -42,8 +40,6 @@ namespace ThemeMixer.Themes
 
         private static bool InGame => ToolManager.instance?.m_properties != null &&
                                       (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
-
-        private bool IsGameSaving => (bool) typeof(SavePanel).GetField("m_IsSaving", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
 
         private Dictionary<string, MapThemeMetaData> _themes;
         public Dictionary<string, MapThemeMetaData> Themes => _themes ?? CacheThemes();
@@ -84,16 +80,6 @@ namespace ThemeMixer.Themes
             if (mix != null && !mix.ThemesMissing() && mix.Load()) CurrentMix = mix;
         }
 
-        private void RefreshThemes() {
-            if (_themes == null) _themes = new Dictionary<string, MapThemeMetaData>();
-            foreach (Package.Asset asset in PackageManager.FilterAssets(UserAssetType.MapThemeMetaData)) {
-                if (asset == null || asset.package == null) continue;
-                if (_themes.ContainsKey(asset.package.packageName)) continue;
-                _themes[asset.fullName] = asset.Instantiate<MapThemeMetaData>();
-                _themes[asset.fullName].assetRef = asset;
-            }
-        }
-
         internal Color GetCurrentColor(ColorID colorID) {
             switch (colorID) {
                 case ColorID.MoonInnerCorona: return (Color)(CurrentMix.Atmosphere.MoonInnerCorona.CustomValue ?? CurrentMix.Atmosphere.MoonInnerCorona.Value);
@@ -132,7 +118,6 @@ namespace ThemeMixer.Themes
         }
 
         public void OnLevelLoaded() {
-            PackageManager.eventPackagesChanged += OnPackagesChanged;
             CacheThemes();
             if (CurrentMix != null) return;
             CurrentMix = SerializationService.Instance.GetDefaultMix() ?? SerializationService.Instance.GetSavedLocalMix();
@@ -169,18 +154,11 @@ namespace ThemeMixer.Themes
             SerializationService.Instance.SaveMix(CurrentMix);
         }
 
-        private void OnPackagesChanged() {
-            if (IsGameSaving) return;
-            RefreshThemes();
-            ThemeSprites.RefreshAtlas();
-        }
-
         internal void OnLevelUnloaded() {
         }
 
         public static void Release() {
             if (_instance == null) return;
-            PackageManager.eventPackagesChanged -= Instance.OnPackagesChanged;
             Destroy(_instance.gameObject);
             _instance = null;
         }

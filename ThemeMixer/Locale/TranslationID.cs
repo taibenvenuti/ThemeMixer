@@ -60,6 +60,9 @@ namespace ThemeMixer.Locale
         public const string LABEL_USEASDEFAULT = "LABEL_USEASDEFAULT";
         public const string LABEL_NAME = "LABEL_NAME";
 
+        public const string LABEL_SUBSCRIBE_WARNING_TITLE = "LABEL_SUBSCRIBE_WARNING_TITLE";
+        public const string LABEL_SUBSCRIBE_WARNING_MESSAGE = "LABEL_SUBSCRIBE_WARNING_MESSAGE";
+
 
         public const string LABEL_BY = "LABEL_BY"; 
         public const string LABEL_THEME = "LABEL_THEME";

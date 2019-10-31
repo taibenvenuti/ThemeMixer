@@ -8,7 +8,7 @@
     <Translation ID="BUTTON_SAVED" String="Saved!" />
     <Translation ID="BUTTON_LOAD" String="Load" />
     <Translation ID="BUTTON_SUBSCRIBE" String="Subscribe" />
-    <Translation ID="TOOLTIP_BUTTON_SUBSCRIBE" String="You are missing some themes from this mix, press this button to subscribe to them now. It is recommended that you restart the game after." />
+    <Translation ID="TOOLTIP_BUTTON_SUBSCRIBE" String="You are missing some themes from this mix, press this button to subscribe to them now. Themes will be available next time you start the game." />
     <Translation ID="TOOLTIP_THEMES" String="Themes" />
     <Translation ID="TOOLTIP_TERRAIN" String="Terrain" />
     <Translation ID="TOOLTIP_WATER" String="Water" />
@@ -35,6 +35,8 @@
     <Translation ID="LABEL_SAVEMIX" String="Save mix" />
     <Translation ID="LABEL_USEASDEFAULT" String="Use as default" />
     <Translation ID="LABEL_NAME" String="Name" />
+    <Translation ID="LABEL_SUBSCRIBE_WARNING_TITLE" String="Game restart required!" />
+    <Translation ID="LABEL_SUBSCRIBE_WARNING_MESSAGE" String="Your themes are downloading, please quit the game, wait for themes to finish downloading, then re-start the game." />
     <Translation ID="LABEL_BY" String="by" />
     <Translation ID="LABEL_MIXES" String="Mixes" />
     <Translation ID="LABEL_THEME" String="Theme" />

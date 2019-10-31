@@ -69,6 +69,7 @@
     <Compile Include="Themes\Enums\ColorID.cs" />
     <Compile Include="Themes\Enums\OffsetID.cs" />
     <Compile Include="Themes\Enums\ValueID.cs" />
+    <Compile Include="Themes\IPackageIDListProvider.cs" />
     <Compile Include="Themes\ISelectable.cs" />
     <Compile Include="Themes\Structures\StructuresTexture.cs" />
     <Compile Include="Themes\Enums\TextureID.cs" />

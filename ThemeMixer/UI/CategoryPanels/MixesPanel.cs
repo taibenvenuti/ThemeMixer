@@ -35,15 +35,10 @@ namespace ThemeMixer.UI.CategoryPanels
             CreateTitleLabel();
             CreatePanels();
             this.CreateSpace(0.0f, 0.1f);
-            PluginManager.instance.eventPluginsChanged += OnPluginsChanged;
+            Data.EventThemeMixSaved += OnThemeMixSaved;
         }
 
-        public override void OnDestroy() {
-            base.OnDestroy();
-            PluginManager.instance.eventPluginsChanged -= OnPluginsChanged;
-        }
-
-        private void OnPluginsChanged() {
+        private void OnThemeMixSaved() {
             RefreshDropdown();
         }
 
@@ -193,6 +188,8 @@ namespace ThemeMixer.UI.CategoryPanels
             if (mix == null) return;
             mix.SubscribeMissingThemes();
             Controller.CloseUI();
+            UIView.Find("DefaultTooltip")?.Hide();
+            UIUtils.ShowExceptionPanel(TranslationID.LABEL_SUBSCRIBE_WARNING_TITLE, TranslationID.LABEL_SUBSCRIBE_WARNING_MESSAGE, false);
         }
 
         private void OnLoadClicked() {

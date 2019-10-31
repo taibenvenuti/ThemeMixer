@@ -102,6 +102,16 @@ namespace ThemeMixer.Themes
                    Weather.IsSelected(themeID);
         }
 
+        public List<string> GetUsedThemes() {
+            ThemePackageIDs.Clear();
+            ObtainUsedThemes(Atmosphere);
+            ObtainUsedThemes(Structures);
+            ObtainUsedThemes(Terrain);
+            ObtainUsedThemes(Water);
+            ObtainUsedThemes(Weather);
+            return ThemePackageIDs;
+        }
+
         private static void MaybeSubscribe(string packageID) {
             if (string.IsNullOrEmpty(packageID)) return;
             if (ThemePackageIDs.Contains(packageID)) return;
@@ -114,6 +124,13 @@ namespace ThemeMixer.Themes
             foreach (Package.Asset mapThemeAsset in PackageManager.FilterAssets(UserAssetType.MapThemeMetaData)) {
                 if (ThemePackageIDs.Contains(mapThemeAsset.fullName)) continue;
                 ThemePackageIDs.Add(mapThemeAsset.fullName);
+            }
+        }
+
+        private static void ObtainUsedThemes(IPackageIDListProvider provider) {
+            foreach (string packageID in provider.GetPackageIDs()) {
+                if (ThemePackageIDs.Contains(packageID)) continue;
+                ThemePackageIDs.Add(packageID);
             }
         }
 

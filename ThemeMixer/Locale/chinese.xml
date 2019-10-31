@@ -16,7 +16,7 @@
     <Translation ID="TOOLTIP_STRUCTURES" String="结构" />
     <Translation ID="TOOLTIP_WEATHER" String="天气" />
     <Translation ID="TOOLTIP_SETTINGS" String="混合" />
-    <Translation ID="TOOLTIP_TILING" String="纹理平铺" />
+    <Translation ID="TOOLTIP_TILING" String="纹理部分" />
     <Translation ID="TOOLTIP_OFFSET" String="色彩偏移" />
     <Translation ID="TOOLTIP_ADDFAVOURITE_ADDBLACKLIST" String="左键单击添加到收藏夹，右键单击添加到黑名单" />
     <Translation ID="TOOLTIP_REMOVEFAVOURITE" String="左键单击可从收藏夹中删除，右键单击可添加到黑名单" />
@@ -35,6 +35,8 @@
     <Translation ID="LABEL_SAVEMIX" String="保存混合" />
     <Translation ID="LABEL_USEASDEFAULT" String="默认使用" />
     <Translation ID="LABEL_NAME" String="名字" />
+    <Translation ID="LABEL_SUBSCRIBE_WARNING_TITLE" String="Game restart required!" />
+    <Translation ID="LABEL_SUBSCRIBE_WARNING_MESSAGE" String="Your themes are downloading, please quit the game, wait for themes to finish downloading, then re-start the game." />
     <Translation ID="LABEL_BY" String="by" />
     <Translation ID="LABEL_MIXES" String="混合" />
     <Translation ID="LABEL_THEME" String="主题" />
@@ -50,20 +52,20 @@
     <Translation ID="LABEL_SELECT" String="选择" />
     <Translation ID="LABEL_GRASS_DIFFUSE" String="草纹理" />
     <Translation ID="LABEL_RUINED_DIFFUSE" String="毁坏的纹理" />
-    <Translation ID="LABEL_PAVEMENT_DIFFUSE" String="路面纹理" />
-    <Translation ID="LABEL_GRAVEL_DIFFUSE" String="碎石纹理" />
-    <Translation ID="LABEL_CLIFF_DIFFUSE" String="悬崖纹理" />
-    <Translation ID="LABEL_SAND_DIFFUSE" String="沙纹理" />
-    <Translation ID="LABEL_OIL_DIFFUSE" String="油纹理" />
+    <Translation ID="LABEL_PAVEMENT_DIFFUSE" String="人行道纹理" />
+    <Translation ID="LABEL_GRAVEL_DIFFUSE" String="公路碎石纹理" />
+    <Translation ID="LABEL_CLIFF_DIFFUSE" String="悬崖岩石纹理" />
+    <Translation ID="LABEL_SAND_DIFFUSE" String="沙滩纹理" />
+    <Translation ID="LABEL_OIL_DIFFUSE" String="石油储量纹理" />
     <Translation ID="LABEL_ORE_DIFFUSE" String="矿石纹理" />
-    <Translation ID="LABEL_CLIFFSAND_NORMAL" String="悬崖和沙尘正常" />
-    <Translation ID="LABEL_UPWARD_ROAD_DIFFUSE" String="路面上纹理" />
-    <Translation ID="LABEL_DOWNWARD_ROAD_DIFFUSE" String="路面下纹理" />
+    <Translation ID="LABEL_CLIFFSAND_NORMAL" String="悬崖沙石普通纹理" />
+    <Translation ID="LABEL_UPWARD_ROAD_DIFFUSE" String="路面纹理" />
+    <Translation ID="LABEL_DOWNWARD_ROAD_DIFFUSE" String="路面质地" />
     <Translation ID="LABEL_BUILDING_FLOOR_DIFFUSE" String="建筑地板纹理" />
     <Translation ID="LABEL_BUILDING_BASE_DIFFUSE" String="建筑基础纹理" />
-    <Translation ID="LABEL_BUILDING_BASE_NORMAL" String="建筑基础法线" />
+    <Translation ID="LABEL_BUILDING_BASE_NORMAL" String="施工现场纹理" />
     <Translation ID="LABEL_BUILDING_BURNT_DIFFUSE" String="烧毁的建筑纹理" />
-    <Translation ID="LABEL_BUILDING_ABANDONED_DIFFUSE" String="被遗弃的建筑物" />
+    <Translation ID="LABEL_BUILDING_ABANDONED_DIFFUSE" String="遗弃的建筑物纹理" />
     <Translation ID="LABEL_LIGHT_COLOR_PALETTE" String="浅色调色板" />
     <Translation ID="LABEL_MOON_DIFFUSE" String="月亮纹理" />
     <Translation ID="LABEL_WATER_FOAM" String="水波纹" />
@@ -84,8 +86,8 @@
     <Translation ID="LABEL_MOONOUTERCORONA" String="月亮光圈亮度" />
     <Translation ID="LABEL_SKYTINT" String="天空色彩" />
     <Translation ID="LABEL_NIGHTHORIZONCOLOR" String="夜晚的天空" />
-    <Translation ID="LABEL_EARLYNIGHTZENITHCOLOR" String="清晨的天空" />
-    <Translation ID="LABEL_LATENIGHTZENITHCOLOR" String="深夜天空" />
+    <Translation ID="LABEL_EARLYNIGHTZENITHCOLOR" String="日出时天空的颜色" />
+    <Translation ID="LABEL_LATENIGHTZENITHCOLOR" String="日落时天空的颜色" />
     <Translation ID="LABEL_WATERCLEAN" String="水" />
     <Translation ID="LABEL_WATERDIRTY" String="污水" />
     <Translation ID="LABEL_WATERUNDER" String="水下" />

@@ -128,12 +128,16 @@ namespace ThemeMixer.UI.Abstraction.ColorPanel
 
         private void OnColorButtonClicked(UIComponent component, UIMouseEventParameter eventParam) {
             if (_ignoreEvents) return;
+            component.isInteractive = false;
+            _ignoreEvents = true;
             _visible = !_visible;
             if (_colorPicker != null) _colorPicker.component.isVisible = _visible;
             _rgbPanel.isVisible = _visible;
             _buttonsPanel.isVisible = _visible;
             _savedSwatchesPanel.isVisible = _visible;
             EventVisibilityChanged?.Invoke(this, new ColorPanelVisibilityChangedEventArgs(this, _visible));
+            _ignoreEvents = false;
+            component.isInteractive = true;
         }
 
         public override void Update() {

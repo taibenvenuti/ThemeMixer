@@ -3,7 +3,7 @@
 namespace ThemeMixer.Themes.Terrain
 {
     [Serializable]
-    public class ThemeTerrain : ISelectable
+    public class ThemeTerrain : ISelectable, IPackageIDListProvider
     {
         public TerrainTexture GrassDiffuseTexture;
         public TerrainTexture RuinedDiffuseTexture;

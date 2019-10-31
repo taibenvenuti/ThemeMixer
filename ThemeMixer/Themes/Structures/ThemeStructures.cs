@@ -2,7 +2,7 @@
 namespace ThemeMixer.Themes.Structures
 {
     [Serializable]
-    public class ThemeStructures : ISelectable
+    public class ThemeStructures : ISelectable, IPackageIDListProvider
     {
         public StructureTexture UpwardRoadDiffuse;
         public StructureTexture DownwardRoadDiffuse;

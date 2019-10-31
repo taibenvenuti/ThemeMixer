@@ -3,7 +3,7 @@
 namespace ThemeMixer.Themes.Weather
 {
     [Serializable]
-    public class ThemeWeather : ISelectable
+    public class ThemeWeather : ISelectable, IPackageIDListProvider
     {
         public WeatherValue MinTemperatureDay;
         public WeatherValue MaxTemperatureDay;

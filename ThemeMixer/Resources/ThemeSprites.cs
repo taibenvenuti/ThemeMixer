@@ -1,4 +1,5 @@
-﻿using ColossalFramework.Packaging;
+﻿using System.Collections;
+using ColossalFramework.Packaging;
 using ColossalFramework.UI;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -97,11 +98,11 @@ namespace ThemeMixer.Resources
             return ResourceUtils.CreateAtlas("ThemesAtlas", SpriteNames.ToArray(), SpriteTextures.ToArray());
         }
 
-        public static void RefreshAtlas()
-        {
+        public static IEnumerator RefreshAtlas() {
             Object.Destroy(_atlas);
             _atlas = null;
             Atlas = CreateAtlas();
+            yield return null;
         }
     }
 }

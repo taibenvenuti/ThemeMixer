@@ -31,9 +31,11 @@
     <Translation ID="TOOLTIP_BUTTON_SAVE_COLOREXISTS" String="The currently selected color is already saved" />
     <Translation ID="TOOLTIP_BUTTON_SAVE" String="Save this color for later" />
     <Translation ID="TOOLTIP_USEASDEFAULT" String="Use this mix as the default when you start a new city" />
+    <Translation ID="TOOLTIP_DISABLECOMPILE" String="Some Mac systems do not support compilation for Theme Mixes. Enable this option if you get an error when trying to save a mix." />
     <Translation ID="LABEL_SELECTMIX" String="Select mix:" />
     <Translation ID="LABEL_SAVEMIX" String="Save mix" />
     <Translation ID="LABEL_USEASDEFAULT" String="Use as default" />
+    <Translation ID="LABEL_DISABLECOMPILE" String="Disable compilation" />
     <Translation ID="LABEL_NAME" String="Name" />
     <Translation ID="LABEL_SUBSCRIBE_WARNING_TITLE" String="Game restart required!" />
     <Translation ID="LABEL_SUBSCRIBE_WARNING_MESSAGE" String="Your themes are downloading, please quit the game, wait for themes to finish downloading, then re-start the game." />

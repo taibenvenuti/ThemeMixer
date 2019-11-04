@@ -16,6 +16,7 @@ namespace ThemeMixer.Themes
     {
         public string ID;
         public string Name;
+        public string Lut;
         public ThemeAtmosphere Atmosphere;
         public ThemeStructures Structures;
         public ThemeTerrain Terrain;
@@ -42,7 +43,12 @@ namespace ThemeMixer.Themes
             if (!Terrain.Load(themeID)) success = false;
             if (!Water.Load(themeID)) success = false;
             if (!Weather.Load(themeID)) success = false;
+            LoadLut();
             return success;
+        }
+
+        private void LoadLut() {
+            ThemeManager.Instance.LoadLut(Lut);
         }
 
         public void SetName(string name) {
@@ -136,6 +142,7 @@ namespace ThemeMixer.Themes
 
         private void InitializeMix() {
             ID = string.Concat(Name, "_", Guid.NewGuid().ToString("N"));
+            Lut = ThemeManager.Instance.Lut;
             Terrain = new ThemeTerrain();
             Water = new ThemeWater();
             Atmosphere = new ThemeAtmosphere();
@@ -144,7 +151,5 @@ namespace ThemeMixer.Themes
         }
 
         [XmlIgnore] private static readonly List<string> ThemePackageIDs = new List<string>();
-
-        [XmlIgnore] public bool AreThemesMissing => ThemesMissing();
     }
 }

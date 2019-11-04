@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Reflection;
 using ColossalFramework.Plugins;
-using ColossalFramework.UI;
 using Harmony;
 using ICities;
 using JetBrains.Annotations;
 using ThemeMixer.Locale;
+using ThemeMixer.Patching;
 using ThemeMixer.Resources;
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes;
@@ -27,6 +27,8 @@ namespace ThemeMixer
 
         private static HarmonyInstance Harmony { get; set; }
 
+        private static UltimateEyeCandyPatch UltimateEyeCandyPatch { get; set; }
+
         [UsedImplicitly]
         public void OnEnabled() {
             EnsureManagers();
@@ -40,13 +42,12 @@ namespace ThemeMixer
             UnInstallHarmony();
         }
 
-        public void OnCreated(ILoading loading) {
-            UITextureAtlas atlas = ThemeSprites.Atlas;
-        }
+        public void OnCreated(ILoading loading) { }
 
         public void OnReleased() { }
 
         public void OnLevelLoaded(LoadMode mode) {
+            ThemeSprites.CreateAtlas();
             ManagersOnLevelLoaded();
         }
 
@@ -82,20 +83,26 @@ namespace ThemeMixer
         private static void ManagersOnLevelUnloaded() {
             ThemeManager.Instance.OnLevelUnloaded();
             UIController.Instance.OnLevelUnloaded();
-            SerializationService.Instance.OnLevelUnloaded();
         }
 
         private static void InstallHarmony() {
             Harmony = HarmonyInstance.Create("com.tpb.thememixer2");
             Harmony.PatchAll(Assembly.GetExecutingAssembly());
+            if (IsModEnabled(672248733UL, "UltimateEyeCandy")) {
+                UltimateEyeCandyPatch = new UltimateEyeCandyPatch();
+                UltimateEyeCandyPatch.Patch(Harmony);
+            }
         }
 
         private static void UnInstallHarmony() {
             if (Harmony == null) return;
             try {
+                UltimateEyeCandyPatch?.Unpatch(Harmony);
                 Harmony.UnpatchAll("com.tpb.thememixer2");
             } catch (Exception e) {
                 Debug.LogError(e);
+            } finally {
+                UltimateEyeCandyPatch = null;
                 Harmony = null;
             }
         }

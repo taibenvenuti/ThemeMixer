@@ -1,5 +1,4 @@
-﻿using ColossalFramework.Plugins;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using ThemeMixer.Locale;
 using ThemeMixer.Resources;
 using ThemeMixer.Themes;
@@ -18,6 +17,7 @@ namespace ThemeMixer.UI.CategoryPanels
         private PanelBase _selectMixPanel;
         private UIDropDown _selectMixDropDown;
         private CheckboxPanel _useAsDefaultCheckbox;
+        private CheckboxPanel _disableCompileCheckboxPanel;
         private ButtonPanel _loadButtonPanel;
         private ButtonPanel _subscribeButtonPanel;
 
@@ -69,7 +69,7 @@ namespace ThemeMixer.UI.CategoryPanels
             _selectMixPanel.CreateSpace(0.0f, 0.01f);
             CreateDropDown();
             _selectMixPanel.CreateSpace(0.0f, 0.01f);
-            CreateCheckBox();
+            CreateUseAsDefaultCheckbox();
             _selectMixPanel.CreateSpace(0.0f, 0.01f);
             CreateLoadButton();
             _selectMixPanel.CreateSpace(0.0f, 5.0f);
@@ -141,7 +141,7 @@ namespace ThemeMixer.UI.CategoryPanels
                 _selectMixDropDown.selectedIndex = 0;
         }
 
-        private void CreateCheckBox() {
+        private void CreateUseAsDefaultCheckbox() {
             _useAsDefaultCheckbox = _selectMixPanel.AddUIComponent<CheckboxPanel>();
             var state = false;
             if (_selectMixDropDown.items.Length > 0 &&
@@ -208,6 +208,10 @@ namespace ThemeMixer.UI.CategoryPanels
             _saveMixPanel.CreateSpace(0.0f, 0.01f);
             CreateTextField();
             _saveMixPanel.CreateSpace(0.0f, 0.01f);
+            if (Application.platform == RuntimePlatform.OSXPlayer) {
+                CreateDisableCompileCheckbox();
+                _saveMixPanel.CreateSpace(0.0f, 0.01f);
+            }
             CreateSaveButton();
             _saveMixPanel.CreateSpace(0.0f, 5.0f);
         }
@@ -274,6 +278,19 @@ namespace ThemeMixer.UI.CategoryPanels
             if (eventParam.keycode != KeyCode.Escape) return;
             if (textfield != null) textfield.Unfocus();
             eventParam.Use();
+        }
+
+        private void CreateDisableCompileCheckbox() {
+            _disableCompileCheckboxPanel = _saveMixPanel.AddUIComponent<CheckboxPanel>();
+            string label = Translation.Instance.GetTranslation(TranslationID.LABEL_DISABLECOMPILE);
+            string checkboxTooltip = Translation.Instance.GetTranslation(TranslationID.TOOLTIP_DISABLECOMPILE);
+            _disableCompileCheckboxPanel.Initialize(Data.DisableCompile, label, checkboxTooltip);
+            _disableCompileCheckboxPanel.MakeSmallVersion();
+            _disableCompileCheckboxPanel.EventCheckboxStateChanged += OnDisableCompileCheckChanged;
+        }
+
+        private void OnDisableCompileCheckChanged(UIComponent component, bool value) {
+            Data.DisableCompile = value;
         }
 
         private void CreateSaveButton() {

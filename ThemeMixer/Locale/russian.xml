@@ -31,9 +31,11 @@
     <Translation ID="TOOLTIP_BUTTON_SAVE_COLOREXISTS" String="Выбранный цвет уже сохранен" />
     <Translation ID="TOOLTIP_BUTTON_SAVE" String="Сохранить этот цвет" />
     <Translation ID="TOOLTIP_USEASDEFAULT" String="Использовать этот микс по умолчанию, при загрузке новой карты" />
+    <Translation ID="TOOLTIP_DISABLECOMPILE" String="Some Mac systems do not support compilation for Theme Mixes. Enable this option if you get an error when trying to save a mix." />
     <Translation ID="LABEL_SELECTMIX" String="Выберите микс:" />
     <Translation ID="LABEL_SAVEMIX" String="Сохранить микс" />
     <Translation ID="LABEL_USEASDEFAULT" String="Использовать по умолчанию" />
+    <Translation ID="LABEL_DISABLECOMPILE" String="Disable compilation" />
     <Translation ID="LABEL_NAME" String="Название" />
     <Translation ID="LABEL_SUBSCRIBE_WARNING_TITLE" String="Game restart required!" />
     <Translation ID="LABEL_SUBSCRIBE_WARNING_MESSAGE" String="Your themes are downloading, please quit the game, wait for themes to finish downloading, then re-start the game." />

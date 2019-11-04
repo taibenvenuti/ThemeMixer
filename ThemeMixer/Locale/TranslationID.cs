@@ -38,6 +38,7 @@ namespace ThemeMixer.Locale
         public const string TOOLTIP_BUTTON_SAVE = "TOOLTIP_BUTTON_SAVE";
         public const string TOOLTIP_OPENCOLORPICKER = "TOOLTIP_OPENCOLORPICKER";
         public const string TOOLTIP_USEASDEFAULT = "TOOLTIP_USEASDEFAULT";
+        public const string TOOLTIP_DISABLECOMPILE = "TOOLTIP_DISABLECOMPILE";
 
         public const string LABEL_RED = "LABEL_RED";
         public const string LABEL_GREEN = "LABEL_GREEN";
@@ -59,6 +60,7 @@ namespace ThemeMixer.Locale
         public const string LABEL_SAVEMIX = "LABEL_SAVEMIX";
         public const string LABEL_USEASDEFAULT = "LABEL_USEASDEFAULT";
         public const string LABEL_NAME = "LABEL_NAME";
+        public const string LABEL_DISABLECOMPILE = "LABEL_DISABLECOMPILE";
 
         public const string LABEL_SUBSCRIBE_WARNING_TITLE = "LABEL_SUBSCRIBE_WARNING_TITLE";
         public const string LABEL_SUBSCRIBE_WARNING_MESSAGE = "LABEL_SUBSCRIBE_WARNING_MESSAGE";

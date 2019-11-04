@@ -177,10 +177,8 @@ namespace ThemeMixer.UI.Abstraction
             foreach (var norm in Normal) {
                 CreateAndAddItemToFastList(norm.Value, ref count, ref index, ref selectedIndex);
             }
-            if (!Data.HideBlacklisted) {
-                foreach (var black in Blacklisted) {
-                    CreateAndAddItemToFastList(black.Value, ref count, ref index, ref selectedIndex);
-                }
+            foreach (var black in Blacklisted) {
+                CreateAndAddItemToFastList(black.Value, ref count, ref index, ref selectedIndex);
             }
             _fastList.RowsData.SetCapacity(count);
             count = Mathf.Clamp(count, 0, 7);

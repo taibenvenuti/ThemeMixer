@@ -52,13 +52,19 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UltimateEyecandy">
+      <HintPath>..\..\..\..\..\..\References\UltimateEyecandy.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\..\..\..\..\..\References\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Patching\ColorCorrectionManagerPatch.cs" />
     <Compile Include="Patching\LoadThemePatch.cs" />
+    <Compile Include="Patching\UltimateEyeCandyPatch.cs" />
     <Compile Include="Patching\WorkshopPatch.cs" />
     <Compile Include="Resources\ThemeSprites.cs" />
     <Compile Include="Serialization\Data.cs" />

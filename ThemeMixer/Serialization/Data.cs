@@ -11,7 +11,7 @@ namespace ThemeMixer.Serialization
     {
         public string DefaultMix { get; set; }
         public ThemeMix LocalMix { get; set; }
-        public bool HideBlacklisted { get; set; }
+        public bool DisableCompile { get; set; }
         public Vector2? ToolbarPosition { get; set; }
         public Vector2? UITogglePosition { get; set; }
         public List<string>[] Favourites { get; set; } = new List<string>[(int)ThemeCategory.Count];

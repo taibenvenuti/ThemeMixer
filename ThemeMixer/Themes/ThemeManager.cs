@@ -3,7 +3,10 @@ using ICities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using ColossalFramework;
 using ThemeMixer.Serialization;
 using ThemeMixer.Themes.Enums;
 using ThemeMixer.Themes.Terrain;
@@ -48,6 +51,28 @@ namespace ThemeMixer.Themes
         public ThemeMix CurrentMix { get; set; }
 
         private string MixID { get; set; }
+
+        private FieldInfo _lutField;
+        private FieldInfo LutField => _lutField ?? (_lutField = typeof(ColorCorrectionManager).GetField("m_SavedAsset", BindingFlags.NonPublic | BindingFlags.Instance));
+
+        public string Lut {
+            get {
+                string userLut = ((SavedString)LutField.GetValue(ColorCorrectionManager.instance))?.value;
+                return !string.IsNullOrEmpty(userLut) ? userLut : BuiltInLut == 0 ? null : BuiltInLuts[BuiltInLut - 1].name;
+            }
+        }
+
+        private FieldInfo _builtInLutField;
+        private FieldInfo BuiltInLutField => _builtInLutField ?? (_builtInLutField = typeof(ColorCorrectionManager).GetField("m_SavedBuiltin", BindingFlags.NonPublic | BindingFlags.Instance));
+
+        public int BuiltInLut => ((SavedInt)BuiltInLutField.GetValue(ColorCorrectionManager.instance)).value;
+
+        private FieldInfo _userLutsField;
+        private FieldInfo UserLutsField => _userLutsField ?? (_userLutsField = typeof(ColorCorrectionManager).GetField("m_UserAssets", BindingFlags.NonPublic | BindingFlags.Instance));
+
+        public List<Package.Asset> UserLuts => (List<Package.Asset>)UserLutsField.GetValue(ColorCorrectionManager.instance);
+
+        public Texture3DWrapper[] BuiltInLuts => ColorCorrectionManager.instance.m_BuiltinLUTs;
 
         internal void OnSaveData(ISerializableData serializableDataManager) {
             if (MixID == null) return;
@@ -109,6 +134,7 @@ namespace ThemeMixer.Themes
         }
 
         private void SaveLocalMix() {
+            CurrentMix.Lut = Lut;
             SerializationService.Instance.SaveLocalMix(CurrentMix);
         }
 
@@ -480,8 +506,7 @@ namespace ThemeMixer.Themes
             }
         }
 
-        public bool IsSelected(string themeID, ValueID valueID)
-        {
+        public bool IsSelected(string themeID, ValueID valueID) {
             switch (valueID) {
                 case ValueID.Longitude: return CurrentMix.Atmosphere.Longitude.IsSelected(themeID);
                 case ValueID.Latitude: return CurrentMix.Atmosphere.Latitude.IsSelected(themeID);
@@ -518,21 +543,29 @@ namespace ThemeMixer.Themes
             if (terrainTexture == null || terrainTexture.Texture == null) return;
             string meshName = string.Empty;
             switch (terrainTexture.Name) {
-                case TerrainTexture.TextureName.CliffDiffuseTexture: meshName = "themedecal-cliff";
+                case TerrainTexture.TextureName.CliffDiffuseTexture:
+                    meshName = "themedecal-cliff";
                     break;
-                case TerrainTexture.TextureName.GrassDiffuseTexture: meshName = "themedecal-grass";
+                case TerrainTexture.TextureName.GrassDiffuseTexture:
+                    meshName = "themedecal-grass";
                     break;
-                case TerrainTexture.TextureName.GravelDiffuseTexture: meshName = "themedecal-gravel";
+                case TerrainTexture.TextureName.GravelDiffuseTexture:
+                    meshName = "themedecal-gravel";
                     break;
-                case TerrainTexture.TextureName.OreDiffuseTexture: meshName = "themedecal-ore";
+                case TerrainTexture.TextureName.OreDiffuseTexture:
+                    meshName = "themedecal-ore";
                     break;
-                case TerrainTexture.TextureName.OilDiffuseTexture: meshName = "themedecal-oil";
+                case TerrainTexture.TextureName.OilDiffuseTexture:
+                    meshName = "themedecal-oil";
                     break;
-                case TerrainTexture.TextureName.PavementDiffuseTexture: meshName = "themedecal-pavement";
+                case TerrainTexture.TextureName.PavementDiffuseTexture:
+                    meshName = "themedecal-pavement";
                     break;
-                case TerrainTexture.TextureName.RuinedDiffuseTexture: meshName = "themedecal-ruined";
+                case TerrainTexture.TextureName.RuinedDiffuseTexture:
+                    meshName = "themedecal-ruined";
                     break;
-                case TerrainTexture.TextureName.SandDiffuseTexture: meshName = "themedecal-sand";
+                case TerrainTexture.TextureName.SandDiffuseTexture:
+                    meshName = "themedecal-sand";
                     break;
             }
             for (uint i = 0; i < PrefabCollection<PropInfo>.LoadedCount(); i++) {
@@ -541,10 +574,33 @@ namespace ThemeMixer.Themes
                 if (prefab.m_mesh == null) continue;
                 if (prefab.m_mesh.name != meshName) continue;
                 prefab.m_material.SetTexture("_MainTex", terrainTexture.Texture);
-                prefab.m_lodMaterialCombined.SetTexture("_MainTex", terrainTexture.Texture); 
+                prefab.m_lodMaterialCombined.SetTexture("_MainTex", terrainTexture.Texture);
                 prefab.m_lodMaterial = prefab.m_material;
                 prefab.m_lodRenderDistance = 18000;
             }
+        }
+
+        public void LoadLut(string lut) {
+            if (string.IsNullOrEmpty(lut)) return;
+            Texture3DWrapper wrapper = BuiltInLuts.FirstOrDefault(t3d => t3d.name == lut);
+            int index = wrapper != null ? Array.IndexOf(BuiltInLuts, wrapper) : -1;
+            if (index != -1) {
+                ColorCorrectionManager.instance.currentSelection = index + 1;
+                return;
+            }
+            var userLuts = UserLuts;
+            Package.Asset asset = userLuts.Find(l => l.name == lut);
+            index = asset != null ? UserLuts.IndexOf(asset) : -1;
+            if (index != -1) ColorCorrectionManager.instance.currentSelection = index + BuiltInLuts.Length + 1;
+            OptionsGraphicsPanel ogp = FindObjectOfType<OptionsGraphicsPanel>();
+            if (ogp == null) return;
+            ogp.SendMessage("RefreshColorCorrectionLUTs");
+        }
+
+        public void SetLut() {
+            if (CurrentMix == null) return;
+            CurrentMix.Lut = Lut;
+            SaveLocalMix();
         }
     }
 }

@@ -1,16 +1,18 @@
 ﻿using ColossalFramework.IO;
 using ColossalFramework.Plugins;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Xml.Serialization;
 using ColossalFramework.Threading;
 using ThemeMixer.Themes;
 using ThemeMixer.Themes.Enums;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace ThemeMixer.Serialization
 {
@@ -55,7 +57,10 @@ namespace ThemeMixer.Serialization
             return Data.LocalMix;
         }
 
-        public bool HideBlacklisted => Data.HideBlacklisted;
+        public bool DisableCompile {
+            get => Data.DisableCompile;
+            set { Data.DisableCompile = value; SaveData(); }
+        }
 
         public List<string> GetFavourites(ThemeCategory themePart) {
             return Data.Favourites[(int)themePart];
@@ -121,12 +126,6 @@ namespace ThemeMixer.Serialization
 
         public void OnLevelLoaded() {
             LoadAvailableMixes();
-
-            PluginManager.instance.eventPluginsChanged += OnPluginsChanged;
-        }
-
-        internal void OnLevelUnloaded() {
-            PluginManager.instance.eventPluginsChanged -= OnPluginsChanged;
         }
 
         private const string FileName = "ThemeMixerSettings.xml";
@@ -183,99 +182,153 @@ namespace ThemeMixer.Serialization
             return Mixes.TryGetValue(_mixIds[index], out ThemeMix mix) ? mix : null;
         }
 
-        private void OnPluginsChanged() {
-            LoadAvailableMixes();
-        }
-
         private void LoadAvailableMixes() {
             Mixes.Clear();
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             foreach (PluginManager.PluginInfo plugin in PluginManager.instance.GetPluginsInfo()) {
-                ThemeMix mix = LoadMix(plugin);
-                if (mix == null) continue;
-                Mixes[mix.ID] = mix;
+                MaybeLoadMix(plugin.modPath);
             }
+            sw.Stop();
+            Debug.LogError(string.Concat("MaybeLoadMods", sw.Elapsed));
+            sw.Reset();
+            sw.Start();
+            foreach (string directory in Directory.GetDirectories(DataLocation.mapThemesPath)) {
+                MaybeLoadMix(directory);
+            }
+            foreach (string directory in Directory.GetDirectories(DataLocation.modsPath)) {
+                MaybeLoadMix(directory);
+            }
+            sw.Stop();
+            Debug.LogError(string.Concat("MaybeLoadXmls", sw.Elapsed));
             EventThemeMixSaved?.Invoke();
+            PluginManager.EnabledEvents();
+        }
+
+        private void MaybeLoadMix(string directory) {
+            string filePath = Path.Combine(directory, "ThemeMix.xml");
+            ThemeMix mix = LoadMix(filePath);
+            if (mix == null) return;
+            Mixes[mix.ID] = mix;
         }
 
         public void SaveMix(ThemeMix mix) {
-            Task task = Task.Create(() => {
-                string newMixModPath = DataLocation.modsPath;
-                string mixName = Regex.Replace(mix.Name, @"(@|&|'|\(|\)|<|>|#|"")", "");
-                string mixNameTypeSafe = Regex.Replace(mixName, @"(\s+|\d+)", "");
-                string mixDir = Path.Combine(newMixModPath, mixName);
-                string mixModSourceDir = Path.Combine(mixDir, "Source");
-                var sb = new StringBuilder();
-                sb.AppendLine("using ICities;");
-                sb.AppendLine($"namespace {mixNameTypeSafe}");
-                sb.AppendLine("{");
-                sb.AppendLine($"    public class {mixNameTypeSafe}Mod : IUserMod");
-                sb.AppendLine("    {");
-                sb.AppendLine("        public string Name {");
-                sb.AppendLine("            get {");
-                sb.AppendLine($"                return \"{mixName}\";");
-                sb.AppendLine("            }");
-                sb.AppendLine("        }");
-                sb.AppendLine("        public string Description {");
-                sb.AppendLine("            get {");
-                sb.AppendLine("                return \"A theme mix for use with Theme Mixer 2\";");
-                sb.AppendLine("            }");
-                sb.AppendLine("        }");
-                sb.AppendLine("    }");
-                sb.AppendLine("}");
-                string code = sb.ToString();
-
-                sb = new StringBuilder();
-                foreach (string usedTheme in mix.GetUsedThemes()) {
-                    sb.AppendLine(usedTheme);
-                }
-
-                string usedThemes = sb.ToString();
-
-                if (!Directory.Exists(mixDir)) {
-                    try {
-                        Directory.CreateDirectory(mixDir);
-                    } catch (Exception e) {
-                        Debug.LogError(string.Concat("Failed Creating Theme Mix: ", e.Message));
-                        return;
-                    }
-                }
-
-                if (!Directory.Exists(mixModSourceDir)) {
-                    try {
-                        Directory.CreateDirectory(mixModSourceDir);
-                    } catch (Exception e) {
-                        Debug.LogError(string.Concat("Failed Creating Theme Mix: ", e.Message));
-                        return;
-                    }
-                }
-
+            StartCoroutine(Save(mix));
+        }
+        
+        private IEnumerator Save(ThemeMix mix) {
+            PluginManager.DisableEvents();
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            string newMixModPath = Data.DisableCompile ? DataLocation.mapThemesPath : DataLocation.modsPath;
+            string mixName = Regex.Replace(mix.Name, @"(@|&|'|\(|\)|<|>|#|"")", "");
+            string mixNameTypeSafe = Regex.Replace(mixName, @"(\s+|\d+)", "");
+            string mixDir = Path.Combine(newMixModPath, mixName);
+            string mixModSourceDir = Path.Combine(mixDir, "Source");
+            if (!Directory.Exists(mixDir)) {
                 try {
-                    File.WriteAllText(Path.Combine(mixModSourceDir, mixNameTypeSafe + ".cs"), code);
-                    File.WriteAllText(Path.Combine(mixDir, "UsedThemes.txt"), usedThemes);
+                    Directory.CreateDirectory(mixDir);
                 } catch (Exception e) {
                     Debug.LogError(string.Concat("Failed Creating Theme Mix: ", e.Message));
-                    return;
+                    throw;
                 }
+            }
+            sw.Stop();
+            Debug.LogError(string.Concat("Start: ", sw.Elapsed));
+            sw.Reset();
+            sw.Start();
+            if (!Data.DisableCompile) yield return CreateSourceCode(mixModSourceDir, mixNameTypeSafe, mixName);
+            sw.Stop();
+            Debug.LogError(string.Concat("CreateSourceCode: ", sw.Elapsed));
+            sw.Reset();
+            sw.Start();
+            yield return CreateUsedAssetsFileCoroutine(mix, mixDir);
+            sw.Stop();
+            Debug.LogError(string.Concat("CreateUsedAssetsFileCoroutine: ", sw.Elapsed));
+            sw.Reset();
+            sw.Start();
+            yield return SaveXmlFile(mix, mixDir);
+            sw.Stop();
+            Debug.LogError(string.Concat("SaveXmlFile: ", sw.Elapsed));
+            sw.Reset();
+            sw.Start();
+            LoadAvailableMixes();
+            sw.Stop();
+            Debug.LogError(string.Concat("LoadAvailableMixes: ", sw.Elapsed));
+            sw.Reset();
+            sw.Start();
 
-                string xml = Path.Combine(mixDir, "ThemeMix.xml");
-                var serializer = new XmlSerializer(typeof(ThemeMix));
-                try {
-                    using (var writer = new StreamWriter(xml)) {
-                        mix.OnPreSerialize();
-                        serializer.Serialize(writer, mix);
-                    }
-                } catch (Exception e) {
-                    Debug.LogError(string.Concat("Failed Creating Theme Mix: ", e.Message));
-                    return;
-                }
-                LoadAvailableMixes();
-            });
-            task.WhenEnded(task.Dispose);
-            task.Run();
+            yield return null;
         }
 
-        public ThemeMix LoadMix(PluginManager.PluginInfo plugin) {
-            string filePath = Path.Combine(plugin.modPath, "ThemeMix.xml");
+        private IEnumerator SaveXmlFile(ThemeMix mix, string mixDir) {
+            string xml = Path.Combine(mixDir, "ThemeMix.xml");
+            var serializer = new XmlSerializer(typeof(ThemeMix));
+            using (var writer = new StreamWriter(xml)) {
+                mix.OnPreSerialize();
+                serializer.Serialize(writer, mix);
+            }
+            yield return null;
+        }
+
+        private IEnumerator CreateUsedAssetsFileCoroutine(ThemeMix mix, string mixDir) {
+            var sb = new StringBuilder();
+            sb.AppendLine("Themes:");
+            foreach (string usedTheme in mix.GetUsedThemes()) {
+                sb.AppendLine(usedTheme);
+            }
+            sb.AppendLine("Lut:");
+            sb.AppendLine(mix.Lut);
+            string usedAssets = sb.ToString();
+            try {
+                File.WriteAllText(Path.Combine(mixDir, "UsedAssets.txt"), usedAssets);
+            } catch (Exception e) {
+                Debug.LogError(string.Concat("Failed Creating Theme Mix user assets file: ", e.Message));
+                throw;
+            }
+            yield return null;
+        }
+
+        private IEnumerator CreateSourceCode(string mixModSourceDir, string mixNameTypeSafe, string mixName) {
+            var sb = new StringBuilder();
+            if (!Directory.Exists(mixModSourceDir)) {
+                try {
+                    Directory.CreateDirectory(mixModSourceDir);
+                } catch (Exception e) {
+                    Debug.LogError(string.Concat("Failed Creating Theme Mix source code directory: ", e.Message));
+                    throw;
+                }
+            }
+            sb.AppendLine("using ICities;");
+            sb.AppendLine($"namespace {mixNameTypeSafe}");
+            sb.AppendLine("{");
+            sb.AppendLine($"    public class {mixNameTypeSafe}Mod : IUserMod");
+            sb.AppendLine("    {");
+            sb.AppendLine("        public string Name {");
+            sb.AppendLine("            get {");
+            sb.AppendLine($"                return \"{mixName}\";");
+            sb.AppendLine("            }");
+            sb.AppendLine("        }");
+            sb.AppendLine("        public string Description {");
+            sb.AppendLine("            get {");
+            sb.AppendLine("                return \"A theme mix for use with Theme Mixer 2\";");
+            sb.AppendLine("            }");
+            sb.AppendLine("        }");
+            sb.AppendLine("    }");
+            sb.AppendLine("}");
+            string code = sb.ToString();
+            sb = new StringBuilder();
+            try {
+                File.WriteAllText(Path.Combine(mixModSourceDir, mixNameTypeSafe + ".cs"), code);
+            } catch (Exception e) {
+                Debug.LogError(string.Concat("Failed Creating Theme Mix source code: ", e.Message));
+                throw;
+            }
+
+            yield return null;
+        }
+
+        public ThemeMix LoadMix(string filePath) {
             if (!File.Exists(filePath)) return null;
             var serializer = new XmlSerializer(typeof(ThemeMix));
             try {

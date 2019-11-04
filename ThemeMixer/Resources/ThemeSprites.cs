@@ -1,22 +1,15 @@
-﻿using System.Collections;
-using ColossalFramework.Packaging;
-using ColossalFramework.UI;
+﻿using ColossalFramework.UI;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using ThemeMixer.Themes;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace ThemeMixer.Resources
 {
     public class ThemeSprites
     {
-        private static UITextureAtlas _atlas;
-        public static UITextureAtlas Atlas {
-            get {
-                if (_atlas == null) _atlas = CreateAtlas();
-                return _atlas;
-            }
-            private set => _atlas = value;
-        }
+        public static UITextureAtlas Atlas { get; private set; }
 
         private static List<string> SpriteNames { get; } = new List<string>();
         private static List<Texture2D> SpriteTextures { get; } = new List<Texture2D>();
@@ -73,20 +66,17 @@ namespace ThemeMixer.Resources
             MoonTexture
         };
 
-        private static UITextureAtlas CreateAtlas() {
+        public static void CreateAtlas() {
             SpriteNames.Clear();
             SpriteTextures.Clear();
-            var themeAssets = PackageManager.FilterAssets(UserAssetType.MapThemeMetaData);
-            foreach (Package.Asset themeAsset in themeAssets) {
-                if (themeAsset == null || themeAsset.package == null) continue;
-                var meta = themeAsset.Instantiate<MapThemeMetaData>();
+            foreach (MapThemeMetaData meta in ThemeManager.Instance.Themes.Values) {
                 if (meta == null) continue;
                 for (var i = 0; i < AssetNames.Length; i++) {
                     string assetName = i < 2 ? string.Concat(meta.name, "_", AssetNames[i]) : AssetNames[i];
-                    string spriteName = string.Concat(themeAsset.fullName, assetName);
+                    string spriteName = string.Concat(meta.assetRef.fullName, assetName);
                     spriteName = Regex.Replace(spriteName, @"(\s+|@|&|'|\(|\)|<|>|#|"")", "");
 
-                    var tex = themeAsset.package.Find(assetName)?.Instantiate<Texture2D>();
+                    var tex = meta.assetRef.package.Find(assetName)?.Instantiate<Texture2D>();
                     if (tex == null) continue;
                     Texture2D spriteTex = tex.ScaledCopy(64.0f / tex.height);
                     Object.Destroy(tex);
@@ -95,14 +85,7 @@ namespace ThemeMixer.Resources
                     SpriteTextures.Add(spriteTex);
                 }
             }
-            return ResourceUtils.CreateAtlas("ThemesAtlas", SpriteNames.ToArray(), SpriteTextures.ToArray());
-        }
-
-        public static IEnumerator RefreshAtlas() {
-            Object.Destroy(_atlas);
-            _atlas = null;
-            Atlas = CreateAtlas();
-            yield return null;
+            Atlas = ResourceUtils.CreateAtlas("ThemesAtlas", SpriteNames.ToArray(), SpriteTextures.ToArray());
         }
     }
 }

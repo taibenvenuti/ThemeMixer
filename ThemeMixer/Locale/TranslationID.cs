@@ -20,7 +20,8 @@ namespace ThemeMixer.Locale
         public const string TOOLTIP_ATMOSPHERE = "TOOLTIP_ATMOSPHERE";
         public const string TOOLTIP_STRUCTURES = "TOOLTIP_STRUCTURES";
         public const string TOOLTIP_WEATHER = "TOOLTIP_WEATHER";
-        public const string TOOLTIP_SETTINGS = "TOOLTIP_SETTINGS";
+        public const string TOOLTIP_LUTS = "TOOLTIP_LUTS";
+        public const string TOOLTIP_MIXES = "TOOLTIP_MIXES";
         public const string TOOLTIP_ADDFAVOURITE_ADDBLACKLIST = "TOOLTIP_ADDFAVOURITE_ADDBLACKLIST";
         public const string TOOLTIP_REMOVEFAVOURITE = "TOOLTIP_REMOVEFAVOURITE";
         public const string TOOLTIP_REMOVEBLACKLIST = "TOOLTIP_REMOVEBLACKLIST";
@@ -56,6 +57,7 @@ namespace ThemeMixer.Locale
         public const string LABEL_WATERUNDER = "LABEL_WATERUNDER";
 
 
+        public const string LABEL_SELECTLUT = "LABEL_SELECTLUT";
         public const string LABEL_SELECTMIX = "LABEL_SELECTMIX";
         public const string LABEL_SAVEMIX = "LABEL_SAVEMIX";
         public const string LABEL_USEASDEFAULT = "LABEL_USEASDEFAULT";
@@ -70,6 +72,7 @@ namespace ThemeMixer.Locale
         public const string LABEL_THEME = "LABEL_THEME";
         public const string LABEL_TERRAIN = "LABEL_TERRAIN";
         public const string LABEL_ATMOSPHERE = "LABEL_ATMOSPHERE";
+        public const string LABEL_LUTS = "LABEL_LUTS";
         public const string LABEL_MIXES = "LABEL_MIXES";
         public const string LABEL_WATER = "LABEL_WATER";
         public const string LABEL_WEATHER = "LABEL_WEATHER";

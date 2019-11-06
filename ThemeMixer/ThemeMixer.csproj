@@ -86,6 +86,7 @@
     <Compile Include="Themes\Water\WaterColor.cs" />
     <Compile Include="Themes\Water\WaterTexture.cs" />
     <Compile Include="Themes\Weather\WeatherValue.cs" />
+    <Compile Include="UI\CategoryPanels\LutsPanel.cs" />
     <Compile Include="UI\CategoryPanels\MixesPanel.cs" />
     <Compile Include="UI\CheckboxPanel.cs" />
     <Compile Include="UI\ButtonPanel.cs" />
@@ -210,6 +211,10 @@
     <Content Include="Locale\russian.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="Resources\Files\LutIcon.png" />
+    <EmbeddedResource Include="Resources\Files\LutIconFocused.png" />
+    <EmbeddedResource Include="Resources\Files\LutIconHovered.png" />
+    <EmbeddedResource Include="Resources\Files\LutIconPressed.png" />
     <EmbeddedResource Include="Resources\Files\Swatch.png" />
     <EmbeddedResource Include="Resources\Files\IconBorder.png" />
     <EmbeddedResource Include="Resources\Files\IconBorderFocused.png" />

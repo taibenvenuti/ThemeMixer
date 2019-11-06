@@ -24,12 +24,14 @@ namespace ThemeMixer.UI.Abstraction
             base.Awake();
             _ignoreEvents = true;
             Setup("Value Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect");
+            autoLayout = false;
             CreateUIElements();
             CacheDefaultValue();
             SetupLabels();
             SetupButtons();
             SetupSlider();
             SetupTextfield();
+            autoLayout = true;
             _ignoreEvents = false;
         }
 

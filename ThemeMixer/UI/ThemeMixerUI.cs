@@ -56,6 +56,8 @@ namespace ThemeMixer.UI
                     return AddUIComponent<AtmospherePanel>();
                 case ThemeCategory.Mixes:
                     return AddUIComponent<MixesPanel>();
+                case ThemeCategory.None:
+                    return AddUIComponent<LutsPanel>();
                 default: return null;
             }
         }

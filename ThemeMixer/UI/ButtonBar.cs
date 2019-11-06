@@ -19,7 +19,9 @@ namespace ThemeMixer.UI
         private ToolbarButton _structuresButton;
         private ToolbarButton _atmosphereButton;
         private ToolbarButton _weatherButton;
-        private ToolbarButton _settingsButton;
+        private ToolbarButton _lutButton;
+
+        private ToolbarButton _mixesButton;
 
         private ToolbarButton[] _buttons;
 
@@ -38,7 +40,8 @@ namespace ThemeMixer.UI
             _atmosphereButton.EventClicked -= OnButtonClicked;
             _structuresButton.EventClicked -= OnButtonClicked;
             _weatherButton.EventClicked -= OnButtonClicked;
-            _settingsButton.EventClicked -= OnButtonClicked;
+            _lutButton.EventClicked -= OnButtonClicked;
+            _mixesButton.EventClicked -= OnButtonClicked;
             base.OnDestroy();
         }
 
@@ -46,7 +49,6 @@ namespace ThemeMixer.UI
 
             _themesButton = new ToolbarButton(ThemeCategory.Themes, this);
             _themesButton.EventClicked += OnButtonClicked;
-
 
             _terrainButton = new ToolbarButton(ThemeCategory.Terrain, this);
             _terrainButton.EventClicked += OnButtonClicked;
@@ -63,14 +65,11 @@ namespace ThemeMixer.UI
             _weatherButton = new ToolbarButton(ThemeCategory.Weather, this);
             _weatherButton.EventClicked += OnButtonClicked;
 
-            var panel = AddUIComponent<UIPanel>();
-            panel.size = new Vector2(30.0f, 2.0f);
-            panel.atlas = UISprites.DefaultAtlas;
-            panel.backgroundSprite = "WhiteRect";
-            panel.color = UIColorDark;
+            _lutButton = new ToolbarButton(ThemeCategory.None, this);
+            _lutButton.EventClicked += OnButtonClicked;
 
-            _settingsButton = new ToolbarButton(ThemeCategory.Mixes, this);
-            _settingsButton.EventClicked += OnButtonClicked;
+            _mixesButton = new ToolbarButton(ThemeCategory.Mixes, this);
+            _mixesButton.EventClicked += OnButtonClicked;
 
             CreateButtonArray();
         }
@@ -87,7 +86,8 @@ namespace ThemeMixer.UI
                 _atmosphereButton,
                 _structuresButton,
                 _weatherButton,
-                _settingsButton
+                _lutButton,
+                _mixesButton
             };
         }
     }
@@ -131,9 +131,13 @@ namespace ThemeMixer.UI
                     icon = UISprites.WeatherIcon;
                     locale = TranslationID.TOOLTIP_WEATHER;
                     break;
-                default:
+                case ThemeCategory.Mixes:
                     icon = UISprites.SettingsIcon;
-                    locale = TranslationID.TOOLTIP_SETTINGS;
+                    locale = TranslationID.TOOLTIP_MIXES;
+                    break;
+                default:
+                    icon = UISprites.LutIcon;
+                    locale = TranslationID.TOOLTIP_LUTS;
                     break;
             }
             Button = UIUtils.CreateButton(parent, ButtonSize, foregroundSprite: UISprites.IconBorder, backgroundSprite: icon, atlas: UISprites.Atlas, isFocusable: true, tooltip: Translation.Instance.GetTranslation(locale));

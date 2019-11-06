@@ -29,6 +29,7 @@ namespace ThemeMixer.UI.Abstraction
         public override void Awake() {
             base.Awake();
             Setup("Texture Panel Container", 350.0f, 0.0f, UIUtils.DefaultSpacing, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect");
+            autoLayout = false;
             CreateUIElements();
             _defaultValue = Controller.GetTilingValue(TextureID);
             SetupThumbnail();
@@ -36,6 +37,7 @@ namespace ThemeMixer.UI.Abstraction
             SetupButtons();
             SetupSlider();
             SetupSliderTextfield();
+            autoLayout = true;
         }
 
         private void CreateUIElements() {

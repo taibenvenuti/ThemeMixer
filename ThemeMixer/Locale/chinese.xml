@@ -15,7 +15,8 @@
     <Translation ID="TOOLTIP_ATMOSPHERE" String="大气层" />
     <Translation ID="TOOLTIP_STRUCTURES" String="结构" />
     <Translation ID="TOOLTIP_WEATHER" String="天气" />
-    <Translation ID="TOOLTIP_SETTINGS" String="混合" />
+    <Translation ID="TOOLTIP_LUTS" String="Color Correction" />
+    <Translation ID="TOOLTIP_MIXES" String="混合" />
     <Translation ID="TOOLTIP_TILING" String="纹理部分" />
     <Translation ID="TOOLTIP_OFFSET" String="色彩偏移" />
     <Translation ID="TOOLTIP_ADDFAVOURITE_ADDBLACKLIST" String="左键单击添加到收藏夹，右键单击添加到黑名单" />
@@ -32,6 +33,7 @@
     <Translation ID="TOOLTIP_BUTTON_SAVE" String="保存此颜色以备后用" />
     <Translation ID="TOOLTIP_USEASDEFAULT" String="当您开始一个新城市时，使用此组合作为默认设置" />
     <Translation ID="TOOLTIP_DISABLECOMPILE" String="Some Mac systems do not support compilation for Theme Mixes. Enable this option if you get an error when trying to save a mix." />
+    <Translation ID="LABEL_SELECTLUT" String="Select LUT:" />
     <Translation ID="LABEL_SELECTMIX" String="选择混合:" />
     <Translation ID="LABEL_SAVEMIX" String="保存混合" />
     <Translation ID="LABEL_USEASDEFAULT" String="默认使用" />
@@ -41,6 +43,7 @@
     <Translation ID="LABEL_SUBSCRIBE_WARNING_MESSAGE" String="Your themes are downloading, please quit the game, wait for themes to finish downloading, then re-start the game." />
     <Translation ID="LABEL_BY" String="by" />
     <Translation ID="LABEL_MIXES" String="混合" />
+    <Translation ID="LABEL_LUTS" String="Color Correction" />
     <Translation ID="LABEL_THEME" String="主题" />
     <Translation ID="LABEL_TERRAIN" String="地形" />
     <Translation ID="LABEL_ATMOSPHERE" String="大气层" />

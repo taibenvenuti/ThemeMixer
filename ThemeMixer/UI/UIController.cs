@@ -33,6 +33,8 @@ namespace ThemeMixer.UI
         public OffsetID OffsetID { get; private set; }
         public ValueID ValueID { get; private set; }
 
+        public UIScrollbar Scrollbar { get; private set; }
+
         private static bool InGame => ToolManager.instance?.m_properties != null && (ToolManager.instance.m_properties?.m_mode & ItemClass.Availability.GameAndMap) != 0;
 
         internal Color GetCurrentColor(ColorID colorID) {
@@ -66,12 +68,24 @@ namespace ThemeMixer.UI
         }
 
         public void OnLevelLoaded() {
+            InstantiateScrollbar();
             if (UIToggle != null) {
                 Destroy(UIToggle.gameObject);
                 UIToggle = null;
             }
             UIToggle = UIView.GetAView().AddUIComponent(typeof(UIToggle)) as UIToggle;
             if (UIToggle != null) UIToggle.EventUIToggleClicked += OnUIToggleClicked;
+        }
+
+        private void InstantiateScrollbar() {
+            if (Scrollbar != null) return;
+            Scrollbar = Instantiate(UIView.Find<UIDropDown>("ColorCorrection").listScrollbar);
+            Scrollbar.transform.parent = gameObject.transform;
+            Scrollbar.width = 12.0f;
+            Scrollbar.trackObject.width = 12.0f;
+            ((UISlicedSprite)Scrollbar.trackObject).spriteName = "LevelBarBackground";
+            Scrollbar.thumbObject.width = 12.0f;
+            ((UISlicedSprite)Scrollbar.thumbObject).spriteName = "LevelBarForeground";
         }
 
         public void OnLevelUnloaded() {

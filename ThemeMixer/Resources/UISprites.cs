@@ -46,6 +46,11 @@ namespace ThemeMixer.Resources
         public const string AtmosphereIconPressed = "AtmosphereIconPressed";
         public const string AtmosphereIconFocused = "AtmosphereIconFocused";
 
+        public const string LutIcon = "LutIcon";
+        public const string LutIconHovered = "LutIconHovered";
+        public const string LutIconPressed = "LutIconPressed";
+        public const string LutIconFocused = "LutIconFocused";
+
         public const string StructuresIcon = "StructuresIcon";
         public const string StructuresIconHovered = "StructuresIconHovered";
         public const string StructuresIconPressed = "StructuresIconPressed";
@@ -103,6 +108,11 @@ namespace ThemeMixer.Resources
             AtmosphereIconHovered,
             AtmosphereIconPressed,
             AtmosphereIconFocused,
+
+            LutIcon,
+            LutIconHovered,
+            LutIconPressed,
+            LutIconFocused,
 
             StructuresIcon,
             StructuresIconHovered,

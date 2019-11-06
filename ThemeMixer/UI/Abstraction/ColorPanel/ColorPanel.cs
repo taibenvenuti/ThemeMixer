@@ -46,6 +46,7 @@ namespace ThemeMixer.UI.Abstraction.ColorPanel
             base.Awake();
             _ignoreEvents = true;
             Setup("Color Panel", 350.0f, 0.0f, 5, true, LayoutDirection.Vertical, LayoutStart.TopLeft, "WhiteRect");
+            autoLayout = false;
             CreateUIElements();
             _defaultValue = Controller.GetCurrentColor(ColorID);
             SetupTopPanel();
@@ -56,6 +57,7 @@ namespace ThemeMixer.UI.Abstraction.ColorPanel
             OnCloseClicked();
             color = UIColorGrey;
             _ignoreEvents = false;
+            autoLayout = true;
         }
 
         private void CreateUIElements() {

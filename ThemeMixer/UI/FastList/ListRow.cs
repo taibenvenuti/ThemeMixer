@@ -49,11 +49,13 @@ namespace ThemeMixer.UI.FastList
             base.Awake();
             Setup("List Row", 456.0f, 76.0f, UIUtils.DefaultSpacing, true, LayoutDirection.Horizontal, LayoutStart.TopLeft, "WhiteRect");
             color = _isRowOdd ? OddColor : EvenColor;
+            autoLayout = false;
             CreateThumbnail();
             CreateLabels();
             CreateValuesPanel();
             CreateCheckbox();
             this.CreateSpace(0.0f, 30.0f);
+            autoLayout = true;
             eventMouseEnter += OnMouseEnterEvent;
             eventMouseLeave += OnMouseLeaveEvent;
         }

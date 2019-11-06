@@ -15,7 +15,8 @@
     <Translation ID="TOOLTIP_ATMOSPHERE" String="Атмосфера" />
     <Translation ID="TOOLTIP_STRUCTURES" String="Структуры" />
     <Translation ID="TOOLTIP_WEATHER" String="Погода" />
-    <Translation ID="TOOLTIP_SETTINGS" String="Миксы" />
+    <Translation ID="TOOLTIP_MIXES" String="Миксы" />
+    <Translation ID="TOOLTIP_LUTS" String="Color Correction" />
     <Translation ID="TOOLTIP_TILING" String="Текстурные части" />
     <Translation ID="TOOLTIP_OFFSET" String="Смещение цвета" />
     <Translation ID="TOOLTIP_ADDFAVOURITE_ADDBLACKLIST" String="Щёлкните левой кнопкой мыши, чтобы добавить в избранное, щёлкните правой кнопкой мыши, чтобы добавить в чёрный список" />
@@ -32,6 +33,7 @@
     <Translation ID="TOOLTIP_BUTTON_SAVE" String="Сохранить этот цвет" />
     <Translation ID="TOOLTIP_USEASDEFAULT" String="Использовать этот микс по умолчанию, при загрузке новой карты" />
     <Translation ID="TOOLTIP_DISABLECOMPILE" String="Some Mac systems do not support compilation for Theme Mixes. Enable this option if you get an error when trying to save a mix." />
+    <Translation ID="LABEL_SELECTLUT" String="Select LUT:" />
     <Translation ID="LABEL_SELECTMIX" String="Выберите микс:" />
     <Translation ID="LABEL_SAVEMIX" String="Сохранить микс" />
     <Translation ID="LABEL_USEASDEFAULT" String="Использовать по умолчанию" />
@@ -41,6 +43,7 @@
     <Translation ID="LABEL_SUBSCRIBE_WARNING_MESSAGE" String="Your themes are downloading, please quit the game, wait for themes to finish downloading, then re-start the game." />
     <Translation ID="LABEL_BY" String="от" />
     <Translation ID="LABEL_MIXES" String="Миксы" />
+    <Translation ID="LABEL_LUTS" String="Color Correction" />
     <Translation ID="LABEL_THEME" String="Тему" />
     <Translation ID="LABEL_TERRAIN" String="Поверхность" />
     <Translation ID="LABEL_ATMOSPHERE" String="Атмосфера" />

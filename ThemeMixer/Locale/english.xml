@@ -15,7 +15,8 @@
     <Translation ID="TOOLTIP_ATMOSPHERE" String="Atmosphere" />
     <Translation ID="TOOLTIP_STRUCTURES" String="Structures" />
     <Translation ID="TOOLTIP_WEATHER" String="Weather" />
-    <Translation ID="TOOLTIP_SETTINGS" String="Mixes" />
+    <Translation ID="TOOLTIP_LUTS" String="Color Correction" />
+    <Translation ID="TOOLTIP_MIXES" String="Mixes" />
     <Translation ID="TOOLTIP_TILING" String="Texture Tiling" />
     <Translation ID="TOOLTIP_OFFSET" String="Color Offset" />
     <Translation ID="TOOLTIP_ADDFAVOURITE_ADDBLACKLIST" String="Left-click to add to favorites, right-click to add to blacklist" />
@@ -32,6 +33,7 @@
     <Translation ID="TOOLTIP_BUTTON_SAVE" String="Save this color for later" />
     <Translation ID="TOOLTIP_USEASDEFAULT" String="Use this mix as the default when you start a new city" />
     <Translation ID="TOOLTIP_DISABLECOMPILE" String="Some Mac systems do not support compilation for Theme Mixes. Enable this option if you get an error when trying to save a mix." />
+    <Translation ID="LABEL_SELECTLUT" String="Select LUT:" />
     <Translation ID="LABEL_SELECTMIX" String="Select mix:" />
     <Translation ID="LABEL_SAVEMIX" String="Save mix" />
     <Translation ID="LABEL_USEASDEFAULT" String="Use as default" />
@@ -41,6 +43,7 @@
     <Translation ID="LABEL_SUBSCRIBE_WARNING_MESSAGE" String="Your themes are downloading, please quit the game, wait for themes to finish downloading, then re-start the game." />
     <Translation ID="LABEL_BY" String="by" />
     <Translation ID="LABEL_MIXES" String="Mixes" />
+    <Translation ID="LABEL_LUTS" String="Color Correction" />
     <Translation ID="LABEL_THEME" String="Theme" />
     <Translation ID="LABEL_TERRAIN" String="Terrain" />
     <Translation ID="LABEL_ATMOSPHERE" String="Atmosphere" />

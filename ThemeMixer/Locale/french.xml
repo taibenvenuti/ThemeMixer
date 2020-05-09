@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language UniqueName="fr" ReadableName="Français" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2009/XMLSchema/XMLSchema.xsd">
+  <Translations>
+    <Translation ID="MOD_DESCRIPTION" String="Vous permet de charger, mélanger et personnaliser les thèmes de carte" />
+    <Translation ID="BUTTON_OK" String="OK" />
+    <Translation ID="BUTTON_CLOSE" String="Fermer" />
+    <Translation ID="BUTTON_SAVE" String="Sauvegarder" />
+    <Translation ID="BUTTON_SAVED" String="Sauvegardé !" />
+    <Translation ID="BUTTON_LOAD" String="Télécharger" />
+    <Translation ID="BUTTON_SUBSCRIBE" String="Souscrire" />
+    <Translation ID="TOOLTIP_BUTTON_SUBSCRIBE" String="Il manque certains thèmes de ce mix, appuyez sur ce bouton pour vous y abonner maintenant. Les thèmes seront disponibles la prochaine fois que vous lancerez le jeu." />
+    <Translation ID="TOOLTIP_THEMES" String="Thèmes" />
+    <Translation ID="TOOLTIP_TERRAIN" String="Terrain" />
+    <Translation ID="TOOLTIP_WATER" String="Eau" />
+    <Translation ID="TOOLTIP_ATMOSPHERE" String="Atmosphère" />
+    <Translation ID="TOOLTIP_STRUCTURES" String="Structures" />
+    <Translation ID="TOOLTIP_WEATHER" String="Temps" />
+    <Translation ID="TOOLTIP_LUTS" String="Correction de couleur" />
+    <Translation ID="TOOLTIP_MIXES" String="Mélanges" />
+    <Translation ID="TOOLTIP_TILING" String="Textures" />
+    <Translation ID="TOOLTIP_OFFSET" String="Décalage de couleur" />
+    <Translation ID="TOOLTIP_ADDFAVOURITE_ADDBLACKLIST" String="Clic gauche pour ajouter aux favoris, clic droit pour ajouter à la liste noire" />
+    <Translation ID="TOOLTIP_REMOVEFAVOURITE" String="Clic gauche pour supprimer des favoris, clic droit pour ajouter à la liste noiret" />
+    <Translation ID="TOOLTIP_REMOVEBLACKLIST" String="Clic gauche pour ajouter aux favoris, clic droit pour supprimer de la liste noire" />
+    <Translation ID="TOOLTIP_LOADFROMTHEME" String="Charger cette valeur à partir d'un thème de carte" />
+    <Translation ID="TOOLTIP_RESET" String="Rétablir la dernière valeur chargée" />
+    <Translation ID="TOOLTIP_VALUE_GRASSDETAIL" String="Basculer l'herbe décorative courante" />
+    <Translation ID="TOOLTIP_VALUE_CLIFFDETAIL" String="Basculer la roche décorative courante" />
+    <Translation ID="TOOLTIP_VALUE_FERTILEDETAIL" String="Basculer la fertilité décorative courante" />
+    <Translation ID="TOOLTIP_OPENCOLORPICKER" String="Sélecteur de couleur ouvert" />
+    <Translation ID="TOOLTIP_BUTTON_SAVE_MAXREACHED" String="Vous avez atteint le nombre maximum de couleurs enregistrées" />
+    <Translation ID="TOOLTIP_BUTTON_SAVE_COLOREXISTS" String="La couleur actuellement sélectionnée est déjà enregistrée" />
+    <Translation ID="TOOLTIP_BUTTON_SAVE" String="Enregistrez cette couleur pour plus tard" />
+    <Translation ID="TOOLTIP_USEASDEFAULT" String="Utilisez ce mélange par défaut lorsque vous démarrez une nouvelle ville" />
+    <Translation ID="TOOLTIP_DISABLECOMPILE" String="Certains systèmes Mac ne prennent pas en charge la compilation pour les mélanges thématiques. Activez cette option si vous obtenez une erreur lorsque vous essayez d'enregistrer un mélange." />
+    <Translation ID="LABEL_SELECTLUT" String="Sélectionner LUT :" />
+    <Translation ID="LABEL_SELECTMIX" String="Sélectionner le mélangeur :" />
+    <Translation ID="LABEL_SAVEMIX" String="Sauvegarder le mélange" />
+    <Translation ID="LABEL_USEASDEFAULT" String="Utiliser par défaut" />
+    <Translation ID="LABEL_DISABLECOMPILE" String="Désactiver la compilation" />
+    <Translation ID="LABEL_NAME" String="Nom" />
+    <Translation ID="LABEL_SUBSCRIBE_WARNING_TITLE" String="Redémarrage du jeu requis !" />
+    <Translation ID="LABEL_SUBSCRIBE_WARNING_MESSAGE" String="Vos thèmes sont en cours de téléchargement, veuillez quitter le jeu, attendez la fin du téléchargement des thèmes, puis redémarrez le jeu." />
+    <Translation ID="LABEL_BY" String="par" />
+    <Translation ID="LABEL_MIXES" String="Mélanges" />
+    <Translation ID="LABEL_LUTS" String="Correction de couleur" />
+    <Translation ID="LABEL_THEME" String="Thème" />
+    <Translation ID="LABEL_TERRAIN" String="Terrain" />
+    <Translation ID="LABEL_ATMOSPHERE" String="Atmosphère" />
+    <Translation ID="LABEL_WATER" String="Eau" />
+    <Translation ID="LABEL_WEATHER" String="temps" />
+    <Translation ID="LABEL_STRUCTURES" String="Structures" />
+    <Translation ID="LABEL_COLOR" String="Couleur" />
+    <Translation ID="LABEL_OFFSET" String="Décalage de couleur" />
+    <Translation ID="LABEL_VALUE" String="Valeur" />
+    <Translation ID="LABEL_TEXTURE" String="Texture" />
+    <Translation ID="LABEL_SELECT" String="Sélectionner" />
+    <Translation ID="LABEL_GRASS_DIFFUSE" String="Texture de l'herbe" />
+    <Translation ID="LABEL_RUINED_DIFFUSE" String="Texture de ruine" />
+    <Translation ID="LABEL_PAVEMENT_DIFFUSE" String="Texture de la chaussée" />
+    <Translation ID="LABEL_GRAVEL_DIFFUSE" String="Texture de gravier" />
+    <Translation ID="LABEL_CLIFF_DIFFUSE" String="Texture de falaise" />
+    <Translation ID="LABEL_SAND_DIFFUSE" String="Texture sable" />
+    <Translation ID="LABEL_OIL_DIFFUSE" String="Texture du pétrole" />
+    <Translation ID="LABEL_ORE_DIFFUSE" String="Texture du minerai" />
+    <Translation ID="LABEL_CLIFFSAND_NORMAL" String="Falaise et sable normauxl" />
+    <Translation ID="LABEL_UPWARD_ROAD_DIFFUSE" String="Texture vers le haut de la route" />
+    <Translation ID="LABEL_DOWNWARD_ROAD_DIFFUSE" String="Texture de route vers le bas" />
+    <Translation ID="LABEL_BUILDING_FLOOR_DIFFUSE" String="Texture du sol du bâtiment" />
+    <Translation ID="LABEL_BUILDING_BASE_DIFFUSE" String="Texture de base du bâtiment" />
+    <Translation ID="LABEL_BUILDING_BASE_NORMAL" String="Base de construction normale" />
+    <Translation ID="LABEL_BUILDING_BURNT_DIFFUSE" String="Texture de bâtiment brûlé" />
+    <Translation ID="LABEL_BUILDING_ABANDONED_DIFFUSE" String="Bâtiment abandonné" />
+    <Translation ID="LABEL_LIGHT_COLOR_PALETTE" String="Palette de couleurs claires" />
+    <Translation ID="LABEL_MOON_DIFFUSE" String="Texture de la lune" />
+    <Translation ID="LABEL_WATER_FOAM" String="Mousse" />
+    <Translation ID="LABEL_WATER_NORMAL" String="Eau normale" />
+    <Translation ID="LABEL_OFFSET_POLLUTION" String="Pollution" />
+    <Translation ID="LABEL_OFFSET_FERTILITY" String="Fertilité" />
+    <Translation ID="LABEL_OFFSET_FIELD" String="Champs" />
+    <Translation ID="LABEL_OFFSET_FOREST" String="Forêt" />
+    <Translation ID="LABEL_TITLE_DETAIL" String="Decoration courantes" />
+    <Translation ID="LABEL_VALUE_GRASSDETAIL" String="Afficher l'herbe courante" />
+    <Translation ID="LABEL_VALUE_CLIFFDETAIL" String="Afficher les roches courantes" />
+    <Translation ID="LABEL_VALUE_FERTILEDETAIL" String="Afficher la fertilité des terres courantes" />
+    <Translation ID="LABEL_RED" String="R" />
+    <Translation ID="LABEL_GREEN" String="V" />
+    <Translation ID="LABEL_BLUE" String="B" />
+    <Translation ID="LABEL_NEW_SWATCH" String="Nouvelle couleur enregistrée" />
+    <Translation ID="LABEL_MOONINNERCORONA" String="Couronne intérieure de la lune" />
+    <Translation ID="LABEL_MOONOUTERCORONA" String="Couronne extérieure de la lune" />
+    <Translation ID="LABEL_SKYTINT" String="Teinte de ciel" />
+    <Translation ID="LABEL_NIGHTHORIZONCOLOR" String="Horizon nocturne" />
+    <Translation ID="LABEL_EARLYNIGHTZENITHCOLOR" String="Zénith tôt le soir" />
+    <Translation ID="LABEL_LATENIGHTZENITHCOLOR" String="Zénith de fin de soirée, la nuit" />
+    <Translation ID="LABEL_WATERCLEAN" String="Eau" />
+    <Translation ID="LABEL_WATERDIRTY" String="Eau polluée" />
+    <Translation ID="LABEL_WATERUNDER" String="Sous l'eau" />
+
+
+    <Translation ID="LABEL_VALUE_LONGITUDE" String="Longitude" />
+    <Translation ID="LABEL_VALUE_LATITUDE" String="Latitude" />
+    <Translation ID="LABEL_VALUE_SUNSIZE" String="Taille du soleil" />
+    <Translation ID="LABEL_VALUE_SUNANISOTROPY" String="Anisotropie solaire" />
+    <Translation ID="LABEL_VALUE_MOONSIZE" String="Taille de la lune" />
+    <Translation ID="LABEL_VALUE_RAYLEIGH" String="Diffusion optique (Rayleigh)" />
+    <Translation ID="LABEL_VALUE_MIE" String="Diffusion de mie" />
+    <Translation ID="LABEL_VALUE_EXPOSURE" String="Exposition" />
+    <Translation ID="LABEL_VALUE_STARSINTENSITY" String="Intensité des étoiles" />
+    <Translation ID="LABEL_VALUE_OUTERSPACEINTENSITY" String="Intensité de l'espace extra-atmosphérique" />
+    <Translation ID="LABEL_VALUE_MINTEMPERATUREDAY" String="Température minimale le jour" />
+    <Translation ID="LABEL_VALUE_MAXTEMPERATUREDAY" String="Température maximale le jour" />
+    <Translation ID="LABEL_VALUE_MINTEMPERATURENIGHT" String="Température minimale la nuit" />
+    <Translation ID="LABEL_VALUE_MAXTEMPERATURENIGHT" String="Température maximale la nuit" />
+    <Translation ID="LABEL_VALUE_MINTEMPERATURERAIN" String="Température de pluie minimale" />
+    <Translation ID="LABEL_VALUE_MAXTEMPERATURERAIN" String="Température de pluie maximale" />
+    <Translation ID="LABEL_VALUE_MINTEMPERATUREFOG" String="Température de brume minimale" />
+    <Translation ID="LABEL_VALUE_MAXTEMPERATUREFOG" String="Température de brume maximale" />
+    <Translation ID="LABEL_VALUE_RAINPROBABILITYDAY" String="Probabilité de pluie en journée" />
+    <Translation ID="LABEL_VALUE_RAINPROBABILITYNIGHT" String="Probabilité de pluie la nuit" />
+    <Translation ID="LABEL_VALUE_FOGPROBABILITYDAY" String="Probabilité de brouillard le jour" />
+    <Translation ID="LABEL_VALUE_FOGPROBABILITYNIGHT" String="Probabilité de brouillard la nuit" />
+    <Translation ID="LABEL_VALUE_NORTHERNLIGHTSPROBABILITY" String="Probabilité d'aurores boréales" />
+  </Translations>
+</Language>
